@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Description of a procedure on how to extract operator attributes in Model Optimizer to support a custom Caffe operation written only in Python." name="description" />
+<meta content="model otpimizer, extending model, custom operation, caffe, python, layers, extract operator attributes, extractor, module" name="keywords" />
 
     <title>Extending Model Optimizer with Caffe Python Layers &#8212; OpenVINO™  documentation</title>
     
@@ -1825,9 +1827,9 @@
             
                 <div>
                   
-  <section id="extending-model-optimizer-with-caffe-python-layers">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-customize-model-optimizer-extending-model-optimizer-with-caffe-python-layers"></span><span id="index-0"></span><h1>Extending Model Optimizer with Caffe Python Layers<a class="headerlink" href="#extending-model-optimizer-with-caffe-python-layers" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-customize-model-optimizer-extending-model-optimizer-with-caffe-python-layers-1md-openvino-docs-mo-dg-prepare-model-customize-model-optimizer-extending-model-optimizer-with-caffe-python-layers"></span> This article provides instructions on how to support a custom Caffe operation written only in Python. For example, the <a class="reference external" href="http://dl.dropboxusercontent.com/s/o6ii098-bu51d139/faster_rcnn_models.tgz?dl=0">Faster-R-CNN model</a> implemented in Caffe contains a custom proposal layer written in Python. The layer is described in the <a class="reference external" href="https://raw.githubusercontent.com/rbgirshick/py-faster-rcnn/master/models/pascal_voc/VGG16/faster_rcnn_end2end/test.prototxt">Faster-R-CNN prototxt</a> in the following way:</p>
+  <span class="target" id="extending-model-optimizer-caffe-python-layers"><span id="index-0"></span></span><section id="extending-model-optimizer-with-caffe-python-layers">
+<h1>Extending Model Optimizer with Caffe Python Layers<a class="headerlink" href="#extending-model-optimizer-with-caffe-python-layers" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extending-model-optimizer-caffe-python-layers-1md-openvino-docs-mo-dg-prepare-model-customize-model-optimizer-extending-model-optimizer-with-caffe-python-layers"></span> This article provides instructions on how to support a custom Caffe operation written only in Python. For example, the <a class="reference external" href="http://dl.dropboxusercontent.com/s/o6ii098-bu51d139/faster_rcnn_models.tgz?dl=0">Faster-R-CNN model</a> implemented in Caffe contains a custom proposal layer written in Python. The layer is described in the <a class="reference external" href="https://raw.githubusercontent.com/rbgirshick/py-faster-rcnn/master/models/pascal_voc/VGG16/faster_rcnn_end2end/test.prototxt">Faster-R-CNN prototxt</a> in the following way:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">layer</span> <span class="p">{</span>
   <span class="nl">name</span><span class="p">:</span> <span class="sc">&#39;proposal&#39;</span>
   <span class="nl">type</span><span class="p">:</span> <span class="sc">&#39;Python&#39;</span>
