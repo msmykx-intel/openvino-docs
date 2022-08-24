@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Model Pass is transformations that take entire ov::Model as an input and process it." name="description" />
+<meta content="model pass, transformations, OpenVINO" name="keywords" />
 
     <title>OpenVINO Model Pass &#8212; OpenVINO™  documentation</title>
     
@@ -1820,9 +1822,10 @@
             
                 <div>
                   
-  <section id="openvino-model-pass">
-<span id="doxid-openvino-docs-extensibility-u-g-model-pass"></span><span id="index-0"></span><h1>OpenVINO Model Pass<a class="headerlink" href="#openvino-model-pass" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-extensibility-u-g-model-pass-1md-openvino-docs-extensibility-ug-model-pass"></span> <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref"><span class="pre">ov::pass::ModelPass</span></span></a></code> is used for transformations that take entire <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> as an input and process it.</p>
+  <span class="target" id="extensibility-model-pass"><span id="index-0"></span></span><section id="openvino-model-pass">
+<h1>OpenVINO Model Pass<a class="headerlink" href="#openvino-model-pass" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extensibility-model-pass-1md-openvino-docs-extensibility-ug-model-pass"></span> <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref"><span class="pre">ov::pass::ModelPass</span></span></a></code>
+is used for transformations that take entire <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> as an input and process it.</p>
 <p>Template for ModelPass transformation class</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// template_model_transformation.hpp</span>
 <span class="k">class</span> <span class="n">ov</span><span class="o">::</span><span class="n">pass</span><span class="o">::</span><span class="nl">MyModelTransformation</span> <span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref">ov::pass::ModelPass</span></a><span></span> <span class="p">{</span>
@@ -1858,7 +1861,11 @@
 
     <span class="c1">// Return false because we didn&#39;t change nGraph Function</span>
     <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-<span class="p">}</span></pre></div></div><p>Using <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref"><span class="pre">ov::pass::ModelPass</span></span></a></code>, you need to override the <code class="docutils literal notranslate"><span class="pre">run_on_model</span></code> method where you will write the transformation code. Return value is <code class="docutils literal notranslate"><span class="pre">true</span></code> if the original model has changed during transformation (new operation was added, or operations replacement was made, or node attributes were changed); otherwise, it is <code class="docutils literal notranslate"><span class="pre">false</span></code>. Also <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref"><span class="pre">ov::pass::ModelPass</span></span></a></code> based transformations can be executed via <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1Manager.html#doxid-classov-1-1pass-1-1-manager"><span class="std std-ref"><span class="pre">ov::pass::Manager</span></span></a></code>.</p>
+<span class="p">}</span></pre></div></div><p>Using <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref"><span class="pre">ov::pass::ModelPass</span></span></a></code>, you need to override the <code class="docutils literal notranslate"><span class="pre">run_on_model</span></code> method
+where you will write the transformation code. Return value is <code class="docutils literal notranslate"><span class="pre">true</span></code> if the original model has changed during transformation
+(new operation was added, or operations replacement was made, or node attributes were changed); otherwise, it is <code class="docutils literal notranslate"><span class="pre">false</span></code>.
+Also <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1ModelPass.html#doxid-classov-1-1pass-1-1-model-pass"><span class="std std-ref"><span class="pre">ov::pass::ModelPass</span></span></a></code> based transformations can be executed via
+<code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1pass_1_1Manager.html#doxid-classov-1-1pass-1-1-manager"><span class="std std-ref"><span class="pre">ov::pass::Manager</span></span></a></code>.</p>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
