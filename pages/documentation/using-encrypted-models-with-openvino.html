@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Description of securing and loading encrypted models along with their usage in OpenVINO." name="description" />
+<meta content="OpenVINO Runtime, integrity, security, cryptography, encrypted models, encryption, secure model deployment, optimizing models, loading encrypted models, decryption" name="keywords" />
 
     <title>Using Encrypted Models with OpenVINO &#8212; OpenVINO™  documentation</title>
     
@@ -1830,20 +1832,31 @@
             
                 <div>
                   
-  <section id="using-encrypted-models-with-openvino">
-<span id="doxid-openvino-docs-o-v-u-g-protecting-model-guide"></span><span id="index-0"></span><h1>Using Encrypted Models with OpenVINO<a class="headerlink" href="#using-encrypted-models-with-openvino" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-protecting-model-guide-1md-openvino-docs-ov-runtime-ug-protecting-model-guide"></span> Deploying deep-learning capabilities to edge devices can present security challenges like ensuring inference integrity, or providing copyright protection of your deep-learning models.</p>
-<p>One possible solution is to use cryptography to protect models as they are deployed and stored on edge devices. Model encryption, decryption and authentication are not provided by OpenVINO but can be implemented with third-party tools (i.e., OpenSSL). While implementing encryption, ensure that the latest versions of tools are used and follow cryptography best practices.</p>
+  <span class="target" id="security-encrypted-models"><span id="index-0"></span></span><section id="using-encrypted-models-with-openvino">
+<h1>Using Encrypted Models with OpenVINO<a class="headerlink" href="#using-encrypted-models-with-openvino" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="security-encrypted-models-1md-openvino-docs-ov-runtime-ug-protecting-model-guide"></span> Deploying deep-learning capabilities
+to edge devices can present security challenges like ensuring inference integrity, or providing copyright protection of your
+deep-learning models.</p>
+<p>One possible solution is to use cryptography to protect models as they are deployed and stored on edge devices. Model encryption,
+decryption and authentication are not provided by OpenVINO but can be implemented with third-party tools (i.e., OpenSSL).
+While implementing encryption, ensure that the latest versions of tools are used and follow cryptography best practices.</p>
 <p>This guide presents how to use OpenVINO securely with protected models.</p>
 <section id="secure-model-deployment">
 <h2>Secure Model Deployment<a class="headerlink" href="#secure-model-deployment" title="Permalink to this headline">¶</a></h2>
-<p>After a model is optimized by the OpenVINO Model Optimizer, it’s deployed to target devices in the OpenVINO Intermediate Representation (OpenVINO IR) format. An optimized model is stored on edge device and is executed by the OpenVINO Runtime. ONNX and PDPD models can be read natively by OpenVINO Runtime as well.</p>
-<p>Encrypting and optimizing model before deploying it to the edge device can be used to protect deep-learning models. The edge device should keep the stored model protected all the time and have the model decrypted <strong>in runtime only</strong> for use by the OpenVINO Runtime.</p>
+<p>After a model is optimized by the OpenVINO Model Optimizer, it’s deployed to target devices in the OpenVINO Intermediate
+Representation (OpenVINO IR) format. An optimized model is stored on edge device and is executed by the OpenVINO Runtime.
+ONNX and PDPD models can be read natively by OpenVINO Runtime as well.</p>
+<p>Encrypting and optimizing model before deploying it to the edge device can be used to protect deep-learning models. The edge
+device should keep the stored model protected all the time and have the model decrypted <strong>in runtime only</strong> for use by the
+OpenVINO Runtime.</p>
 <img alt="deploy_encrypted_model" src="../../_images/deploy_encrypted_model.png" />
 </section>
 <section id="loading-encrypted-models">
 <h2>Loading Encrypted Models<a class="headerlink" href="#loading-encrypted-models" title="Permalink to this headline">¶</a></h2>
-<p>The OpenVINO Runtime requires model decryption before loading. Allocate a temporary memory block for model decryption and use the <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1ae0576a95f841c3a6f5e46e4802716981"><span class="std std-ref"><span class="pre">ov::Core::read_model</span></span></a></code> method to load the model from a memory buffer. For more information, see the <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core"><span class="std std-ref"><span class="pre">ov::Core</span></span></a></code> Class Reference Documentation.</p>
+<p>The OpenVINO Runtime requires model decryption before loading. Allocate a temporary memory block for model decryption
+and use the <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1ae0576a95f841c3a6f5e46e4802716981"><span class="std std-ref"><span class="pre">ov::Core::read_model</span></span></a></code> method to load
+the model from a memory buffer. For more information, see the <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core"><span class="std std-ref"><span class="pre">ov::Core</span></span></a></code> Class Reference
+Documentation.</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">weights_data</span><span class="p">;</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">password</span><span class="p">;</span> <span class="c1">// taken from an user</span>
@@ -1851,9 +1864,14 @@
 
 <span class="c1">// Read model files and decrypt them into temporary memory block</span>
 <span class="n">decrypt_file</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">model_data</span><span class="p">);</span>
-<span class="n">decrypt_file</span><span class="p">(</span><span class="n">weights_file</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">weights_data</span><span class="p">);</span></pre></div></div><p>Hardware-based protection such as Intel Software Guard Extensions (Intel SGX) can be used to protect decryption operation secrets and bind them to a device. For more information, see the <a class="reference external" href="https://software.intel.com/en-us/sgx">Intel Software Guard Extensions</a>.</p>
-<p>Use the <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1ae0576a95f841c3a6f5e46e4802716981"><span class="std std-ref"><span class="pre">ov::Core::read_model</span></span></a></code> to set model representations and weights respectively.</p>
-<p>Currently there is no way to read external weights from memory for ONNX models. The <code class="docutils literal notranslate"><span class="pre">ov::Core::read_model(const</span> <span class="pre">std::string&amp;</span> <span class="pre">model,</span> <span class="pre">const</span> <span class="pre">Tensor&amp;</span> <span class="pre">weights)</span></code> method should be called with <code class="docutils literal notranslate"><span class="pre">weights</span></code> passed as an empty <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Tensor.html#doxid-classov-1-1-tensor"><span class="std std-ref"><span class="pre">ov::Tensor</span></span></a></code>.</p>
+<span class="n">decrypt_file</span><span class="p">(</span><span class="n">weights_file</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">weights_data</span><span class="p">);</span></pre></div></div><p>Hardware-based protection such as Intel Software Guard Extensions (Intel SGX) can be used to protect decryption operation
+secrets and bind them to a device. For more information, see the
+<a class="reference external" href="https://software.intel.com/en-us/sgx">Intel Software Guard Extensions</a>.</p>
+<p>Use the <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1ae0576a95f841c3a6f5e46e4802716981"><span class="std std-ref"><span class="pre">ov::Core::read_model</span></span></a></code> to set model representations
+and weights respectively.</p>
+<p>Currently there is no way to read external weights from memory for ONNX models. The
+<code class="docutils literal notranslate"><span class="pre">ov::Core::read_model(const</span> <span class="pre">std::string&amp;</span> <span class="pre">model,</span> <span class="pre">const</span> <span class="pre">Tensor&amp;</span> <span class="pre">weights)</span></code> method should be called with <code class="docutils literal notranslate"><span class="pre">weights</span></code> passed as
+an empty <code class="docutils literal notranslate"><a class="reference internal" href="../../api/groups/classov_1_1Tensor.html#doxid-classov-1-1-tensor"><span class="std std-ref"><span class="pre">ov::Tensor</span></span></a></code>.</p>
 <div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core"><span class="std std-ref">ov::Core</span></a><span></span> <span class="n">core</span><span class="p">;</span>
 <span class="c1">// Load model from temporary memory block</span>
 <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str_model</span><span class="p">(</span><span class="n">model_data</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">model_data</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
