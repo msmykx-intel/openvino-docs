@@ -114,7 +114,7 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../pages/get_started.html">
+ <a class="reference internal nav-link" href="../../pages/get-started-guide.html">
   Get Started
  </a>
 </li>
@@ -185,11 +185,11 @@
   <div class="dropdown-menu" aria-labelledby="language-selector">
     
       
-        <a class="dropdown-item font-weight-bold" href="/latest/api/groups/namespaceov_1_1util.html">English</a>
+        <a class="dropdown-item font-weight-bold" href="/openvino-docs/index.html">English</a>
       
     
       
-        <a  class="dropdown-item" href="/cn/latest/api/groups/namespaceov_1_1util.html">Chinese</a>
+        <a  class="dropdown-item" href="/cn/openvino-docs/index.html">Chinese</a>
       
     
   </div>
@@ -11100,8 +11100,8 @@
 <span class="n">std</span><span class="o">::</span><span class="n">string</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1a3a4a51e920722e8da8ca0d69e23964ac"><span class="std std-ref">get_absolute_file_path</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">);</span>
 <span class="kt">void</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1a10cd27c761cd558dae33de9d948a066e"><span class="std std-ref">create_directory_recursive</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">);</span>
 <span class="kt">bool</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1ab1fe64b1fe239e83e7d5f2972fdb2827"><span class="std std-ref">directory_exists</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">);</span>
-<span class="kt">uint64_t</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1a97cb2406c14327abff71444aa164cdf2"><span class="std std-ref">file_size</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">path</span><span class="p">);</span>
-<span class="kt">uint64_t</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1a3ccd2ccfa992c472756d646a2a12609b"><span class="std std-ref">file_size</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">);</span>
+<span class="kt">int64_t</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1a713050278cdb024399213cad4582e540"><span class="std std-ref">file_size</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">path</span><span class="p">);</span>
+<span class="kt">int64_t</span> <a class="reference internal" href="#doxid-namespaceov-1-1util-1a981413eae55b39de9d33d76b7a68ca47"><span class="std std-ref">file_size</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">);</span>
 
 <span class="k">template</span> <span class="o">&lt;</span>
     <span class="k">typename</span> <span class="n">C</span><span class="p">,</span>
@@ -11387,7 +11387,7 @@
 </table>
 <p class="rubric">Returns:</p>
 <p>true if directory exists, false otherwise</p>
-<span class="target" id="doxid-namespaceov-1-1util-1a97cb2406c14327abff71444aa164cdf2"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="kt">uint64_t</span> <span class="n">file_size</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">path</span><span class="p">)</span></pre></div></div><p>Returns file size for file.</p>
+<span class="target" id="doxid-namespaceov-1-1util-1a713050278cdb024399213cad4582e540"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="kt">int64_t</span> <span class="n">file_size</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">path</span><span class="p">)</span></pre></div></div><p>Returns file size for file.</p>
 <p class="rubric">Parameters:</p>
 <table class="colwidths-given table">
 <colgroup>
@@ -11402,7 +11402,7 @@
 </table>
 <p class="rubric">Returns:</p>
 <p>file size</p>
-<span class="target" id="doxid-namespaceov-1-1util-1a3ccd2ccfa992c472756d646a2a12609b"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="kt">uint64_t</span> <span class="n">file_size</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">)</span></pre></div></div><p>Returns file size for file.</p>
+<span class="target" id="doxid-namespaceov-1-1util-1a981413eae55b39de9d33d76b7a68ca47"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="kt">int64_t</span> <span class="n">file_size</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">path</span><span class="p">)</span></pre></div></div><p>Returns file size for file.</p>
 <p class="rubric">Parameters:</p>
 <table class="colwidths-given table">
 <colgroup>
