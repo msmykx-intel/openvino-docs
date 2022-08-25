@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="OpenVINO Runtime is an API comprised of a set of C++ libraries with C and Python bindings and it delivers inference solutions on different platforms." name="description" />
+<meta content="OpenVINO Runtime, OpenVINO Runtime API, OpenVINO Intermediate Representation, OpenVINO IR, inference, ONNX, PaddlePaddle, ONNX model, PaddlePaddle model, Intel CPU, Intel GPU, Intel VPU" name="keywords" />
 
     <title>Performing Inference with OpenVINO Runtime &#8212; OpenVINO™  documentation</title>
     
@@ -1820,14 +1822,22 @@
             
                 <div>
                   
-  <section id="performing-inference-with-openvino-runtime">
-<span id="doxid-openvino-docs-o-v-u-g-o-v-runtime-user-guide"></span><span id="index-0"></span><h1>Performing Inference with OpenVINO Runtime<a class="headerlink" href="#performing-inference-with-openvino-runtime" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-o-v-runtime-user-guide-1md-openvino-docs-ov-runtime-ug-openvino-intro"></span></p>
+  <span class="target" id="openvino-runtime-user-guide"><span id="index-0"></span></span><section id="performing-inference-with-openvino-runtime">
+<h1>Performing Inference with OpenVINO Runtime<a class="headerlink" href="#performing-inference-with-openvino-runtime" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="openvino-runtime-user-guide-1md-openvino-docs-ov-runtime-ug-openvino-intro"></span></p>
 <div class="toctree-wrapper compound" id="deep-learning-openvino-runtime">
 </div>
-<p>OpenVINO Runtime is a set of C++ libraries with C and Python bindings providing a common API to deliver inference solutions on the platform of your choice. Use the OpenVINO Runtime API to read an Intermediate Representation (IR), ONNX, or PaddlePaddle model and execute it on preferred devices.</p>
-<p>OpenVINO Runtime uses a plugin architecture. Its plugins are software components that contain complete implementation for inference on a particular Intel® hardware device: CPU, GPU, VPU, etc. Each plugin implements the unified API and provides additional hardware-specific APIs for configuring devices or API interoperability between OpenVINO Runtime and underlying plugin backend.</p>
-<p>The scheme below illustrates the typical workflow for deploying a trained deep learning model:</p>
+<p>OpenVINO Runtime is a set of C++ libraries with C and Python bindings providing
+a common API to deliver inference solutions on the platform of your choice. Use
+the OpenVINO Runtime API to read an Intermediate Representation (IR), ONNX, or
+PaddlePaddle model and execute it on preferred devices.</p>
+<p>OpenVINO Runtime uses a plugin architecture. Its plugins are software components
+that contain complete implementation for inference on a particular Intel®
+hardware device: CPU, GPU, VPU, etc. Each plugin implements the unified API and
+provides additional hardware-specific APIs for configuring devices or API
+interoperability between OpenVINO Runtime and underlying plugin backend.</p>
+<p>The scheme below illustrates the typical workflow for deploying a trained
+deep learning model:</p>
 <img alt="../../_images/BASIC_FLOW_IE_C.svg" src="../../_images/BASIC_FLOW_IE_C.svg" /><section id="video">
 <h2>Video<a class="headerlink" href="#video" title="Permalink to this headline">¶</a></h2>
 <table class="table">
