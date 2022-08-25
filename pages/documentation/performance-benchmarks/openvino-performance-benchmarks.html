@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The benchmark application loads OpenVINO™ Runtime and does inference on hardware, then it measures the inference time and reports on the inferences per second." name="description" />
+<meta content="benchmark application, performance benchmarks, benchmark_app, Intel CPU, Intel GPU, Intel VPU, OpenVINO™ Runtime, inference, deep learning inference, neural networks, benchmark results, benchmark performance results, benchmark setup, throughput, efficiency, latency, synchronous execution, inference request" name="keyword" />
 
     <title>Intel® Distribution of OpenVINO™ toolkit Benchmark Results &#8212; OpenVINO™  documentation</title>
     
@@ -1907,78 +1909,114 @@
             
                 <div>
                   
-  <section id="intel-distribution-of-openvino-toolkit-benchmark-results">
-<span id="doxid-openvino-docs-performance-benchmarks-openvino"></span><span id="index-0"></span><h1>Intel® Distribution of OpenVINO™ toolkit Benchmark Results<a class="headerlink" href="#intel-distribution-of-openvino-toolkit-benchmark-results" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-performance-benchmarks-openvino-1md-openvino-docs-benchmarks-performance-benchmarks-openvino"></span></p>
+  <span class="target" id="openvino-benchmarks"><span id="index-0"></span></span><section id="intel-distribution-of-openvino-toolkit-benchmark-results">
+<h1>Intel® Distribution of OpenVINO™ toolkit Benchmark Results<a class="headerlink" href="#intel-distribution-of-openvino-toolkit-benchmark-results" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="openvino-benchmarks-1md-openvino-docs-benchmarks-performance-benchmarks-openvino"></span></p>
 <div class="toctree-wrapper compound">
 </div>
-<p>Features and benefits of Intel® technologies depend on system configuration and may require enabled hardware, software or service activation. More information on this subject may be obtained from the original equipment manufacturer (OEM), official <a class="reference external" href="https://www.intel.com">Intel® web page</a> or retailer.</p>
+<p>Features and benefits of Intel® technologies depend on system configuration and
+may require enabled hardware, software or service activation. More information
+on this subject may be obtained from the original equipment manufacturer (OEM),
+official <a class="reference external" href="https://www.intel.com">Intel® web page</a> or retailer.</p>
 <section id="platform-configurations">
 <h2>Platform Configurations<a class="headerlink" href="#platform-configurations" title="Permalink to this headline">¶</a></h2>
 <p><code class="xref download docutils literal notranslate"><span class="pre">A</span> <span class="pre">full</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">HW</span> <span class="pre">platforms</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">testing</span> <span class="pre">(along</span> <span class="pre">with</span> <span class="pre">their</span> <span class="pre">configuration)</span></code></p>
-<p>For more specific information, refer to the <a class="reference external" href="https://docs.openvino.ai/resources/benchmark_files/system_configurations_2022.1.html">Configuration Details</a> document.</p>
+<p>For more specific information, refer to the
+<a class="reference external" href="https://docs.openvino.ai/resources/benchmark_files/system_configurations_2022.1.html">Configuration Details</a>
+document.</p>
 </section>
 <section id="benchmark-setup-information">
 <h2>Benchmark Setup Information<a class="headerlink" href="#benchmark-setup-information" title="Permalink to this headline">¶</a></h2>
-<p>This benchmark setup includes a single machine on which both the benchmark application and the OpenVINO™ installation reside. The presented performance benchmark numbers are based on realease 2022.1 of Intel® Distribution of OpenVINO™ toolkit.</p>
-<p>The benchmark application loads the OpenVINO™ Runtime and executes inferences on the specified hardware (CPU, GPU or VPU). It measures the time spent on actual inferencing (excluding any pre or post processing) and then reports on the inferences per second (or Frames Per Second - FPS). For additional information on the benchmark application, refer to the entry 5 in the <a class="reference internal" href="openvino-performance-benchmarks/performance-benchmarks-faq.html#doxid-openvino-docs-performance-benchmarks-faq"><span class="std std-ref">FAQ section</span></a>.</p>
-<p>Measuring inference performance involves many variables and is extremely use case and application dependent. Below are four parameters used for measurements, which are key elements to consider for a successful deep learning inference application:</p>
+<p>This benchmark setup includes a single machine on which both the benchmark
+application and the OpenVINO™ installation reside. The presented performance
+benchmark numbers are based on release 2022.1 of Intel® Distribution of
+OpenVINO™ toolkit.</p>
+<p>The benchmark application loads the OpenVINO™ Runtime and executes inferences
+on the specified hardware (CPU, GPU or VPU). It measures the time spent on
+actual inference (excluding any pre or post processing) and then reports on
+the inferences per second (or Frames Per Second - FPS). For additional
+information on the benchmark application, refer to the entry 5 in the
+<a class="reference internal" href="openvino-performance-benchmarks/performance-benchmarks-faq.html#performance-benchmarks-faq"><span class="std std-ref">FAQ section</span></a>.</p>
+<p>Measuring inference performance involves many variables and is extremely use
+case and application dependent. Below are four parameters used for measurements,
+which are key elements to consider for a successful deep learning inference application:</p>
 <ul class="simple">
-<li><p><strong>Throughput</strong> - Measures the number of inferences delivered within a latency threshold (for example, number of FPS). When deploying a system with deep learning inference, select the throughput that delivers the best trade-off between latency and power for the price and performance that meets your requirements.</p></li>
-<li><p><strong>Value</strong> - While throughput is important, what is more critical in edge AI deployments is the performance efficiency or performance-per-cost. Application performance in throughput per dollar of system cost is the best measure of value.</p></li>
-<li><p><strong>Efficiency</strong> - System power is a key consideration from the edge to the data center. When selecting deep learning solutions, power efficiency (throughput/watt) is a critical factor to consider. Intel designs provide excellent power efficiency for running deep learning workloads.</p></li>
-<li><p><strong>Latency</strong> - This parameter measures the synchronous execution of inference requests and is reported in milliseconds. Each inference request (i.e., preprocess, infer, postprocess) is allowed to complete before the next one is started. This performance metric is relevant in usage scenarios where a single image input needs to be acted upon as soon as possible. An example of that kind of a scenario would be real-time or near real-time applications, i.e., the response of an industrial robot to its environment or obstacle avoidance for autonomous vehicles.</p></li>
+<li><p><strong>Throughput</strong> - Measures the number of inferences delivered within a latency
+threshold (for example, number of FPS). When deploying a system with deep
+learning inference, select the throughput that delivers the best trade-off
+between latency and power for the price and performance that meets your requirements.</p></li>
+<li><p><strong>Value</strong> - While throughput is important, what is more critical in edge AI
+deployments is the performance efficiency or performance-per-cost. Application
+performance in throughput per dollar of system cost is the best measure of value.</p></li>
+<li><p><strong>Efficiency</strong> - System power is a key consideration from the edge to the data
+center. When selecting deep learning solutions, power efficiency (throughput/watt)
+is a critical factor to consider. Intel designs provide excellent power
+efficiency for running deep learning workloads.</p></li>
+<li><p><strong>Latency</strong> - This parameter measures the synchronous execution of inference
+requests and is reported in milliseconds. Each inference request (i.e.,
+pre-process, infer, post-process) is allowed to complete before the next one is
+started. This performance metric is relevant in usage scenarios where a single
+image input needs to be acted upon as soon as possible. An example of that
+kind of a scenario would be real-time or near real-time applications, i.e.,
+the response of an industrial robot to its environment or obstacle
+avoidance for autonomous vehicles.</p></li>
 </ul>
 </section>
 <section id="benchmark-performance-results">
 <h2>Benchmark Performance Results<a class="headerlink" href="#benchmark-performance-results" title="Permalink to this headline">¶</a></h2>
-<p>Benchmark performance results below are based on testing as of March 17, 2022. They may not reflect all publicly available updates at the time of testing.</p>
-<p>Performance varies by use, configuration and other factors, which are elaborated further in <a class="reference external" href="https://www.intel.com/PerformanceIndex">here</a>. Used Intel optimizations (for Intel® compilers or other products) may not optimize to the same degree for non-Intel products.</p>
+<p>Benchmark performance results below are based on testing as of March 17, 2022.
+They may not reflect all publicly available updates at the time of testing.</p>
+<p>Performance varies by use, configuration and other factors, which are elaborated
+further in <a class="reference external" href="https://www.intel.com/PerformanceIndex">here</a>. Used Intel
+optimizations (for Intel® compilers or other products) may not optimize to the
+same degree for non-Intel products.</p>
 <section id="bert-base-cased-124">
 <h3>bert-base-cased [124]<a class="headerlink" href="#bert-base-cased-124" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/bert-base-cased124.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/bert-base-cased124.csv"></div></section>
 <section id="bert-large-uncased-whole-word-masking-squad-int8-0001-384">
 <h3>bert-large-uncased-whole-word-masking-squad-int8-0001 [384]<a class="headerlink" href="#bert-large-uncased-whole-word-masking-squad-int8-0001-384" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/bert-large-uncased-whole-word-masking-squad-int8-0001-384.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/bert-large-uncased-whole-word-masking-squad-int8-0001-384.csv"></div></section>
 <section id="deeplabv3-tf-513x513">
 <h3>deeplabv3-TF [513x513]<a class="headerlink" href="#deeplabv3-tf-513x513" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/deeplabv3-TF-513x513.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/deeplabv3-TF-513x513.csv"></div></section>
 <section id="densenet-121-tf-224x224">
 <h3>densenet-121-TF [224x224]<a class="headerlink" href="#densenet-121-tf-224x224" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/densenet-121-TF-224x224.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/densenet-121-TF-224x224.csv"></div></section>
 <section id="efficientdet-d0-512x512">
 <h3>efficientdet-d0 [512x512]<a class="headerlink" href="#efficientdet-d0-512x512" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/efficientdet-d0-512x512.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/efficientdet-d0-512x512.csv"></div></section>
 <section id="faster-rcnn-resnet50-coco-tf-600x1024">
 <h3>faster-rcnn-resnet50-coco-TF [600x1024]<a class="headerlink" href="#faster-rcnn-resnet50-coco-tf-600x1024" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/faster_rcnn_resnet50_coco-TF-600x1024.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/faster_rcnn_resnet50_coco-TF-600x1024.csv"></div></section>
 <section id="inception-v4-tf-299x299">
 <h3>inception-v4-TF [299x299]<a class="headerlink" href="#inception-v4-tf-299x299" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/inception-v4-TF-299x299.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/inception-v4-TF-299x299.csv"></div></section>
 <section id="mobilenet-ssd-cf-300x300">
 <h3>mobilenet-ssd-CF [300x300]<a class="headerlink" href="#mobilenet-ssd-cf-300x300" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/mobilenet-ssd-CF-300x300.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/mobilenet-ssd-CF-300x300.csv"></div></section>
 <section id="mobilenet-v2-pytorch-224x224">
 <h3>mobilenet-v2-pytorch [224x224]<a class="headerlink" href="#mobilenet-v2-pytorch-224x224" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/mobilenet-v2-pytorch-224x224.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/mobilenet-v2-pytorch-224x224.csv"></div></section>
 <section id="resnet-18-pytorch-224x224">
 <h3>resnet-18-pytorch [224x224]<a class="headerlink" href="#resnet-18-pytorch-224x224" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/resnet-18-pytorch-224x224.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/resnet-18-pytorch-224x224.csv"></div></section>
 <section id="resnet-50-tf-224x224">
 <h3>resnet_50_TF [224x224]<a class="headerlink" href="#resnet-50-tf-224x224" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/resnet-50-TF-224x224.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/resnet-50-TF-224x224.csv"></div></section>
 <section id="ssd-resnet34-1200-onnx-1200x1200">
 <h3>ssd-resnet34-1200-onnx [1200x1200]<a class="headerlink" href="#ssd-resnet34-1200-onnx-1200x1200" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/ssd-resnet34-1200-onnx-1200x1200.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/ssd-resnet34-1200-onnx-1200x1200.csv"></div></section>
 <section id="unet-camvid-onnx-0001-368x480">
 <h3>unet-camvid-onnx-0001 [368x480]<a class="headerlink" href="#unet-camvid-onnx-0001-368x480" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/unet-camvid-onnx-0001-368x480.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/unet-camvid-onnx-0001-368x480.csv"></div></section>
 <section id="yolo-v3-tiny-tf-416x416">
 <h3>yolo-v3-tiny-tf [416x416]<a class="headerlink" href="#yolo-v3-tiny-tf-416x416" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/yolo-v3-tiny-tf-416x416.csv"></div></section>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/yolo-v3-tiny-tf-416x416.csv"></div></section>
 <section id="yolo-v4-tf-608x608">
 <h3>yolo_v4-tf [608x608]<a class="headerlink" href="#yolo-v4-tf-608x608" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../../_static/benchmarks_csv/yolo_v4-tf-608x608.csv"></div><p>© Intel Corporation. Intel, the Intel logo, and other Intel marks are trademarks of Intel Corporation or its subsidiaries. Other names and brands may be claimed as the property of others.</p>
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/yolo_v4-tf-608x608.csv"></div><p>© Intel Corporation. Intel, the Intel logo, and other Intel marks are
+trademarks of Intel Corporation or its subsidiaries. Other names and brands
+may be claimed as the property of others.</p>
 </section>
 </section>
 </section>
