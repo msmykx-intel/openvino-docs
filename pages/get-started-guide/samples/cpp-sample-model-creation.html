@@ -663,7 +663,7 @@
                   
   <section id="model-creation-c-sample">
 <span id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e"></span><span id="index-0"></span><h1>Model Creation C++ Sample<a class="headerlink" href="#model-creation-c-sample" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e-1md-openvino-samples-cpp-model-creation-sample-readme"></span> This sample demonstrates how to execute an synchronous inference using <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#doxid-openvino-docs-o-v-u-g-model-representation"><span class="std std-ref">model</span></a> built on the fly which uses weights from LeNet classification model, which is known to work well on digit classification tasks.</p>
+<p><span class="target" id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e-1md-openvino-samples-cpp-model-creation-sample-readme"></span> This sample demonstrates how to execute an synchronous inference using <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">model</span></a> built on the fly which uses weights from LeNet classification model, which is known to work well on digit classification tasks.</p>
 <p>You do not need an XML file to create a model. The API of <a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref">ov::Model</span></a> allows creating a model on the fly from the source code.</p>
 <p>The following C++ API is used in the application:</p>
 <table class="table">
@@ -739,7 +739,7 @@
 <p>At startup, the sample application does the following:</p>
 <ul class="simple">
 <li><p>Reads command line parameters</p></li>
-<li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#doxid-openvino-docs-o-v-u-g-model-representation"><span class="std std-ref">Build a Model</span></a> and passed weights file</p></li>
+<li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">Build a Model</span></a> and passed weights file</p></li>
 <li><p>Loads the model and input data to the OpenVINO™ Runtime plugin</p></li>
 <li><p>Performs synchronous inference and processes output data, logging each step in a standard output stream</p></li>
 </ul>

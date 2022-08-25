@@ -1955,7 +1955,7 @@ inputs/outpus/attributes can be aligned to make <code class="docutils literal no
 by using more verbose and less automated <code class="docutils literal notranslate"><span class="pre">ConversionExtension</span></code> class. It enables writing arbitrary code to replace
 a single framework operation by multiple connected OpenVINO operations constructing dependency graph of any complexity.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ConversionExtension</span></code> maps a single operation to a function which builds a graph using OpenVINO operation classes.
-Follow chapter <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#doxid-openvino-docs-o-v-u-g-model-representation-1ov-ug-build-model"><span class="std std-ref">Build a Model in OpenVINO Runtime</span></a>
+Follow chapter <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation-1ov-ug-build-model"><span class="std std-ref">Build a Model in OpenVINO Runtime</span></a>
 to learn how to use OpenVINO operation classes to build a fragment of model for replacement.</p>
 <p>The next example illustrates using <code class="docutils literal notranslate"><span class="pre">ConversionExtension</span></code> for conversion of “ThresholdedRelu” from ONNX according to
 the formula: <code class="docutils literal notranslate"><span class="pre">ThresholdedRelu(x,</span> <span class="pre">alpha)</span> <span class="pre">-&gt;</span> <span class="pre">Multiply(x,</span> <span class="pre">Convert(Greater(x,</span> <span class="pre">alpha),</span> <span class="pre">type=float))</span></code>.</p>
