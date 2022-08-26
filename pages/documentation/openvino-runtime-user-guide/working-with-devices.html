@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The list of types of devices and corresponding plugins which are compatible with OpenVINO Runtime and support inference of deep learning models." name="description" />
+<meta content="OpenVINO Runtime, Intel CPU, Intel GPU, Intel VPU, Intel® Gaussian &amp; Neural Accelerator, Intel GNA, GNA,  Arm® CPU, Intel® Graphics, multi-device execution, auto-device selection, heterogeneous execution, automatic batching, OpenVINO device plugin, CPU plugin, GPU plugin, GNA plugin, multi-stream execution, models caching, dynamic shapes, import/export, preprocessing acceleration, stateful models, extensibility, inference, model inference, deep learning model" name="keywords" />
 
     <title>Working with devices &#8212; OpenVINO™  documentation</title>
     
@@ -1825,12 +1827,13 @@
             
                 <div>
                   
-  <section id="working-with-devices">
-<span id="doxid-openvino-docs-o-v-u-g-working-with-devices"></span><span id="index-0"></span><h1>Working with devices<a class="headerlink" href="#working-with-devices" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-working-with-devices-1md-openvino-docs-ov-runtime-ug-supported-plugins-device-plugins"></span></p>
+  <span class="target" id="working-with-devices"><span id="index-0"></span></span><section id="id1">
+<h1>Working with devices<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="working-with-devices-1md-openvino-docs-ov-runtime-ug-supported-plugins-device-plugins"></span></p>
 <div class="toctree-wrapper compound">
 </div>
-<p>The OpenVINO Runtime provides capabilities to infer deep learning models on the following device types with corresponding plugins:</p>
+<p>The OpenVINO Runtime provides capabilities to infer deep learning models on the
+following device types with corresponding plugins:</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -1843,19 +1846,27 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="working-with-devices/inference-device-cpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-c-p-u"><span class="std std-ref">CPU</span></a></p></td>
-<td><p>Intel® Xeon®, Intel® Core™ and Intel® Atom® processors with Intel® Streaming SIMD Extensions (Intel® SSE4.2), Intel® Advanced Vector Extensions 2 (Intel® AVX2), Intel® Advanced Vector Extensions 512 (Intel® AVX-512), Intel® Vector Neural Network Instructions (Intel® AVX512-VNNI) and bfloat16 extension for AVX-512 (Intel® AVX-512_BF16 Extension)</p></td>
+<td><p>Intel® Xeon®, Intel® Core™ and Intel® Atom® processors with Intel®
+Streaming SIMD Extensions (Intel® SSE4.2), Intel® Advanced Vector
+Extensions 2 (Intel® AVX2), Intel® Advanced Vector Extensions 512
+(Intel® AVX-512), Intel® Vector Neural Network Instructions (Intel®
+AVX512-VNNI) and bfloat16 extension for AVX-512 (Intel® AVX-512_BF16
+Extension)</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="working-with-devices/inference-device-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u"><span class="std std-ref">GPU</span></a></p></td>
-<td><p>Intel® Graphics, including Intel® HD Graphics, Intel® UHD Graphics, Intel® Iris® Graphics, Intel® Xe Graphics, Intel® Xe MAX Graphics</p></td>
+<td><p>Intel® Graphics, including Intel® HD Graphics, Intel® UHD Graphics,
+Intel® Iris® Graphics, Intel® Xe Graphics, Intel® Xe MAX Graphics</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="working-with-devices/inference-device-vpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-v-p-u"><span class="std std-ref">VPUs</span></a></p></td>
-<td><p>Intel® Neural Compute Stick 2 powered by the Intel® Movidius™ Myriad™ X, Intel® Vision Accelerator Design with Intel® Movidius™ VPUs</p></td>
+<td><p>Intel® Neural Compute Stick 2 powered by the Intel® Movidius™ Myriad™ X,
+Intel® Vision Accelerator Design with Intel® Movidius™ VPUs</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="working-with-devices/inference-device-gna.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-n-a"><span class="std std-ref">GNA</span></a></p></td>
 <td><p><a class="reference external" href="https://www.intel.com/content/www/us/en/support/articles/000026156/boards-and-kits/smart-home.html">Intel® Speech Enabling Developer Kit</a> ; <a class="reference external" href="https://developer.amazon.com/en-US/alexa/alexa-voice-service/dev-kits/amazon-premium-voice">Amazon Alexa Premium Far-Field Developer Kit</a> ; <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/codename/83915/gemini-lake.html">Intel® Pentium® Silver Processors N5xxx, J5xxx and Intel® Celeron® Processors N4xxx, J4xxx (formerly codenamed Gemini Lake)</a> : <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/128984/intel-pentium-silver-j5005-processor-4m-cache-up-to-2-80-ghz.html">Intel® Pentium® Silver J5005 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/128990/intel-pentium-silver-n5000-processor-4m-cache-up-to-2-70-ghz.html">Intel® Pentium® Silver N5000 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/128992/intel-celeron-j4005-processor-4m-cache-up-to-2-70-ghz.html">Intel® Celeron® J4005 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/128989/intel-celeron-j4105-processor-4m-cache-up-to-2-50-ghz.html">Intel® Celeron® J4105 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/197305/intel-celeron-processor-j4125-4m-cache-up-to-2-70-ghz.html">Intel® Celeron® J4125 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/128983/intel-celeron-processor-n4100-4m-cache-up-to-2-40-ghz.html">Intel® Celeron® Processor N4100</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/128988/intel-celeron-processor-n4000-4m-cache-up-to-2-60-ghz.html">Intel® Celeron® Processor N4000</a> ; <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/codename/128825/products-formerly-elkhart-lake.html">Intel® Pentium® Processors N6xxx, J6xxx, Intel® Celeron® Processors N6xxx, J6xxx and Intel Atom® x6xxxxx (formerly codenamed Elkhart Lake)</a> ; <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/136863/intel-core-i3-8121u-processor-4m-cache-up-to-3-20-ghz.html">Intel® Core™ Processors (formerly codenamed Cannon Lake)</a> ; <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/codename/74979/ice-lake.html">10th Generation Intel® Core™ Processors (formerly codenamed Ice Lake)</a> : <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/196597/intel-core-i71065g7-processor-8m-cache-up-to-3-90-ghz.html">Intel® Core™ i7-1065G7 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/197120/intel-core-i71060g7-processor-8m-cache-up-to-3-80-ghz.html">Intel® Core™ i7-1060G7 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/196591/intel-core-i51035g4-processor-6m-cache-up-to-3-70-ghz.html">Intel® Core™ i5-1035G4 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/196592/intel-core-i51035g7-processor-6m-cache-up-to-3-70-ghz.html">Intel® Core™ i5-1035G7 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/196603/intel-core-i51035g1-processor-6m-cache-up-to-3-60-ghz.html">Intel® Core™ i5-1035G1 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/197119/intel-core-i51030g7-processor-6m-cache-up-to-3-50-ghz.html">Intel® Core™ i5-1030G7 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/197121/intel-core-i51030g4-processor-6m-cache-up-to-3-50-ghz.html">Intel® Core™ i5-1030G4 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/196588/intel-core-i31005g1-processor-4m-cache-up-to-3-40-ghz.html">Intel® Core™ i3-1005G1 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/197122/intel-core-i31000g1-processor-4m-cache-up-to-3-20-ghz.html">Intel® Core™ i3-1000G1 Processor</a> , <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/197123/intel-core-i31000g4-processor-4m-cache-up-to-3-20-ghz.html">Intel® Core™ i3-1000G4 Processor</a> ; <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/codename/88759/tiger-lake.html">11th Generation Intel® Core™ Processors (formerly codenamed Tiger Lake)</a> ; <a class="reference external" href="https://ark.intel.com/content/www/us/en/ark/products/codename/147470/products-formerly-alder-lake.html">12th Generation Intel® Core™ Processors (formerly codenamed Alder Lake)</a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="working-with-devices/inference-device-arm-cpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-r-m-c-p-u"><span class="std std-ref">Arm® CPU</span></a></p></td>
-<td><p>Raspberry Pi™ 4 Model B, Apple® Mac mini with M1 chip, NVIDIA® Jetson Nano™, Android™ devices</p></td>
+<td><p>Raspberry Pi™ 4 Model B, Apple® Mac mini with M1 chip, NVIDIA® Jetson
+Nano™, Android™ devices</p></td>
 </tr>
 </tbody>
 </table>
@@ -1872,21 +1883,30 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">Multi-Device execution</span></a></p></td>
-<td><p>Multi-Device enables simultaneous inference of the same model on several devices in parallel.</p></td>
+<td><p>Multi-Device enables simultaneous inference of the same model on
+several devices in parallel.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="automatic-device-selection.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o"><span class="std std-ref">Auto-Device selection</span></a></p></td>
-<td><p>Auto-Device selection enables selecting Intel device for inference automatically.</p></td>
+<td><p>Auto-Device selection enables selecting Intel device for inference
+automatically.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="heterogeneous-execution-mode.html#doxid-openvino-docs-o-v-u-g-hetero-execution"><span class="std std-ref">Heterogeneous execution</span></a></p></td>
-<td><p>Heterogeneous execution enables automatic inference splitting between several devices (for example if a device doesn’t <a class="reference external" href="#supported-layers">support certain operation</a> ).</p></td>
+<td><p>Heterogeneous execution enables automatic inference splitting between
+several devices (for example if a device doesn’t <a class="reference external" href="#supported-layers">support certain operation</a> ).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="automatic-batching.html#doxid-openvino-docs-o-v-u-g-automatic-batching"><span class="std std-ref">Automatic Batching</span></a></p></td>
-<td><p>Auto-Batching plugin enables the batching (on top of the specified device) that is completely transparent to the application.</p></td>
+<td><p>Auto-Batching plugin enables the batching (on top of the specified
+device) that is completely transparent to the application.</p></td>
 </tr>
 </tbody>
 </table>
-<p>Devices similar to the ones used for benchmarking can be accessed, using <a class="reference external" href="https://devcloud.intel.com/edge/">Intel® DevCloud for the Edge</a>, a remote development environment with access to Intel® hardware and the latest versions of the Intel® Distribution of the OpenVINO™ Toolkit. <a class="reference external" href="https://devcloud.intel.com/edge/get_started/devcloud/">Learn more</a> or <a class="reference external" href="https://inteliot.force.com/DevcloudForEdge/s/">Register here</a>.</p>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-working-with-devices-1features-support-matrix"></span></p>
+<p>Devices similar to the ones used for benchmarking can be accessed, using
+<a class="reference external" href="https://devcloud.intel.com/edge/">Intel® DevCloud for the Edge</a>, a remote
+development environment with access to Intel® hardware and the latest versions
+of the Intel® Distribution of the OpenVINO™ Toolkit.
+<a class="reference external" href="https://devcloud.intel.com/edge/get_started/devcloud/">Learn more</a> or
+<a class="reference external" href="https://inteliot.force.com/DevcloudForEdge/s/">Register here</a>.</p>
+<p><span class="target" id="working-with-devices-1features-support-matrix"></span></p>
 <section id="feature-support-matrix">
 <h2>Feature Support Matrix<a class="headerlink" href="#feature-support-matrix" title="Permalink to this headline">¶</a></h2>
 <p>The table below demonstrates support of key features by OpenVINO device plugins.</p>
@@ -1969,11 +1989,14 @@
 </tr>
 </tbody>
 </table>
-<p>For more details on plugin-specific feature limitations, see the corresponding plugin pages.</p>
+<p>For more details on plugin-specific feature limitations, see the corresponding
+plugin pages.</p>
 </section>
 <section id="enumerating-available-devices">
 <h2>Enumerating Available Devices<a class="headerlink" href="#enumerating-available-devices" title="Permalink to this headline">¶</a></h2>
-<p>The OpenVINO Runtime API features dedicated methods of enumerating devices and their capabilities. See the <a class="reference internal" href="../../get-started-guide/samples/cpp-sample-hello-query-device.html#doxid-openvino-inference-engine-samples-hello-query-device-r-e-a-d-m-e"><span class="std std-ref">Hello Query Device C++ Sample</span></a>. This is an example output from the sample (truncated to device names only):</p>
+<p>The OpenVINO Runtime API features dedicated methods of enumerating devices and
+their capabilities. See the <a class="reference internal" href="../../get-started-guide/samples/cpp-sample-hello-query-device.html#doxid-openvino-inference-engine-samples-hello-query-device-r-e-a-d-m-e"><span class="std std-ref">Hello Query Device C++ Sample</span></a>.
+This is an example output from the sample (truncated to device names only):</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">hello_query_device</span>
 <span class="n">Available</span> <span class="nl">devices</span><span class="p">:</span>
     <span class="nl">Device</span><span class="p">:</span> <span class="n">CPU</span>
@@ -1982,7 +2005,8 @@
 <span class="p">...</span>
     <span class="nl">Device</span><span class="p">:</span> <span class="n">GPU</span><span class="mf">.1</span>
 <span class="p">...</span>
-    <span class="nl">Device</span><span class="p">:</span> <span class="n">HDDL</span></pre></div></div><p>A simple programmatic way to enumerate the devices and use with the multi-device is as follows:</p>
+    <span class="nl">Device</span><span class="p">:</span> <span class="n">HDDL</span></pre></div></div><p>A simple programmatic way to enumerate the devices and use with the
+multi-device is as follows:</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ov</span><span class="o">::</span><span class="n">Core</span> <span class="n">core</span><span class="p">;</span>
@@ -1999,11 +2023,15 @@
 </div>
 </div>
 </div>
-<p>Beyond the typical “CPU”, “GPU”, “HDDL”, and so on, when multiple instances of a device are available, the names are more qualified. For example, this is how two Intel® Movidius™ Myriad™ X sticks are listed with the hello_query_sample:</p>
+<p>Beyond the typical “CPU”, “GPU”, “HDDL”, and so on, when multiple instances of
+a device are available, the names are more qualified. For example, this is how
+two Intel® Movidius™ Myriad™ X sticks are listed with the hello_query_sample:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="p">...</span>
     <span class="nl">Device</span><span class="p">:</span> <span class="n">MYRIAD</span><span class="mf">.1.2</span><span class="o">-</span><span class="n">ma2480</span>
 <span class="p">...</span>
-    <span class="nl">Device</span><span class="p">:</span> <span class="n">MYRIAD</span><span class="mf">.1.4</span><span class="o">-</span><span class="n">ma2480</span></pre></div></div><p>So, the explicit configuration to use both would be “MULTI:MYRIAD.1.2-ma2480,MYRIAD.1.4-ma2480”. Accordingly, the code that loops over all available devices of the “MYRIAD” type only is as follows:</p>
+    <span class="nl">Device</span><span class="p">:</span> <span class="n">MYRIAD</span><span class="mf">.1.4</span><span class="o">-</span><span class="n">ma2480</span></pre></div></div><p>So, the explicit configuration to use both would be
+“MULTI:MYRIAD.1.2-ma2480,MYRIAD.1.4-ma2480”. Accordingly, the code that loops
+over all available devices of the “MYRIAD” type only is as follows:</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ov</span><span class="o">::</span><span class="n">Core</span> <span class="n">core</span><span class="p">;</span>
