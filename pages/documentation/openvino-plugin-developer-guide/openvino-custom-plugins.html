@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Guide to implementation of Inference Engine Plugin with description of its class." name="description" />
+<meta content="Inference Engine Plugin, plugin class, backend, constructor, Inference Engine Plugin API, plugin api, plugin development, plugin configuration, engine constructor, OpenVINO transformation passes," name="keywords" />
 
     <title>Plugin &#8212; OpenVINO™  documentation</title>
     
@@ -1839,9 +1841,10 @@
             
                 <div>
                   
-  <section id="plugin">
-<span id="doxid-openvino-docs-ie-plugin-dg-plugin"></span><span id="index-0"></span><h1>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-plugin-1md-openvino-docs-ie-plugin-dg-plugin"></span> Inference Engine Plugin usually represents a wrapper around a backend. Backends can be:</p>
+  <span class="target" id="plugin-functionality"><span id="index-0"></span></span><section id="plugin">
+<h1>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="plugin-functionality-1md-openvino-docs-ie-plugin-dg-plugin"></span> Inference Engine Plugin usually represents a wrapper
+around a backend. Backends can be:</p>
 <ul class="simple">
 <li><p>OpenCL-like backend (e.g. clDNN library) for GPU devices.</p></li>
 <li><p>oneDNN backend for Intel CPU devices.</p></li>
@@ -1851,18 +1854,22 @@
 <ul class="simple">
 <li><p>Initializes a backend and throw exception in <code class="docutils literal notranslate"><span class="pre">Engine</span></code> constructor if backend cannot be initialized.</p></li>
 <li><p>Provides information about devices enabled by a particular backend, e.g. how many devices, their properties and so on.</p></li>
-<li><p>Loads or imports <a class="reference internal" href="executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">executable network</span></a> objects.</p></li>
+<li><p>Loads or imports <a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">executable network</span></a> objects.</p></li>
 </ul>
-<p>In addition to the Inference Engine Public API, the Inference Engine provides the Plugin API, which is a set of functions and helper classes that simplify new plugin development:</p>
+<p>In addition to the Inference Engine Public API, the Inference Engine provides the Plugin API, which is a set of functions
+and helper classes that simplify new plugin development:</p>
 <ul class="simple">
 <li><p>header files in the <code class="docutils literal notranslate"><span class="pre">inference_engine/src/plugin_api</span></code> directory</p></li>
 <li><p>implementations in the <code class="docutils literal notranslate"><span class="pre">inference_engine/src/inference_engine</span></code> directory</p></li>
 <li><p>symbols in the Inference Engine Core shared library</p></li>
 </ul>
-<p>To build an Inference Engine plugin with the Plugin API, see the <a class="reference internal" href="building-custom-plugins-with-cmake.html#doxid-openvino-docs-ie-plugin-dg-plugin-build"><span class="std std-ref">Inference Engine Plugin Building</span></a> guide.</p>
+<p>To build an Inference Engine plugin with the Plugin API, see the
+<a class="reference internal" href="building-custom-plugins-with-cmake.html#doxid-openvino-docs-ie-plugin-dg-plugin-build"><span class="std std-ref">Inference Engine Plugin Building</span></a> guide.</p>
 <section id="plugin-class">
 <h2>Plugin Class<a class="headerlink" href="#plugin-class" title="Permalink to this headline">¶</a></h2>
-<p>Inference Engine Plugin API provides the helper <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferencePlugin.html#doxid-class-inference-engine-1-1-i-inference-plugin"><span class="std std-ref">InferenceEngine::IInferencePlugin</span></a> class recommended to use as a base class for a plugin. Based on that, declaration of a plugin class can look as follows:</p>
+<p>Inference Engine Plugin API provides the helper
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferencePlugin.html#doxid-class-inference-engine-1-1-i-inference-plugin"><span class="std std-ref">InferenceEngine::IInferencePlugin</span></a> class recommended to use
+as a base class for a plugin. Based on that, declaration of a plugin class can look as follows:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">TemplatePlugin</span> <span class="p">{</span>
 
 <span class="k">class</span> <span class="nl">Plugin</span> <span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferencePlugin.html#doxid-class-inference-engine-1-1-i-inference-plugin"><span class="std std-ref">InferenceEngine::IInferencePlugin</span></a><span></span> <span class="p">{</span>
@@ -1930,12 +1937,15 @@
 <span class="p">};</span></pre></div></div><p>As an example, a plugin configuration has three value parameters:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">deviceId</span></code> - particular device ID to work with. Applicable if a plugin supports more than one <code class="docutils literal notranslate"><span class="pre">Template</span></code> device. In this case, some plugin methods, like <code class="docutils literal notranslate"><span class="pre">SetConfig</span></code>, <code class="docutils literal notranslate"><span class="pre">QueryNetwork</span></code>, and <code class="docutils literal notranslate"><span class="pre">LoadNetwork</span></code>, must support the <span class="xref std std-ref">CONFIG_KEY(KEY_DEVICE_ID)</span> parameter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">perfCounts</span></code> - boolean value to identify whether to collect performance counters during <a class="reference internal" href="synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">Inference Request</span></a> execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">perfCounts</span></code> - boolean value to identify whether to collect performance counters during <a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Inference Request</span></a> execution.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">_streamsExecutorConfig</span></code> - configuration of <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IStreamsExecutor.html#doxid-class-inference-engine-1-1-i-streams-executor"><span class="std std-ref"><span class="pre">InferenceEngine::IStreamsExecutor</span></span></a></code> to handle settings of multi-threaded context.</p></li>
 </ul>
 <section id="engine-constructor">
 <h4>Engine Constructor<a class="headerlink" href="#engine-constructor" title="Permalink to this headline">¶</a></h4>
-<p>A plugin constructor must contain code that checks the ability to work with a device of the <code class="docutils literal notranslate"><span class="pre">Template</span></code> type. For example, if some drivers are required, the code must check driver availability. If a driver is not available (for example, OpenCL runtime is not installed in case of a GPU device or there is an improper version of a driver is on a host machine), an exception must be thrown from a plugin constructor.</p>
+<p>A plugin constructor must contain code that checks the ability to work with a device of the <code class="docutils literal notranslate"><span class="pre">Template</span></code> type.
+For example, if some drivers are required, the code must check driver availability. If a driver is not available
+(for example, OpenCL runtime is not installed in case of a GPU device or there is an improper version
+of a driver is on a host machine), an exception must be thrown from a plugin constructor.</p>
 <p>A plugin must define a device name enabled via the <code class="docutils literal notranslate"><span class="pre">_pluginName</span></code> field of a base class:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">Plugin</span><span class="o">::</span><span class="n">Plugin</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// TODO: fill with actual device name, backend engine</span>
@@ -1947,7 +1957,8 @@
     <span class="c1">// create default stream executor with a given name</span>
     <span class="n">_waitExecutor</span> <span class="o">=</span> <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1adf3c09213f17002e0abafbf7377aec5c"><span class="std std-ref">executorManager</span></a><span></span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getIdleCPUStreamsExecutor</span><span class="p">({</span><span class="s">&quot;TemplateWaitExecutor&quot;</span><span class="p">});</span>
 <span class="p">}</span></pre></div></div><p><strong>Implementation details:</strong> The base <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferencePlugin.html#doxid-class-inference-engine-1-1-i-inference-plugin"><span class="std std-ref">InferenceEngine::IInferencePlugin</span></a> class provides a common implementation of the public <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferencePlugin.html#doxid-class-inference-engine-1-1-i-inference-plugin-1addf67bb7bae8f00cad65545d5a5a0d51"><span class="std std-ref">InferenceEngine::IInferencePlugin::LoadNetwork</span></a> method that calls plugin-specific <code class="docutils literal notranslate"><span class="pre">LoadExeNetworkImpl</span></code>, which is defined in a derived class.</p>
-<p>This is the most important function of the <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> class and creates an instance of compiled <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code>, which holds a backend-dependent compiled graph in an internal representation:</p>
+<p>This is the most important function of the <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> class and creates an instance of compiled <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code>,
+which holds a backend-dependent compiled graph in an internal representation:</p>
 <div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IExecutableNetworkInternal.html#doxid-class-inference-engine-1-1-i-executable-network-internal-1a264e3e04130a2e44d0b257ae63c9feae"><span class="std std-ref">InferenceEngine::IExecutableNetworkInternal::Ptr</span></a><span></span> <span class="n">Plugin</span><span class="o">::</span><span class="n">LoadExeNetworkImpl</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network"><span class="std std-ref">InferenceEngine::CNNNetwork</span></a><span></span><span class="o">&amp;</span> <span class="n">network</span><span class="p">,</span>
                                                                             <span class="k">const</span> <span class="n">ConfigMap</span><span class="o">&amp;</span> <span class="n">config</span><span class="p">)</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="s">&quot;Plugin::LoadExeNetworkImpl&quot;</span><span class="p">);</span>
@@ -1961,12 +1972,18 @@
                                                <span class="n">networkOutputs</span><span class="p">,</span>
                                                <span class="n">fullConfig</span><span class="p">,</span>
                                                <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">Plugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shared_from_this</span><span class="p">()));</span>
-<span class="p">}</span></pre></div></div><p>Before a creation of an <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> instance via a constructor, a plugin may check if a provided <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a> object is supported by a device. In the example above, the plugin checks precision information.</p>
-<p>The very important part before creation of <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> instance is to call <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> method which applies OpenVINO™ transformation passes.</p>
-<p>Actual graph compilation is done in the <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> constructor. Refer to the <a class="reference internal" href="executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">ExecutableNetwork Implementation Guide</span></a> for details.</p>
+<span class="p">}</span></pre></div></div><p>Before a creation of an <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> instance via a constructor, a plugin may check if a provided
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a> object is supported by a device.
+In the example above, the plugin checks precision information.</p>
+<p>The very important part before creation of <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> instance is to call <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> method which
+applies OpenVINO™ transformation passes.</p>
+<p>Actual graph compilation is done in the <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> constructor. Refer to the
+<a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">ExecutableNetwork Implementation Guide</span></a> for details.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Actual configuration map used in <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> is constructed as a base plugin configuration set via <code class="docutils literal notranslate"><span class="pre">Plugin::SetConfig</span></code>, where some values are overwritten with <code class="docutils literal notranslate"><span class="pre">config</span></code> passed to <code class="docutils literal notranslate"><span class="pre">Plugin::LoadExeNetworkImpl</span></code>. Therefore, the config of <code class="docutils literal notranslate"><span class="pre">Plugin::LoadExeNetworkImpl</span></code> has a higher priority.</p>
+<p>Actual configuration map used in <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> is constructed as a base plugin configuration set
+via <code class="docutils literal notranslate"><span class="pre">Plugin::SetConfig</span></code>, where some values are overwritten with <code class="docutils literal notranslate"><span class="pre">config</span></code> passed to <code class="docutils literal notranslate"><span class="pre">Plugin::LoadExeNetworkImpl</span></code>.
+Therefore, the config of <code class="docutils literal notranslate"><span class="pre">Plugin::LoadExeNetworkImpl</span></code> has a higher priority.</p>
 </div>
 <p>The function accepts a const shared pointer to <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> object and performs the following steps:</p>
 <ol class="arabic simple">
@@ -2018,9 +2035,20 @@
     <span class="k">return</span> <span class="n">transformedNetwork</span><span class="p">;</span>
 <span class="p">}</span></pre></div></div><div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>After all these transformations, a <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> object contains operations which can be perfectly mapped to backend kernels. E.g. if backend has kernel computing <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code> operations at once, the <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> function should contain a pass which fuses operations <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> into a single custom operation <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code> which fits backend kernels set.</p>
+<p>After all these transformations, a <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> object contains operations which can
+be perfectly mapped to backend kernels. E.g. if backend has kernel computing <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code> operations at once,
+the <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> function should contain a pass which fuses operations <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> into a single
+custom operation <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code> which fits backend kernels set.</p>
 </div>
-<p>Use the method with the <code class="docutils literal notranslate"><span class="pre">HETERO</span></code> mode, which allows to distribute network execution between different devices based on the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Node.html#doxid-classov-1-1-node-1a6941c753af92828d842297b74df1c45a"><span class="std std-ref"><span class="pre">ov::Node::get_rt_info()</span></span></a></code> map, which can contain the <code class="docutils literal notranslate"><span class="pre">&quot;affinity&quot;</span></code> key. The <code class="docutils literal notranslate"><span class="pre">QueryNetwork</span></code> method analyzes operations of provided <code class="docutils literal notranslate"><span class="pre">network</span></code> and returns a list of supported operations via the <a class="reference internal" href="../../../api/groups/structInferenceEngine_1_1QueryNetworkResult.html#doxid-struct-inference-engine-1-1-query-network-result"><span class="std std-ref">InferenceEngine::QueryNetworkResult</span></a> structure. The <code class="docutils literal notranslate"><span class="pre">QueryNetwork</span></code> firstly applies <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> passes to input <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> argument. After this, the transformed network in ideal case contains only operations are 1:1 mapped to kernels in computational backend. In this case, it’s very easy to analyze which operations is supposed (<code class="docutils literal notranslate"><span class="pre">_backend</span></code> has a kernel for such operation or extensions for the operation is provided) and not supported (kernel is missed in <code class="docutils literal notranslate"><span class="pre">_backend</span></code>):</p>
+<p>Use the method with the <code class="docutils literal notranslate"><span class="pre">HETERO</span></code> mode, which allows to distribute network execution between different devices based
+on the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Node.html#doxid-classov-1-1-node-1a6941c753af92828d842297b74df1c45a"><span class="std std-ref"><span class="pre">ov::Node::get_rt_info()</span></span></a></code> map, which can
+contain the <code class="docutils literal notranslate"><span class="pre">&quot;affinity&quot;</span></code> key. The <code class="docutils literal notranslate"><span class="pre">QueryNetwork</span></code> method analyzes operations of provided <code class="docutils literal notranslate"><span class="pre">network</span></code> and returns
+a list of supported operations via the
+<a class="reference internal" href="../../../api/groups/structInferenceEngine_1_1QueryNetworkResult.html#doxid-struct-inference-engine-1-1-query-network-result"><span class="std std-ref">InferenceEngine::QueryNetworkResult</span></a> structure.
+The <code class="docutils literal notranslate"><span class="pre">QueryNetwork</span></code> firstly applies <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> passes to input <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code>
+argument. After this, the transformed network in ideal case contains only operations are 1:1 mapped to kernels in
+computational backend. In this case, it’s very easy to analyze which operations is supposed (<code class="docutils literal notranslate"><span class="pre">_backend</span></code> has a kernel
+for such operation or extensions for the operation is provided) and not supported (kernel is missed in <code class="docutils literal notranslate"><span class="pre">_backend</span></code>):</p>
 <ol class="arabic simple">
 <li><p>Store original names of all operations in input <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code></p></li>
 <li><p>Apply <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> passes. Note, the names of operations in a transformed network can be different and we need to restore the mapping in the steps below.</p></li>
@@ -2120,14 +2148,17 @@
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-<span class="p">}</span></pre></div></div><p>Adds an extension of the <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a7a4456ae150afbff5140be2d92680fa4"><span class="std std-ref">InferenceEngine::IExtensionPtr</span></a> type to a plugin. If a plugin does not support extensions, the method must throw an exception:</p>
+<span class="p">}</span></pre></div></div><p>Adds an extension of the
+<a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a7a4456ae150afbff5140be2d92680fa4"><span class="std std-ref">InferenceEngine::IExtensionPtr</span></a> type to a plugin.
+If a plugin does not support extensions, the method must throw an exception:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">Plugin</span><span class="o">::</span><span class="n">AddExtension</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a7a4456ae150afbff5140be2d92680fa4"><span class="std std-ref">InferenceEngine::IExtensionPtr</span></a><span></span><span class="o">&amp;</span> <span class="o">/</span><span class="err">\</span><span class="o">*</span><span class="n">extension</span><span class="err">\*/</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// TODO: add extensions if plugin supports extensions</span>
     IE_THROW<span></span><span class="p">(</span><span class="n">NotImplemented</span><span class="p">);</span>
 <span class="p">}</span></pre></div></div><p>Sets new values for plugin configuration keys:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">Plugin</span><span class="o">::</span><span class="n">SetConfig</span><span class="p">(</span><span class="k">const</span> <span class="n">ConfigMap</span><span class="o">&amp;</span> <span class="n">config</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">_cfg</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">{</span><span class="n">config</span><span class="p">,</span> <span class="n">_cfg</span><span class="p">};</span>
-<span class="p">}</span></pre></div></div><p>In the snippet above, the <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> class overrides previous configuration values with the new ones. All these values are used during backend specific graph compilation and execution of inference requests.</p>
+<span class="p">}</span></pre></div></div><p>In the snippet above, the <code class="docutils literal notranslate"><span class="pre">Configuration</span></code> class overrides previous configuration values with the new ones. All these
+values are used during backend specific graph compilation and execution of inference requests.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The function must throw an exception if it receives an unsupported configuration key.</p>
@@ -2137,12 +2168,14 @@
     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">InferenceEngine</span><span class="o">::</span><span class="n">Parameter</span><span class="o">&gt;&amp;</span> <span class="o">/</span><span class="err">\</span><span class="o">*</span><span class="n">options</span><span class="err">\*/</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">_cfg</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-<span class="p">}</span></pre></div></div><p>The function is implemented with the <code class="docutils literal notranslate"><span class="pre">Configuration::Get</span></code> method, which wraps an actual configuration key value to the <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1aff2231f886c9f8fc9c226fd343026789"><span class="std std-ref">InferenceEngine::Parameter</span></a> and returns it.</p>
+<span class="p">}</span></pre></div></div><p>The function is implemented with the <code class="docutils literal notranslate"><span class="pre">Configuration::Get</span></code> method, which wraps an actual configuration key value
+to the <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1aff2231f886c9f8fc9c226fd343026789"><span class="std std-ref">InferenceEngine::Parameter</span></a> and returns it.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The function must throw an exception if it receives an unsupported configuration key.</p>
 </div>
-<p>Returns a metric value for a metric with the name <code class="docutils literal notranslate"><span class="pre">name</span></code>. A device metric is a static type of information from a plugin about its devices or device capabilities.</p>
+<p>Returns a metric value for a metric with the name <code class="docutils literal notranslate"><span class="pre">name</span></code>. A device metric is a static type of information from a plugin
+about its devices or device capabilities.</p>
 <p>Examples of metrics:</p>
 <ul class="simple">
 <li><p><span class="xref std std-ref">METRIC_KEY(AVAILABLE_DEVICES)</span> - list of available devices that are required to implement. In this case, you can use all devices of the same <code class="docutils literal notranslate"><span class="pre">Template</span></code> type with automatic logic of the <code class="docutils literal notranslate"><span class="pre">MULTI</span></code> device plugin.</p></li>
@@ -2208,8 +2241,11 @@
 <p class="admonition-title">Note</p>
 <p>If an unsupported metric key is passed to the function, it must throw an exception.</p>
 </div>
-<p>The importing network mechanism allows to import a previously exported backend specific graph and wrap it using an <a class="reference internal" href="executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">ExecutableNetwork</span></a> object. This functionality is useful if backend specific graph compilation takes significant time and/or cannot be done on a target host device due to other reasons.</p>
-<p>During export of backend specific graph using <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork::Export</span></code>, a plugin may export any type of information it needs to import a compiled graph properly and check its correctness. For example, the export information may include:</p>
+<p>The importing network mechanism allows to import a previously exported backend specific graph and wrap it using
+an <a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">ExecutableNetwork</span></a> object. This functionality is useful
+if backend specific graph compilation takes significant time and/or cannot be done on a target host device due to other reasons.</p>
+<p>During export of backend specific graph using <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork::Export</span></code>, a plugin may export any type of information
+it needs to import a compiled graph properly and check its correctness. For example, the export information may include:</p>
 <ul class="simple">
 <li><p>Compilation options (state of <code class="docutils literal notranslate"><span class="pre">Plugin::_cfg</span></code> structure)</p></li>
 <li><p>Information about a plugin and a device type to check this information later during the import and throw an exception if the <code class="docutils literal notranslate"><span class="pre">model</span></code> stream contains wrong data. For example, if devices have different capabilities and a graph compiled for a particular device cannot be used for another, such type of information must be stored and checked during the import.</p></li>
@@ -2232,9 +2268,10 @@
 </section>
 <section id="create-instance-of-plugin-class">
 <h2>Create Instance of Plugin Class<a class="headerlink" href="#create-instance-of-plugin-class" title="Permalink to this headline">¶</a></h2>
-<p>Inference Engine plugin library must export only one function creating a plugin instance using IE_DEFINE_PLUGIN_CREATE_FUNCTION macro:</p>
+<p>Inference Engine plugin library must export only one function creating a plugin instance using
+IE_DEFINE_PLUGIN_CREATE_FUNCTION macro:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">const</span> <a class="reference internal" href="../../../api/groups/structInferenceEngine_1_1Version.html#doxid-struct-inference-engine-1-1-version"><span class="std std-ref">InferenceEngine::Version</span></a><span></span> <span class="n">version</span> <span class="o">=</span> <span class="p">{{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="n">CI_BUILD_NUMBER</span><span class="p">,</span> <span class="s">&quot;openvino_template_plugin&quot;</span><span class="p">};</span>
-<a class="reference internal" href="../../../api/groups/groupie_dev_api_plugin_api.html#doxid-group-ie-dev-api-plugin-api-1ga06b197cbe37f59f94b15a7d861e17d4e"><span class="std std-ref">IE_DEFINE_PLUGIN_CREATE_FUNCTION</span></a><span></span><span class="p">(</span><span class="n">Plugin</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span></pre></div></div><p>Next step in a plugin library implementation is the <a class="reference internal" href="executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">ExecutableNetwork</span></a> class.</p>
+<a class="reference internal" href="../../../api/groups/groupie_dev_api_plugin_api.html#doxid-group-ie-dev-api-plugin-api-1ga06b197cbe37f59f94b15a7d861e17d4e"><span class="std std-ref">IE_DEFINE_PLUGIN_CREATE_FUNCTION</span></a><span></span><span class="p">(</span><span class="n">Plugin</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span></pre></div></div><p>Next step in a plugin library implementation is the <a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">ExecutableNetwork</span></a> class.</p>
 </section>
 </section>
 

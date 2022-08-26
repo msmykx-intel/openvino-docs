@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Overview of the plugin architecture of the Inference Engine." name="description" />
+<meta content="Inference Engine, plugin architecture, library, inference solutions, dynamic library" name="keywords" />
 
     <title>Overview of Inference Engine Plugin Library &#8212; OpenVINO™  documentation</title>
     
@@ -1830,9 +1832,9 @@
             
                 <div>
                   
-  <section id="overview-of-inference-engine-plugin-library">
-<span id="doxid-openvino-docs-ie-plugin-dg-overview"></span><span id="index-0"></span><h1>Overview of Inference Engine Plugin Library<a class="headerlink" href="#overview-of-inference-engine-plugin-library" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-overview-1md-openvino-docs-ie-plugin-dg-intro"></span></p>
+  <span class="target" id="plugin-developer-guide-overview"><span id="index-0"></span></span><section id="overview-of-inference-engine-plugin-library">
+<h1>Overview of Inference Engine Plugin Library<a class="headerlink" href="#overview-of-inference-engine-plugin-library" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="plugin-developer-guide-overview-1md-openvino-docs-ie-plugin-dg-intro"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>The plugin architecture of the Inference Engine allows to develop and plug
@@ -1843,27 +1845,27 @@ function that allows to create a new plugin instance.</p>
 <h2>Inference Engine Plugin Library<a class="headerlink" href="#inference-engine-plugin-library" title="Permalink to this headline">¶</a></h2>
 <p>Inference Engine plugin dynamic library consists of several main components:</p>
 <ol class="arabic simple">
-<li><p><a class="reference internal" href="openvino-plugin-developer-guide/openvino-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-plugin"><span class="std std-ref">Plugin class</span></a> :</p>
+<li><p><span class="xref std std-ref">Plugin class</span> :</p>
 <ul class="simple">
 <li><p>Provides information about devices of a specific type.</p></li>
-<li><p>Can create an <a class="reference internal" href="openvino-plugin-developer-guide/executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">executable network</span></a>
+<li><p>Can create an <a class="reference internal" href="openvino-plugin-developer-guide/executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">executable network</span></a>
 instance which represents a Neural Network backend specific graph structure
 for a particular device in opposite to the
 <a class="reference internal" href="../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a>
 interface which is backend-independent.</p></li>
 <li><p>Can import an already compiled graph structure from an input stream to an
-<a class="reference internal" href="openvino-plugin-developer-guide/executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">executable network</span></a> object.</p></li>
+<a class="reference internal" href="openvino-plugin-developer-guide/executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">executable network</span></a> object.</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="openvino-plugin-developer-guide/executable-network-class-in-custom-plugins.html#doxid-openvino-docs-ie-plugin-dg-executable-network"><span class="std std-ref">Executable Network class</span></a> :</p>
+<li><p><a class="reference internal" href="openvino-plugin-developer-guide/executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">Executable Network class</span></a> :</p>
 <ul class="simple">
 <li><p>Is an execution configuration compiled for a particular device and takes into account its capabilities.</p></li>
 <li><p>Holds a reference to a particular device and a task executor for this device.</p></li>
-<li><p>Can create several instances of <a class="reference internal" href="openvino-plugin-developer-guide/synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">Inference Request</span></a>.</p></li>
+<li><p>Can create several instances of <a class="reference internal" href="openvino-plugin-developer-guide/synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Inference Request</span></a>.</p></li>
 <li><p>Can export an internal backend specific graph structure to an output stream.</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="openvino-plugin-developer-guide/synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">Inference Request class</span></a> :</p>
+<li><p><a class="reference internal" href="openvino-plugin-developer-guide/synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Inference Request class</span></a> :</p>
 <ul class="simple">
 <li><p>Runs an inference pipeline serially.</p></li>
 <li><p>Can extract performance counters for an inference pipeline execution profiling.</p></li>
@@ -1871,7 +1873,7 @@ interface which is backend-independent.</p></li>
 </li>
 <li><p><a class="reference internal" href="openvino-plugin-developer-guide/asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous Inference Request class</span></a> :</p>
 <ul class="simple">
-<li><p>Wraps the <a class="reference internal" href="openvino-plugin-developer-guide/synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">Inference Request</span></a>
+<li><p>Wraps the <a class="reference internal" href="openvino-plugin-developer-guide/synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Inference Request</span></a>
 class and runs pipeline stages in parallel on several task executors based
 on a device-specific pipeline structure.</p></li>
 </ul>

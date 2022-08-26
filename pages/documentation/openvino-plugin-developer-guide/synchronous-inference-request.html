@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information about Synchronous Inference Request functionality." name="description" />
+<meta content="Synchronous Inference Request, input blob, output blob, backend, functions, inference process, inference stages, Inference Engine Plugin API" name="keywords" />
 
     <title>Synchronous Inference Request &#8212; OpenVINO™  documentation</title>
     
@@ -1799,17 +1801,17 @@
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
+    <a class="reference internal nav-link" href="#id2">
      1.
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      2.
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id4">
      3.
     </a>
    </li>
@@ -1854,9 +1856,9 @@
             
                 <div>
                   
-  <section id="synchronous-inference-request">
-<span id="doxid-openvino-docs-ie-plugin-dg-infer-request"></span><span id="index-0"></span><h1>Synchronous Inference Request<a class="headerlink" href="#synchronous-inference-request" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-infer-request-1md-openvino-docs-ie-plugin-dg-inferrequest"></span> <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> class functionality:</p>
+  <span class="target" id="synchronous-inference-request"><span id="index-0"></span></span><section id="id1">
+<h1>Synchronous Inference Request<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="synchronous-inference-request-1md-openvino-docs-ie-plugin-dg-inferrequest"></span> <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> class functionality:</p>
 <ul class="simple">
 <li><p>Allocate input and output blobs needed for a backend-dependent network inference.</p></li>
 <li><p>Define functions for inference process stages (for example, <code class="docutils literal notranslate"><span class="pre">preprocess</span></code>, <code class="docutils literal notranslate"><span class="pre">upload</span></code>, <code class="docutils literal notranslate"><span class="pre">infer</span></code>, <code class="docutils literal notranslate"><span class="pre">download</span></code>, <code class="docutils literal notranslate"><span class="pre">postprocess</span></code>). These functions can later be used to define an execution pipeline during <a class="reference internal" href="asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous Inference Request</span></a> implementation.</p></li>
@@ -1864,7 +1866,10 @@
 </ul>
 <section id="class">
 <h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
-<p>Inference Engine Plugin API provides the helper <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferRequestInternal.html#doxid-class-inference-engine-1-1-i-infer-request-internal"><span class="std std-ref">InferenceEngine::IInferRequestInternal</span></a> class recommended to use as a base class for a synchronous inference request implementation. Based of that, a declaration of a synchronous request class can look as follows:</p>
+<p>Inference Engine Plugin API provides the helper
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferRequestInternal.html#doxid-class-inference-engine-1-1-i-infer-request-internal"><span class="std std-ref">InferenceEngine::IInferRequestInternal</span></a> class recommended
+to use as a base class for a synchronous inference request implementation. Based of that, a declaration of a synchronous request
+class can look as follows:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nl">TemplateInferRequest</span> <span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferRequestInternal.html#doxid-class-inference-engine-1-1-i-infer-request-internal"><span class="std std-ref">InferenceEngine::IInferRequestInternal</span></a><span></span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">TemplateInferRequest</span><span class="o">&gt;</span> <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferRequestInternal.html#doxid-class-inference-engine-1-1-i-infer-request-internal-1a50c614e7a30e1e8ee58e984f210a1558"><span class="std std-ref">Ptr</span></a><span></span><span class="p">;</span>
@@ -1969,7 +1974,12 @@
     <span class="n">allocateBlobs</span><span class="p">();</span>
 <span class="p">}</span></pre></div></div><div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Call <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network-1a76de2a6101fe8276f56b0dc0f99c7ff7"><span class="std std-ref">InferenceEngine::CNNNetwork::getInputsInfo</span></a> and <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network-1af8a6200f549b15a895e2cfefd304a9c2"><span class="std std-ref">InferenceEngine::CNNNetwork::getOutputsInfo</span></a> to specify both layout and precision of blobs, which you can set with <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1InferRequest.html#doxid-class-inference-engine-1-1-infer-request-1a27fb179e3bae652d76076965fd2a5653"><span class="std std-ref">InferenceEngine::InferRequest::SetBlob</span></a> and get with <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1InferRequest.html#doxid-class-inference-engine-1-1-infer-request-1a9601a4cda3f309181af34feedf1b914c"><span class="std std-ref">InferenceEngine::InferRequest::GetBlob</span></a>. A plugin uses these hints to determine its internal layouts and precisions for input and output blobs if needed.</p>
+<p>Call <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network-1a76de2a6101fe8276f56b0dc0f99c7ff7"><span class="std std-ref">InferenceEngine::CNNNetwork::getInputsInfo</span></a>
+and <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network-1af8a6200f549b15a895e2cfefd304a9c2"><span class="std std-ref">InferenceEngine::CNNNetwork::getOutputsInfo</span></a>
+to specify both layout and precision of blobs, which you can set with
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1InferRequest.html#doxid-class-inference-engine-1-1-infer-request-1a27fb179e3bae652d76076965fd2a5653"><span class="std std-ref">InferenceEngine::InferRequest::SetBlob</span></a>
+and get with <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1InferRequest.html#doxid-class-inference-engine-1-1-infer-request-1a9601a4cda3f309181af34feedf1b914c"><span class="std std-ref">InferenceEngine::InferRequest::GetBlob</span></a>.
+A plugin uses these hints to determine its internal layouts and precisions for input and output blobs if needed.</p>
 </div>
 </section>
 <section id="destructor">
@@ -1990,8 +2000,8 @@
     <span class="n">inferPostprocess</span><span class="p">();</span>
 <span class="p">}</span></pre></div></div></section>
 </section>
-<section id="id1">
-<h3>1.<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<section id="id2">
+<h3>1.<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Below is the code of the <code class="docutils literal notranslate"><span class="pre">inferPreprocess</span></code> method to demonstrate Inference Engine common preprocessing step handling:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">inferPreprocess</span><span class="p">()</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="n">_profilingTask</span><span class="p">[</span><span class="n">Preprocess</span><span class="p">]);</span>
@@ -2082,8 +2092,8 @@
 <li><p>If <code class="docutils literal notranslate"><span class="pre">inputBlob</span></code> passed by user differs in terms of precisions from precision expected by plugin, <code class="docutils literal notranslate"><span class="pre">blobCopy</span></code> is performed which does actual precision conversion.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h3>2.<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<section id="id3">
+<h3>2.<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Executes a pipeline synchronously using <code class="docutils literal notranslate"><span class="pre">_executable</span></code> object:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">startPipeline</span><span class="p">()</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="n">_profilingTask</span><span class="p">[</span><span class="n">StartPipeline</span><span class="p">])</span>
@@ -2091,8 +2101,8 @@
     <span class="n">_executable</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="n">_outputTensors</span><span class="p">,</span> <span class="n">_inputTensors</span><span class="p">);</span>
     <span class="n">_durations</span><span class="p">[</span><span class="n">StartPipeline</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
 <span class="p">}</span></pre></div></div></section>
-<section id="id3">
-<h3>3.<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<section id="id4">
+<h3>3.<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Converts output blobs if precisions of backend output blobs and blobs passed by user are different:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">inferPostprocess</span><span class="p">()</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="n">_profilingTask</span><span class="p">[</span><span class="n">Postprocess</span><span class="p">]);</span>
@@ -2133,7 +2143,8 @@
     <span class="n">info</span><span class="p">.</span><span class="n">cpu_uSec</span> <span class="o">=</span> <span class="n">info</span><span class="p">.</span><span class="n">realTime_uSec</span> <span class="o">=</span> <span class="n">_durations</span><span class="p">[</span><span class="n">Postprocess</span><span class="p">].</span><span class="n">count</span><span class="p">();</span>
     <span class="n">perfMap</span><span class="p">[</span><span class="s">&quot;5. output postprocessing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">perfMap</span><span class="p">;</span>
-<span class="p">}</span></pre></div></div><p>The next step in the plugin library implementation is the <a class="reference internal" href="asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous Inference Request</span></a> class.</p>
+<span class="p">}</span></pre></div></div><p>The next step in the plugin library implementation is the
+<a class="reference internal" href="asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous Inference Request</span></a> class.</p>
 </section>
 </section>
 </section>

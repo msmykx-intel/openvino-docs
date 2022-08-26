@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information regarding Executable Network functionality." name="description" />
+<meta content="executable network functionality, executable network, Inference Engine Plugin API, executable network class" name="keywords" />
 
     <title>Executable Network &#8212; OpenVINO™  documentation</title>
     
@@ -1839,9 +1841,10 @@
             
                 <div>
                   
-  <section id="executable-network">
-<span id="doxid-openvino-docs-ie-plugin-dg-executable-network"></span><span id="index-0"></span><h1>Executable Network<a class="headerlink" href="#executable-network" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-executable-network-1md-openvino-docs-ie-plugin-dg-executablenetwork"></span> <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> class functionality:</p>
+  <span class="target" id="executable-network-functionality"><span id="index-0"></span></span><section id="executable-network">
+<h1>Executable Network<a class="headerlink" href="#executable-network" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="executable-network-functionality-1md-openvino-docs-ie-plugin-dg-executablenetwork"></span> <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> class
+functionality:</p>
 <ul class="simple">
 <li><p>Compile an <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a> instance to a backend specific graph representation</p></li>
 <li><p>Create an arbitrary number of <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> objects</p></li>
@@ -1854,7 +1857,10 @@
 </ul>
 <section id="class">
 <h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
-<p>Inference Engine Plugin API provides the helper <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ExecutableNetworkThreadSafeDefault.html#doxid-class-inference-engine-1-1-executable-network-thread-safe-default"><span class="std std-ref">InferenceEngine::ExecutableNetworkThreadSafeDefault</span></a> class recommended to use as a base class for an executable network. Based on that, a declaration of an executable network class can look as follows:</p>
+<p>Inference Engine Plugin API provides the helper
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ExecutableNetworkThreadSafeDefault.html#doxid-class-inference-engine-1-1-executable-network-thread-safe-default"><span class="std std-ref">InferenceEngine::ExecutableNetworkThreadSafeDefault</span></a>
+class recommended to use as a base class for an executable network. Based on that, a declaration of an executable network class
+can look as follows:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nl">ExecutableNetwork</span> <span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ExecutableNetworkThreadSafeDefault.html#doxid-class-inference-engine-1-1-executable-network-thread-safe-default"><span class="std std-ref">InferenceEngine::ExecutableNetworkThreadSafeDefault</span></a><span></span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">ExecutableNetwork</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">ngraph</span><span class="o">::</span><span class="n">Function</span><span class="o">&gt;&amp;</span> <span class="n">function</span><span class="p">,</span>
@@ -1906,7 +1912,9 @@
 </ul>
 <section id="constructor-with">
 <h4>Constructor with<a class="headerlink" href="#constructor-with" title="Permalink to this headline">¶</a></h4>
-<p>This constructor accepts a generic representation of a neural network as an <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a> reference and is compiled into a backend specific device graph:</p>
+<p>This constructor accepts a generic representation of a neural network as an
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a> reference and is compiled into a backend
+specific device graph:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">TemplatePlugin</span><span class="o">::</span><span class="n">ExecutableNetwork</span><span class="o">::</span><span class="n">ExecutableNetwork</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">ngraph</span><span class="o">::</span><span class="n">Function</span><span class="o">&gt;&amp;</span> <span class="n">function</span><span class="p">,</span>
                                                      <span class="k">const</span> <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a08270747275eb79985154365aa782a2a"><span class="std std-ref">InferenceEngine::InputsDataMap</span></a><span></span><span class="o">&amp;</span> <span class="n">inputInfoMap</span><span class="p">,</span>
                                                      <span class="k">const</span> <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a76ce999f68455cf962a473718deb500c"><span class="std std-ref">InferenceEngine::OutputsDataMap</span></a><span></span><span class="o">&amp;</span> <span class="n">outputsInfoMap</span><span class="p">,</span>
@@ -1929,7 +1937,8 @@
         IE_THROW<span></span><span class="p">(</span><span class="n">Unexpected</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Generic exception is thrown&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span></pre></div></div><p>The implementation <code class="docutils literal notranslate"><span class="pre">CompileNetwork</span></code> is fully device-specific.</p>
-<p>The function accepts a const shared pointer to <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classngraph.html#doxid-classngraph-1a14d7fe7c605267b52c145579e12d2a5f"><span class="std std-ref"><span class="pre">ngraph::Function</span></span></a></code> object and performs the following steps:</p>
+<p>The function accepts a const shared pointer to <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classngraph.html#doxid-classngraph-1a14d7fe7c605267b52c145579e12d2a5f"><span class="std std-ref"><span class="pre">ngraph::Function</span></span></a></code>
+object and performs the following steps:</p>
 <ol class="arabic simple">
 <li><p>Applies nGraph passes using <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> function, which defines plugin-specific conversion pipeline. To support low precision inference, the pipeline can include Low Precision Transformations. These transformations are usually hardware specific. You can find how to use and configure Low Precisions Transformations in <a class="reference internal" href="low-precision-transformations.html#doxid-openvino-docs-o-v-u-g-lpt"><span class="std std-ref">Low Precision Transformations</span></a> guide.</p></li>
 <li><p>Maps the transformed graph to a backend specific graph representation (for example, to CPU plugin internal graph representation).</p></li>
@@ -2020,7 +2029,8 @@
     <span class="p">}</span> <span class="k">catch</span> <span class="p">(...)</span> <span class="p">{</span>
         IE_THROW<span></span><span class="p">(</span><span class="n">Unexpected</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Generic exception is thrown&quot;</span><span class="p">;</span>
     <span class="p">}</span>
-<span class="p">}</span></pre></div></div><p>The implementation of the method should write all data to the <code class="docutils literal notranslate"><span class="pre">model</span></code> stream, which is required to import a backend specific graph later in the <code class="docutils literal notranslate"><span class="pre">Plugin::Import</span></code> method:</p>
+<span class="p">}</span></pre></div></div><p>The implementation of the method should write all data to the <code class="docutils literal notranslate"><span class="pre">model</span></code> stream, which is required to import a backend
+specific graph later in the <code class="docutils literal notranslate"><span class="pre">Plugin::Import</span></code> method:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplatePlugin</span><span class="o">::</span><span class="n">ExecutableNetwork</span><span class="o">::</span><span class="n">Export</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">modelStream</span><span class="p">)</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="s">&quot;ExecutableNetwork::Export&quot;</span><span class="p">);</span>
 
@@ -2044,9 +2054,11 @@
     <span class="n">modelStream</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="err">\</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_constants</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dataSize</span><span class="p">);</span>
 
     <span class="c1">// TODO: implement network precision, layout, preprocessing info serialization</span>
-<span class="p">}</span></pre></div></div><p>The method creates an asynchronous inference request and returns it. While the public Inference Engine API has a single interface for inference request, which can be executed in synchronous and asynchronous modes, a plugin library implementation has two separate classes:</p>
+<span class="p">}</span></pre></div></div><p>The method creates an asynchronous inference request and returns it. While the public Inference Engine API has a single
+interface for inference request, which can be executed in synchronous and asynchronous modes, a plugin library implementation
+has two separate classes:</p>
 <ul>
-<li><p><a class="reference internal" href="synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">Synchronous inference request</span></a>, which defines pipeline stages and runs them synchronously in the <code class="docutils literal notranslate"><span class="pre">Infer</span></code> method.</p></li>
+<li><p><a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Synchronous inference request</span></a>, which defines pipeline stages and runs them synchronously in the <code class="docutils literal notranslate"><span class="pre">Infer</span></code> method.</p></li>
 <li><p><a class="reference internal" href="asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous inference request</span></a>, which is a wrapper for a synchronous inference request and can run a pipeline asynchronously. Depending on a device pipeline structure, it can has one or several stages:</p>
 <ul>
 <li><p>For single-stage pipelines, there is no need to define this method and create a class derived from <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a>. For single stage pipelines, a default implementation of this method creates <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a> wrapping a synchronous inference request and runs it asynchronously in the <code class="docutils literal notranslate"><span class="pre">_taskExecutor</span></code> executor.</p></li>
@@ -2070,7 +2082,9 @@
 </ul>
 </li>
 </ul>
-<p>This is a helper method used by <code class="docutils literal notranslate"><span class="pre">CreateInferRequest</span></code> to create a <a class="reference internal" href="synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">synchronous inference request</span></a>, which is later wrapped with the asynchronous inference request class:</p>
+<p>This is a helper method used by <code class="docutils literal notranslate"><span class="pre">CreateInferRequest</span></code> to create a
+<a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">synchronous inference request</span></a>, which is later wrapped with
+the asynchronous inference request class:</p>
 <div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferRequestInternal.html#doxid-class-inference-engine-1-1-i-infer-request-internal-1a50c614e7a30e1e8ee58e984f210a1558"><span class="std std-ref">InferenceEngine::IInferRequestInternal::Ptr</span></a><span></span> <span class="n">TemplatePlugin</span><span class="o">::</span><span class="n">ExecutableNetwork</span><span class="o">::</span><span class="n">CreateInferRequestImpl</span><span class="p">(</span>
     <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a08270747275eb79985154365aa782a2a"><span class="std std-ref">InferenceEngine::InputsDataMap</span></a><span></span> <span class="n">networkInputs</span><span class="p">,</span>
     <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a76ce999f68455cf962a473718deb500c"><span class="std std-ref">InferenceEngine::OutputsDataMap</span></a><span></span> <span class="n">networkOutputs</span><span class="p">)</span> <span class="p">{</span>
@@ -2085,7 +2099,8 @@
     <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">TemplateInferRequest</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
                                                   <span class="n">outputs</span><span class="p">,</span>
                                                   <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">ExecutableNetwork</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shared_from_this</span><span class="p">()));</span>
-<span class="p">}</span></pre></div></div><p>Returns a metric value for a metric with the name <code class="docutils literal notranslate"><span class="pre">name</span></code>. A metric is a static type of information about an executable network. Examples of metrics:</p>
+<span class="p">}</span></pre></div></div><p>Returns a metric value for a metric with the name <code class="docutils literal notranslate"><span class="pre">name</span></code>. A metric is a static type of information about an executable network.
+Examples of metrics:</p>
 <ul class="simple">
 <li><p><span class="xref std std-ref">EXEC_NETWORK_METRIC_KEY(NETWORK_NAME)</span> - name of an executable network</p></li>
 <li><p><span class="xref std std-ref">EXEC_NETWORK_METRIC_KEY(OPTIMAL_NUMBER_OF_INFER_REQUESTS)</span> - heuristic to denote an optimal (or at least sub-optimal) number of inference requests needed to run asynchronously to use the current device fully</p></li>
@@ -2117,12 +2132,16 @@
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
         IE_THROW<span></span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Unsupported ExecutableNetwork metric: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">name</span><span class="p">;</span>
     <span class="p">}</span>
-<span class="p">}</span></pre></div></div><p>The IE_SET_METRIC_RETURN helper macro sets metric value and checks that the actual metric type matches a type of the specified value.</p>
-<p>Returns a current value for a configuration key with the name <code class="docutils literal notranslate"><span class="pre">name</span></code>. The method extracts configuration values an executable network is compiled with.</p>
+<span class="p">}</span></pre></div></div><p>The IE_SET_METRIC_RETURN helper macro sets metric value and checks that the actual metric type matches a type of the specified
+value.</p>
+<p>Returns a current value for a configuration key with the name <code class="docutils literal notranslate"><span class="pre">name</span></code>. The method extracts configuration values an executable
+network is compiled with.</p>
 <div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../../api/groups/classov_1_1Any.html#doxid-classov-1-1-any"><span class="std std-ref">InferenceEngine::Parameter</span></a><span></span> <span class="n">TemplatePlugin</span><span class="o">::</span><span class="n">ExecutableNetwork</span><span class="o">::</span><span class="n">GetConfig</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">_cfg</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-<span class="p">}</span></pre></div></div><p>This function is the only way to get configuration values when a network is imported and compiled by other developers and tools (for example, the <a class="reference external" href="../_inference_engine_tools_compile_tool_README.html">Compile tool</a>).</p>
-<p>The next step in plugin library implementation is the <a class="reference internal" href="synchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-infer-request"><span class="std std-ref">Synchronous Inference Request</span></a> class.</p>
+<span class="p">}</span></pre></div></div><p>This function is the only way to get configuration values when a network is imported and compiled by other developers
+and tools (for example, the <a class="reference external" href="../_inference_engine_tools_compile_tool_README.html">Compile tool</a>).</p>
+<p>The next step in plugin library implementation is the
+<a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Synchronous Inference Request</span></a> class.</p>
 </section>
 </section>
 </section>
