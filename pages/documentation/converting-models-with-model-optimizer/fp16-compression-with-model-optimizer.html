@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1818,7 +1813,7 @@
 <p class="admonition-title">Note</p>
 <p>Using <code class="docutils literal notranslate"><span class="pre">--data_type</span> <span class="pre">FP32</span></code> will give no result and will not force <code class="docutils literal notranslate"><span class="pre">FP32</span></code> precision in the model. If the model was <code class="docutils literal notranslate"><span class="pre">FP16</span></code>, it will have <code class="docutils literal notranslate"><span class="pre">FP16</span></code> precision in IR as well.</p>
 </div>
-<p>The resulting model will occupy about twice as less space in the file system, but it may have some accuracy drop. The resulting model will occupy about half of the previous space in the file system, but lose some of its accuracy. For most models, the accuracy drop is negligible. For details on how plugins handle compressed <code class="docutils literal notranslate"><span class="pre">FP16</span></code> models, see <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices.html#working-with-devices"><span class="std std-ref">Working with devices</span></a>.</p>
+<p>The resulting model will occupy about twice as less space in the file system, but it may have some accuracy drop. The resulting model will occupy about half of the previous space in the file system, but lose some of its accuracy. For most models, the accuracy drop is negligible. For details on how plugins handle compressed <code class="docutils literal notranslate"><span class="pre">FP16</span></code> models, see <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices.html#deploy-infer-working-with-devices"><span class="std std-ref">Working with devices</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">FP16</span></code> compression is sometimes used as the initial step for <code class="docutils literal notranslate"><span class="pre">INT8</span></code> quantization. Refer to the <a class="reference internal" href="../model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">Post-training optimization</span></a> guide for more information about that.</p>

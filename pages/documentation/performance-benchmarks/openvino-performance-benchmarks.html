@@ -790,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -874,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1642,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1779,11 +1774,6 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#platform-configurations">
-   Platform Configurations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#benchmark-setup-information">
    Benchmark Setup Information
   </a>
@@ -1870,6 +1860,11 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#platform-configurations">
+   Platform Configurations
+  </a>
+ </li>
 </ul>
 
 </nav>
@@ -1918,13 +1913,6 @@
 may require enabled hardware, software or service activation. More information
 on this subject may be obtained from the original equipment manufacturer (OEM),
 official <a class="reference external" href="https://www.intel.com">Intel® web page</a> or retailer.</p>
-<section id="platform-configurations">
-<h2>Platform Configurations<a class="headerlink" href="#platform-configurations" title="Permalink to this headline">¶</a></h2>
-<p><code class="xref download docutils literal notranslate"><span class="pre">A</span> <span class="pre">full</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">HW</span> <span class="pre">platforms</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">testing</span> <span class="pre">(along</span> <span class="pre">with</span> <span class="pre">their</span> <span class="pre">configuration)</span></code></p>
-<p>For more specific information, refer to the
-<a class="reference external" href="https://docs.openvino.ai/resources/benchmark_files/system_configurations_2022.1.html">Configuration Details</a>
-document.</p>
-</section>
 <section id="benchmark-setup-information">
 <h2>Benchmark Setup Information<a class="headerlink" href="#benchmark-setup-information" title="Permalink to this headline">¶</a></h2>
 <p>This benchmark setup includes a single machine on which both the benchmark
@@ -2014,10 +2002,17 @@ same degree for non-Intel products.</p>
 <div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/yolo-v3-tiny-tf-416x416.csv"></div></section>
 <section id="yolo-v4-tf-608x608">
 <h3>yolo_v4-tf [608x608]<a class="headerlink" href="#yolo-v4-tf-608x608" title="Permalink to this headline">¶</a></h3>
-<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/yolo_v4-tf-608x608.csv"></div><p>© Intel Corporation. Intel, the Intel logo, and other Intel marks are
+<div class="chart-block" data-loadcsv="../../../_static/benchmarks_csv/yolo_v4-tf-608x608.csv"></div></section>
+</section>
+<section id="platform-configurations">
+<h2>Platform Configurations<a class="headerlink" href="#platform-configurations" title="Permalink to this headline">¶</a></h2>
+<p>Download a full list of HW platforms and their configurations used for testing:
+<a class="reference download internal" download="" href="../../../_downloads/f898f4837ae6c37f8e8e9a0cb63fffd3/Platform_list.pdf"><code class="xref download docutils literal notranslate"><span class="pre">HW</span> <span class="pre">platforms</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">testing</span> <span class="pre">(PDF)</span></code></a></p>
+<p>For more specific information, refer to
+<a class="reference external" href="https://docs.openvino.ai/resources/benchmark_files/system_configurations_2022.1.html">Configuration Details</a> .</p>
+<p>© Intel Corporation. Intel, the Intel logo, and other Intel marks are
 trademarks of Intel Corporation or its subsidiaries. Other names and brands
 may be claimed as the property of others.</p>
-</section>
 </section>
 </section>
 

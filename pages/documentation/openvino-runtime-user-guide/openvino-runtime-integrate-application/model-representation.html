@@ -790,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -874,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1642,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1852,9 +1847,9 @@
             
                 <div>
                   
-  <span class="target" id="openvino-model-representation"><span id="index-0"></span></span><section id="model-representation-in-openvino-runtime">
+  <span class="target" id="deploy-infer-model-representation"><span id="index-0"></span></span><section id="model-representation-in-openvino-runtime">
 <h1>Model Representation in OpenVINO™ Runtime<a class="headerlink" href="#model-representation-in-openvino-runtime" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="openvino-model-representation-1md-openvino-docs-ov-runtime-ug-model-representation"></span></p>
+<p><span class="target" id="deploy-infer-model-representation-1md-openvino-docs-ov-runtime-ug-model-representation"></span></p>
 <p>In OpenVINO™ Runtime, a model is represented by the <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code>
 class.</p>
 <p>The <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> object stores shared pointers
@@ -1910,7 +1905,7 @@ for example:</p></li>
 </div>
 </div>
 <p>For details on how to build a model in OpenVINO™ Runtime, see the
-<a class="reference internal" href="#openvino-model-representation-1ov-ug-build-model"><span class="std std-ref">Build a Model in OpenVINO™ Runtime</span></a>
+<a class="reference internal" href="#deploy-infer-model-representation-1ov-ug-build-model"><span class="std std-ref">Build a Model in OpenVINO™ Runtime</span></a>
 section.</p>
 <p>OpenVINO™ Runtime model representation uses special classes to work with model
 data types and shapes. The <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1element_1_1Type.html#doxid-classov-1-1element-1-1-type"><span class="std std-ref"><span class="pre">ov::element::Type</span></span></a></code>
@@ -1964,7 +1959,7 @@ in OpenVINO™ toolkit, see the <a class="reference internal" href="../../../res
 To add the support for custom operations, see <a class="reference internal" href="../../openvino-extensibility-mechanism.html#extensibility-api-introduction"><span class="std std-ref">OpenVINO Extensibility Mechanism</span></a>.</p>
 </section>
 <section id="building-a-model-in-openvino-runtime">
-<span id="openvino-model-representation-1ov-ug-build-model"></span><h2>Building a Model in OpenVINO™ Runtime<a class="headerlink" href="#building-a-model-in-openvino-runtime" title="Permalink to this headline">¶</a></h2>
+<span id="deploy-infer-model-representation-1ov-ug-build-model"></span><h2>Building a Model in OpenVINO™ Runtime<a class="headerlink" href="#building-a-model-in-openvino-runtime" title="Permalink to this headline">¶</a></h2>
 <p>You can create a model from source. This section illustrates how to construct
 a model composed of operations from an available operation set.</p>
 <p>Operation set <code class="docutils literal notranslate"><span class="pre">opsetX</span></code> integrates a list of pre-compiled operations that

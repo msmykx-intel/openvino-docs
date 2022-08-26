@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -2177,12 +2172,12 @@ of devices available to AUTO.</p>
 </div>
 <p>Note that OpenVINO Runtime lets you use “GPU” as an alias for “GPU.0” in function
 calls. More details on enumerating devices can be found in
-<a class="reference internal" href="working-with-devices.html#working-with-devices"><span class="std std-ref">Working with devices</span></a>.</p>
+<a class="reference internal" href="working-with-devices.html#deploy-infer-working-with-devices"><span class="std std-ref">Working with devices</span></a>.</p>
 <section id="checking-available-devices">
 <h4>Checking Available Devices<a class="headerlink" href="#checking-available-devices" title="Permalink to this headline">¶</a></h4>
 <p>To check what devices are present in the system, you can use Device API, as listed
 below. For information on how to use it, see
-<a class="reference internal" href="working-with-devices/query-device-properties.html#doxid-openvino-docs-o-v-u-g-query-api"><span class="std std-ref">Query device properties and configuration</span></a>.</p>
+<a class="reference internal" href="working-with-devices/query-device-properties.html#deploy-infer-query-device-properties"><span class="std std-ref">Query device properties and configuration</span></a>.</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ov::runtime::Core::get_available_devices<span class="o">()</span>

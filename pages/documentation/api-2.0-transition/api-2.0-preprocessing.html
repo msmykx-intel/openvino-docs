@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1857,7 +1852,7 @@
 <p><span class="target" id="doxid-openvino-2-0-preprocessing-1md-openvino-docs-ov-runtime-ug-migration-ov-2-0-preprocessing"></span> This guide introduces how preprocessing works in API 2.0 by a comparison with preprocessing in the previous Inference Engine API. It also demonstrates how to migrate preprocessing scenarios from Inference Engine to API 2.0 via code samples.</p>
 <section id="how-preprocessing-works-in-api-2-0">
 <h2>How Preprocessing Works in API 2.0<a class="headerlink" href="#how-preprocessing-works-in-api-2-0" title="Permalink to this headline">¶</a></h2>
-<p>Inference Engine API contains preprocessing capabilities in the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network"><span class="std std-ref"><span class="pre">InferenceEngine::CNNNetwork</span></span></a></code> class. Such preprocessing information is not a part of the main inference graph executed by <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices.html#working-with-devices"><span class="std std-ref">OpenVINO devices</span></a>. Therefore, it is stored and executed separately before the inference stage:</p>
+<p>Inference Engine API contains preprocessing capabilities in the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network"><span class="std std-ref"><span class="pre">InferenceEngine::CNNNetwork</span></span></a></code> class. Such preprocessing information is not a part of the main inference graph executed by <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices.html#deploy-infer-working-with-devices"><span class="std std-ref">OpenVINO devices</span></a>. Therefore, it is stored and executed separately before the inference stage:</p>
 <ul class="simple">
 <li><p>Preprocessing operations are executed on the CPU for most OpenVINO inference plugins. Thus, instead of occupying accelerators, they keep the CPU busy with computational tasks.</p></li>
 <li><p>Preprocessing information stored in <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1CNNNetwork.html#doxid-class-inference-engine-1-1-c-n-n-network"><span class="std std-ref"><span class="pre">InferenceEngine::CNNNetwork</span></span></a></code> is lost when saving back to the OpenVINO IR file format.</p></li>

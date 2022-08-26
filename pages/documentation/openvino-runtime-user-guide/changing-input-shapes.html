@@ -790,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -874,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1642,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1894,9 +1889,9 @@
             
                 <div>
                   
-  <span class="target" id="openvino-shape-inference"><span id="index-0"></span></span><section id="changing-input-shapes">
+  <span class="target" id="deploy-infer-shape-inference"><span id="index-0"></span></span><section id="changing-input-shapes">
 <h1>Changing Input Shapes<a class="headerlink" href="#changing-input-shapes" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="openvino-shape-inference-1md-openvino-docs-ov-runtime-ug-shapeinference"></span></p>
+<p><span class="target" id="deploy-infer-shape-inference-1md-openvino-docs-ov-runtime-ug-shapeinference"></span></p>
 <div id="switcher-cpp" class="switcher-anchor">C++</div><p>OpenVINO™ provides capabilities to change model input shape during the runtime. It may be useful when you want to feed model an input that has different size than model input shape. If you need to do this only once, prepare a model with updated shapes via Model Optimizer. See <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1when-to-specify-input-shapes"><span class="std std-ref">Specifying –input_shape Command-line Parameter</span></a> for more information. For all the other cases, follow the instructions below.</p>
 <section id="setting-a-new-input-shape-with-reshape-method">
 <h2>Setting a New Input Shape with Reshape Method<a class="headerlink" href="#setting-a-new-input-shape-with-reshape-method" title="Permalink to this headline">¶</a></h2>
@@ -1911,7 +1906,7 @@
 <a class="reference internal" href="../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga461856fdfb6d7533dc53355aec9e9fad"><span class="std std-ref">model</span></a><span></span><span class="o">-&gt;</span><span class="n">get_parameters</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">set_layout</span><span class="p">(</span><span class="s">&quot;N...&quot;</span><span class="p">);</span>
 <a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1a3314e2ff91fcc9ffec05b1a77c37862b"><span class="std std-ref">ov::set_batch</span></a><span></span><span class="p">(</span><a class="reference internal" href="../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga461856fdfb6d7533dc53355aec9e9fad"><span class="std std-ref">model</span></a><span></span><span class="p">,</span> <span class="n">new_batch</span><span class="p">);</span></pre></div></div><p>The <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1a3314e2ff91fcc9ffec05b1a77c37862b"><span class="std std-ref"><span class="pre">ov::set_batch</span></span></a></code> method is a high level API of the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model-1aa21aff80598d5089d591888a4c7f33ae"><span class="std std-ref"><span class="pre">ov::Model::reshape</span></span></a></code> functionality, so all information about the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model-1aa21aff80598d5089d591888a4c7f33ae"><span class="std std-ref"><span class="pre">ov::Model::reshape</span></span></a></code> method implications are applicable for <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1a3314e2ff91fcc9ffec05b1a77c37862b"><span class="std std-ref"><span class="pre">ov::set_batch</span></span></a></code> too, including the troubleshooting section.</p>
 <p>Once the input shape of <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> is set, call the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model</span></span></a></code> method to get an <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1CompiledModel.html#doxid-classov-1-1-compiled-model"><span class="std std-ref"><span class="pre">ov::CompiledModel</span></span></a></code> object for inference with updated shapes.</p>
-<p>There are other approaches to change model input shapes during the stage of <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1when-to-specify-input-shapes"><span class="std std-ref">IR generation</span></a> or <a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">ov::Model creation</span></a>.</p>
+<p>There are other approaches to change model input shapes during the stage of <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1when-to-specify-input-shapes"><span class="std std-ref">IR generation</span></a> or <a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">ov::Model creation</span></a>.</p>
 </section>
 <section id="dynamic-shape-notice">
 <h2>Dynamic Shape Notice<a class="headerlink" href="#dynamic-shape-notice" title="Permalink to this headline">¶</a></h2>
@@ -1978,7 +1973,7 @@
 </div>
 <p>The usage scenarios of the <code class="docutils literal notranslate"><span class="pre">reshape</span></code> feature can be found in <a class="reference internal" href="../../get-started-guide/samples.html#doxid-openvino-docs-o-v-u-g-samples-overview"><span class="std std-ref">OpenVINO Samples</span></a>, starting with the <a class="reference internal" href="../../get-started-guide/samples/cpp-sample-hello-reshape-ssd.html#doxid-openvino-inference-engine-samples-hello-reshape-ssd-r-e-a-d-m-e"><span class="std std-ref">Hello Reshape Sample</span></a>.</p>
 <p>In practice, some models are not ready to be reshaped. In such cases, a new input shape cannot be set with Model Optimizer or the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model-1aa21aff80598d5089d591888a4c7f33ae"><span class="std std-ref"><span class="pre">ov::Model::reshape</span></span></a></code> method.</p>
-<p><span class="target" id="openvino-shape-inference-1troubleshooting-reshape-errors"></span></p>
+<p><span class="target" id="deploy-infer-shape-inference-1troubleshooting-reshape-errors"></span></p>
 </section>
 <section id="troubleshooting-reshape-errors">
 <h2>Troubleshooting Reshape Errors<a class="headerlink" href="#troubleshooting-reshape-errors" title="Permalink to this headline">¶</a></h2>
@@ -1993,7 +1988,7 @@
 <li><p>The Global Pooling operation is commonly used to reduce output feature map of classification models output. Having the input of the shape [N, C, H, W], Global Pooling returns the output of the shape [N, C, 1, 1]. Model architects usually express Global Pooling with the help of the <code class="docutils literal notranslate"><span class="pre">Pooling</span></code> operation with the fixed kernel size [H, W]. During spatial reshape, having the input of the shape [N, C, H1, W1], Pooling with the fixed kernel size [H, W] returns the output of the shape [N, C, H2, W2], where H2 and W2 are commonly not equal to <code class="docutils literal notranslate"><span class="pre">1</span></code>. It breaks the classification model structure. For example, the publicly available <a class="reference external" href="https://github.com/tensorflow/models/tree/master/research/slim#pre-trained-models">Inception family models from TensorFlow</a> have this issue.</p></li>
 <li><p>Changing the model input shape may significantly affect its accuracy. For example, Object Detection models from TensorFlow have resizing restrictions by design. To keep the model valid after the reshape, choose a new input shape that satisfies conditions listed in the <code class="docutils literal notranslate"><span class="pre">pipeline.config</span></code> file. For details, refer to the <a class="reference internal" href="../converting-models-with-model-optimizer/convert-model-tutorials/converting-tensorflow-object-detection-api-model.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-tf-specific-convert-object-detection-a-p-i-models-1custom-input-shape"><span class="std std-ref">Tensorflow Object Detection API models resizing techniques</span></a>.</p></li>
 </ul>
-<p><span class="target" id="openvino-shape-inference-1how-to-fix-non-reshape-able-model"></span></p>
+<p><span class="target" id="deploy-infer-shape-inference-1how-to-fix-non-reshape-able-model"></span></p>
 </section>
 <section id="how-to-fix-non-reshape-able-model">
 <h2>How To Fix Non-Reshape-able Model<a class="headerlink" href="#how-to-fix-non-reshape-able-model" title="Permalink to this headline">¶</a></h2>
@@ -2036,7 +2031,7 @@
 </div>
 <p><a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.set_batch.html">set_batch</a> method is a high level API of <a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.Model.html#openvino.runtime.Model.reshape">Model.reshape</a> functionality, so all information about <a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.Model.html#openvino.runtime.Model.reshape">Model.reshape</a> method implications are applicable for <a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.set_batch.html">set_batch</a> too, including the troubleshooting section.</p>
 <p>Once the input shape of <a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.Model.html">Model</a> is set, call the <a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.compile_model.html">compile_model</a> method to get a <a class="reference external" href="api/ie_python_api/_autosummary/openvino.runtime.CompiledModel.html">CompiledModel</a> object for inference with updated shapes.</p>
-<p>There are other approaches to change model input shapes during the stage of <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1when-to-specify-input-shapes"><span class="std std-ref">IR generation</span></a> or <a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">Model creation</span></a>.</p>
+<p>There are other approaches to change model input shapes during the stage of <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1when-to-specify-input-shapes"><span class="std std-ref">IR generation</span></a> or <a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">Model creation</span></a>.</p>
 </section>
 <section id="id2">
 <h2>Dynamic Shape Notice<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>

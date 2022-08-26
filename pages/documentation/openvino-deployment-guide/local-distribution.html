@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1980,7 +1975,7 @@ because such files are needed only on a linker stage.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Automatic Device Selection relies on
-<a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices.html#working-with-devices"><span class="std std-ref">inference device plugins</span></a>.
+<a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices.html#deploy-infer-working-with-devices"><span class="std std-ref">inference device plugins</span></a>.
 If you are not sure about what inference devices are available on target system,
 put all the inference plugin libraries to the distribution. If
 <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1gae88af90a18871677f39739cb0ef0101e"><span class="std std-ref"><span class="pre">ov::device::priorities</span></span></a></code>
@@ -2040,7 +2035,7 @@ which do not require any additional libraries.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">openvino_onnx_frontend</span></code> is used to read source models.</p></li>
 </ul>
 <p><strong>Auto-Device Selection between HDDL and CPU</strong></p>
-<p>In this example, the application is written in C++, performs inference with the <a class="reference internal" href="../openvino-runtime-user-guide/automatic-device-selection.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o"><span class="std std-ref">Automatic Device Selection</span></a> mode, limiting device list to HDDL and CPU, and reads models <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">created using C++ code</span></a>. The following libraries are used:</p>
+<p>In this example, the application is written in C++, performs inference with the <a class="reference internal" href="../openvino-runtime-user-guide/automatic-device-selection.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o"><span class="std std-ref">Automatic Device Selection</span></a> mode, limiting device list to HDDL and CPU, and reads models <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">created using C++ code</span></a>. The following libraries are used:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">openvino</span></code> library is a main dependency of the application. It links against this library.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">openvino_auto_plugin</span></code> is used to enable Automatic Device Selection.</p></li>

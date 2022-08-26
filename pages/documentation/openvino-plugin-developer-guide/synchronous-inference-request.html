@@ -790,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -874,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1642,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1861,7 +1856,7 @@
 <p><span class="target" id="synchronous-inference-request-1md-openvino-docs-ie-plugin-dg-inferrequest"></span> <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> class functionality:</p>
 <ul class="simple">
 <li><p>Allocate input and output blobs needed for a backend-dependent network inference.</p></li>
-<li><p>Define functions for inference process stages (for example, <code class="docutils literal notranslate"><span class="pre">preprocess</span></code>, <code class="docutils literal notranslate"><span class="pre">upload</span></code>, <code class="docutils literal notranslate"><span class="pre">infer</span></code>, <code class="docutils literal notranslate"><span class="pre">download</span></code>, <code class="docutils literal notranslate"><span class="pre">postprocess</span></code>). These functions can later be used to define an execution pipeline during <a class="reference internal" href="asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous Inference Request</span></a> implementation.</p></li>
+<li><p>Define functions for inference process stages (for example, <code class="docutils literal notranslate"><span class="pre">preprocess</span></code>, <code class="docutils literal notranslate"><span class="pre">upload</span></code>, <code class="docutils literal notranslate"><span class="pre">infer</span></code>, <code class="docutils literal notranslate"><span class="pre">download</span></code>, <code class="docutils literal notranslate"><span class="pre">postprocess</span></code>). These functions can later be used to define an execution pipeline during <a class="reference internal" href="asynchronous-inference-request.html#extensibility-plugin-async-infer-req"><span class="std std-ref">Asynchronous Inference Request</span></a> implementation.</p></li>
 <li><p>Call inference stages one by one synchronously.</p></li>
 </ul>
 <section id="class">
@@ -2144,7 +2139,7 @@ A plugin uses these hints to determine its internal layouts and precisions for i
     <span class="n">perfMap</span><span class="p">[</span><span class="s">&quot;5. output postprocessing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">perfMap</span><span class="p">;</span>
 <span class="p">}</span></pre></div></div><p>The next step in the plugin library implementation is the
-<a class="reference internal" href="asynchronous-inference-request.html#doxid-openvino-docs-ie-plugin-dg-async-infer-request"><span class="std std-ref">Asynchronous Inference Request</span></a> class.</p>
+<a class="reference internal" href="asynchronous-inference-request.html#extensibility-plugin-async-infer-req"><span class="std std-ref">Asynchronous Inference Request</span></a> class.</p>
 </section>
 </section>
 </section>

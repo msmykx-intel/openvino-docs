@@ -791,11 +791,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -875,7 +870,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1643,7 +1638,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -2115,7 +2110,7 @@ performing the following (when <code class="docutils literal notranslate"><span 
 <li><p>Use the concatenated value as the second input to the <code class="docutils literal notranslate"><span class="pre">Reshape</span></code> operation.</p></li>
 </ol>
 <p>It is highly recommended to write shape-agnostic transformations to avoid model reshape-ability issues. For more information
-related to the reshaping of a model, refer to the <a class="reference internal" href="../openvino-runtime-user-guide/changing-input-shapes.html#openvino-shape-inference"><span class="std std-ref">Using Shape Inference</span></a>
+related to the reshaping of a model, refer to the <a class="reference internal" href="../openvino-runtime-user-guide/changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Using Shape Inference</span></a>
 guide.</p>
 <p>More information on how to develop front phase transformations and dedicated API description is provided in the
 <a class="reference external" href="#front-phase-transformations">Front Phase Transformations</a> section.</p>
@@ -2132,7 +2127,7 @@ may be defined as a mathematical expression using the <a class="reference intern
 <p>Model Optimizer does not fold sub-graphs starting from the <a class="reference internal" href="../../resources/openvino-ir-and-operation-sets/openvino-operation-specifications/shape/openvino_docs_ops_shape_ShapeOf_3.html#doxid-openvino-docs-ops-shape-shape-of-3"><span class="std std-ref">ShapeOf</span></a> operation
 by default because this leads to a model non-reshape-ability (the command-line parameter <code class="docutils literal notranslate"><span class="pre">--static_shape</span></code> can override this
 behavior). For more information related to reshaping of a model, refer to the
-<a class="reference internal" href="../openvino-runtime-user-guide/changing-input-shapes.html#openvino-shape-inference"><span class="std std-ref">Using Shape Inference</span></a> guide.</p>
+<a class="reference internal" href="../openvino-runtime-user-guide/changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Using Shape Inference</span></a> guide.</p>
 </div>
 <p>Model Optimizer calculates output shapes for all operations in a model to write them to Intermediate Representation files.</p>
 <div class="admonition note">
@@ -2413,7 +2408,7 @@ Graph manipulations are performed with graph <code class="docutils literal notra
 <li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> — unique identifier of a node in a graph. Generated automatically, equal to the number of nodes in the graph plus 1 if not specified. <strong>Mandatory</strong>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> — name of the operation. Generated automatically, equal to the <code class="docutils literal notranslate"><span class="pre">id</span></code> if not specified. <strong>Mandatory</strong>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> — type of the operation according to the <a class="reference internal" href="../../resources/openvino-ir-and-operation-sets/openvino-operation-sets.html#doxid-openvino-docs-ops-opset"><span class="std std-ref">opset specification</span></a>. For the internal Model Optimizer operations, this attribute should be set to <code class="docutils literal notranslate"><span class="pre">None</span></code>. The model conversion fails if an operation with <code class="docutils literal notranslate"><span class="pre">type</span></code> equal to <code class="docutils literal notranslate"><span class="pre">None</span></code> comes to the IR emitting phase. <strong>Mandatory</strong>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code> — the operation set (opset) name the operation belongs to. If not specified, Model Optimizer sets it equal to <code class="docutils literal notranslate"><span class="pre">experimental</span></code>. For more information about operation sets, refer to <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">OpenVINO Model Representation</span></a> section. <strong>Mandatory</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code> — the operation set (opset) name the operation belongs to. If not specified, Model Optimizer sets it equal to <code class="docutils literal notranslate"><span class="pre">experimental</span></code>. For more information about operation sets, refer to <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">OpenVINO Model Representation</span></a> section. <strong>Mandatory</strong>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">op</span></code> — Model Optimizer type of the operation. In many cases, the value of <code class="docutils literal notranslate"><span class="pre">type</span></code> is equal to the value of <code class="docutils literal notranslate"><span class="pre">op</span></code>. However, when Model Optimizer cannot instantiate the opset operation during model loading, it creates an instance of an internal operation. Thus, the attribute <code class="docutils literal notranslate"><span class="pre">op</span></code> is used as a type of this internal operation. Later in the pipeline, the node created from an internal operation will be replaced during front, middle or back phase with node(s) created from the opset.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">infer</span></code> — the attribute defines a function calculating output tensor(s) shape and optional value(s). The attribute may be set to <code class="docutils literal notranslate"><span class="pre">None</span></code> for the internal Model Optimizer operations used during the front phase only. For more information about the shape inference function, refer to the <a class="reference external" href="#partial-inference">Partial Inference</a> section.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">type_infer</span></code> — the attribute defines a function calculating output tensor(s) data type. If the attribute is not defined, the default function is used. The function checks if the <code class="docutils literal notranslate"><span class="pre">data_type</span></code> node attribute is set and then propagates this type to the output tensor from the “port 0”. Otherwise, it propagates the data type of the tensor coming into the input “port 0” to the output tensor from the “port 0”.</p></li>
@@ -3070,7 +3065,7 @@ as <a class="reference external" href="#generic-middle-phase-transformations">Ge
 <ul class="simple">
 <li><p><a class="reference internal" href="../../resources/openvino-ir-and-operation-sets.html#doxid-openvino-docs-m-o-d-g-i-r-and-opsets"><span class="std std-ref">Deep Learning Network Intermediate Representation and Operation Sets in OpenVINO™</span></a></p></li>
 <li><p><a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">Converting a Model to Intermediate Representation (IR)</span></a></p></li>
-<li><p><a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">OpenVINO Model Representation</span></a></p></li>
+<li><p><a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">OpenVINO Model Representation</span></a></p></li>
 <li><p><a class="reference internal" href="../openvino-extensibility-mechanism.html#extensibility-api-introduction"><span class="std std-ref">OpenVINO™ Extensibility Mechanism</span></a></p></li>
 <li><p><a class="reference internal" href="model_optimizer_extensibility/extending-model-optimizer-with-caffe-python-layers.html#extending-model-optimizer-caffe-python-layers"><span class="std std-ref">Extending Model Optimizer with Caffe Python Layers</span></a></p></li>
 </ul>

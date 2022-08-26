@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1930,7 +1925,7 @@
 </section>
 <section id="examples-of-networks-with-states">
 <h2>Examples of Networks with States<a class="headerlink" href="#examples-of-networks-with-states" title="Permalink to this headline">¶</a></h2>
-<p>To get a model with states ready for inference, convert a model from another framework to IR with Model Optimizer or create an nGraph function. (For more information, refer to the <a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">Build OpenVINO Model section</span></a>). Below is the graph in both forms:</p>
+<p>To get a model with states ready for inference, convert a model from another framework to IR with Model Optimizer or create an nGraph function. (For more information, refer to the <a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">Build OpenVINO Model section</span></a>). Below is the graph in both forms:</p>
 <img alt="../../../_images/state_network_example.png" src="../../../_images/state_network_example.png" />
 <section id="example-of-ir-with-state">
 <h3>Example of IR with State<a class="headerlink" href="#example-of-ir-with-state" title="Permalink to this headline">¶</a></h3>
@@ -2164,11 +2159,11 @@
 <ol class="arabic simple">
 <li><p>Get CNNNetwork. Either way is acceptable:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="openvino-runtime-integrate-application.html#openvino-integrate-application"><span class="std std-ref">from IR or ONNX model</span></a></p></li>
-<li><p><a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">from ov::Model</span></a></p></li>
+<li><p><a class="reference internal" href="openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">from IR or ONNX model</span></a></p></li>
+<li><p><a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">from ov::Model</span></a></p></li>
 </ul>
 </li>
-<li><p>Change the number of iterations inside <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> / <code class="docutils literal notranslate"><span class="pre">Loop</span></code> nodes in the network, using the <a class="reference internal" href="changing-input-shapes.html#openvino-shape-inference"><span class="std std-ref">Reshape</span></a> feature.</p></li>
+<li><p>Change the number of iterations inside <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> / <code class="docutils literal notranslate"><span class="pre">Loop</span></code> nodes in the network, using the <a class="reference internal" href="changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Reshape</span></a> feature.</p></li>
 </ol>
 <p>For example, when the <code class="docutils literal notranslate"><span class="pre">sequence_lengths</span></code> dimension of input of the network &gt; 1, the <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> layer has <code class="docutils literal notranslate"><span class="pre">number_iterations</span></code>&gt; 1. You can reshape the inputs of the network to set <code class="docutils literal notranslate"><span class="pre">sequence_dimension</span></code> to 1.</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// Network before reshape: Parameter (name: X, shape: [2 (sequence_lengths), 1, 16]) -&gt; TensorIterator (num_iteration = 2, axis = 0) -&gt; ...</span>
@@ -2216,7 +2211,7 @@
 <section id="known-limitations">
 <h3>Known Limitations<a class="headerlink" href="#known-limitations" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
-<li><p>Unable to execute the <a class="reference internal" href="changing-input-shapes.html#openvino-shape-inference"><span class="std std-ref">Reshape</span></a> feature to change the number iterations of <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> / <code class="docutils literal notranslate"><span class="pre">Loop</span></code> layers to apply the transformation correctly.</p>
+<li><p>Unable to execute the <a class="reference internal" href="changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Reshape</span></a> feature to change the number iterations of <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> / <code class="docutils literal notranslate"><span class="pre">Loop</span></code> layers to apply the transformation correctly.</p>
 <p>The only way to change the number iterations of <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> / <code class="docutils literal notranslate"><span class="pre">Loop</span></code> layer is to use the <code class="docutils literal notranslate"><span class="pre">Reshape</span></code> feature. However, networks can be non-reshapable. The most common reason is that the value of shapes is hardcoded in a constant somewhere in the network.</p>
 </li>
 </ol>
@@ -2249,11 +2244,11 @@
 <ol class="arabic simple">
 <li><p>Get CNNNetwork. Either way is acceptable:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="openvino-runtime-integrate-application.html#openvino-integrate-application"><span class="std std-ref">from IR or ONNX model</span></a></p></li>
-<li><p><a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">from ov::Model</span></a></p></li>
+<li><p><a class="reference internal" href="openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">from IR or ONNX model</span></a></p></li>
+<li><p><a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">from ov::Model</span></a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="changing-input-shapes.html#openvino-shape-inference"><span class="std std-ref">Reshape</span></a> the CNNNetwork network if necessary. An example of such a <strong>necessary case</strong> is when the <code class="docutils literal notranslate"><span class="pre">sequence_lengths</span></code> dimension of input &gt; 1, and it means that <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> layer will have <code class="docutils literal notranslate"><span class="pre">number_iterations</span></code>&gt; 1. The inputs of the network should be reshaped to set <code class="docutils literal notranslate"><span class="pre">sequence_dimension</span></code> to exactly 1.</p></li>
+<li><p><a class="reference internal" href="changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Reshape</span></a> the CNNNetwork network if necessary. An example of such a <strong>necessary case</strong> is when the <code class="docutils literal notranslate"><span class="pre">sequence_lengths</span></code> dimension of input &gt; 1, and it means that <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code> layer will have <code class="docutils literal notranslate"><span class="pre">number_iterations</span></code>&gt; 1. The inputs of the network should be reshaped to set <code class="docutils literal notranslate"><span class="pre">sequence_dimension</span></code> to exactly 1.</p></li>
 </ol>
 <p>Usually, the following exception, which occurs after applying a transform when trying to infer the network in a plugin, indicates the need to apply the reshape feature: <code class="docutils literal notranslate"><span class="pre">C++</span> <span class="pre">exception</span> <span class="pre">with</span> <span class="pre">description</span> <span class="pre">&quot;Function</span> <span class="pre">is</span> <span class="pre">incorrect.</span> <span class="pre">The</span> <span class="pre">Assign</span> <span class="pre">and</span> <span class="pre">ReadValue</span> <span class="pre">operations</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">in</span> <span class="pre">pairs</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">network.&quot;</span></code> This means that there are several pairs of <code class="docutils literal notranslate"><span class="pre">Assign</span></code> / <code class="docutils literal notranslate"><span class="pre">ReadValue</span></code> operations with the same <code class="docutils literal notranslate"><span class="pre">variable_id</span></code> in the network and operations were inserted into each iteration of the <code class="docutils literal notranslate"><span class="pre">TensorIterator</span></code>.</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// Network before reshape: Parameter (name: X, shape: [2 (sequence_lengths), 1, 16]) -&gt; TensorIterator (num_iteration = 2, axis = 0) -&gt; ...</span>

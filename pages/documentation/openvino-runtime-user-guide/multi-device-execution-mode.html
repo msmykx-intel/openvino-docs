@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1913,7 +1908,7 @@
 </tbody>
 </table>
 <p>Specifying the device list explicitly is required by MULTI, as it defines the devices available for inference and sets their priorities. Importantly, the list may also specify the number of requests for MULTI to keep for each device, as described below.</p>
-<p>Note that OpenVINO™ Runtime enables you to use “GPU” as an alias for “GPU.0” in function calls. More details on enumerating devices can be found in <a class="reference internal" href="working-with-devices.html#working-with-devices"><span class="std std-ref">Working with devices</span></a>.</p>
+<p>Note that OpenVINO™ Runtime enables you to use “GPU” as an alias for “GPU.0” in function calls. More details on enumerating devices can be found in <a class="reference internal" href="working-with-devices.html#deploy-infer-working-with-devices"><span class="std std-ref">Working with devices</span></a>.</p>
 <p>The following commands are accepted by the API:</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
@@ -2016,7 +2011,7 @@
 </div>
 </div>
 <p>One more thing you can define is the <strong>number of requests to allocate for each device</strong>. You can do it simply by adding the number to each device in parentheses, like this: <code class="docutils literal notranslate"><span class="pre">&quot;MULTI:CPU(2),GPU(2)&quot;</span></code>. However, this method is not recommended as it is not performance-portable. The suggested approach is to configure individual devices and query the resulting number of requests to be used at the application level, as described in <a class="reference external" href="#configuring-the-individual-devices-and-creating-the-multi-device-on-top">Configuring Individual Devices and Creating MULTI On Top</a>.</p>
-<p>To check what devices are present in the system, you can use the Device API. For information on how to do it, check <a class="reference internal" href="working-with-devices/query-device-properties.html#doxid-openvino-docs-o-v-u-g-query-api"><span class="std std-ref">Query device properties and configuration</span></a>.</p>
+<p>To check what devices are present in the system, you can use the Device API. For information on how to do it, check <a class="reference internal" href="working-with-devices/query-device-properties.html#deploy-infer-query-device-properties"><span class="std std-ref">Query device properties and configuration</span></a>.</p>
 <section id="configuring-individual-devices-and-creating-the-multi-device-on-top">
 <h3>Configuring Individual Devices and Creating the Multi-Device On Top<a class="headerlink" href="#configuring-individual-devices-and-creating-the-multi-device-on-top" title="Permalink to this headline">¶</a></h3>
 <p>As mentioned previously, executing inference with MULTI may be set up by configuring individual devices before creating the “MULTI” device on top. It may be considered for performance reasons.</p>
@@ -2063,7 +2058,7 @@
 </section>
 <section id="querying-the-optimal-number-of-inference-requests">
 <h3>Querying the Optimal Number of Inference Requests<a class="headerlink" href="#querying-the-optimal-number-of-inference-requests" title="Permalink to this headline">¶</a></h3>
-<p>When using MULTI, you don’t need to sum over included devices yourself, you can query the optimal number of requests directly, using the <a class="reference internal" href="working-with-devices/query-device-properties.html#doxid-openvino-docs-o-v-u-g-query-api"><span class="std std-ref">configure devices</span></a> property:</p>
+<p>When using MULTI, you don’t need to sum over included devices yourself, you can query the optimal number of requests directly, using the <a class="reference internal" href="working-with-devices/query-device-properties.html#deploy-infer-query-device-properties"><span class="std std-ref">configure devices</span></a> property:</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ov</span><span class="o">::</span><span class="n">Core</span> <span class="n">core</span><span class="p">;</span>

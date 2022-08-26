@@ -790,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -874,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1642,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1872,7 +1867,7 @@ is inherently synchronous and executes immediately (effectively serializing the
 execution flow in the current application thread), the Async “splits” the
 <code class="docutils literal notranslate"><span class="pre">infer()</span></code> into <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request-1a5a05ae4352f804c865e11f5d68b983d5"><span class="std std-ref"><span class="pre">ov::InferRequest::start_async()</span></span></a></code>
 and <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request-1ab0e0739da45789d816f8b5584a0b5691"><span class="std std-ref"><span class="pre">ov::InferRequest::wait()</span></span></a></code>.
-For more information, see the <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/inference-request.html#openvino-inference-request"><span class="std std-ref">API examples</span></a>.</p>
+For more information, see the <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/inference-request.html#deploy-infer-inference-request"><span class="std std-ref">API examples</span></a>.</p>
 <p>A typical use case for the
 <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request-1abcb7facc9f7c4b9226a1fd343e56958d"><span class="std std-ref"><span class="pre">ov::InferRequest::infer()</span></span></a></code>
 is running a dedicated application thread per source of inputs (e.g. a camera),
@@ -1982,7 +1977,7 @@ the <code class="docutils literal notranslate"><span class="pre">set_tensor</spa
 zero-copy way to proceed. For more details, see the
 <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/inference-device-gpu/remote-tensor-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-remote-tensor-a-p-i"><span class="std std-ref">GPU device Remote tensors API</span></a>.</p></li>
 </ul>
-<p>Consider the <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/inference-request.html#openvino-inference-request-1in-out-tensors"><span class="std std-ref">API examples</span></a>
+<p>Consider the <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/inference-request.html#deploy-infer-inference-request-1in-out-tensors"><span class="std std-ref">API examples</span></a>
 for the <code class="docutils literal notranslate"><span class="pre">get_tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">set_tensor</span></code>.</p>
 </section>
 </section>

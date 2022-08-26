@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1828,7 +1823,7 @@
   <section id="configuring-devices">
 <span id="doxid-openvino-2-0-configure-devices"></span><span id="index-0"></span><h1>Configuring Devices<a class="headerlink" href="#configuring-devices" title="Permalink to this headline">¶</a></h1>
 <p><span class="target" id="doxid-openvino-2-0-configure-devices-1md-openvino-docs-ov-runtime-ug-migration-ov-2-0-configure-devices"></span> Inference Engine API provides the <a class="reference external" href="https://docs.openvino.ai/2021.4/openvino_docs_IE_DG_InferenceEngine_QueryAPI.html">ability to configure devices</a> via configuration keys and <a class="reference external" href="https://docs.openvino.ai/2021.4/openvino_docs_IE_DG_InferenceEngine_QueryAPI.html#getmetric">get device specific metrics</a>. The values taken from <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1Core.html#doxid-class-inference-engine-1-1-core-1a415077386694f95b57e4cccb0d334a55"><span class="std std-ref"><span class="pre">InferenceEngine::Core::GetConfig</span></span></a></code> are requested by the string name, while the return type is <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1aff2231f886c9f8fc9c226fd343026789"><span class="std std-ref"><span class="pre">InferenceEngine::Parameter</span></span></a></code>, making users lost on what the actual type is stored in this parameter.</p>
-<p>API 2.0 solves these issues by introducing <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html#doxid-openvino-docs-o-v-u-g-query-api"><span class="std std-ref">properties</span></a>, which unify metrics and configuration key concepts. The main advantage is that they have the C++ type:</p>
+<p>API 2.0 solves these issues by introducing <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html#deploy-infer-query-device-properties"><span class="std std-ref">properties</span></a>, which unify metrics and configuration key concepts. The main advantage is that they have the C++ type:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">constexpr</span> <span class="n">Property</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">full_name</span><span class="p">{</span><span class="s">&quot;FULL_DEVICE_NAME&quot;</span><span class="p">};</span></pre></div></div><p>where the property can be requested from an inference device as:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// &#39;auto&#39; is automatically deduced as std::string</span>
 <span class="c1">// since the type is stored in the property</span>

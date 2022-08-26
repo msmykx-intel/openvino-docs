@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information about Asynchronous Inference Request functionality." name="description" />
+<meta content="Asynchronous Inference Request, inference pipeline, pipeline structure, OpenVINO Runtime Plugin API, task executors" name="keywords" />
 
     <title>Asynchronous Inference Request &#8212; OpenVINO™  documentation</title>
     
@@ -75,7 +77,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Build Plugin Using CMake*" href="building-custom-plugins-with-cmake.html" />
+    <link rel="next" title="Build Plugin Using CMake" href="building-custom-plugins-with-cmake.html" />
     <link rel="prev" title="Synchronous Inference Request" href="synchronous-inference-request.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
@@ -788,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1827,9 +1824,12 @@
             
                 <div>
                   
-  <section id="asynchronous-inference-request">
-<span id="doxid-openvino-docs-ie-plugin-dg-async-infer-request"></span><span id="index-0"></span><h1>Asynchronous Inference Request<a class="headerlink" href="#asynchronous-inference-request" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-async-infer-request-1md-openvino-docs-ie-plugin-dg-asyncinferrequest"></span> Asynchronous Inference Request runs an inference pipeline asynchronously in one or several task executors depending on a device pipeline structure. OpenVINO Runtime Plugin API provides the base <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a> class:</p>
+  <span class="target" id="extensibility-plugin-async-infer-req"><span id="index-0"></span></span><section id="asynchronous-inference-request">
+<h1>Asynchronous Inference Request<a class="headerlink" href="#asynchronous-inference-request" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extensibility-plugin-async-infer-req-1md-openvino-docs-ie-plugin-dg-asyncinferrequest"></span> Asynchronous Inference Request
+runs an inference pipeline asynchronously in one or several task executors depending on a device pipeline structure.
+OpenVINO Runtime Plugin API provides the base
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a> class:</p>
 <ul class="simple">
 <li><p>The class has the <code class="docutils literal notranslate"><span class="pre">_pipeline</span></code> field of <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::pair&lt;ITaskExecutor::Ptr,</span> <span class="pre">Task&gt;</span> <span class="pre">&gt;</span></code>, which contains pairs of an executor and executed task.</p></li>
 <li><p>All executors are passed as arguments to a class constructor and they are in the running state and ready to run tasks.</p></li>
@@ -1837,7 +1837,9 @@
 </ul>
 <section id="class">
 <h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
-<p>OpenVINO Runtime Plugin API provides the base <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a> class for a custom asynchronous inference request implementation:</p>
+<p>OpenVINO Runtime Plugin API provides the base
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a>
+class for a custom asynchronous inference request implementation:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nl">TemplateAsyncInferRequest</span> <span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a><span></span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">TemplateAsyncInferRequest</span><span class="p">(</span><span class="k">const</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">Ptr</span><span class="o">&amp;</span> <span class="n">inferRequest</span><span class="p">,</span>
@@ -1858,9 +1860,11 @@
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If a plugin can work with several instances of a device, <code class="docutils literal notranslate"><span class="pre">_waitExecutor</span></code> must be device-specific. Otherwise, having a single task executor for several devices does not allow them to work in parallel.</p>
+<p>If a plugin can work with several instances of a device, <code class="docutils literal notranslate"><span class="pre">_waitExecutor</span></code> must be device-specific. Otherwise,
+having a single task executor for several devices does not allow them to work in parallel.</p>
 </div>
-<p>The main goal of the <code class="docutils literal notranslate"><span class="pre">AsyncInferRequest</span></code> constructor is to define a device pipeline <code class="docutils literal notranslate"><span class="pre">_pipeline</span></code>. The example below demonstrates <code class="docutils literal notranslate"><span class="pre">_pipeline</span></code> creation with the following stages:</p>
+<p>The main goal of the <code class="docutils literal notranslate"><span class="pre">AsyncInferRequest</span></code> constructor is to define a device pipeline <code class="docutils literal notranslate"><span class="pre">_pipeline</span></code>. The example below
+demonstrates <code class="docutils literal notranslate"><span class="pre">_pipeline</span></code> creation with the following stages:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">inferPreprocess</span></code> is a CPU compute task.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">startPipeline</span></code> is a CPU ligthweight task to submit tasks to a remote device.</p></li>
@@ -1907,10 +1911,14 @@
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">callbackExecutor</span></code> is also passed to the constructor and it is used in the base <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a> class, which adds a pair of <code class="docutils literal notranslate"><span class="pre">callbackExecutor</span></code> and a callback function set by the user to the end of the pipeline.</p>
+<p><code class="docutils literal notranslate"><span class="pre">callbackExecutor</span></code> is also passed to the constructor and it is used in the base
+<a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a>
+class, which adds a pair of <code class="docutils literal notranslate"><span class="pre">callbackExecutor</span></code> and a callback function set by the user to the end of the pipeline.</p>
 </div>
-<p>Inference request stages are also profiled using IE_PROFILING_AUTO_SCOPE, which shows how pipelines of multiple asynchronous inference requests are run in parallel via the <a class="reference external" href="https://software.intel.com/en-us/vtune">Intel® VTune™ Profiler</a> tool.</p>
-<p>In the asynchronous request destructor, it is necessary to wait for a pipeline to finish. It can be done using the <span class="xref std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault::StopAndWait</span> method of the base class.</p>
+<p>Inference request stages are also profiled using IE_PROFILING_AUTO_SCOPE, which shows how pipelines of multiple asynchronous
+inference requests are run in parallel via the <a class="reference external" href="https://software.intel.com/en-us/vtune">Intel® VTune™ Profiler</a> tool.</p>
+<p>In the asynchronous request destructor, it is necessary to wait for a pipeline to finish. It can be done using
+the <span class="xref std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault::StopAndWait</span> method of the base class.</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">TemplateAsyncInferRequest</span><span class="o">::~</span><span class="n">TemplateAsyncInferRequest</span><span class="p">()</span> <span class="p">{</span>
     InferenceEngine::AsyncInferRequestThreadSafeDefault::StopAndWait<span></span><span class="p">();</span>
 <span class="p">}</span></pre></div></div></section>

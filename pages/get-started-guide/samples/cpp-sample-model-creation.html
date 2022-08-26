@@ -663,7 +663,7 @@
                   
   <section id="model-creation-c-sample">
 <span id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e"></span><span id="index-0"></span><h1>Model Creation C++ Sample<a class="headerlink" href="#model-creation-c-sample" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e-1md-openvino-samples-cpp-model-creation-sample-readme"></span> This sample demonstrates how to execute an synchronous inference using <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">model</span></a> built on the fly which uses weights from LeNet classification model, which is known to work well on digit classification tasks.</p>
+<p><span class="target" id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e-1md-openvino-samples-cpp-model-creation-sample-readme"></span> This sample demonstrates how to execute an synchronous inference using <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">model</span></a> built on the fly which uses weights from LeNet classification model, which is known to work well on digit classification tasks.</p>
 <p>You do not need an XML file to create a model. The API of <a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref">ov::Model</span></a> allows creating a model on the fly from the source code.</p>
 <p>The following C++ API is used in the application:</p>
 <table class="table">
@@ -739,11 +739,11 @@
 <p>At startup, the sample application does the following:</p>
 <ul class="simple">
 <li><p>Reads command line parameters</p></li>
-<li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">Build a Model</span></a> and passed weights file</p></li>
+<li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">Build a Model</span></a> and passed weights file</p></li>
 <li><p>Loads the model and input data to the OpenVINO™ Runtime plugin</p></li>
 <li><p>Performs synchronous inference and processes output data, logging each step in a standard output stream</p></li>
 </ul>
-<p>You can see the explicit description of each sample step at <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application.html#openvino-integrate-application"><span class="std std-ref">Integration Steps</span></a> section of “Integrate OpenVINO™ Runtime with Your Application” guide.</p>
+<p>You can see the explicit description of each sample step at <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">Integration Steps</span></a> section of “Integrate OpenVINO™ Runtime with Your Application” guide.</p>
 </section>
 <section id="building">
 <h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
@@ -880,7 +880,7 @@
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application.html#openvino-integrate-application"><span class="std std-ref">Integrate the OpenVINO™ Runtime with Your Application</span></a></p></li>
+<li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">Integrate the OpenVINO™ Runtime with Your Application</span></a></p></li>
 <li><p><a class="reference internal" href="../samples.html#doxid-openvino-docs-o-v-u-g-samples-overview"><span class="std std-ref">Using OpenVINO™ Toolkit Samples</span></a></p></li>
 <li><p><a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Model Optimizer</span></a></p></li>
 </ul>

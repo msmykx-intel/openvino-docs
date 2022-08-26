@@ -790,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -874,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1642,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1869,9 +1864,9 @@
             
                 <div>
                   
-  <span class="target" id="openvino-integrate-application"><span id="index-0"></span></span><section id="integrate-openvino-with-your-application">
+  <span class="target" id="deploy-infer-integrate-application"><span id="index-0"></span></span><section id="integrate-openvino-with-your-application">
 <h1>Integrate OpenVINO™ with Your Application<a class="headerlink" href="#integrate-openvino-with-your-application" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="openvino-integrate-application-1md-openvino-docs-ov-runtime-ug-integrate-with-your-application"></span></p>
+<p><span class="target" id="deploy-infer-integrate-application-1md-openvino-docs-ov-runtime-ug-integrate-with-your-application"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>Following these steps, you can implement a typical OpenVINO™ Runtime inference
@@ -1950,16 +1945,16 @@ This approach is aligned with the majority of frameworks.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> object represents any models
 inside the OpenVINO™ Runtime. For more details please read article about
-<a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#openvino-model-representation"><span class="std std-ref">OpenVINO™ Model representation</span></a>.</p>
+<a class="reference internal" href="openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">OpenVINO™ Model representation</span></a>.</p>
 <p>The code above creates a compiled model associated with a single hardware
 device from the model object. It is possible to create as many compiled
 models as needed and use them simultaneously (up to the limitation of the
 hardware resources). To learn how to change the device configuration, read the
-<a class="reference internal" href="working-with-devices/query-device-properties.html#doxid-openvino-docs-o-v-u-g-query-api"><span class="std std-ref">Query device properties</span></a> article.</p>
+<a class="reference internal" href="working-with-devices/query-device-properties.html#deploy-infer-query-device-properties"><span class="std std-ref">Query device properties</span></a> article.</p>
 </section>
 <section id="step-3-create-an-inference-request">
 <h2>Step 3. Create an Inference Request<a class="headerlink" href="#step-3-create-an-inference-request" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request"><span class="std std-ref"><span class="pre">ov::InferRequest</span></span></a></code> class provides methods for model inference in OpenVINO™ Runtime. Create an infer request using the following code (see <a class="reference internal" href="openvino-runtime-integrate-application/inference-request.html#openvino-inference-request"><span class="std std-ref">InferRequest detailed documentation</span></a> for more details):</p>
+<p><code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request"><span class="std std-ref"><span class="pre">ov::InferRequest</span></span></a></code> class provides methods for model inference in OpenVINO™ Runtime. Create an infer request using the following code (see <a class="reference internal" href="openvino-runtime-integrate-application/inference-request.html#deploy-infer-inference-request"><span class="std std-ref">InferRequest detailed documentation</span></a> for more details):</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request"><span class="std std-ref">ov::InferRequest</span></a><span></span> <span class="n">infer_request</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">.</span><a class="reference internal" href="../../../api/groups/classov_1_1CompiledModel.html#doxid-classov-1-1-compiled-model-1ae3633c0eb5173ed776446fba32b95953"><span class="std std-ref">create_infer_request</span></a><span></span><span class="p">();</span></pre></div></div></div>
@@ -2007,7 +2002,7 @@ to wait for the inference results:</p>
 </div>
 <p>This section demonstrates a simple pipeline. To get more information about
 other ways to perform inference, read the “Run inference” section in dedicated
-<a class="reference internal" href="openvino-runtime-integrate-application/inference-request.html#openvino-inference-request"><span class="std std-ref">OpenVINO™ Inference Request</span></a> article.</p>
+<a class="reference internal" href="openvino-runtime-integrate-application/inference-request.html#deploy-infer-inference-request"><span class="std std-ref">OpenVINO™ Inference Request</span></a> article.</p>
 </section>
 <section id="step-6-process-the-inference-results">
 <h2>Step 6. Process the Inference Results<a class="headerlink" href="#step-6-process-the-inference-results" title="Permalink to this headline">¶</a></h2>

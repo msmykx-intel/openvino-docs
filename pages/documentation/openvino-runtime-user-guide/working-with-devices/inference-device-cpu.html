@@ -76,7 +76,7 @@
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="GPU Device" href="inference-device-gpu.html" />
-    <link rel="prev" title="Query Device Properties - Configuration" href="query-device-properties.html" />
+    <link rel="prev" title="Query Device Properties" href="query-device-properties.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul class="current">
      <li class="toctree-l3">
       <a class="reference internal" href="query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3 current active">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -2005,7 +2000,7 @@ For more details about the <code class="docutils literal notranslate"><span clas
 <li><p>Reduced memory consumption since <code class="docutils literal notranslate"><span class="pre">bfloat16</span></code> data half the size of 32-bit float.</p></li>
 </ul>
 <p>To check if the CPU device can support the <code class="docutils literal notranslate"><span class="pre">bfloat16</span></code> data type, use the
-<a class="reference internal" href="query-device-properties.html#doxid-openvino-docs-o-v-u-g-query-api"><span class="std std-ref">query device properties interface</span></a> to query
+<a class="reference internal" href="query-device-properties.html#deploy-infer-query-device-properties"><span class="std std-ref">query device properties interface</span></a> to query
 <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1gadb13d62787fc4485733329f044987294"><span class="std std-ref"><span class="pre">ov::device::capabilities</span></span></a></code>
 property, which should contain <code class="docutils literal notranslate"><span class="pre">BF16</span></code> in the list of CPU capabilities:</p>
 <div class="tab-set docutils">

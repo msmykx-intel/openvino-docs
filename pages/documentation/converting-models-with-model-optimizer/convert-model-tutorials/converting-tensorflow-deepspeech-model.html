@@ -788,11 +788,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +867,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1635,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../../openvino-plugin-developer-guide/building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2">
@@ -1860,7 +1855,7 @@
 <span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="p">.</span></pre></div></div><p>Freeze the model with the following command:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">DeepSpeech</span><span class="p">.</span><span class="n">py</span> <span class="o">--</span><span class="n">checkpoint_dir</span> <span class="p">..</span><span class="o">/</span><span class="n">deepspeech</span><span class="o">-</span><span class="mf">0.8.2</span><span class="o">-</span><span class="n">checkpoint</span> <span class="o">--</span><span class="n">export_dir</span> <span class="p">..</span><span class="o">/</span></pre></div></div><p>After that, you will get the pretrained frozen model file <code class="docutils literal notranslate"><span class="pre">output_graph.pb</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">deepspeech</span></code> created at the beginning. The model contains the preprocessing and main parts. The first preprocessing part performs conversion of input spectrogram into a form useful for speech recognition (mel). This part of the model is not convertible into the IR because it contains unsupported operations <code class="docutils literal notranslate"><span class="pre">AudioSpectrogram</span></code> and <code class="docutils literal notranslate"><span class="pre">Mfcc</span></code>.</p>
 <p>The main and most computationally expensive part of the model converts the preprocessed audio into text. There are two specificities with the supported part of the model.</p>
-<p>The first is that the model contains an input with sequence length. So the model can be converted with a fixed input length shape, thus the model is not reshapable. Refer to the <a class="reference internal" href="../../openvino-runtime-user-guide/changing-input-shapes.html#openvino-shape-inference"><span class="std std-ref">Using Shape Inference</span></a> guide.</p>
+<p>The first is that the model contains an input with sequence length. So the model can be converted with a fixed input length shape, thus the model is not reshapable. Refer to the <a class="reference internal" href="../../openvino-runtime-user-guide/changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Using Shape Inference</span></a> guide.</p>
 <p>The second is that the frozen model still has two variables: <code class="docutils literal notranslate"><span class="pre">previous_state_c</span></code> and <code class="docutils literal notranslate"><span class="pre">previous_state_h</span></code>, figure with the frozen *.pb model is below. It means that the model keeps training these variables at each inference.</p>
 <img alt="DeepSpeech model view" src="../../../../_images/DeepSpeech-0.8.2.png" />
 <p>At the first inference, the variables are initialized with zero tensors. After execution, the results of the BlockLSTM are assigned to cell state and hidden state, which are these two variables.</p>

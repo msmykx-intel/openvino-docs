@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Inference Engine tests infrastructure, which provides a predefined set of functional tests and utilities. They are used to verify a plugin using the Inference Engine public API." name="description" />
+<meta content="Inference Engine tests, test infrastructure, Inference Engine Plugin, tests class declaration, tests class implementation, plugin development" name="keywords" />
 
     <title>Plugin Testing &#8212; OpenVINO™  documentation</title>
     
@@ -76,7 +78,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Quantized networks compute and restrictions" href="quantized_network_support.html" />
-    <link rel="prev" title="Build Plugin Using CMake*" href="building-custom-plugins-with-cmake.html" />
+    <link rel="prev" title="Build Plugin Using CMake" href="building-custom-plugins-with-cmake.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -788,11 +790,6 @@
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference external" href="https://docs.openvino.ai/downloads/benchmark_files/OV-2022.1-Download-Excel.xlsx">
-       Download Performance Data Spreadsheet in MS Excel Format
-      </a>
-     </li>
-     <li class="toctree-l3">
       <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html">
        Model Accuracy for INT8 and FP32 Precision
       </a>
@@ -872,7 +869,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/query-device-properties.html">
-       Query Device Properties - Configuration
+       Query Device Properties
       </a>
      </li>
      <li class="toctree-l3">
@@ -1640,7 +1637,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="building-custom-plugins-with-cmake.html">
-     Build Plugin Using CMake*
+     Build Plugin Using CMake
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -1820,16 +1817,16 @@
             
                 <div>
                   
-  <section id="plugin-testing">
-<span id="doxid-openvino-docs-ie-plugin-dg-plugin-testing"></span><span id="index-0"></span><h1>Plugin Testing<a class="headerlink" href="#plugin-testing" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-plugin-testing-1md-openvino-docs-ie-plugin-dg-plugintesting"></span></p>
+  <span class="target" id="extensibility-plugin-testing"><span id="index-0"></span></span><section id="plugin-testing">
+<h1>Plugin Testing<a class="headerlink" href="#plugin-testing" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extensibility-plugin-testing-1md-openvino-docs-ie-plugin-dg-plugintesting"></span></p>
 <p>Inference Engine (IE) tests infrastructure provides a predefined set of functional
 tests and utilities. They are used to verify a plugin using the Inference Engine
 public API. All the tests are written in the
 <a class="reference external" href="https://github.com/google/googletest">Google Test C++ framework</a>.</p>
 <p>Inference Engine Plugin tests are included in the <code class="docutils literal notranslate"><span class="pre">IE::funcSharedTests</span></code> CMake
 target which is built within the OpenVINO repository
-(see <a class="reference internal" href="building-custom-plugins-with-cmake.html#doxid-openvino-docs-ie-plugin-dg-plugin-build"><span class="std std-ref">Build Plugin Using CMake</span></a>
+(see <a class="reference internal" href="building-custom-plugins-with-cmake.html#extensibility-plugin-cmake"><span class="std std-ref">Build Plugin Using CMake</span></a>
 guide). This library contains tests definitions (the tests bodies) which can be
 parametrized and instantiated in plugins depending on whether a plugin supports
 a particular feature, specific sets of parameters for test on supported operation
@@ -1957,7 +1954,7 @@ parameters values.</p>
 hardware or need to be extensively tested.</p>
 </div>
 <p>To build test binaries together with other build artifacts, use the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">all</span></code>
-command. For details, see <a class="reference internal" href="building-custom-plugins-with-cmake.html#doxid-openvino-docs-ie-plugin-dg-plugin-build"><span class="std std-ref">Build Plugin Using CMake</span></a>.</p>
+command. For details, see <a class="reference internal" href="building-custom-plugins-with-cmake.html#extensibility-plugin-cmake"><span class="std std-ref">Build Plugin Using CMake</span></a>.</p>
 <section id="how-to-extend-inference-engine-plugin-tests">
 <h2>How to Extend Inference Engine Plugin Tests<a class="headerlink" href="#how-to-extend-inference-engine-plugin-tests" title="Permalink to this headline">¶</a></h2>
 <p>Inference Engine Plugin tests are open for contribution. Add common test case
