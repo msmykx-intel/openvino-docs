@@ -653,46 +653,88 @@
                   
   <section id="benchmark-c-tool">
 <span id="doxid-openvino-inference-engine-samples-benchmark-app-r-e-a-d-m-e"></span><span id="index-0"></span><h1>Benchmark C++ Tool<a class="headerlink" href="#benchmark-c-tool" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-inference-engine-samples-benchmark-app-r-e-a-d-m-e-1md-openvino-samples-cpp-benchmark-app-readme"></span> This topic demonstrates how to use the Benchmark C++ Tool to estimate deep learning inference performance on supported devices. Performance can be measured for two inference modes: latency- and throughput-oriented.</p>
+<p><span class="target" id="doxid-openvino-inference-engine-samples-benchmark-app-r-e-a-d-m-e-1md-openvino-samples-cpp-benchmark-app-readme"></span></p>
+<p>This topic demonstrates how to use the Benchmark C++ Tool to estimate deep
+learning inference performance on supported devices. Performance can be
+measured for two inference modes: latency- and throughput-oriented.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This topic describes usage of C++ implementation of the Benchmark Tool. For the Python implementation, refer to <a class="reference internal" href="python-benchmark-tool.html#doxid-openvino-inference-engine-tools-benchmark-tool-r-e-a-d-m-e"><span class="std std-ref">Benchmark Python Tool</span></a>.</p>
+<p>This topic describes usage of C++ implementation of the Benchmark
+Tool. For the Python implementation, refer to
+<a class="reference internal" href="python-benchmark-tool.html#doxid-openvino-inference-engine-tools-benchmark-tool-r-e-a-d-m-e"><span class="std std-ref">Benchmark Python Tool</span></a>.</p>
 </div>
 <section id="how-it-works">
 <h2>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
-<p>Upon start-up, the application reads command-line parameters and loads a network and inputs (images/binary files) to the specified device.</p>
+<p>Upon start-up, the application reads command-line parameters and loads a
+network and inputs (images/binary files) to the specified device.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>By default, OpenVINO™ Toolkit Samples, Tools and Demos expect input with BGR channels order. If you trained your model to work with RGB order, you need to manually rearrange the default channels order in the sample or demo application or reconvert your model using the Model Optimizer tool with <code class="docutils literal notranslate"><span class="pre">--reverse_input_channels</span></code> argument specified. For more information about the argument, refer to <strong>When to Reverse Input Channels</strong> section of <a class="reference internal" href="../../documentation/converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">Embedding Preprocessing Computation</span></a>.</p>
+<p>By default, OpenVINO™ Toolkit Samples, Tools and Demos expect input
+with BGR channels order. If you trained your model to work with RGB order,
+you need to manually rearrange the default channels order in the sample or
+demo application or reconvert your model using the Model Optimizer tool with
+<code class="docutils literal notranslate"><span class="pre">--reverse_input_channels</span></code> argument specified. For more information about
+the argument, refer to <strong>When to Reverse Input Channels</strong> section of
+<a class="reference internal" href="../../documentation/converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">Embedding Preprocessing Computation</span></a>.</p>
 </div>
-<p>Device-specific execution parameters (number of streams, threads, and so on) can be either explicitly specified through the command line or left default. In the last case, the sample logic will select the values for the optimal throughput. While experimenting with individual parameters allows to find the performance sweet spot, usually, the parameters are not very performance-portable, so the values from one machine or device are not necessarily optimal for another. From this perspective, the most portable way is experimenting only with the performance hints. To learn more, refer to the section on the command-line parameters below.</p>
+<p>Device-specific execution parameters (number of streams, threads, and so on)
+can be either explicitly specified through the command line or left default. In
+the last case, the sample logic will select the values for the optimal
+throughput. While experimenting with individual parameters allows to find the
+performance sweet spot, usually, the parameters are not very
+performance-portable, so the values from one machine or device are not
+necessarily optimal for another. From this perspective, the most portable way
+is experimenting only with the performance hints. To learn more, refer to the
+section on the command-line parameters below.</p>
 <p>A number of execution steps is defined by one of the following parameters:</p>
 <ul class="simple">
 <li><p>Number of iterations specified with the <code class="docutils literal notranslate"><span class="pre">-niter</span></code> command-line argument</p></li>
 <li><p>Time duration specified with the <code class="docutils literal notranslate"><span class="pre">-t</span></code> command-line argument</p></li>
 <li><p>Both of them (execution will continue until both conditions are met)</p></li>
-<li><p>Predefined duration if <code class="docutils literal notranslate"><span class="pre">-niter</span></code> and <code class="docutils literal notranslate"><span class="pre">-t</span></code> are not specified. Predefined duration value depends on a device.</p></li>
+<li><p>Predefined duration if <code class="docutils literal notranslate"><span class="pre">-niter</span></code> and <code class="docutils literal notranslate"><span class="pre">-t</span></code> are not specified. Predefined
+duration value depends on a device.</p></li>
 </ul>
-<p>During the execution, the application calculates latency (if applicable) and overall throughput:</p>
+<p>During the execution, the application calculates latency (if applicable) and
+overall throughput:</p>
 <ul class="simple">
 <li><p>By default, the median latency value is reported</p></li>
-<li><p>Throughput is calculated as overall_inference_time/number_of_processed_requests. Note that the throughput value also depends on batch size.</p></li>
+<li><p>Throughput is calculated as overall_inference_time/number_of_processed_requests.
+Note that the throughput value also depends on batch size.</p></li>
 </ul>
-<p>The application also collects per-layer Performance Measurement (PM) counters for each executed infer request if you enable statistics dumping by setting the <code class="docutils literal notranslate"><span class="pre">-report_type</span></code> parameter to one of the possible values:</p>
+<p>The application also collects per-layer Performance Measurement (PM) counters
+for each executed infer request if you enable statistics dumping by setting the
+<code class="docutils literal notranslate"><span class="pre">-report_type</span></code> parameter to one of the possible values:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">no_counters</span></code> report includes configuration options specified, resulting FPS and latency.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">average_counters</span></code> report extends the <code class="docutils literal notranslate"><span class="pre">no_counters</span></code> report and additionally includes average PM counters values for each layer from the network.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">detailed_counters</span></code> report extends the <code class="docutils literal notranslate"><span class="pre">average_counters</span></code> report and additionally includes per-layer PM counters and latency for each executed infer request.</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">no_counters</span></code> report includes configuration options specified, resulting FPS</dt><dd><p>and latency.</p>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_counters</span></code> report extends the <code class="docutils literal notranslate"><span class="pre">no_counters</span></code> report and
+additionally includes average PM counters values for each layer from the network.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">detailed_counters</span></code> report extends the <code class="docutils literal notranslate"><span class="pre">average_counters</span></code> report and
+additionally includes per-layer PM counters and latency for each executed
+infer request.</p></li>
 </ul>
-<p>Depending on the type, the report is stored to <code class="docutils literal notranslate"><span class="pre">benchmark_no_counters_report.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">benchmark_average_counters_report.csv</span></code>, or <code class="docutils literal notranslate"><span class="pre">benchmark_detailed_counters_report.csv</span></code> file located in the path specified in <code class="docutils literal notranslate"><span class="pre">-report_folder</span></code>.</p>
-<p>The application also saves executable graph information serialized to an XML file if you specify a path to it with the <code class="docutils literal notranslate"><span class="pre">-exec_graph_path</span></code> parameter.</p>
+<p>Depending on the type, the report is stored to
+<code class="docutils literal notranslate"><span class="pre">benchmark_no_counters_report.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">benchmark_average_counters_report.csv</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">benchmark_detailed_counters_report.csv</span></code> file located in the path
+specified in <code class="docutils literal notranslate"><span class="pre">-report_folder</span></code>.</p>
+<p>The application also saves executable graph information serialized to an XML
+file if you specify a path to it with the <code class="docutils literal notranslate"><span class="pre">-exec_graph_path</span></code> parameter.</p>
 </section>
 <section id="run-the-tool">
 <h2>Run the Tool<a class="headerlink" href="#run-the-tool" title="Permalink to this headline">¶</a></h2>
-<p>Note that the benchmark_app usually produces optimal performance for any device out of the box.</p>
-<p><strong>So in most cases you don’t need to play the app options explicitly and the plain device name is enough</strong>, for example, for CPU:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">benchmark_app</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">d</span> <span class="n">CPU</span></pre></div></div><p>But it is still may be sub-optimal for some cases, especially for very small networks. More details can read in <a class="reference internal" href="../../documentation/performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Performance Optimization Guide</span></a>.</p>
-<p>As explained in the <a class="reference internal" href="../../documentation/performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Performance Optimization Guide</span></a> section, for all devices, including new <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">MULTI device</span></a> it is preferable to use the FP16 IR for the model. Also if latency of the CPU inference on the multi-socket machines is of concern, please refer to the same <a class="reference internal" href="../../documentation/performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Performance Optimization Guide</span></a>.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">benchmark_app</span></code> usually produces optimal performance for any
+device out of the box. <strong>So in most cases you do not need to play the app
+options explicitly and the plain device name is enough</strong>, for example, for CPU:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">benchmark_app</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">d</span> <span class="n">CPU</span></pre></div></div><p>But it is still may be sub-optimal for some cases, especially for very small
+networks. More details can read in <a class="reference internal" href="../../documentation/performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Performance Optimization Guide</span></a>.</p>
+<p>As explained in the <a class="reference internal" href="../../documentation/performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Performance Optimization Guide</span></a>
+section, for all devices, including new <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">MULTI device</span></a>
+it is preferable to use the FP16 IR for the model. Also if latency of the CPU
+inference on the multi-socket machines is of concern, please refer to the same
+<a class="reference internal" href="../../documentation/performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Performance Optimization Guide</span></a>.</p>
 <p>Running the application with the <code class="docutils literal notranslate"><span class="pre">-h</span></code> option yields the following usage message:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">benchmark_app</span> <span class="o">-</span><span class="n">h</span>
 
@@ -756,7 +798,7 @@
     <span class="o">-</span><span class="n">pcseq</span>                    <span class="n">Optional</span><span class="p">.</span> <span class="n">Report</span> <span class="n">latencies</span> <span class="k">for</span> <span class="n">each</span> <span class="n">shape</span> <span class="n">in</span> <span class="o">-</span><span class="n">data_shape</span> <span class="n">sequence</span><span class="p">.</span>
     <span class="o">-</span><span class="n">dump_config</span>              <span class="n">Optional</span><span class="p">.</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">JSON</span> <span class="n">file</span> <span class="n">to</span> <span class="n">dump</span> <span class="n">IE</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">which</span> <span class="n">were</span> <span class="n">set</span> <span class="n">by</span> <span class="n">application</span><span class="p">.</span>
     <span class="o">-</span><span class="n">load_config</span>              <span class="n">Optional</span><span class="p">.</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">JSON</span> <span class="n">file</span> <span class="n">to</span> <span class="n">load</span> <span class="n">custom</span> <span class="n">IE</span> <span class="n">parameters</span><span class="p">.</span> <span class="n">Please</span> <span class="n">note</span><span class="p">,</span> <span class="n">command</span> <span class="n">line</span> <span class="n">parameters</span> <span class="n">have</span> <span class="n">higher</span> <span class="n">priority</span> <span class="n">then</span> <span class="n">parameters</span> <span class="n">from</span> <span class="n">configuration</span> <span class="n">file</span><span class="p">.</span>
-    <span class="o">-</span><span class="n">infer_precision</span> <span class="s">&quot;&lt;element type&gt;&quot;</span><span class="n">Optional</span><span class="p">.</span> <span class="n">Inference</span> <span class="n">precission</span>
+    <span class="o">-</span><span class="n">infer_precision</span> <span class="s">&quot;&lt;element type&gt;&quot;</span><span class="n">Optional</span><span class="p">.</span> <span class="n">Inference</span> <span class="n">precision</span>
     <span class="o">-</span><span class="n">ip</span>                          <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>     <span class="n">Optional</span><span class="p">.</span> <span class="n">Specifies</span> <span class="n">precision</span> <span class="k">for</span> <span class="n">all</span> <span class="n">input</span> <span class="n">layers</span> <span class="n">of</span> <span class="n">the</span> <span class="n">network</span><span class="p">.</span>
     <span class="o">-</span><span class="n">op</span>                          <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>     <span class="n">Optional</span><span class="p">.</span> <span class="n">Specifies</span> <span class="n">precision</span> <span class="k">for</span> <span class="n">all</span> <span class="n">output</span> <span class="n">layers</span> <span class="n">of</span> <span class="n">the</span> <span class="n">network</span><span class="p">.</span>
     <span class="o">-</span><span class="n">iop</span>                        <span class="s">&quot;&lt;value&gt;&quot;</span>    <span class="n">Optional</span><span class="p">.</span> <span class="n">Specifies</span> <span class="n">precision</span> <span class="k">for</span> <span class="n">input</span> <span class="n">and</span> <span class="n">output</span> <span class="n">layers</span> <span class="n">by</span> <span class="n">name</span><span class="p">.</span>
@@ -771,34 +813,58 @@
 <span class="n">Values</span> <span class="n">to</span> <span class="n">be</span> <span class="n">provided</span> <span class="n">in</span> <span class="n">the</span> <span class="p">[</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span> <span class="n">format</span><span class="p">.</span> <span class="n">Can</span> <span class="n">be</span> <span class="n">defined</span> <span class="k">for</span> <span class="n">desired</span> <span class="n">input</span> <span class="n">of</span> <span class="n">the</span> <span class="n">model</span><span class="p">,</span>
 <span class="nl">Example</span><span class="p">:</span> <span class="o">-</span><span class="n">imean</span> <span class="n">data</span><span class="p">[</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">],</span><span class="n">info</span><span class="p">[</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">]</span>
 
-    <span class="o">-</span><span class="n">inference_only</span>              <span class="n">Optional</span><span class="p">.</span> <span class="n">Measure</span> <span class="n">only</span> <span class="n">inference</span> <span class="n">stage</span><span class="p">.</span> <span class="n">Default</span> <span class="n">option</span> <span class="k">for</span> <span class="k">static</span> <span class="n">models</span><span class="p">.</span> <span class="n">Dynamic</span> <span class="n">models</span> <span class="n">are</span> <span class="n">measured</span> <span class="n">in</span> <span class="n">full</span> <span class="n">mode</span> <span class="n">which</span> <span class="n">includes</span> <span class="n">inputs</span> <span class="n">setup</span> <span class="n">stage</span><span class="p">,</span> <span class="n">inference</span> <span class="n">only</span> <span class="n">mode</span> <span class="n">available</span> <span class="k">for</span> <span class="n">them</span> <span class="n">with</span> <span class="n">single</span> <span class="n">input</span> <span class="n">data</span> <span class="n">shape</span> <span class="n">only</span><span class="p">.</span> <span class="n">To</span> <span class="n">enable</span> <span class="n">full</span> <span class="n">mode</span> <span class="k">for</span> <span class="k">static</span> <span class="n">models</span> <span class="n">pass</span> <span class="s">&quot;false&quot;</span> <span class="n">value</span> <span class="n">to</span> <span class="k">this</span> <span class="nl">argument</span><span class="p">:</span> <span class="n">ex</span><span class="p">.</span> <span class="s">&quot;-inference_only=false&quot;</span><span class="p">.</span></pre></div></div><p>Running the application with the empty list of options yields the usage message given above and an error message.</p>
-<p>Application supports topologies with one or more inputs. If a topology is not data-sensitive, you can skip the input parameter. In this case, inputs are filled with random values. If a model has only image input(s), please provide a folder with images or a path to an image as input. If a model has some specific input(s) (not images), please prepare a binary file(s) that is filled with data of appropriate precision and provide a path to them as input. If a model has mixed input types, input folder should contain all required files. Image inputs are filled with image files one by one. Binary inputs are filled with binary inputs one by one.</p>
-<p>To run the tool, you can use public or Intel’s pre-trained models from the Open Model Zoo. The models can be downloaded using the Model Downloader.</p>
+    <span class="o">-</span><span class="n">inference_only</span>              <span class="n">Optional</span><span class="p">.</span> <span class="n">Measure</span> <span class="n">only</span> <span class="n">inference</span> <span class="n">stage</span><span class="p">.</span> <span class="n">Default</span> <span class="n">option</span> <span class="k">for</span> <span class="k">static</span> <span class="n">models</span><span class="p">.</span> <span class="n">Dynamic</span> <span class="n">models</span> <span class="n">are</span> <span class="n">measured</span> <span class="n">in</span> <span class="n">full</span> <span class="n">mode</span> <span class="n">which</span> <span class="n">includes</span> <span class="n">inputs</span> <span class="n">setup</span> <span class="n">stage</span><span class="p">,</span> <span class="n">inference</span> <span class="n">only</span> <span class="n">mode</span> <span class="n">available</span> <span class="k">for</span> <span class="n">them</span> <span class="n">with</span> <span class="n">single</span> <span class="n">input</span> <span class="n">data</span> <span class="n">shape</span> <span class="n">only</span><span class="p">.</span> <span class="n">To</span> <span class="n">enable</span> <span class="n">full</span> <span class="n">mode</span> <span class="k">for</span> <span class="k">static</span> <span class="n">models</span> <span class="n">pass</span> <span class="s">&quot;false&quot;</span> <span class="n">value</span> <span class="n">to</span> <span class="k">this</span> <span class="nl">argument</span><span class="p">:</span> <span class="n">ex</span><span class="p">.</span> <span class="s">&quot;-inference_only=false&quot;</span><span class="p">.</span></pre></div></div><p>Running the application with the empty list of options yields the usage message
+given above and an error message.</p>
+<p>Application supports topologies with one or more inputs. If a topology is not
+data-sensitive, you can skip the input parameter. In this case, inputs are
+filled with random values. If a model has only image input(s), please provide a
+folder with images or a path to an image as input. If a model has some specific
+input(s) (not images), please prepare a binary file(s) that is filled with data
+of appropriate precision and provide a path to them as input. If a model has
+mixed input types, input folder should contain all required files. Image inputs
+are filled with image files one by one. Binary inputs are filled with binary
+inputs one by one.</p>
+<p>To run the tool, you can use public or Intel’s pre-trained models from the Open
+Model Zoo. The models can be downloaded using the Model Downloader.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Before running the tool with a trained model, make sure the model is
 converted to the OpenVINO IR (*.xml + *.bin) using the
 <a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Model Optimizer tool</span></a>.</p>
 </div>
-<p>The sample accepts models in ONNX format (.onnx) that do not require preprocessing.</p>
+<p>The sample accepts models in ONNX format (.onnx) that do not require
+preprocessing.</p>
 </section>
 <section id="examples-of-running-the-tool">
 <h2>Examples of Running the Tool<a class="headerlink" href="#examples-of-running-the-tool" title="Permalink to this headline">¶</a></h2>
-<p>This section provides step-by-step instructions on how to run the Benchmark Tool with the <code class="docutils literal notranslate"><span class="pre">googlenet-v1</span></code> public model on CPU or GPU devices. The <a class="reference external" href="https://storage.openvinotoolkit.org/data/test_data/images/224x224/dog.bmp">dog.bmp</a> file is used as an input.</p>
+<p>This section provides step-by-step instructions on how to run the Benchmark
+Tool with the <code class="docutils literal notranslate"><span class="pre">googlenet-v1</span></code> public model on CPU or GPU devices. The
+<a class="reference external" href="https://storage.openvinotoolkit.org/data/test_data/images/224x224/dog.bmp">dog.bmp</a>
+file is used as an input.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The Internet access is required to execute the following steps successfully.
-If you have access to the Internet through the proxy server only, please make
-sure that it is configured in your OS environment.</p>
+<p>The Internet access is required to execute the following steps
+successfully. If you have access to the Internet through the proxy server
+only,  make sure that it is configured in your OS environment.</p>
 </div>
 <ol class="arabic">
 <li><p>Install OpenVINO Development Tools to work with Caffe models:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">openvino</span><span class="o">-</span><span class="n">dev</span><span class="p">[</span><span class="n">caffe</span><span class="p">]</span></pre></div></div></li>
-<li><p>Download the model. Go to the Model Downloader directory and run the <code class="docutils literal notranslate"><span class="pre">omz_downloader</span></code> script with specifying the model name and directory to download the model to:</p>
+<li><p>Download the model. Go to the Model Downloader directory and run the
+<code class="docutils literal notranslate"><span class="pre">omz_downloader</span></code> script with specifying the model name and directory to
+download the model to:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">omz_downloader</span> <span class="o">--</span><span class="n">name</span> <span class="n">googlenet</span><span class="o">-</span><span class="n">v1</span> <span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">models_dir</span><span class="o">&gt;</span></pre></div></div></li>
-<li><p>Convert the model to the OpenVINO IR format. Run the Model Optimizer using the <code class="docutils literal notranslate"><span class="pre">mo</span></code> command with the path to the model, model format and output directory to generate the IR files:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="o">&lt;</span><span class="n">models_dir</span><span class="o">&gt;/</span><span class="k">public</span><span class="o">/</span><span class="n">googlenet</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">googlenet</span><span class="o">-</span><span class="n">v1</span><span class="p">.</span><span class="n">caffemodel</span> <span class="o">--</span><span class="n">data_type</span> <span class="n">FP32</span> <span class="o">--</span><span class="n">output_dir</span> <span class="o">&lt;</span><span class="n">ir_dir</span><span class="o">&gt;</span></pre></div></div></li>
-<li><p>Run the tool with specifying the <code class="docutils literal notranslate"><span class="pre">dog.bmp</span></code> file as an input image, the IR of the <code class="docutils literal notranslate"><span class="pre">googlenet-v1</span></code> model and a device to perform inference on. The following commands demonstrate running the Benchmark Tool in the asynchronous mode on CPU and GPU devices:</p>
+</ol>
+<p>#. Convert the model to the OpenVINO IR format. Run the Model Optimizer using
+the <code class="docutils literal notranslate"><span class="pre">mo</span></code> command with the path to the model, model format and output
+to generate the IR files:</p>
+<blockquote>
+<div><div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="o">&lt;</span><span class="n">models_dir</span><span class="o">&gt;/</span><span class="k">public</span><span class="o">/</span><span class="n">googlenet</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">googlenet</span><span class="o">-</span><span class="n">v1</span><span class="p">.</span><span class="n">caffemodel</span> <span class="o">--</span><span class="n">data_type</span> <span class="n">FP32</span> <span class="o">--</span><span class="n">output_dir</span> <span class="o">&lt;</span><span class="n">ir_dir</span><span class="o">&gt;</span></pre></div></div></div></blockquote>
+<ol class="arabic">
+<li><p>Run the tool with specifying the <code class="docutils literal notranslate"><span class="pre">dog.bmp</span></code> file as an input image, the IR
+of the <code class="docutils literal notranslate"><span class="pre">googlenet-v1</span></code> model and a device to perform inference on. The
+following commands demonstrate running the Benchmark Tool in the
+asynchronous mode on CPU and GPU devices:</p>
 <ul>
 <li><p>On CPU:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">benchmark_app</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">ir_dir</span><span class="o">&gt;/</span><span class="n">googlenet</span><span class="o">-</span><span class="n">v1</span><span class="p">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">i</span> <span class="n">dog</span><span class="p">.</span><span class="n">bmp</span>  <span class="o">-</span><span class="n">d</span> <span class="n">CPU</span> <span class="o">-</span><span class="n">api</span> <span class="n">async</span> <span class="o">-</span><span class="n">progress</span></pre></div></div></li>
@@ -807,7 +873,13 @@ sure that it is configured in your OS environment.</p>
 </ul>
 </li>
 </ol>
-<p>The application outputs the number of executed iterations, total duration of execution, latency, and throughput. Additionally, if you set the <code class="docutils literal notranslate"><span class="pre">-report_type</span></code> parameter, the application outputs statistics report. If you set the <code class="docutils literal notranslate"><span class="pre">-pc</span></code> parameter, the application outputs performance counters. If you set <code class="docutils literal notranslate"><span class="pre">-exec_graph_path</span></code>, the application reports executable graph information serialized. All measurements including per-layer PM counters are reported in milliseconds.</p>
+<p>The application outputs the number of executed iterations, total duration of
+execution, latency, and throughput. Additionally, if you set the
+<code class="docutils literal notranslate"><span class="pre">-report_type</span></code> parameter, the application outputs statistics report. If you
+set the <code class="docutils literal notranslate"><span class="pre">-pc</span></code> parameter, the application outputs performance counters. If you
+set <code class="docutils literal notranslate"><span class="pre">-exec_graph_path</span></code>, the application reports executable graph information
+serialized. All measurements including per-layer PM counters are reported in
+milliseconds.</p>
 <p>Below are fragments of sample output static and dynamic networks:</p>
 <ul>
 <li><p>For static network:</p>
@@ -860,7 +932,7 @@ sure that it is configured in your OS environment.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../samples.html#doxid-openvino-docs-o-v-u-g-samples-overview"><span class="std std-ref">Using OpenVINO Runtime Samples</span></a></p></li>
 <li><p><a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Model Optimizer</span></a></p></li>
-<li><p>Model Downloader</p></li>
+<li><p><a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo/blob/master/tools/model_tools/README.md">Model Downloader</a></p></li>
 </ul>
 </section>
 </section>
