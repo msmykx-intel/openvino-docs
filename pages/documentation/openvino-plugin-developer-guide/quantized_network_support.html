@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Description of Inference Enigne support of quantized networks." name="description" />
+<meta content="Inference Engine, quantized networks, INT8, INT4, plugin, extensibility, quantized networks restrictions, OpenVINO IR, low-precision model representation, FakeQuantize, low-precision transformations, LPT, Quantize, Dequantize, Requantize, Post-training Optimization Tool, POT, channel quantization, mixed-precision models, asymmetric quantization, symmetric quantization" name="keywords" />
 
     <title>Quantized networks compute and restrictions &#8212; OpenVINO™  documentation</title>
     
@@ -1834,10 +1836,13 @@
             
                 <div>
                   
-  <section id="quantized-networks-compute-and-restrictions">
-<span id="doxid-openvino-docs-ie-plugin-dg-quantized-networks"></span><span id="index-0"></span><h1>Quantized networks compute and restrictions<a class="headerlink" href="#quantized-networks-compute-and-restrictions" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-ie-plugin-dg-quantized-networks-1md-openvino-docs-ie-plugin-dg-quantizednetworks"></span></p>
-<p>One of the features of Inference Engine is the support of quantized networks with different precisions: INT8, INT4, etc. However, it is up to the plugin to define what exact precisions are supported by the particular HW. All quantized networks which can be expressed in IR have a unified representation by means of <em>FakeQuantize</em> operation. For more details about low-precision model representation please refer to this <a class="reference internal" href="representation-of-low-precision-models.html#doxid-openvino-docs-ie-plugin-dg-lp-representation"><span class="std std-ref">document</span></a>.</p>
+  <span class="target" id="extensibility-plugin-quantized-networks"><span id="index-0"></span></span><section id="quantized-networks-compute-and-restrictions">
+<h1>Quantized networks compute and restrictions<a class="headerlink" href="#quantized-networks-compute-and-restrictions" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extensibility-plugin-quantized-networks-1md-openvino-docs-ie-plugin-dg-quantizednetworks"></span></p>
+<p>One of the features of Inference Engine is the support of quantized networks with different precisions: INT8, INT4, etc.
+However, it is up to the plugin to define what exact precisions are supported by the particular HW. All quantized networks
+which can be expressed in IR have a unified representation by means of <em>FakeQuantize</em> operation. For more details about
+low-precision model representation please refer to this <a class="reference internal" href="representation-of-low-precision-models.html#doxid-openvino-docs-ie-plugin-dg-lp-representation"><span class="std std-ref">document</span></a>.</p>
 <section id="interpreting-fakequantize-at-runtime">
 <h2>Interpreting FakeQuantize at runtime<a class="headerlink" href="#interpreting-fakequantize-at-runtime" title="Permalink to this headline">¶</a></h2>
 <p>During the model load each plugin can interpret quantization rules expressed in <em>FakeQuantize</em> operations:</p>
@@ -1845,7 +1850,12 @@
 <li><p>Independently based on the definition of <em>FakeQuantize</em> operation.</p></li>
 <li><p>Using a special library of low-precision transformations (LPT) which applies common rules for generic operations, such as Convolution, Fully-Connected, Eltwise, etc., and translates “fake-quantized” models into models with low-precision operations.</p></li>
 </ul>
-<p>Here we provide only a high-level overview of the interpretation rules of FakeQuantize. At runtime each FakeQuantize can be split into two independent operations: <strong>Quantize</strong> and <strong>Dequantize</strong>. The former one is aimed to transform the input data into the target precision while the latter transforms the resulting values back to the original range and precision. In practice <em>Dequantize</em> operations can be propagated forward through the linear operations, such as <em>Convolution</em> or <em>Fully-Connected</em>, and in some cases fused with the following <em>Quantize</em> operation for the next layer into the so-called <em>Requantize</em> operation (see Fig. 1).</p>
+<p>Here we provide only a high-level overview of the interpretation rules of FakeQuantize. At runtime each FakeQuantize can
+be split into two independent operations: <strong>Quantize</strong> and <strong>Dequantize</strong>. The former one is aimed to transform the input
+data into the target precision while the latter transforms the resulting values back to the original range and precision.
+In practice <em>Dequantize</em> operations can be propagated forward through the linear operations, such as <em>Convolution</em>
+or <em>Fully-Connected</em>, and in some cases fused with the following <em>Quantize</em> operation for the next layer into the so-called
+<em>Requantize</em> operation (see Fig. 1).</p>
 <img alt="../../../_images/qdq_propagation.png" src="../../../_images/qdq_propagation.png" />
 <p>Figure 1. Quantization operations propagation at runtime. Q, DQ, RQ stand for Quantize, Dequantize, and Requantize correspondingly.</p>
 <p>From the calculation standpoint, the FakeQuantize formula also is split into two parts accordingly:</p>
@@ -1861,10 +1871,17 @@
 <li><p><strong>Scale</strong> as <code class="docutils literal notranslate"><span class="pre">(output_high</span> <span class="pre">-</span> <span class="pre">output_low)</span> <span class="pre">/</span> <span class="pre">(levels-1)</span></code></p></li>
 <li><p><strong>Zero-point</strong> as <code class="docutils literal notranslate"><span class="pre">-output_low</span> <span class="pre">/</span> <span class="pre">(output_high</span> <span class="pre">-</span> <span class="pre">output_low)</span> <span class="pre">\*</span> <span class="pre">(levels-1)</span></code></p></li>
 </ul>
-<p><strong>Note</strong> : During the quantization process the values <code class="docutils literal notranslate"><span class="pre">input_low</span></code>, <code class="docutils literal notranslate"><span class="pre">input_high</span></code>, <code class="docutils literal notranslate"><span class="pre">output_low</span></code>, <code class="docutils literal notranslate"><span class="pre">output_high</span></code> are selected so that to map a floating-point zero exactly to an integer value (zero-point) and vice versa.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>During the quantization process the values <code class="docutils literal notranslate"><span class="pre">input_low</span></code>, <code class="docutils literal notranslate"><span class="pre">input_high</span></code>, <code class="docutils literal notranslate"><span class="pre">output_low</span></code>, <code class="docutils literal notranslate"><span class="pre">output_high</span></code> are selected
+so that to map a floating-point zero exactly to an integer value (zero-point) and vice versa.</p>
+</div>
 <section id="quantization-specifics-and-restrictions">
 <h3>Quantization specifics and restrictions<a class="headerlink" href="#quantization-specifics-and-restrictions" title="Permalink to this headline">¶</a></h3>
-<p>In general, OpenVINO can represent and execute quantized models from different sources. However, the Post-training Optimization Tool (POT) is considered the default way to get optimized models. Since the POT supports HW-aware quantization it means that specific rules can be implemented in it for the particular HW. However, it is reasonable to have compatibility with general-purpose HW such as CPU and GPU and support their quantization schemes. Below we define these rules as follows:</p>
+<p>In general, OpenVINO can represent and execute quantized models from different sources. However, the Post-training
+Optimization Tool (POT) is considered the default way to get optimized models. Since the POT supports HW-aware quantization
+it means that specific rules can be implemented in it for the particular HW. However, it is reasonable to have compatibility
+with general-purpose HW such as CPU and GPU and support their quantization schemes. Below we define these rules as follows:</p>
 <ul class="simple">
 <li><p>Support of mixed-precision models where some layers can be kept in the floating-point precision.</p></li>
 <li><p>Per-channel quantization of weights of Convolutional and Fully-Connected layers.</p></li>
