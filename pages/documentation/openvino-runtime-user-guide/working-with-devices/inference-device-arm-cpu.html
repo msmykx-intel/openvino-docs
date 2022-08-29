@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The Arm® CPU plugin in the Intel® Distribution of OpenVINO™ toolkit is developed to enable inference of deep neural networks on Arm® CPU, using the Arm Compute Library." name="description" />
+<meta content="OpenVINO™, OpenVINO plugin, Arm® CPU, Arm CPU plugin, device name, compile_model, inference device, inference, model inference, inference data types, floating-point data type, integer data type, quantized data type, f32, f16, i8, precision conversion, preprocessing operations, u8 to u16, u16 -&gt; u8, u16 -&gt; u32, u8 -&gt; s16, u8 -&gt; s32, s16 to u8, s16 to s32, f16 to f32, color conversion, NV12 to RGB, NV12 to BGR, i420 to RGB, i420 to BGR, OpenVINO™ ecosystem, internal primitives, preprocessing acceleration" name="keywords" />
 
     <title>Arm® CPU Device &#8212; OpenVINO™  documentation</title>
     
@@ -1852,25 +1854,34 @@
             
                 <div>
                   
-  <section id="arm-cpu-device">
-<span id="doxid-openvino-docs-o-v-u-g-supported-plugins-a-r-m-c-p-u"></span><span id="index-0"></span><h1>Arm® CPU Device<a class="headerlink" href="#arm-cpu-device" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-supported-plugins-a-r-m-c-p-u-1md-openvino-docs-ov-runtime-ug-supported-plugins-arm-cpu"></span></p>
+  <span class="target" id="deploy-infer-arm-cpu-device"><span id="index-0"></span></span><section id="arm-cpu-device">
+<h1>Arm® CPU Device<a class="headerlink" href="#arm-cpu-device" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-arm-cpu-device-1md-openvino-docs-ov-runtime-ug-supported-plugins-arm-cpu"></span></p>
 <section id="introducing-the-arm-cpu-plugin">
 <h2>Introducing the Arm® CPU Plugin<a class="headerlink" href="#introducing-the-arm-cpu-plugin" title="Permalink to this headline">¶</a></h2>
-<p>The Arm® CPU plugin is developed in order to enable deep neural networks inference on Arm® CPU, using <a class="reference external" href="https://github.com/ARM-software/ComputeLibrary">Compute Library</a> as a backend.</p>
+<p>The Arm® CPU plugin is developed in order to enable deep neural networks
+inference on Arm® CPU, using <a class="reference external" href="https://github.com/ARM-software/ComputeLibrary">Compute Library</a>
+as a backend.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This is a community-level add-on to OpenVINO™. Intel® welcomes community
-participation in the OpenVINO™ ecosystem, technical questions and code
-contributions on community forums. However, this component has not undergone
-full release validation or qualification from Intel®, hence no official support is offered.</p>
+<p>This is a community-level add-on to OpenVINO™. Intel® welcomes
+community participation in the OpenVINO™ ecosystem, technical questions and
+code contributions on community forums. However, this component has not
+undergone full release validation or qualification from Intel®, hence no
+official support is offered.</p>
 </div>
-<p>The Arm® CPU plugin is not a part of the Intel® Distribution of OpenVINO™ toolkit and is not distributed in the pre-built form. The plugin should be built from the source code for use. Plugin build procedure is described in <a class="reference external" href="https://github.com/openvinotoolkit/openvino_contrib/wiki/How-to-build-ARM-CPU-plugin">How to build Arm® CPU plugin</a> guide.</p>
-<p>The set of supported layers is defined on the <a class="reference external" href="https://github.com/openvinotoolkit/openvino_contrib/wiki/ARM-plugin-operation-set-specification">Op-set specification page</a>.</p>
+<p>The Arm® CPU plugin is not a part of the Intel® Distribution of OpenVINO™
+toolkit and is not distributed in the pre-built form. The plugin should be
+built from the source code for use. Plugin build procedure is described in
+<a class="reference external" href="https://github.com/openvinotoolkit/openvino_contrib/wiki/How-to-build-ARM-CPU-plugin">How to build Arm® CPU plugin</a>
+guide.</p>
+<p>The set of supported layers is defined on the
+<a class="reference external" href="https://github.com/openvinotoolkit/openvino_contrib/wiki/ARM-plugin-operation-set-specification">Op-set specification page</a>.</p>
 </section>
 <section id="supported-inference-data-types">
 <h2>Supported Inference Data Types<a class="headerlink" href="#supported-inference-data-types" title="Permalink to this headline">¶</a></h2>
-<p>The Arm® CPU plugin supports the following data types as inference precision of internal primitives:</p>
+<p>The Arm® CPU plugin supports the following data types as inference precision
+of internal primitives:</p>
 <ul class="simple">
 <li><p>Floating-point data types:</p>
 <ul>
@@ -1884,11 +1895,13 @@ full release validation or qualification from Intel®, hence no official support
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-hello-query-device.html#doxid-openvino-inference-engine-samples-hello-query-device-r-e-a-d-m-e"><span class="std std-ref">Hello Query Device C++ Sample</span></a> can be used to print out supported data types for all detected devices.</p>
+<p><a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-hello-query-device.html#doxid-openvino-inference-engine-samples-hello-query-device-r-e-a-d-m-e"><span class="std std-ref">Hello Query Device C++ Sample</span></a>
+can be used to print out supported data types for all detected devices.</p>
 </section>
 <section id="supported-features">
 <h2>Supported Features<a class="headerlink" href="#supported-features" title="Permalink to this headline">¶</a></h2>
-<p><strong>Preprocessing Acceleration</strong> The Arm® CPU plugin supports the following accelerated preprocessing operations:</p>
+<p><strong>Preprocessing Acceleration</strong> The Arm® CPU plugin supports the following
+accelerated preprocessing operations:</p>
 <ul class="simple">
 <li><p>Precision conversion:</p>
 <ul>
@@ -1899,9 +1912,11 @@ full release validation or qualification from Intel®, hence no official support
 </ul>
 </li>
 <li><p>Transposition of tensors with dims &lt; 5</p></li>
-<li><p>Interpolation of 4D tensors with no padding (<code class="docutils literal notranslate"><span class="pre">pads_begin</span></code> and <code class="docutils literal notranslate"><span class="pre">pads_end</span></code> equal 0).</p></li>
+<li><p>Interpolation of 4D tensors with no padding (<code class="docutils literal notranslate"><span class="pre">pads_begin</span></code> and <code class="docutils literal notranslate"><span class="pre">pads_end</span></code>
+equal 0).</p></li>
 </ul>
-<p>The Arm® CPU plugin supports the following preprocessing operations, however they are not accelerated:</p>
+<p>The Arm® CPU plugin supports the following preprocessing operations, however
+they are not accelerated:</p>
 <ul class="simple">
 <li><p>Precision conversion that is not mentioned above</p></li>
 <li><p>Color conversion:</p>
@@ -1913,12 +1928,14 @@ full release validation or qualification from Intel®, hence no official support
 </ul>
 </li>
 </ul>
-<p>For more details, see the <a class="reference internal" href="../preprocessing.html#doxid-openvino-docs-o-v-u-g-preprocessing-overview"><span class="std std-ref">preprocessing API guide</span></a>.</p>
+<p>For more details, see the <a class="reference internal" href="../preprocessing.html#deploy-infer-preprocessing-overview"><span class="std std-ref">preprocessing API guide</span></a>.</p>
 </section>
 <section id="supported-properties">
 <h2>Supported Properties<a class="headerlink" href="#supported-properties" title="Permalink to this headline">¶</a></h2>
 <p>The plugin supports the properties listed below.</p>
-<p><strong>Read-write Properties</strong> In order to take effect, all parameters must be set before calling <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model()</span></span></a></code> or passed as additional argument to <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model()</span></span></a></code></p>
+<p><strong>Read-write Properties</strong> In order to take effect, all parameters must be set
+before calling <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model()</span></span></a></code>
+or passed as additional argument to <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model()</span></span></a></code></p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1gafc5bef2fc2b5cfb5a0709cfb04346438"><span class="std std-ref">ov::enable_profiling</span></a></p></li>
 </ul>
@@ -1935,27 +1952,50 @@ full release validation or qualification from Intel®, hence no official support
 <section id="known-layers-limitation">
 <h2>Known Layers Limitation<a class="headerlink" href="#known-layers-limitation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> layer is supported via arm_compute library for 4D input tensor and via reference implementation for other cases.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BatchToSpace</span></code> layer is supported for 4D tensors only and constant nodes: <code class="docutils literal notranslate"><span class="pre">block_shape</span></code> with <code class="docutils literal notranslate"><span class="pre">N</span></code> = 1 and <code class="docutils literal notranslate"><span class="pre">C</span></code> = 1, <code class="docutils literal notranslate"><span class="pre">crops_begin</span></code> with zero values and <code class="docutils literal notranslate"><span class="pre">crops_end</span></code> with zero values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> layer is supported via arm_compute library for 4D input tensor
+and via reference implementation for other cases.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BatchToSpace</span></code> layer is supported for 4D tensors only and constant nodes:
+<code class="docutils literal notranslate"><span class="pre">block_shape</span></code> with <code class="docutils literal notranslate"><span class="pre">N</span></code> = 1 and <code class="docutils literal notranslate"><span class="pre">C</span></code> = 1, <code class="docutils literal notranslate"><span class="pre">crops_begin</span></code> with zero
+values and <code class="docutils literal notranslate"><span class="pre">crops_end</span></code> with zero values.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ConvertLike</span></code> layer is supported for configuration like <code class="docutils literal notranslate"><span class="pre">Convert</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">DepthToSpace</span></code> layer is supported for 4D tensors only and for <code class="docutils literal notranslate"><span class="pre">BLOCKS_FIRST</span></code> of <code class="docutils literal notranslate"><span class="pre">mode</span></code> attribute.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DepthToSpace</span></code> layer is supported for 4D tensors only and for
+<code class="docutils literal notranslate"><span class="pre">BLOCKS_FIRST</span></code> of <code class="docutils literal notranslate"><span class="pre">mode</span></code> attribute.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Equal</span></code> does not support <code class="docutils literal notranslate"><span class="pre">broadcast</span></code> for inputs.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Gather</span></code> layer is supported for constant scalar or 1D indices axes only. Layer is supported via arm_compute library for non negative indices and via reference implementation otherwise.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Gather</span></code> layer is supported for constant scalar or 1D indices axes only.
+Layer is supported via arm_compute library for non negative indices and via
+reference implementation otherwise.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Less</span></code> does not support <code class="docutils literal notranslate"><span class="pre">broadcast</span></code> for inputs.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LessEqual</span></code> does not support <code class="docutils literal notranslate"><span class="pre">broadcast</span></code> for inputs.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LRN</span></code> layer is supported for <code class="docutils literal notranslate"><span class="pre">axes</span> <span class="pre">=</span> <span class="pre">{1}</span></code> or <code class="docutils literal notranslate"><span class="pre">axes</span> <span class="pre">=</span> <span class="pre">{2,</span> <span class="pre">3}</span></code> only.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MaxPool-1</span></code> layer is supported via arm_compute library for 4D input tensor and via reference implementation for other cases.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MaxPool-1</span></code> layer is supported via arm_compute library for 4D input tensor
+and via reference implementation for other cases.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Mod</span></code> layer is supported for f32 only.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MVN</span></code> layer is supported via arm_compute library for 2D inputs and <code class="docutils literal notranslate"><span class="pre">false</span></code> value of <code class="docutils literal notranslate"><span class="pre">normalize_variance</span></code> and <code class="docutils literal notranslate"><span class="pre">false</span></code> value of <code class="docutils literal notranslate"><span class="pre">across_channels</span></code>, for other cases layer is implemented via runtime reference.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Normalize</span></code> layer is supported via arm_compute library with <code class="docutils literal notranslate"><span class="pre">MAX</span></code> value of <code class="docutils literal notranslate"><span class="pre">eps_mode</span></code> and <code class="docutils literal notranslate"><span class="pre">axes</span> <span class="pre">=</span> <span class="pre">{2</span> <span class="pre">|</span> <span class="pre">3}</span></code>, and for <code class="docutils literal notranslate"><span class="pre">ADD</span></code> value of <code class="docutils literal notranslate"><span class="pre">eps_mode</span></code> layer uses <code class="docutils literal notranslate"><span class="pre">DecomposeNormalizeL2Add</span></code>. For other cases layer is implemented via runtime reference.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MVN</span></code> layer is supported via arm_compute library for 2D inputs and
+<code class="docutils literal notranslate"><span class="pre">false</span></code> value of <code class="docutils literal notranslate"><span class="pre">normalize_variance</span></code> and <code class="docutils literal notranslate"><span class="pre">false</span></code> value of
+<code class="docutils literal notranslate"><span class="pre">across_channels</span></code>, for other cases layer is implemented via runtime
+reference.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Normalize</span></code> layer is supported via arm_compute library with <code class="docutils literal notranslate"><span class="pre">MAX</span></code> value
+of <code class="docutils literal notranslate"><span class="pre">eps_mode</span></code> and <code class="docutils literal notranslate"><span class="pre">axes</span> <span class="pre">=</span> <span class="pre">{2</span> <span class="pre">|</span> <span class="pre">3}</span></code>, and for <code class="docutils literal notranslate"><span class="pre">ADD</span></code> value of <code class="docutils literal notranslate"><span class="pre">eps_mode</span></code>
+layer uses <code class="docutils literal notranslate"><span class="pre">DecomposeNormalizeL2Add</span></code>. For other cases layer is implemented
+via runtime reference.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">NotEqual</span></code> does not support <code class="docutils literal notranslate"><span class="pre">broadcast</span></code> for inputs.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Pad</span></code> layer works with <code class="docutils literal notranslate"><span class="pre">pad_mode</span> <span class="pre">=</span> <span class="pre">{REFLECT</span> <span class="pre">|</span> <span class="pre">CONSTANT</span> <span class="pre">|</span> <span class="pre">SYMMETRIC}</span></code> parameters only.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Round</span></code> layer is supported via arm_compute library with <code class="docutils literal notranslate"><span class="pre">RoundMode::HALF_AWAY_FROM_ZERO</span></code> value of <code class="docutils literal notranslate"><span class="pre">mode</span></code>, for other cases layer is implemented via runtime reference.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SpaceToBatch</span></code> layer is supported for 4D tensors only and constant nodes: <code class="docutils literal notranslate"><span class="pre">shapes</span></code>, <code class="docutils literal notranslate"><span class="pre">pads_begin</span></code> or <code class="docutils literal notranslate"><span class="pre">pads_end</span></code> with zero paddings for batch or channels and one values <code class="docutils literal notranslate"><span class="pre">shapes</span></code> for batch and channels.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SpaceToDepth</span></code> layer is supported for 4D tensors only and for <code class="docutils literal notranslate"><span class="pre">BLOCKS_FIRST</span></code> of <code class="docutils literal notranslate"><span class="pre">mode</span></code> attribute.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">StridedSlice</span></code> layer is supported via arm_compute library for tensors with dims &lt; 5 and zero values of <code class="docutils literal notranslate"><span class="pre">ellipsis_mask</span></code> or zero values of <code class="docutils literal notranslate"><span class="pre">new_axis_mask</span></code> and <code class="docutils literal notranslate"><span class="pre">shrink_axis_mask</span></code>. For other cases, layer is implemented via runtime reference.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> layer is supported via arm_compute library, in Low Precision evaluation mode for suitable models, and via runtime reference otherwise.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pad</span></code> layer works with <code class="docutils literal notranslate"><span class="pre">pad_mode</span> <span class="pre">=</span> <span class="pre">{REFLECT</span> <span class="pre">|</span> <span class="pre">CONSTANT</span> <span class="pre">|</span> <span class="pre">SYMMETRIC}</span></code>
+parameters only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Round</span></code> layer is supported via arm_compute library with
+<code class="docutils literal notranslate"><span class="pre">RoundMode::HALF_AWAY_FROM_ZERO</span></code> value of <code class="docutils literal notranslate"><span class="pre">mode</span></code>, for other cases layer
+is implemented via runtime reference.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SpaceToBatch</span></code> layer is supported for 4D tensors only and constant nodes:
+<code class="docutils literal notranslate"><span class="pre">shapes</span></code>, <code class="docutils literal notranslate"><span class="pre">pads_begin</span></code> or <code class="docutils literal notranslate"><span class="pre">pads_end</span></code> with zero paddings for batch or
+channels and one values <code class="docutils literal notranslate"><span class="pre">shapes</span></code> for batch and channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SpaceToDepth</span></code> layer is supported for 4D tensors only and for
+<code class="docutils literal notranslate"><span class="pre">BLOCKS_FIRST</span></code> of <code class="docutils literal notranslate"><span class="pre">mode</span></code> attribute.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StridedSlice</span></code> layer is supported via arm_compute library for tensors with
+dims &lt; 5 and zero values of <code class="docutils literal notranslate"><span class="pre">ellipsis_mask</span></code> or zero values of
+<code class="docutils literal notranslate"><span class="pre">new_axis_mask</span></code> and <code class="docutils literal notranslate"><span class="pre">shrink_axis_mask</span></code>. For other cases, layer is
+implemented via runtime reference.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> layer is supported via arm_compute library, in Low Precision</p></li>
 </ul>
+<p>evaluation mode for suitable models, and via runtime reference otherwise.</p>
 </section>
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>

@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Step 2 of low precision transformations. Feature a list of transforamtions used to create runtime attributes for operations." name="description" />
+<meta content="low precision transformations, lpt, Markup Transformations, MarkupCanBeQuantized, MarkupPrecisions, MarkupPerTensorQuantization, MarkupAvgPoolPrecisionPreserved, PropagatePrecisions, AlignQuantizationIntervals, AlignQuantizationParameters" name="keywords" />
 
     <title>Step 2. Markup Transformations &#8212; OpenVINO™  documentation</title>
     
@@ -1857,9 +1859,9 @@
             
                 <div>
                   
-  <section id="step-2-markup-transformations">
-<span id="doxid-openvino-docs-o-v-u-g-lpt-step2-markup"></span><span id="index-0"></span><h1>Step 2. Markup Transformations<a class="headerlink" href="#step-2-markup-transformations" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-lpt-step2-markup-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-pipeline-step2-markup"></span> This step defines the optimal <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> decomposition precisions for the best inference performance via operations markup with runtime attribute instances. Attributes are created for input and output ports and operations. Transformations do not change the operation output port precisions. A model markup low precision logic is decomposed and implemented into the following common markup transformations. The order of transformations is important:</p>
+  <span class="target" id="plugin-lpt-step2-markup"><span id="index-0"></span></span><section id="step-2-markup-transformations">
+<h1>Step 2. Markup Transformations<a class="headerlink" href="#step-2-markup-transformations" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="plugin-lpt-step2-markup-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-pipeline-step2-markup"></span> This step defines the optimal <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> decomposition precisions for the best inference performance via operations markup with runtime attribute instances. Attributes are created for input and output ports and operations. Transformations do not change the operation output port precisions. A model markup low precision logic is decomposed and implemented into the following common markup transformations. The order of transformations is important:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="transformations/openvino_docs_OV_UG_lpt_MarkupCanBeQuantized.html#doxid-openvino-docs-o-v-u-g-lpt-markup-can-be-quantized"><span class="std std-ref">MarkupCanBeQuantized</span></a></p></li>
 <li><p><a class="reference internal" href="transformations/openvino_docs_OV_UG_lpt_MarkupPrecisions.html#doxid-openvino-docs-o-v-u-g-lpt-markup-precisions"><span class="std std-ref">MarkupPrecisions</span></a></p></li>
@@ -1913,8 +1915,14 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Note:</strong> the same type of attribute instances can be created in different transformations. This approach is the result of the transformation single-responsibility principle. For example, <code class="docutils literal notranslate"><span class="pre">Precision</span></code> attribute instances are created in <code class="docutils literal notranslate"><span class="pre">MarkupCanBeQuantized</span></code> and <code class="docutils literal notranslate"><span class="pre">MarkupPrecisions</span></code> transformations, but the reasons for their creation are different</p>
-<p>Common markup transformations can be decomposed into simpler utility markup transformations. The order of Markup utility transformations is not important:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The same type of attribute instances can be created in different transformations. This approach is the result
+of the transformation single-responsibility principle. For example, <code class="docutils literal notranslate"><span class="pre">Precision</span></code> attribute instances are created
+in <code class="docutils literal notranslate"><span class="pre">MarkupCanBeQuantized</span></code> and <code class="docutils literal notranslate"><span class="pre">MarkupPrecisions</span></code> transformations, but the reasons for their creation are different.</p>
+</div>
+<p>Common markup transformations can be decomposed into simpler utility markup transformations. The order of Markup
+utility transformations is not important:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="transformations/openvino_docs_OV_UG_lpt_CreateAttribute.html#doxid-openvino-docs-o-v-u-g-lpt-create-attribute"><span class="std std-ref">CreateAttribute</span></a></p></li>
 <li><p><a class="reference internal" href="transformations/openvino_docs_OV_UG_lpt_CreatePrecisionsDependentAttribute.html#doxid-openvino-docs-o-v-u-g-lpt-create-precisions-dependent-attribute"><span class="std std-ref">CreatePrecisionsDependentAttribute</span></a></p></li>
@@ -1981,7 +1989,8 @@
 </section>
 <section id="markuppertensorquantization">
 <h2>3. MarkupPerTensorQuantization<a class="headerlink" href="#markuppertensorquantization" title="Permalink to this headline">¶</a></h2>
-<p>The transformation is required and marks operations (create <code class="docutils literal notranslate"><span class="pre">PerTensorQuantization</span></code> attribute instance) by provided restrictions: an operation that requires per-tensor quantization. No attributes are required before the transformation.</p>
+<p>The transformation is required and marks operations (create <code class="docutils literal notranslate"><span class="pre">PerTensorQuantization</span></code> attribute instance) by provided
+restrictions: an operation that requires per-tensor quantization. No attributes are required before the transformation.</p>
 <p>Changes in the example model after <code class="docutils literal notranslate"><span class="pre">MarkupPerTensorQuantization</span></code> transformation:</p>
 <ul class="simple">
 <li><p>both <code class="docutils literal notranslate"><span class="pre">Convolution</span></code> operations are marked by <code class="docutils literal notranslate"><span class="pre">PerTensorQuantization</span></code></p></li>
@@ -1991,7 +2000,11 @@
 </section>
 <section id="markupavgpoolprecisionpreserved">
 <h2>4. MarkupAvgPoolPrecisionPreserved<a class="headerlink" href="#markupavgpoolprecisionpreserved" title="Permalink to this headline">¶</a></h2>
-<p>The transformation is optional. <code class="docutils literal notranslate"><span class="pre">MarkupAvgPoolPrecisionPreserved</span></code> marks <code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> operations as precision preserved or not precision preserved. <code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> operation is precision preserved if next not precision preserved operation can be inferred in low precision. In other words, <code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> operations become precision preserved operations to speed up model inference. The transformation uses <code class="docutils literal notranslate"><span class="pre">PrecisionPreserved</span></code> attributes created before. The transformation is combined and uses:</p>
+<p>The transformation is optional. <code class="docutils literal notranslate"><span class="pre">MarkupAvgPoolPrecisionPreserved</span></code> marks <code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> operations as precision preserved
+or not precision preserved. <code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> operation is precision preserved if next not precision preserved operation
+can be inferred in low precision. In other words, <code class="docutils literal notranslate"><span class="pre">AvgPool</span></code> operations become precision preserved operations
+to speed up model inference. The transformation uses <code class="docutils literal notranslate"><span class="pre">PrecisionPreserved</span></code> attributes created before. The transformation
+is combined and uses:</p>
 <ul class="simple">
 <li><p>CreatePrecisionsDependentAttribute</p></li>
 <li><p>PropagateThroughPrecisionPreserved</p></li>
@@ -2006,7 +2019,9 @@
 </section>
 <section id="propagateprecisions">
 <h2>5. PropagatePrecisions<a class="headerlink" href="#propagateprecisions" title="Permalink to this headline">¶</a></h2>
-<p>The transformation is required. <code class="docutils literal notranslate"><span class="pre">PropagatePrecision</span></code> is a key transformation in the markup pipeline, which marks <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> output port precisions. The transformation uses <code class="docutils literal notranslate"><span class="pre">PrecisionPreserved</span></code> attribute instances created before. The transformation is combined and uses:</p>
+<p>The transformation is required. <code class="docutils literal notranslate"><span class="pre">PropagatePrecision</span></code> is a key transformation in the markup pipeline, which marks
+<code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> output port precisions. The transformation uses <code class="docutils literal notranslate"><span class="pre">PrecisionPreserved</span></code> attribute instances created before.
+The transformation is combined and uses:</p>
 <ul class="simple">
 <li><p>CreateAttribute</p></li>
 <li><p>PropagateThroughPrecisionPreserved</p></li>
@@ -2021,12 +2036,15 @@
 <img alt="PropagatePrecisions" src="../../../../_images/step2_markup5.png" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">AlignQuantizationIntervals</span></code> and <code class="docutils literal notranslate"><span class="pre">AlignQuantizationParameters</span></code> transformations are required if the model has quantized concatenation operations.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AlignQuantizationIntervals</span></code> and <code class="docutils literal notranslate"><span class="pre">AlignQuantizationParameters</span></code> transformations are required if the model has
+quantized concatenation operations.</p>
 </div>
 </section>
 <section id="alignquantizationintervals">
 <h2>6. AlignQuantizationIntervals<a class="headerlink" href="#alignquantizationintervals" title="Permalink to this headline">¶</a></h2>
-<p>The transformation is required for models with the quantized operation. The transformation marks <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operation and precision preserved consumers to combine quantization information from different <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operations for future quantization intervals alignment. The transformation is combined and uses:</p>
+<p>The transformation is required for models with the quantized operation. The transformation marks <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operation
+and precision preserved consumers to combine quantization information from different <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operations
+for future quantization intervals alignment. The transformation is combined and uses:</p>
 <ul class="simple">
 <li><p>CreateAttribute</p></li>
 <li><p>PropagateThroughPrecisionPreserved</p></li>
@@ -2040,7 +2058,8 @@
 </section>
 <section id="alignquantizationparameters">
 <h2>7. AlignQuantizationParameters<a class="headerlink" href="#alignquantizationparameters" title="Permalink to this headline">¶</a></h2>
-<p>The transformation is required for models with quantized concatenation operation. The transformation marks <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> precision preserved consumers to align quantization intervals. The transformation is combined and uses:</p>
+<p>The transformation is required for models with quantized concatenation operation. The transformation marks <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code>
+precision preserved consumers to align quantization intervals. The transformation is combined and uses:</p>
 <ul class="simple">
 <li><p>CreateAttribute</p></li>
 <li><p>PropagateThroughPrecisionPreserved</p></li>

@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Step 3 of low precision transformations. Feature a list of transforamtions used to decomposition transformation and dequantization operations handling." name="description" />
+<meta content="low precision transformations, lpt, Main Transformations, decomposition transformation, dequantization operation handling, AddTransformation, AvgPoolTransformation, ClampTransformation, ConcatTransformation, ConvolutionTransformation, ConvolutionBackpropDataTransformation, DepthToSpaceTransformation, FakeQuantizeDecompositionTransformation, FakeQuantizeTransformation, InterpolateTransformation, GroupConvolutionTransformation, MatMulTransformation, MaxPoolTransformation, MultiplyTransformation, MVNTransformation, NormalizeL2Transformation, PReluTransformation, ReduceMaxTransformation, ReduceMeanTransformation, ReduceMinTransformation, ReduceSumTransformation, ReluTransformation, ReshapeTransformation, SqueezeTransformation, ShuffleChannelsTransformation, SplitTransformation, StridedSliceTransformation, TransposeTransformation, UnsqueezeTransformation, VariadicSplitTransformation, FakeQuantize" name="keywords" />
 
     <title>Step 3. Main Transformations &#8212; OpenVINO™  documentation</title>
     
@@ -1817,9 +1819,9 @@
             
                 <div>
                   
-  <section id="step-3-main-transformations">
-<span id="doxid-openvino-docs-o-v-u-g-lpt-step3-main"></span><span id="index-0"></span><h1>Step 3. Main Transformations<a class="headerlink" href="#step-3-main-transformations" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-lpt-step3-main-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-pipeline-step3-main"></span> Main transformations are the majority of low precision transformations. Transformations operate with dequantization operations. Main transformations include:</p>
+  <span class="target" id="plugin-lpt-step3-main-transformations"><span id="index-0"></span></span><section id="step-3-main-transformations">
+<h1>Step 3. Main Transformations<a class="headerlink" href="#step-3-main-transformations" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="plugin-lpt-step3-main-transformations-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-pipeline-step3-main"></span> Main transformations are the majority of low precision transformations. Transformations operate with dequantization operations. Main transformations include:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="transformations/openvino_docs_OV_UG_lpt_AddTransformation.html#doxid-openvino-docs-o-v-u-g-lpt-add-transformation"><span class="std std-ref">AddTransformation</span></a></p></li>
 <li><p><a class="reference internal" href="transformations/openvino_docs_OV_UG_lpt_AvgPoolTransformation.html#doxid-openvino-docs-o-v-u-g-lpt-avg-pool-transformation"><span class="std std-ref">AvgPoolTransformation</span></a></p></li>
@@ -1866,7 +1868,13 @@
 </li>
 <li><p>Dequantization operations were moved via precision preserved (<code class="docutils literal notranslate"><span class="pre">concat1</span></code> and <code class="docutils literal notranslate"><span class="pre">concat2</span></code>) and quantized (<code class="docutils literal notranslate"><span class="pre">convolution2</span></code>) operations.</p></li>
 </ul>
-<p><strong>Note:</strong> the left branch (branch #1) does not require per-tensor quantization. As a result, the <code class="docutils literal notranslate"><span class="pre">fakeQuantize1</span></code> output interval is [0, 255]. But quantized <code class="docutils literal notranslate"><span class="pre">convolution2</span></code> requires per-tensor quantization on the right branch (branch #2). Then all connected <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> interval operations (<code class="docutils literal notranslate"><span class="pre">fakeQuantize1</span></code> and <code class="docutils literal notranslate"><span class="pre">fakeQuantize2</span></code>) are aligned to have per-tensor quantization after the concatenation (<code class="docutils literal notranslate"><span class="pre">concat2</span></code>) operation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The left branch (branch #1) does not require per-tensor quantization. As a result, the <code class="docutils literal notranslate"><span class="pre">fakeQuantize1</span></code> output
+interval is [0, 255]. But quantized <code class="docutils literal notranslate"><span class="pre">convolution2</span></code> requires per-tensor quantization on the right branch (branch #2).
+Then all connected <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> interval operations (<code class="docutils literal notranslate"><span class="pre">fakeQuantize1</span></code> and <code class="docutils literal notranslate"><span class="pre">fakeQuantize2</span></code>) are aligned to have
+per-tensor quantization after the concatenation (<code class="docutils literal notranslate"><span class="pre">concat2</span></code>) operation.</p>
+</div>
 </section>
 
 
