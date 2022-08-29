@@ -1855,7 +1855,7 @@ convolution). For more details, see the
 <li><p>Let OpenVINO accelerate other means of
 <a class="reference internal" href="../openvino-runtime-user-guide/preprocessing.html#doxid-openvino-docs-o-v-u-g-preprocessing-overview"><span class="std std-ref">Image Pre-processing and Conversion</span></a>.</p></li>
 <li><p>Data which is already in the “on-device” memory can be input directly by
-using the <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/inference-device-gpu/remote-tensor-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-remote-tensor-a-p-i"><span class="std std-ref">remote tensors API of the GPU Plugin</span></a>.</p></li>
+using the <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/inference-device-gpu/remote-tensor-gpu.html#deploy-infer-gpu-device-remote-tensor"><span class="std std-ref">remote tensors API of the GPU Plugin</span></a>.</p></li>
 </ul>
 <p><span class="target" id="deployment-general-optimizations-1async-api"></span></p>
 </section>
@@ -1975,7 +1975,7 @@ the <code class="docutils literal notranslate"><span class="pre">set_tensor</spa
 <li><p>In contrast, when the input tensors are already in the <strong>on-device memory</strong>
 (e.g. as a result of the video-decoding), prefer the <code class="docutils literal notranslate"><span class="pre">set_tensor</span></code> as a
 zero-copy way to proceed. For more details, see the
-<a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/inference-device-gpu/remote-tensor-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-remote-tensor-a-p-i"><span class="std std-ref">GPU device Remote tensors API</span></a>.</p></li>
+<a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/inference-device-gpu/remote-tensor-gpu.html#deploy-infer-gpu-device-remote-tensor"><span class="std std-ref">GPU device Remote tensors API</span></a>.</p></li>
 </ul>
 <p>Consider the <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/inference-request.html#deploy-infer-inference-request-1in-out-tensors"><span class="std std-ref">API examples</span></a>
 for the <code class="docutils literal notranslate"><span class="pre">get_tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">set_tensor</span></code>.</p>

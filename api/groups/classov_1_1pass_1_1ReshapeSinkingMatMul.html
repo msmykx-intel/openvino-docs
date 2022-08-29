@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>class ngraph::pass::ReshapeSinkingMatMul &#8212; OpenVINO™  documentation</title>
+    <title>class ov::pass::ReshapeSinkingMatMul &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -71,7 +71,7 @@
     <script src="../../_static/togglebutton.js"></script>
     <script src="../../_static/target-highlight.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/classngraph_1_1pass_1_1ReshapeSinkingMatMul.html" />
+    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/classov_1_1pass_1_1ReshapeSinkingMatMul.html" />
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -2366,6 +2366,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1pass_1_1EyeDecomposition.html">
+   EyeDecomposition
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1pass_1_1FakeQuantizeDecomposition.html">
    FakeQuantizeDecomposition
   </a>
@@ -2598,7 +2603,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="classngraph_1_1pass_1_1LSTMStatesBroadcast.html">
+  <a class="reference internal" href="classov_1_1pass_1_1LSTMStatesBroadcast.html">
    LSTMStatesBroadcast
   </a>
  </li>
@@ -3364,9 +3369,9 @@
             
                 <div>
                   
-  <section id="class-ngraph-pass-reshapesinkingmatmul">
-<span id="doxid-classngraph-1-1pass-1-1-reshape-sinking-mat-mul"></span><span id="index-0"></span><h1>class ngraph::pass::ReshapeSinkingMatMul<a class="headerlink" href="#class-ngraph-pass-reshapesinkingmatmul" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="#doxid-classngraph-1-1pass-1-1-reshape-sinking-mat-mul"><span class="std std-ref">ReshapeSinkingMatMul</span></a> transformation looks for MatMul followed by optional Add surrounded with Reshape operations which are only needed to merge and unmerge dimensions into MatMuls batch. In case of success upscales MatMul to work with multidimensional batch and updates Reshape operators to make batch propagate through freely.</p>
+  <section id="class-ov-pass-reshapesinkingmatmul">
+<span id="doxid-classov-1-1pass-1-1-reshape-sinking-mat-mul"></span><span id="index-0"></span><h1>class ov::pass::ReshapeSinkingMatMul<a class="headerlink" href="#class-ov-pass-reshapesinkingmatmul" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#doxid-classov-1-1pass-1-1-reshape-sinking-mat-mul"><span class="std std-ref">ReshapeSinkingMatMul</span></a> transformation looks for MatMul followed by optional Add surrounded with Reshape operations which are only needed to merge and unmerge dimensions into MatMuls batch. In case of success upscales MatMul to work with multidimensional batch and updates Reshape operators to make batch propagate through freely.</p>
 <div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;reshape_sinking.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">class</span> <span class="nl">ReshapeSinkingMatMul</span><span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="classov_1_1pass_1_1MatcherPass.html#doxid-classov-1-1pass-1-1-matcher-pass"><span class="std std-ref">ov::pass::MatcherPass</span></a><span></span>
@@ -3374,7 +3379,7 @@
 <span class="k">public</span><span class="o">:</span>
     <span class="c1">// methods</span>
 
-    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1pass-1-1-reshape-sinking-mat-mul-1a521cc8c681f25b9a7321a97950c53a00"><span></span><span class="n">OPENVINO_RTTI</span></span><span></span><span class="p">(</span><span class="s">&quot;ReshapeSinkingMatMul&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">);</span>
+    <span class="doxyrest-code-target target" id="doxid-classov-1-1pass-1-1-reshape-sinking-mat-mul-1a8d8fbbd8d6a6fd1c147c999bf115e0a1"><span></span><span class="n">OPENVINO_RTTI</span></span><span></span><span class="p">(</span><span class="s">&quot;ReshapeSinkingMatMul&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">);</span>
 <span class="p">};</span></pre></div></div><section id="inherited-members">
 <h2>Inherited Members<a class="headerlink" href="#inherited-members" title="Permalink to this headline">¶</a></h2>
 <div class="highlight doxyrest-overview-inherited-code-block"><div class="highlight"><pre><span></span><span class="k">public</span><span class="o">:</span>

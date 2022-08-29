@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The HDDL plugin in OpenVINO™ has been developed for inference of neural networks on Intel® Vision Accelerator Design with Intel® Movidius™ VPUs." name="description" />
+<meta content="OpenVINO™, OpenVINO™ Runtime plugin, inference, deep learning model, model inference, VPU plugin, HDDL plugin, HDDL device, Intel® Vision Accelerator Design, Intel® Movidius™, Intel Movidius™ Vision Processing Units, VPU configuration, KEY_VPU_HDDL_DEVICE_TAG, VPU" name="keywords" />
 
     <title>HDDL Device &#8212; OpenVINO™  documentation</title>
     
@@ -1835,9 +1837,9 @@
             
                 <div>
                   
-  <section id="hddl-device">
-<span id="doxid-openvino-docs-o-v-u-g-supported-plugins-h-d-d-l"></span><span id="index-0"></span><h1>HDDL Device<a class="headerlink" href="#hddl-device" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-supported-plugins-h-d-d-l-1md-openvino-docs-ov-runtime-ug-supported-plugins-hddl"></span></p>
+  <span class="target" id="deploy-infer-vpu-hddl-device"><span id="index-0"></span></span><section id="hddl-device">
+<h1>HDDL Device<a class="headerlink" href="#hddl-device" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-vpu-hddl-device-1md-openvino-docs-ov-runtime-ug-supported-plugins-hddl"></span></p>
 <section id="introducing-the-hddl-plugin">
 <h2>Introducing the HDDL Plugin<a class="headerlink" href="#introducing-the-hddl-plugin" title="Permalink to this headline">¶</a></h2>
 <p>The OpenVINO Runtime HDDL plugin was developed for inference with neural networks on Intel® Vision Accelerator Design with Intel® Movidius™ VPUs. It is designed for use cases that require large throughput for deep learning inference, up to dozens of times more than the MYRIAD Plugin.</p>
@@ -1855,11 +1857,11 @@ will boot all available Intel® Movidius™ Myriad™ X devices.</p>
 </section>
 <section id="supported-networks">
 <h2>Supported networks<a class="headerlink" href="#supported-networks" title="Permalink to this headline">¶</a></h2>
-<p>To see the list of supported networks for the HDDL plugin, refer to the list on the <a class="reference internal" href="myriad-device.html#doxid-openvino-docs-o-v-u-g-supported-plugins-m-y-r-i-a-d"><span class="std std-ref">MYRIAD Plugin page</span></a>.</p>
+<p>To see the list of supported networks for the HDDL plugin, refer to the list on the <a class="reference internal" href="myriad-device.html#deploy-infer-vpu-myriad-device"><span class="std std-ref">MYRIAD Plugin page</span></a>.</p>
 </section>
 <section id="supported-configuration-parameters">
 <h2>Supported Configuration Parameters<a class="headerlink" href="#supported-configuration-parameters" title="Permalink to this headline">¶</a></h2>
-<p>For information on VPU common configuration parameters, see the <a class="reference internal" href="../inference-device-vpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-v-p-u"><span class="std std-ref">VPU Plugins</span></a>. When specifying key values as raw strings (when using the Python API), omit the <code class="docutils literal notranslate"><span class="pre">KEY_</span></code> prefix.</p>
+<p>For information on VPU common configuration parameters, see the <a class="reference internal" href="../inference-device-vpu.html#deploy-infer-vpu-device"><span class="std std-ref">VPU Plugins</span></a>. When specifying key values as raw strings (when using the Python API), omit the <code class="docutils literal notranslate"><span class="pre">KEY_</span></code> prefix.</p>
 <p>In addition to common parameters for both VPU plugins, the HDDL plugin accepts the following options:</p>
 <table class="table">
 <colgroup>
@@ -1913,8 +1915,8 @@ will boot all available Intel® Movidius™ Myriad™ X devices.</p>
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="../../../../resources/record-of-openvino-supported-devices.html#doxid-openvino-docs-o-v-u-g-supported-plugins-supported-devices"><span class="std std-ref">Supported Devices</span></a></p></li>
-<li><p><a class="reference internal" href="../inference-device-vpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-v-p-u"><span class="std std-ref">VPU Plugins</span></a></p></li>
-<li><p><a class="reference internal" href="myriad-device.html#doxid-openvino-docs-o-v-u-g-supported-plugins-m-y-r-i-a-d"><span class="std std-ref">MYRIAD Plugin</span></a></p></li>
+<li><p><a class="reference internal" href="../inference-device-vpu.html#deploy-infer-vpu-device"><span class="std std-ref">VPU Plugins</span></a></p></li>
+<li><p><a class="reference internal" href="myriad-device.html#deploy-infer-vpu-myriad-device"><span class="std std-ref">MYRIAD Plugin</span></a></p></li>
 </ul>
 </section>
 </section>

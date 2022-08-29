@@ -1923,7 +1923,7 @@ versions of the <code class="docutils literal notranslate"><span class="pre">ben
 outputs internal execution breakdown.</p>
 <p>For example, the table shown below is the part of performance counters for quantized
 <a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/public/resnet-50-tf">TensorFlow implementation of ResNet-50</a>
-model inference on <a class="reference internal" href="openvino-runtime-user-guide/working-with-devices/inference-device-cpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-c-p-u"><span class="std std-ref">CPU Plugin</span></a>.
+model inference on <a class="reference internal" href="openvino-runtime-user-guide/working-with-devices/inference-device-cpu.html#deploy-infer-cpu-device"><span class="std std-ref">CPU Plugin</span></a>.
 Keep in mind that since the device is CPU, the <code class="docutils literal notranslate"><span class="pre">realTime</span></code> wall clock and the
 <code class="docutils literal notranslate"><span class="pre">cpu</span></code> time layers are the same. Information about layer precision is also
 stored in the performance counters.</p>
@@ -2019,7 +2019,7 @@ in 8-bit precision.</p></li>
 </ul>
 <p>All <code class="docutils literal notranslate"><span class="pre">Convolution</span></code> layers are executed in <code class="docutils literal notranslate"><span class="pre">int8</span></code> precision. The rest of the
 layers are fused into Convolutions using post-operation optimization, as described
-in <a class="reference internal" href="openvino-runtime-user-guide/working-with-devices/inference-device-cpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-c-p-u"><span class="std std-ref">CPU Device</span></a>.
+in <a class="reference internal" href="openvino-runtime-user-guide/working-with-devices/inference-device-cpu.html#deploy-infer-cpu-device"><span class="std std-ref">CPU Device</span></a>.
 This contains layer names (as seen in OpenVINO IR), type of the layer, and
 execution statistics.</p>
 <p>Both <code class="docutils literal notranslate"><span class="pre">benchmark_app</span></code> versions also support the <code class="docutils literal notranslate"><span class="pre">exec_graph_path</span></code> command-line

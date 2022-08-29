@@ -2366,6 +2366,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1pass_1_1EyeDecomposition.html">
+   EyeDecomposition
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1pass_1_1FakeQuantizeDecomposition.html">
    FakeQuantizeDecomposition
   </a>
@@ -2598,7 +2603,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="classngraph_1_1pass_1_1LSTMStatesBroadcast.html">
+  <a class="reference internal" href="classov_1_1pass_1_1LSTMStatesBroadcast.html">
    LSTMStatesBroadcast
   </a>
  </li>
@@ -3006,7 +3011,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="classngraph_1_1pass_1_1ReshapeSinkingMatMul.html">
+  <a class="reference internal" href="classov_1_1pass_1_1ReshapeSinkingMatMul.html">
    ReshapeSinkingMatMul
   </a>
  </li>
@@ -4496,7 +4501,7 @@
     <span class="p">);</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="doxyrest-code-target target" id="doxid-namespacengraph-1-1runtime-1-1reference-1a923cebe7aad87ffa5a6e47fe63fa5129"><span></span><span class="n">gru_cell</span></span><span></span><span class="p">(</span>
+<span class="kt">void</span> <span class="doxyrest-code-target target" id="doxid-namespacengraph-1-1runtime-1-1reference-1aa18b005fd4de2c4b876a5a3141fd74d9"><span></span><span class="n">gru_cell</span></span><span></span><span class="p">(</span>
     <span class="k">const</span> <span class="n">T</span> <span class="err">\</span><span class="o">*</span> <span class="n">X</span><span class="p">,</span>
     <span class="k">const</span> <a class="reference internal" href="classov_1_1Shape.html#doxid-classov-1-1-shape"><span class="std std-ref">Shape</span></a><span></span><span class="o">&amp;</span> <span class="n">X_shape</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">T</span> <span class="err">\</span><span class="o">*</span> <span class="n">H</span><span class="p">,</span>
@@ -4511,7 +4516,8 @@
     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">activation_f</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">activation_g</span><span class="p">,</span>
     <span class="kt">float</span> <span class="n">clip</span><span class="p">,</span>
-    <span class="kt">bool</span> <span class="n">linear_before_reset</span>
+    <span class="kt">bool</span> <span class="n">linear_before_reset</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">T</span> <span class="err">\</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="k">nullptr</span>
     <span class="p">);</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
@@ -5509,7 +5515,7 @@
     <span class="p">);</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">U</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="doxyrest-code-target target" id="doxid-namespacengraph-1-1runtime-1-1reference-1a02bd7e9a3ced51844d3c4c4c15bb6aa1"><span></span><span class="n">gru_sequence</span></span><span></span><span class="p">(</span>
+<span class="kt">void</span> <span class="doxyrest-code-target target" id="doxid-namespacengraph-1-1runtime-1-1reference-1a90c7501939729994a6a276510d4da8d0"><span></span><span class="n">gru_sequence</span></span><span></span><span class="p">(</span>
     <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">X</span><span class="p">,</span>
     <span class="k">const</span> <a class="reference internal" href="classov_1_1Shape.html#doxid-classov-1-1-shape"><span class="std std-ref">Shape</span></a><span></span><span class="o">&amp;</span> <span class="n">X_shape</span><span class="p">,</span>
     <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">H</span><span class="p">,</span>
@@ -5528,7 +5534,8 @@
     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">activation_g</span><span class="p">,</span>
     <span class="k">const</span> <span class="kt">float</span> <span class="n">clip</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">op</span><span class="o">::</span><span class="n">RecurrentSequenceDirection</span> <span class="n">direction</span><span class="p">,</span>
-    <span class="k">const</span> <span class="kt">bool</span> <span class="n">linear_before_reset</span>
+    <span class="k">const</span> <span class="kt">bool</span> <span class="n">linear_before_reset</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="k">nullptr</span>
     <span class="p">);</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">U</span><span class="o">&gt;</span>

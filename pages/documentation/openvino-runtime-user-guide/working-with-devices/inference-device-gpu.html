@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The GPU plugin in the Intel® Distribution of OpenVINO™ toolkit is is an OpenCL based plugin for inference of deep neural networks on Intel® GPus." name="description" />
+<meta content="OpenVINO™, OpenVINO Runtime, GPU plugin, Intel GPU, inference, inference device, integrated Intel GPU, discrete Intel GPU, inference precision, f32 data type, f16 data type, bfloat16, u8 data type, i8 data type, u1 data type, FP32, FP32 precision, floating-point data type, FP16 precision, multi-device execution, multi-stream execution, dynamic shapes, preprocessing acceleration, model caching, extensibility, read-write properties, read-only properties, OpenVINO IR, OpenVINO Intermediate Representation, compile model, BATCH, BATCH plugin" name="keywords" />
 
     <title>GPU Device &#8212; OpenVINO™  documentation</title>
     
@@ -1899,9 +1901,9 @@
             
                 <div>
                   
-  <section id="gpu-device">
-<span id="doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u"></span><span id="index-0"></span><h1>GPU Device<a class="headerlink" href="#gpu-device" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-1md-openvino-docs-ov-runtime-ug-supported-plugins-gpu"></span></p>
+  <span class="target" id="deploy-infer-gpu-device"><span id="index-0"></span></span><section id="gpu-device">
+<h1>GPU Device<a class="headerlink" href="#gpu-device" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-gpu-device-1md-openvino-docs-ov-runtime-ug-supported-plugins-gpu"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>The GPU plugin is an OpenCL based plugin for inference of deep neural networks
@@ -2201,7 +2203,7 @@ time is significantly longer, compared to the static batch scenario.</p>
 <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request-1af54f126e7fb3b3a0343841dda8bcc368"><span class="std std-ref"><span class="pre">ov::InferRequest::set_tensor()</span></span></a></code>
 or <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/classov_1_1InferRequest.html#doxid-classov-1-1-infer-request-1a935a952c07cc7130a64614d0952db997"><span class="std std-ref"><span class="pre">ov::InferRequest::set_tensors()</span></span></a></code>
 methods.</p>
-<p>For usage examples, refer to the <a class="reference internal" href="inference-device-gpu/remote-tensor-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-remote-tensor-a-p-i"><span class="std std-ref">RemoteTensor API</span></a>.</p>
+<p>For usage examples, refer to the <a class="reference internal" href="inference-device-gpu/remote-tensor-gpu.html#deploy-infer-gpu-device-remote-tensor"><span class="std std-ref">RemoteTensor API</span></a>.</p>
 <p>For more details, see the <a class="reference internal" href="../preprocessing.html#doxid-openvino-docs-o-v-u-g-preprocessing-overview"><span class="std std-ref">preprocessing API</span></a>.</p>
 </section>
 <section id="model-caching">
@@ -2225,7 +2227,7 @@ property enabled.</p>
 <section id="gpu-context-and-memory-sharing-via-remotetensor-api">
 <h3>GPU Context and Memory Sharing via RemoteTensor API<a class="headerlink" href="#gpu-context-and-memory-sharing-via-remotetensor-api" title="Permalink to this headline">¶</a></h3>
 <p>For information on this subject, see the
-<a class="reference internal" href="inference-device-gpu/remote-tensor-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-remote-tensor-a-p-i"><span class="std std-ref">RemoteTensor API of GPU Plugin</span></a>.</p>
+<a class="reference internal" href="inference-device-gpu/remote-tensor-gpu.html#deploy-infer-gpu-device-remote-tensor"><span class="std std-ref">RemoteTensor API of GPU Plugin</span></a>.</p>
 </section>
 </section>
 <section id="supported-properties">
@@ -2299,7 +2301,7 @@ the <a class="reference external" href="https://docs.openvino.ai/latest/pot_intr
 to minimize model load time.</p></li>
 <li><p>If your application performs inference on the CPU alongside the GPU, or otherwise
 loads the host heavily, make sure that the OpenCL driver threads do not starve.
-<a class="reference internal" href="inference-device-cpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-c-p-u"><span class="std std-ref">CPU configuration options</span></a>
+<a class="reference internal" href="inference-device-cpu.html#deploy-infer-cpu-device"><span class="std std-ref">CPU configuration options</span></a>
 can be used to limit the number of inference threads for the CPU plugin.</p></li>
 <li><p>Even in the GPU-only scenario, a GPU driver might occupy a CPU core with
 spin-loop polling for completion. If CPU load is a concern, consider the
@@ -2307,7 +2309,7 @@ dedicated <code class="docutils literal notranslate"><span class="pre">queue_thr
 option may increase inference latency, so consider combining it with multiple
 GPU streams or <a class="reference internal" href="../performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">throughput performance hints</span></a>.</p></li>
 <li><p>When operating media inputs, consider
-<a class="reference internal" href="inference-device-gpu/remote-tensor-gpu.html#doxid-openvino-docs-o-v-u-g-supported-plugins-g-p-u-remote-tensor-a-p-i"><span class="std std-ref">remote tensors API of the GPU Plugin</span></a>.</p></li>
+<a class="reference internal" href="inference-device-gpu/remote-tensor-gpu.html#deploy-infer-gpu-device-remote-tensor"><span class="std std-ref">remote tensors API of the GPU Plugin</span></a>.</p></li>
 </ul>
 </section>
 <section id="additional-resources">
