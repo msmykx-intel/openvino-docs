@@ -1848,9 +1848,9 @@
             
                 <div>
                   
-  <span class="target" id="executable-network-functionality"><span id="index-0"></span></span><section id="executable-network">
+  <span class="target" id="extensibility-plugin-executable-network-functionality"><span id="index-0"></span></span><section id="executable-network">
 <h1>Executable Network<a class="headerlink" href="#executable-network" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="executable-network-functionality-1md-openvino-docs-ie-plugin-dg-executablenetwork"></span> <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> class
+<p><span class="target" id="extensibility-plugin-executable-network-functionality-1md-openvino-docs-ie-plugin-dg-executablenetwork"></span> <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> class
 functionality:</p>
 <ul class="simple">
 <li><p>Compile an <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1ICNNNetwork.html#doxid-class-inference-engine-1-1-i-c-n-n-network"><span class="std std-ref">InferenceEngine::ICNNNetwork</span></a> instance to a backend specific graph representation</p></li>
@@ -2065,7 +2065,7 @@ specific graph later in the <code class="docutils literal notranslate"><span cla
 interface for inference request, which can be executed in synchronous and asynchronous modes, a plugin library implementation
 has two separate classes:</p>
 <ul>
-<li><p><a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Synchronous inference request</span></a>, which defines pipeline stages and runs them synchronously in the <code class="docutils literal notranslate"><span class="pre">Infer</span></code> method.</p></li>
+<li><p><a class="reference internal" href="synchronous-inference-request.html#extensibility-plugin-synch-inf-req"><span class="std std-ref">Synchronous inference request</span></a>, which defines pipeline stages and runs them synchronously in the <code class="docutils literal notranslate"><span class="pre">Infer</span></code> method.</p></li>
 <li><p><a class="reference internal" href="asynchronous-inference-request.html#extensibility-plugin-async-infer-req"><span class="std std-ref">Asynchronous inference request</span></a>, which is a wrapper for a synchronous inference request and can run a pipeline asynchronously. Depending on a device pipeline structure, it can has one or several stages:</p>
 <ul>
 <li><p>For single-stage pipelines, there is no need to define this method and create a class derived from <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a>. For single stage pipelines, a default implementation of this method creates <a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1AsyncInferRequestThreadSafeDefault.html#doxid-class-inference-engine-1-1-async-infer-request-thread-safe-default"><span class="std std-ref">InferenceEngine::AsyncInferRequestThreadSafeDefault</span></a> wrapping a synchronous inference request and runs it asynchronously in the <code class="docutils literal notranslate"><span class="pre">_taskExecutor</span></code> executor.</p></li>
@@ -2090,7 +2090,7 @@ has two separate classes:</p>
 </li>
 </ul>
 <p>This is a helper method used by <code class="docutils literal notranslate"><span class="pre">CreateInferRequest</span></code> to create a
-<a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">synchronous inference request</span></a>, which is later wrapped with
+<a class="reference internal" href="synchronous-inference-request.html#extensibility-plugin-synch-inf-req"><span class="std std-ref">synchronous inference request</span></a>, which is later wrapped with
 the asynchronous inference request class:</p>
 <div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IInferRequestInternal.html#doxid-class-inference-engine-1-1-i-infer-request-internal-1a50c614e7a30e1e8ee58e984f210a1558"><span class="std std-ref">InferenceEngine::IInferRequestInternal::Ptr</span></a><span></span> <span class="n">TemplatePlugin</span><span class="o">::</span><span class="n">ExecutableNetwork</span><span class="o">::</span><span class="n">CreateInferRequestImpl</span><span class="p">(</span>
     <a class="reference internal" href="../../../api/groups/namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a08270747275eb79985154365aa782a2a"><span class="std std-ref">InferenceEngine::InputsDataMap</span></a><span></span> <span class="n">networkInputs</span><span class="p">,</span>
@@ -2148,7 +2148,7 @@ network is compiled with.</p>
 <span class="p">}</span></pre></div></div><p>This function is the only way to get configuration values when a network is imported and compiled by other developers
 and tools (for example, the <a class="reference external" href="../_inference_engine_tools_compile_tool_README.html">Compile tool</a>).</p>
 <p>The next step in plugin library implementation is the
-<a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Synchronous Inference Request</span></a> class.</p>
+<a class="reference internal" href="synchronous-inference-request.html#extensibility-plugin-synch-inf-req"><span class="std std-ref">Synchronous Inference Request</span></a> class.</p>
 </section>
 </section>
 </section>

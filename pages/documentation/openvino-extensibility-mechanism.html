@@ -1885,7 +1885,7 @@
 <p>Depending on model format used for import, mapping of custom operation is implemented differently, choose one of:</p>
 <ol class="arabic simple">
 <li><p>If model is represented in ONNX (including models exported from Pytorch in ONNX) or PaddlePaddle formats, then one of the classes from <a class="reference internal" href="openvino-extensibility-mechanism/frontend-extensions.html#extensibility-frontend-extensions"><span class="std std-ref">Frontend Extension API</span></a> should be used. It consists of several classes available in C++ which can be used with Model Optimizer <code class="docutils literal notranslate"><span class="pre">--extensions</span></code> option or when model is imported directly to OpenVINO run-time using read_model method. Python API is also available for run-time model importing.</p></li>
-<li><p>If model is represented in TensorFlow, Caffe, Kaldi or MXNet formats, then <a class="reference internal" href="openvino-extensibility-mechanism/model_optimizer_extensibility.html#model-optimizer-extensibility"><span class="std std-ref">Model Optimizer Extensions</span></a> should be used. This approach is available for model conversion in Model Optimizer only.</p></li>
+<li><p>If model is represented in TensorFlow, Caffe, Kaldi or MXNet formats, then <a class="reference internal" href="openvino-extensibility-mechanism/model_optimizer_extensibility.html#extensibility-model-optimizer"><span class="std std-ref">Model Optimizer Extensions</span></a> should be used. This approach is available for model conversion in Model Optimizer only.</p></li>
 </ol>
 <p>Existing of two approaches simultaneously is explained by two different types of frontends used for model conversion in OpenVINO: new frontends (ONNX, PaddlePaddle) and legacy frontends (TensorFlow, Caffe, Kaldi and Apache MXNet). Model Optimizer can use both front-ends in contrast to the direct import of model with <code class="docutils literal notranslate"><span class="pre">read_model</span></code> method which can use new frontends only. Follow one of the appropriate guides referenced above to implement mappings depending on framework frontend.</p>
 <p>If you are implementing extensions for ONNX or PaddlePaddle new frontends and plan to use Model Optimizer <code class="docutils literal notranslate"><span class="pre">--extension</span></code> option for model conversion, then the extensions should be</p>
@@ -1969,7 +1969,7 @@
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="openvino-transformation-api.html#transformations-overview"><span class="std std-ref">OpenVINO Transformations</span></a></p></li>
+<li><p><a class="reference internal" href="openvino-transformation-api.html#extensibility-transformations-overview"><span class="std std-ref">OpenVINO Transformations</span></a></p></li>
 <li><p><a class="reference internal" href="../get-started-guide/samples.html#doxid-openvino-docs-o-v-u-g-samples-overview"><span class="std std-ref">Using OpenVINO Runtime Samples</span></a></p></li>
 <li><p><a class="reference internal" href="../get-started-guide/samples/cpp-sample-hello-reshape-ssd.html#doxid-openvino-inference-engine-samples-hello-reshape-ssd-r-e-a-d-m-e"><span class="std std-ref">Hello Shape Infer SSD sample</span></a></p></li>
 </ul>

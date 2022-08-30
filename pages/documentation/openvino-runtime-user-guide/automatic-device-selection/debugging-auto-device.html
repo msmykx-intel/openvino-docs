@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Auto-Device plugin provides information on exceptions and error values when execution problems occur." name="description" />
+<meta content="OpenVINO™ Runtime, Automatic Device Selection, Automatic Device Selection mode, AUTO device, AUTO plugin, inference, model inference, OPENVINO_LOG_LEVEL, debugging, debug auto-device, auto-device plugin, Instrumentation and Tracing Technology, ITT API, Intel® VTune™ Profiler, instrumentation, code performance, code performance analysis" name="keywords" />
 
     <title>Debugging Auto-Device Plugin &#8212; OpenVINO™  documentation</title>
     
@@ -1839,9 +1841,9 @@
             
                 <div>
                   
-  <section id="debugging-auto-device-plugin">
-<span id="doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o-debugging"></span><span id="index-0"></span><h1>Debugging Auto-Device Plugin<a class="headerlink" href="#debugging-auto-device-plugin" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o-debugging-1md-openvino-docs-ov-runtime-ug-autoplugin-debugging"></span></p>
+  <span class="target" id="deploy-infer-debugging-auto-plugin"><span id="index-0"></span></span><section id="debugging-auto-device-plugin">
+<h1>Debugging Auto-Device Plugin<a class="headerlink" href="#debugging-auto-device-plugin" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-debugging-auto-plugin-1md-openvino-docs-ov-runtime-ug-autoplugin-debugging"></span></p>
 <section id="using-debug-log">
 <h2>Using Debug Log<a class="headerlink" href="#using-debug-log" title="Permalink to this headline">¶</a></h2>
 <p>In case of execution problems, just like all other plugins, Auto-Device provides
@@ -1901,7 +1903,8 @@ Windows
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>time<span class="o">]</span>LOG_LEVEL<span class="o">[</span>file<span class="o">]</span> <span class="o">[</span>PLUGIN<span class="o">]</span>: message
 </pre></div>
 </div>
-<p>in which the <code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> is represented by the first letter of its name (ERROR being an exception and using its full name). For example:</p>
+<p>in which the <code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> is represented by the first letter of its name
+(ERROR being an exception and using its full name). For example:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="m">17</span>:09:36.6188<span class="o">]</span>D<span class="o">[</span>plugin.cpp:167<span class="o">]</span> deviceName:MYRIAD, defaultDeviceID:, uniqueName:MYRIAD_
 <span class="o">[</span><span class="m">17</span>:09:36.6242<span class="o">]</span>I<span class="o">[</span>executable_network.cpp:181<span class="o">]</span> <span class="o">[</span>AUTOPLUGIN<span class="o">]</span>:select device:MYRIAD
 <span class="o">[</span><span class="m">17</span>:09:36.6809<span class="o">]</span>ERROR<span class="o">[</span>executable_network.cpp:384<span class="o">]</span> <span class="o">[</span>AUTOPLUGIN<span class="o">]</span> load failed, MYRIAD:<span class="o">[</span> GENERAL_ERROR <span class="o">]</span>
@@ -1941,13 +1944,22 @@ vtune-gui
 <li><p>In the <strong>what</strong> pane, specify your target application/script on the local system.</p>
 <img alt="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img02-launch.png" class="align-center" src="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img02-launch.png" />
 </li>
-<li><p>In the <strong>how</strong> pane, choose and configure the analysis type you want to perform, for example, <strong>Hotspots Analysis</strong> : identify the most time-consuming functions and drill down to see time spent on each line of source code. Focus optimization efforts on hot code for the greatest performance impact.</p>
+<li><p>In the <strong>how</strong> pane, choose and configure the analysis type you want to
+perform, for example, <strong>Hotspots Analysis</strong> : identify the most
+time-consuming functions and drill down to see time spent on each line of
+source code. Focus optimization efforts on hot code for the greatest
+performance impact.</p>
 <img alt="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img03-hotspots.png" class="align-center" src="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img03-hotspots.png" />
 </li>
-<li><p>Start the analysis by clicking the start button. When it is done, you will get a summary of the run, including top hotspots and top tasks in your application:</p>
+<li><p>Start the analysis by clicking the start button. When it is done, you will
+get a summary of the run, including top hotspots and top tasks in your
+application:</p>
 <img alt="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img04-vtunesummary.png" class="align-center" src="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img04-vtunesummary.png" />
 </li>
-<li><p>To analyze ITT info related to the Auto plugin, click on the <strong>Bottom-up</strong> tab, choose the <strong>Task Domain/Task Type/Function/Call Stack</strong> from the dropdown list - Auto plugin-related ITT info is under the MULTIPlugin task domain:</p>
+<li><p>To analyze ITT info related to the Auto plugin, click on the <strong>Bottom-up</strong>
+tab, choose the <strong>Task Domain/Task Type/Function/Call Stack</strong> from the
+dropdown list - Auto plugin-related ITT info is under the MULTIPlugin
+task domain:</p>
 <img alt="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img05-vtunebottomup.png" class="align-center" src="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img05-vtunebottomup.png" />
 <img alt="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img05-vtunebottomup.png" class="align-center" src="../../../../_images/OV_UG_supported_plugins_AUTO_debugging-img05-vtunebottomup.png" />
 </li>

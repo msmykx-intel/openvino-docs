@@ -1848,9 +1848,9 @@
             
                 <div>
                   
-  <span class="target" id="plugin-functionality"><span id="index-0"></span></span><section id="plugin">
+  <span class="target" id="extensibility-plugin-functionality"><span id="index-0"></span></span><section id="plugin">
 <h1>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="plugin-functionality-1md-openvino-docs-ie-plugin-dg-plugin"></span> Inference Engine Plugin usually represents a wrapper
+<p><span class="target" id="extensibility-plugin-functionality-1md-openvino-docs-ie-plugin-dg-plugin"></span> Inference Engine Plugin usually represents a wrapper
 around a backend. Backends can be:</p>
 <ul class="simple">
 <li><p>OpenCL-like backend (e.g. clDNN library) for GPU devices.</p></li>
@@ -1861,7 +1861,7 @@ around a backend. Backends can be:</p>
 <ul class="simple">
 <li><p>Initializes a backend and throw exception in <code class="docutils literal notranslate"><span class="pre">Engine</span></code> constructor if backend cannot be initialized.</p></li>
 <li><p>Provides information about devices enabled by a particular backend, e.g. how many devices, their properties and so on.</p></li>
-<li><p>Loads or imports <a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">executable network</span></a> objects.</p></li>
+<li><p>Loads or imports <a class="reference internal" href="executable-network-class-in-custom-plugins.html#extensibility-plugin-executable-network-functionality"><span class="std std-ref">executable network</span></a> objects.</p></li>
 </ul>
 <p>In addition to the Inference Engine Public API, the Inference Engine provides the Plugin API, which is a set of functions
 and helper classes that simplify new plugin development:</p>
@@ -1944,7 +1944,7 @@ as a base class for a plugin. Based on that, declaration of a plugin class can l
 <span class="p">};</span></pre></div></div><p>As an example, a plugin configuration has three value parameters:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">deviceId</span></code> - particular device ID to work with. Applicable if a plugin supports more than one <code class="docutils literal notranslate"><span class="pre">Template</span></code> device. In this case, some plugin methods, like <code class="docutils literal notranslate"><span class="pre">SetConfig</span></code>, <code class="docutils literal notranslate"><span class="pre">QueryNetwork</span></code>, and <code class="docutils literal notranslate"><span class="pre">LoadNetwork</span></code>, must support the <span class="xref std std-ref">CONFIG_KEY(KEY_DEVICE_ID)</span> parameter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">perfCounts</span></code> - boolean value to identify whether to collect performance counters during <a class="reference internal" href="synchronous-inference-request.html#synchronous-inference-request"><span class="std std-ref">Inference Request</span></a> execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">perfCounts</span></code> - boolean value to identify whether to collect performance counters during <a class="reference internal" href="synchronous-inference-request.html#extensibility-plugin-synch-inf-req"><span class="std std-ref">Inference Request</span></a> execution.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">_streamsExecutorConfig</span></code> - configuration of <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classInferenceEngine_1_1IStreamsExecutor.html#doxid-class-inference-engine-1-1-i-streams-executor"><span class="std std-ref"><span class="pre">InferenceEngine::IStreamsExecutor</span></span></a></code> to handle settings of multi-threaded context.</p></li>
 </ul>
 <section id="engine-constructor">
@@ -1985,7 +1985,7 @@ In the example above, the plugin checks precision information.</p>
 <p>The very important part before creation of <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> instance is to call <code class="docutils literal notranslate"><span class="pre">TransformNetwork</span></code> method which
 applies OpenVINO™ transformation passes.</p>
 <p>Actual graph compilation is done in the <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> constructor. Refer to the
-<a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">ExecutableNetwork Implementation Guide</span></a> for details.</p>
+<a class="reference internal" href="executable-network-class-in-custom-plugins.html#extensibility-plugin-executable-network-functionality"><span class="std std-ref">ExecutableNetwork Implementation Guide</span></a> for details.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Actual configuration map used in <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork</span></code> is constructed as a base plugin configuration set
@@ -1995,7 +1995,7 @@ Therefore, the config of <code class="docutils literal notranslate"><span class=
 <p>The function accepts a const shared pointer to <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref"><span class="pre">ov::Model</span></span></a></code> object and performs the following steps:</p>
 <ol class="arabic simple">
 <li><p>Deep copies a const object to a local object, which can later be modified.</p></li>
-<li><p>Applies common and plugin-specific transformations on a copied graph to make the graph more friendly to hardware operations. For details how to write custom plugin-specific transformation, please, refer to <a class="reference internal" href="../openvino-transformation-api.html#transformations-overview"><span class="std std-ref">Writing OpenVINO™ transformations</span></a> guide. See detailed topics about network representation:</p>
+<li><p>Applies common and plugin-specific transformations on a copied graph to make the graph more friendly to hardware operations. For details how to write custom plugin-specific transformation, please, refer to <a class="reference internal" href="../openvino-transformation-api.html#extensibility-transformations-overview"><span class="std std-ref">Writing OpenVINO™ transformations</span></a> guide. See detailed topics about network representation:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="../_docs_MO_DG_IR_and_opsets.html">Intermediate Representation and Operation Sets</a></p></li>
 <li><p><a class="reference internal" href="quantized_network_support.html#extensibility-plugin-quantized-networks"><span class="std std-ref">Quantized networks</span></a>.</p></li>
@@ -2249,7 +2249,7 @@ about its devices or device capabilities.</p>
 <p>If an unsupported metric key is passed to the function, it must throw an exception.</p>
 </div>
 <p>The importing network mechanism allows to import a previously exported backend specific graph and wrap it using
-an <a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">ExecutableNetwork</span></a> object. This functionality is useful
+an <a class="reference internal" href="executable-network-class-in-custom-plugins.html#extensibility-plugin-executable-network-functionality"><span class="std std-ref">ExecutableNetwork</span></a> object. This functionality is useful
 if backend specific graph compilation takes significant time and/or cannot be done on a target host device due to other reasons.</p>
 <p>During export of backend specific graph using <code class="docutils literal notranslate"><span class="pre">ExecutableNetwork::Export</span></code>, a plugin may export any type of information
 it needs to import a compiled graph properly and check its correctness. For example, the export information may include:</p>
@@ -2278,7 +2278,7 @@ it needs to import a compiled graph properly and check its correctness. For exam
 <p>Inference Engine plugin library must export only one function creating a plugin instance using
 IE_DEFINE_PLUGIN_CREATE_FUNCTION macro:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">const</span> <a class="reference internal" href="../../../api/groups/structInferenceEngine_1_1Version.html#doxid-struct-inference-engine-1-1-version"><span class="std std-ref">InferenceEngine::Version</span></a><span></span> <span class="n">version</span> <span class="o">=</span> <span class="p">{{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="n">CI_BUILD_NUMBER</span><span class="p">,</span> <span class="s">&quot;openvino_template_plugin&quot;</span><span class="p">};</span>
-<a class="reference internal" href="../../../api/groups/groupie_dev_api_plugin_api.html#doxid-group-ie-dev-api-plugin-api-1ga06b197cbe37f59f94b15a7d861e17d4e"><span class="std std-ref">IE_DEFINE_PLUGIN_CREATE_FUNCTION</span></a><span></span><span class="p">(</span><span class="n">Plugin</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span></pre></div></div><p>Next step in a plugin library implementation is the <a class="reference internal" href="executable-network-class-in-custom-plugins.html#executable-network-functionality"><span class="std std-ref">ExecutableNetwork</span></a> class.</p>
+<a class="reference internal" href="../../../api/groups/groupie_dev_api_plugin_api.html#doxid-group-ie-dev-api-plugin-api-1ga06b197cbe37f59f94b15a7d861e17d4e"><span class="std std-ref">IE_DEFINE_PLUGIN_CREATE_FUNCTION</span></a><span></span><span class="p">(</span><span class="n">Plugin</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span></pre></div></div><p>Next step in a plugin library implementation is the <a class="reference internal" href="executable-network-class-in-custom-plugins.html#extensibility-plugin-executable-network-functionality"><span class="std std-ref">ExecutableNetwork</span></a> class.</p>
 </section>
 </section>
 

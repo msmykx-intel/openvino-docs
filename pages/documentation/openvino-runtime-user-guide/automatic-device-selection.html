@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The Automatic Device Selection mode in OpenVINO™ Runtime detects available devices and selects the optimal processing unit for inference automatically." name="description" />
+<meta content="OpenVINO™ Runtime, Automatic Device Selection, Automatic Device Selection mode, AUTO device, AUTO plugin, inference, model inference, processing unit, input model, precision, model precision, FP32, FP16, FP16 precision, INT8, INT8 precision, BIN, dGPU, iGPU, Intel® Movidius™ Myriad™ X VPU, Intel® CPU, device candidate list, performance hints, throughput, latency, cumulative_throughput, model priority, disable auto-batching, benchmark_app" name="keywords" />
 
     <title>Automatic Device Selection &#8212; OpenVINO™  documentation</title>
     
@@ -1903,9 +1905,9 @@
             
                 <div>
                   
-  <section id="automatic-device-selection">
-<span id="doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o"></span><span id="index-0"></span><h1>Automatic Device Selection<a class="headerlink" href="#automatic-device-selection" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o-1md-openvino-docs-ov-runtime-ug-auto-device-selection"></span></p>
+  <span class="target" id="deploy-infer-auto-plugin"><span id="index-0"></span></span><section id="automatic-device-selection">
+<h1>Automatic Device Selection<a class="headerlink" href="#automatic-device-selection" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-auto-plugin-1md-openvino-docs-ov-runtime-ug-auto-device-selection"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>This article introduces how Automatic Device Selection works and how to use it for inference.</p>
@@ -2268,7 +2270,7 @@ multiple devices for higher throughput. With <code class="docutils literal notra
 the network model to all available devices in the candidate list, and then runs
 inference on them based on the default or specified priority.</p>
 <p><code class="docutils literal notranslate"><span class="pre">CUMULATIVE_THROUGHPUT</span></code> has similar behavior as
-<a class="reference internal" href="multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">the Multi-Device execution mode (MULTI)</span></a>.
+<a class="reference internal" href="multi-device-execution-mode.html#deploy-infer-multi-plugin"><span class="std std-ref">the Multi-Device execution mode (MULTI)</span></a>.
 The only difference is that <code class="docutils literal notranslate"><span class="pre">CUMULATIVE_THROUGHPUT</span></code> uses the devices specified by AUTO,
 which means that it’s not mandatory to add devices manually, while with MULTI, you
 need to specify the devices before inference.</p>
@@ -2440,8 +2442,8 @@ or <a class="reference internal" href="../../get-started-guide/samples/python-be
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="automatic-device-selection/debugging-auto-device.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o-debugging"><span class="std std-ref">Debugging AUTO</span></a></p></li>
-<li><p><a class="reference internal" href="multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">Running on Multiple Devices Simultaneously</span></a></p></li>
+<li><p><a class="reference internal" href="automatic-device-selection/debugging-auto-device.html#deploy-infer-debugging-auto-plugin"><span class="std std-ref">Debugging AUTO</span></a></p></li>
+<li><p><a class="reference internal" href="multi-device-execution-mode.html#deploy-infer-multi-plugin"><span class="std std-ref">Running on Multiple Devices Simultaneously</span></a></p></li>
 <li><p><a class="reference internal" href="../../resources/record-of-openvino-supported-devices.html#doxid-openvino-docs-o-v-u-g-supported-plugins-supported-devices"><span class="std std-ref">Supported Devices</span></a></p></li>
 </ul>
 </section>

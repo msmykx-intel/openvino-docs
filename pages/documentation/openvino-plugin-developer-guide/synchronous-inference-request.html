@@ -1808,17 +1808,17 @@
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id1">
      1.
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id2">
      2.
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id3">
      3.
     </a>
    </li>
@@ -1863,9 +1863,9 @@
             
                 <div>
                   
-  <span class="target" id="synchronous-inference-request"><span id="index-0"></span></span><section id="id1">
-<h1>Synchronous Inference Request<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="synchronous-inference-request-1md-openvino-docs-ie-plugin-dg-inferrequest"></span> <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> class functionality:</p>
+  <span class="target" id="extensibility-plugin-synch-inf-req"><span id="index-0"></span></span><section id="synchronous-inference-request">
+<h1>Synchronous Inference Request<a class="headerlink" href="#synchronous-inference-request" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extensibility-plugin-synch-inf-req-1md-openvino-docs-ie-plugin-dg-inferrequest"></span> <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> class functionality:</p>
 <ul class="simple">
 <li><p>Allocate input and output blobs needed for a backend-dependent network inference.</p></li>
 <li><p>Define functions for inference process stages (for example, <code class="docutils literal notranslate"><span class="pre">preprocess</span></code>, <code class="docutils literal notranslate"><span class="pre">upload</span></code>, <code class="docutils literal notranslate"><span class="pre">infer</span></code>, <code class="docutils literal notranslate"><span class="pre">download</span></code>, <code class="docutils literal notranslate"><span class="pre">postprocess</span></code>). These functions can later be used to define an execution pipeline during <a class="reference internal" href="asynchronous-inference-request.html#extensibility-plugin-async-infer-req"><span class="std std-ref">Asynchronous Inference Request</span></a> implementation.</p></li>
@@ -2007,8 +2007,8 @@ A plugin uses these hints to determine its internal layouts and precisions for i
     <span class="n">inferPostprocess</span><span class="p">();</span>
 <span class="p">}</span></pre></div></div></section>
 </section>
-<section id="id2">
-<h3>1.<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<section id="id1">
+<h3>1.<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Below is the code of the <code class="docutils literal notranslate"><span class="pre">inferPreprocess</span></code> method to demonstrate Inference Engine common preprocessing step handling:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">inferPreprocess</span><span class="p">()</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="n">_profilingTask</span><span class="p">[</span><span class="n">Preprocess</span><span class="p">]);</span>
@@ -2099,8 +2099,8 @@ A plugin uses these hints to determine its internal layouts and precisions for i
 <li><p>If <code class="docutils literal notranslate"><span class="pre">inputBlob</span></code> passed by user differs in terms of precisions from precision expected by plugin, <code class="docutils literal notranslate"><span class="pre">blobCopy</span></code> is performed which does actual precision conversion.</p></li>
 </ul>
 </section>
-<section id="id3">
-<h3>2.<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<section id="id2">
+<h3>2.<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Executes a pipeline synchronously using <code class="docutils literal notranslate"><span class="pre">_executable</span></code> object:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">startPipeline</span><span class="p">()</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="n">_profilingTask</span><span class="p">[</span><span class="n">StartPipeline</span><span class="p">])</span>
@@ -2108,8 +2108,8 @@ A plugin uses these hints to determine its internal layouts and precisions for i
     <span class="n">_executable</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="n">_outputTensors</span><span class="p">,</span> <span class="n">_inputTensors</span><span class="p">);</span>
     <span class="n">_durations</span><span class="p">[</span><span class="n">StartPipeline</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
 <span class="p">}</span></pre></div></div></section>
-<section id="id4">
-<h3>3.<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<section id="id3">
+<h3>3.<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Converts output blobs if precisions of backend output blobs and blobs passed by user are different:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">TemplateInferRequest</span><span class="o">::</span><span class="n">inferPostprocess</span><span class="p">()</span> <span class="p">{</span>
     <a class="reference internal" href="../../../api/groups/groupie_dev_profiling.html#doxid-group-ie-dev-profiling-1gac1e4b5bdc6097e2afd26b75d05dfe1ef"><span class="std std-ref">OV_ITT_SCOPED_TASK</span></a><span></span><span class="p">(</span><span class="n">itt</span><span class="o">::</span><span class="n">domains</span><span class="o">::</span><span class="n">TemplatePlugin</span><span class="p">,</span> <span class="n">_profilingTask</span><span class="p">[</span><span class="n">Postprocess</span><span class="p">]);</span>

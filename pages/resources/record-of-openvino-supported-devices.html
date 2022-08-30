@@ -1496,13 +1496,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/working-with-devices/inference-device-arm-cpu.html#deploy-infer-arm-cpu-device"><span class="std std-ref">Arm® CPU plugin</span></a> (unavailable in the Intel® Distribution of OpenVINO™ toolkit)</p></td>
 <td><p>Raspberry Pi™ 4 Model B, Apple® Mac mini with M1 chip, NVIDIA® Jetson Nano™, Android™ devices</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">Multi-Device execution</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#deploy-infer-multi-plugin"><span class="std std-ref">Multi-Device execution</span></a></p></td>
 <td><p>Multi-Device execution enables simultaneous inference of the same model on several devices in parallel</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/automatic-device-selection.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o"><span class="std std-ref">Auto-Device plugin</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/automatic-device-selection.html#deploy-infer-auto-plugin"><span class="std std-ref">Auto-Device plugin</span></a></p></td>
 <td><p>Auto-Device plugin enables selecting Intel device for inference automatically</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#doxid-openvino-docs-o-v-u-g-hetero-execution"><span class="std std-ref">Heterogeneous plugin</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#deploy-infer-hetero-plugin"><span class="std std-ref">Heterogeneous plugin</span></a></p></td>
 <td><p>Heterogeneous execution enables automatic inference splitting between several devices (for example if a device doesn’t <a class="reference external" href="#supported-layers">support certain operation</a> ).</p></td>
 </tr>
 </tbody>
@@ -1606,7 +1606,7 @@
 </tr>
 </tbody>
 </table>
-<p>For <a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">Multi-Device</span></a> and <a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#doxid-openvino-docs-o-v-u-g-hetero-execution"><span class="std std-ref">Heterogeneous</span></a> executions the supported models formats depends on the actual underlying devices. <em>Generally, FP16 is preferable as it is most ubiquitous and performant</em>.</p>
+<p>For <a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#deploy-infer-multi-plugin"><span class="std std-ref">Multi-Device</span></a> and <a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#deploy-infer-hetero-plugin"><span class="std std-ref">Heterogeneous</span></a> executions the supported models formats depends on the actual underlying devices. <em>Generally, FP16 is preferable as it is most ubiquitous and performant</em>.</p>
 </section>
 <section id="supported-input-precision">
 <h3>Supported Input Precision<a class="headerlink" href="#supported-input-precision" title="Permalink to this headline">¶</a></h3>
@@ -1674,7 +1674,7 @@
 </tbody>
 </table>
 <p>* - Supported via <code class="docutils literal notranslate"><span class="pre">SetBlob</span></code> only, <code class="docutils literal notranslate"><span class="pre">GetBlob</span></code> returns FP32</p>
-<p>For <a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">Multi-Device</span></a> and <a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#doxid-openvino-docs-o-v-u-g-hetero-execution"><span class="std std-ref">Heterogeneous</span></a> executions the supported input precision depends on the actual underlying devices. <em>Generally, U8 is preferable as it is most ubiquitous</em>.</p>
+<p>For <a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#deploy-infer-multi-plugin"><span class="std std-ref">Multi-Device</span></a> and <a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#deploy-infer-hetero-plugin"><span class="std std-ref">Heterogeneous</span></a> executions the supported input precision depends on the actual underlying devices. <em>Generally, U8 is preferable as it is most ubiquitous</em>.</p>
 </section>
 <section id="supported-output-precision">
 <h3>Supported Output Precision<a class="headerlink" href="#supported-output-precision" title="Permalink to this headline">¶</a></h3>
@@ -1713,7 +1713,7 @@
 </tr>
 </tbody>
 </table>
-<p>For <a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#doxid-openvino-docs-o-v-u-g-running-on-multiple-devices"><span class="std std-ref">Multi-Device</span></a> and <a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#doxid-openvino-docs-o-v-u-g-hetero-execution"><span class="std std-ref">Heterogeneous</span></a> executions the supported output precision depends on the actual underlying devices. <em>Generally, FP32 is preferable as it is most ubiquitous</em>.</p>
+<p>For <a class="reference internal" href="../documentation/openvino-runtime-user-guide/multi-device-execution-mode.html#deploy-infer-multi-plugin"><span class="std std-ref">Multi-Device</span></a> and <a class="reference internal" href="../documentation/openvino-runtime-user-guide/heterogeneous-execution-mode.html#deploy-infer-hetero-plugin"><span class="std std-ref">Heterogeneous</span></a> executions the supported output precision depends on the actual underlying devices. <em>Generally, FP32 is preferable as it is most ubiquitous</em>.</p>
 </section>
 <section id="supported-input-layout">
 <h3>Supported Input Layout<a class="headerlink" href="#supported-input-layout" title="Permalink to this headline">¶</a></h3>

@@ -1875,7 +1875,7 @@ option is a way to lessen the impact over multiple application runs. If model
 caching is not possible, for example, it may require write permissions for the
 application, the CPU offers the fastest model load time almost every time.</p>
 <p>Another way of dealing with first-inference latency is using the
-<a class="reference internal" href="../openvino-runtime-user-guide/automatic-device-selection.html#doxid-openvino-docs-o-v-u-g-supported-plugins-a-u-t-o"><span class="std std-ref">AUTO device selection inference mode</span></a>.
+<a class="reference internal" href="../openvino-runtime-user-guide/automatic-device-selection.html#deploy-infer-auto-plugin"><span class="std std-ref">AUTO device selection inference mode</span></a>.
 It starts inference on the CPU, while waiting for the actual accelerator to
 load the model. At that point, it shifts to the new device seamlessly.</p>
 <p>Finally, note that any <a class="reference internal" href="optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">throughput-oriented options</span></a>

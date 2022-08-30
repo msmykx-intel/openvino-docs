@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Heterogeneous execution mode in OpenVINO Runtime enables inference of one model on several computing devices." name="description" />
+<meta content="OpenVINO Runtime, inference, model inference, inference request, heterogeneous execution mode, Heterogeneous device, HETERO plugin, HETERO, Intel CPU, model subgraph, affinity, query_model, define HETERO device, configure HETERO device, manual mode, automatic mode, affinity for operation, get_rt_info, Intel GPU, MYRIAD device, fallback device, device-specific configuration, set affinities, HDDL device, OPENVINO_HETERO_VISUALIZE, GraphViz, heterogeneous execution, analyze performance" name="keywords" />
 
     <title>Heterogeneous execution &#8212; OpenVINO™  documentation</title>
     
@@ -1874,9 +1876,9 @@
             
                 <div>
                   
-  <section id="heterogeneous-execution">
-<span id="doxid-openvino-docs-o-v-u-g-hetero-execution"></span><span id="index-0"></span><h1>Heterogeneous execution<a class="headerlink" href="#heterogeneous-execution" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-hetero-execution-1md-openvino-docs-ov-runtime-ug-hetero-execution"></span> Heterogeneous execution enables executing inference of one model on several devices. Its purpose is to:</p>
+  <span class="target" id="deploy-infer-hetero-plugin"><span id="index-0"></span></span><section id="heterogeneous-execution">
+<h1>Heterogeneous execution<a class="headerlink" href="#heterogeneous-execution" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-hetero-plugin-1md-openvino-docs-ov-runtime-ug-hetero-execution"></span> Heterogeneous execution enables executing inference of one model on several devices. Its purpose is to:</p>
 <ul class="simple">
 <li><p>Utilize the power of accelerators to process the heaviest parts of the model and to execute unsupported operations on fallback devices, like the CPU.</p></li>
 <li><p>Utilize all available hardware more efficiently during one inference.</p></li>
