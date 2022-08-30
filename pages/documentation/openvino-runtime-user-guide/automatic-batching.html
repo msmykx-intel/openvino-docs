@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The Automatic Batching Execution mode in OpenVINO Runtime performs automatic batching to improve device utilization by grouping inference requests." name="description" />
+<meta content="OpenVINO Runtime, automatic batching, Automatic Batching Execution mode, Auto-Batching, inference request, enable Automatic Batching, batch size, simultaneous inference requests, Intel GPU, GPU device, performance hint, throughput, performance mode, compile_model, set_property, AUTO_BATCH_DEVICE, inference performance, benchmark_app, disable automatic batching, optimize performance, AUTO_BATCH_DEVICE" name="keywords" />
 
     <title>Automatic Batching &#8212; OpenVINO™  documentation</title>
     
@@ -1868,9 +1870,9 @@
             
                 <div>
                   
-  <section id="automatic-batching">
-<span id="doxid-openvino-docs-o-v-u-g-automatic-batching"></span><span id="index-0"></span><h1>Automatic Batching<a class="headerlink" href="#automatic-batching" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-automatic-batching-1md-openvino-docs-ov-runtime-ug-automatic-batching"></span></p>
+  <span class="target" id="deploy-infer-automatic-batching"><span id="index-0"></span></span><section id="automatic-batching">
+<h1>Automatic Batching<a class="headerlink" href="#automatic-batching" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-automatic-batching-1md-openvino-docs-ov-runtime-ug-automatic-batching"></span></p>
 <p>The Automatic Batching Execution mode (or Auto-batching for short) performs automatic
 batching on-the-fly to improve device utilization by grouping inference requests
 together, with no programming effort from the user. With Automatic Batching, gathering
@@ -1880,7 +1882,7 @@ for the batch happen transparently, without affecting the application code.</p>
 how it works, its configurations, and testing performance.</p>
 <section id="enabling-disabling-automatic-batching">
 <h2>Enabling/Disabling Automatic Batching<a class="headerlink" href="#enabling-disabling-automatic-batching" title="Permalink to this headline">¶</a></h2>
-<p>Auto-batching primarily targets the existing code written for inferencing many
+<p>Auto-batching primarily targets the existing code written for inferring many
 requests, each instance with the batch size 1. To obtain corresponding performance
 improvements, the application <strong>must be running many inference requests simultaneously</strong>.
 Auto-batching can also be used via a particular <em>virtual</em> device.</p>
@@ -2017,23 +2019,48 @@ where 4 is the number of requests running in parallel.</p>
 <h2>Other Performance Considerations<a class="headerlink" href="#other-performance-considerations" title="Permalink to this headline">¶</a></h2>
 <p>To achieve the best performance with Automatic Batching, the application should:</p>
 <ul class="simple">
-<li><p>Operate inference requests of the number that represents the multiple of the batch size. In the example above, for batch size 4, the application should operate 4, 8, 12, 16, etc. requests.</p></li>
-<li><p>Use the requests that are grouped by the batch size together. For example, the first 4 requests are inferred, while the second group of the requests is being populated. Essentially, Automatic Batching shifts the asynchronicity from the individual requests to the groups of requests that constitute the batches.</p>
+<li><p>Operate inference requests of the number that represents the multiple of the
+batch size. In the example above, for batch size 4, the application should
+operate 4, 8, 12, 16, etc. requests.</p></li>
+<li><p>Use the requests that are grouped by the batch size together. For example,
+the first 4 requests are inferred, while the second group of the requests is
+being populated. Essentially, Automatic Batching shifts the asynchronicity
+from the individual requests to the groups of requests that constitute the batches.</p>
 <ul>
-<li><p>Balance the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value vs. the batch size. For example, in many cases, having a smaller <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value/batch size may yield better performance than having a larger batch size with a <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value that is not large enough to accommodate the full number of the required requests.</p></li>
-<li><p>When Automatic Batching is enabled, the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> property of <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1CompiledModel.html#doxid-classov-1-1-compiled-model"><span class="std std-ref"><span class="pre">ov::CompiledModel</span></span></a></code> can be changed anytime, even after the loading/compilation of the model. For example, setting the value to 0 disables Auto-batching effectively, as the collection of requests would be omitted.</p></li>
-<li><p>Carefully apply Auto-batching to the pipelines. For example, in the conventional “video-sources -&gt; detection -&gt; classification” flow, it is most beneficial to do Auto-batching over the inputs to the detection stage. The resulting number of detections is usually fluent, which makes Auto-batching less applicable for the classification stage.</p></li>
+<li><p>Balance the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value vs. the batch size. For example, in many
+cases, having a smaller <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value/batch size may yield better
+performance than having a larger batch size with a <code class="docutils literal notranslate"><span class="pre">timeout</span></code> value that
+is not large enough to accommodate the full number of the required requests.</p></li>
+<li><p>When Automatic Batching is enabled, the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> property of
+<code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1CompiledModel.html#doxid-classov-1-1-compiled-model"><span class="std std-ref"><span class="pre">ov::CompiledModel</span></span></a></code> can be
+changed anytime, even after the loading/compilation of the model. For
+example, setting the value to 0 disables Auto-batching effectively, as the
+collection of requests would be omitted.</p></li>
+<li><p>Carefully apply Auto-batching to the pipelines. For example, in the
+conventional “video-sources -&gt; detection -&gt; classification” flow, it is
+most beneficial to do Auto-batching over the inputs to the detection stage.
+The resulting number of detections is usually fluent, which makes
+Auto-batching less applicable for the classification stage.</p></li>
 </ul>
 </li>
 </ul>
 <p>The following are limitations of the current implementations:</p>
 <ul class="simple">
-<li><p>Although it is less critical for the throughput-oriented scenarios, the load time with Auto-batching increases by almost double.</p>
+<li><p>Although it is less critical for the throughput-oriented scenarios, the load
+time with Auto-batching increases by almost double.</p>
 <ul>
-<li><p>Certain networks are not safely reshapable by the “batching” dimension (specified as <code class="docutils literal notranslate"><span class="pre">N</span></code> in the layout terms). Besides, if the batching dimension is not zeroth, Auto-batching will not be triggered “implicitly” by the throughput hint.</p></li>
-<li><p>The “explicit” notion, for example, <code class="docutils literal notranslate"><span class="pre">BATCH:GPU</span></code>, using the relaxed dimensions tracking, often makes Auto-batching possible. For example, this method unlocks most <strong>detection networks</strong>.</p></li>
-<li><p>When <em>forcing</em> Auto-batching via the “explicit” device notion, make sure that you validate the results for correctness.</p></li>
-<li><p>Performance improvements happen at the cost of the growth of memory footprint. However, Auto-batching queries the available memory (especially for dGPU) and limits the selected batch size accordingly.</p></li>
+<li><p>Certain networks are not safely reshapable by the “batching” dimension
+(specified as <code class="docutils literal notranslate"><span class="pre">N</span></code> in the layout terms). Besides, if the batching
+dimension is not zeroth, Auto-batching will not be triggered “implicitly”
+by the throughput hint.</p></li>
+<li><p>The “explicit” notion, for example, <code class="docutils literal notranslate"><span class="pre">BATCH:GPU</span></code>, using the relaxed
+dimensions tracking, often makes Auto-batching possible. For example, this
+method unlocks most <strong>detection networks</strong>.</p></li>
+<li><p>When <em>forcing</em> Auto-batching via the “explicit” device notion, make sure
+that you validate the results for correctness.</p></li>
+<li><p>Performance improvements happen at the cost of the growth of memory
+footprint. However, Auto-batching queries the available memory (especially
+for dGPU) and limits the selected batch size accordingly.</p></li>
 </ul>
 </li>
 </ul>
@@ -2050,16 +2077,21 @@ versions, is the best way to evaluate the performance of Automatic Batching:</p>
 <li><p>benchmark_app <strong>-hint tput</strong> -d GPU -m ‘path to your favorite model’</p></li>
 </ul>
 </li>
-<li><p>You can also use the “explicit” device notion to override the strict rules of the implicit reshaping by the batch dimension:</p>
+<li><p>You can also use the “explicit” device notion to override the strict rules of
+the implicit reshaping by the batch dimension:</p>
 <ul>
 <li><p>benchmark_app <strong>-hint none -d BATCH:GPU</strong> -m ‘path to your favorite model’</p></li>
 </ul>
 </li>
 <li><p>or override the automatically deduced batch size as well:</p>
 <ul>
-<li><p>$benchmark_app -hint none -d <strong>BATCH:GPU(16)</strong> -m ‘path to your favorite model’</p></li>
-<li><p>This example also applies to CPU or any other device that generally supports batch execution.</p></li>
-<li><p>Keep in mind that some shell versions (e.g. <code class="docutils literal notranslate"><span class="pre">bash</span></code>) may require adding quotes around complex device names, i.e. <code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">&quot;BATCH:GPU(16)&quot;</span></code> in this example.</p></li>
+<li><p>$benchmark_app -hint none -d <strong>BATCH:GPU(16)</strong> -m ‘path to your
+favorite model’</p></li>
+<li><p>This example also applies to CPU or any other device that generally
+supports batch execution.</p></li>
+<li><p>Keep in mind that some shell versions (e.g. <code class="docutils literal notranslate"><span class="pre">bash</span></code>) may require adding
+quotes around complex device names, i.e. <code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">&quot;BATCH:GPU(16)&quot;</span></code> in
+this example.</p></li>
 </ul>
 </li>
 </ul>
