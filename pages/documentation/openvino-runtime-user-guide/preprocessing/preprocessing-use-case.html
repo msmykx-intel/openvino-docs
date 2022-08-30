@@ -938,7 +938,7 @@
     <ul class="current">
      <li class="toctree-l3">
       <a class="reference internal" href="preprocessing-api-details.html">
-       Preprocessing API - details
+       Preprocessing API
       </a>
      </li>
      <li class="toctree-l3">
@@ -1840,7 +1840,7 @@
   <section id="use-case-integrate-and-save-preprocessing-steps-into-ir">
 <span id="doxid-openvino-docs-o-v-u-g-preprocess-usecase-save"></span><span id="index-0"></span><h1>Use Case - Integrate and Save Preprocessing Steps Into IR<a class="headerlink" href="#use-case-integrate-and-save-preprocessing-steps-into-ir" title="Permalink to this headline">¶</a></h1>
 <p><span class="target" id="doxid-openvino-docs-o-v-u-g-preprocess-usecase-save-1md-openvino-docs-ov-runtime-ug-preprocessing-usecase-save"></span></p>
-<p>Previous sections covered the topic of the <a class="reference internal" href="preprocessing-api-details.html#doxid-openvino-docs-o-v-u-g-preprocessing-details"><span class="std std-ref">preprocessing steps</span></a> and the overview of <a class="reference internal" href="layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout</span></a> API.</p>
+<p>Previous sections covered the topic of the <a class="reference internal" href="preprocessing-api-details.html#deploy-infer-preprocessing-api"><span class="std std-ref">preprocessing steps</span></a> and the overview of <a class="reference internal" href="layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout</span></a> API.</p>
 <p>For many applications, it is also important to minimize read/load time of a model. Therefore, performing integration of preprocessing steps every time on application startup, after <code class="docutils literal notranslate"><span class="pre">ov::runtime::Core::read_model</span></code>, may seem inconvenient. In such cases, once pre and postprocessing steps have been added, it can be useful to store new execution model to OpenVINO Intermediate Representation (OpenVINO IR, <code class="docutils literal notranslate"><span class="pre">.xml</span></code> format).</p>
 <p>Most available preprocessing steps can also be performed via command-line options, using Model Optimizer. For details on such command-line options, refer to the <a class="reference internal" href="../../converting-models-with-model-optimizer/additional-optimization-use-cases.html#doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases"><span class="std std-ref">Optimizing Preprocessing Computation</span></a>.</p>
 <section id="code-example-saving-model-with-preprocessing-to-openvino-ir">
@@ -1946,7 +1946,7 @@
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="preprocessing-api-details.html#doxid-openvino-docs-o-v-u-g-preprocessing-details"><span class="std std-ref">Preprocessing Details</span></a></p></li>
+<li><p><a class="reference internal" href="preprocessing-api-details.html#deploy-infer-preprocessing-api"><span class="std std-ref">Preprocessing Details</span></a></p></li>
 <li><p><a class="reference internal" href="layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout API overview</span></a></p></li>
 <li><p><a class="reference internal" href="../../converting-models-with-model-optimizer/additional-optimization-use-cases.html#doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases"><span class="std std-ref">Model Optimizer - Optimize Preprocessing Computation</span></a></p></li>
 <li><p><a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">Model Caching Overview</span></a></p></li>

@@ -76,7 +76,7 @@
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="Use Case - Integrate and Save Preprocessing Steps Into IR" href="preprocessing-use-case.html" />
-    <link rel="prev" title="Preprocessing API - details" href="preprocessing-api-details.html" />
+    <link rel="prev" title="Preprocessing API" href="preprocessing-api-details.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -938,7 +938,7 @@
     <ul class="current">
      <li class="toctree-l3">
       <a class="reference internal" href="preprocessing-api-details.html">
-       Preprocessing API - details
+       Preprocessing API
       </a>
      </li>
      <li class="toctree-l3 current active">
@@ -1878,7 +1878,7 @@
 <ul class="simple">
 <li><p>Performing model modification:</p>
 <ul>
-<li><p>Applying the <a class="reference internal" href="../preprocessing.html#doxid-openvino-docs-o-v-u-g-preprocessing-overview"><span class="std std-ref">preprocessing</span></a> steps, such as subtracting means, dividing by scales, resizing an image, and converting <code class="docutils literal notranslate"><span class="pre">RGB</span></code> &lt;-&gt; <code class="docutils literal notranslate"><span class="pre">BGR</span></code>.</p></li>
+<li><p>Applying the <a class="reference internal" href="../preprocessing.html#deploy-infer-preprocessing-overview"><span class="std std-ref">preprocessing</span></a> steps, such as subtracting means, dividing by scales, resizing an image, and converting <code class="docutils literal notranslate"><span class="pre">RGB</span></code> &lt;-&gt; <code class="docutils literal notranslate"><span class="pre">BGR</span></code>.</p></li>
 <li><p>Setting/getting a batch for a model.</p></li>
 </ul>
 </li>
@@ -1940,7 +1940,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">H</span></code> / <code class="docutils literal notranslate"><span class="pre">Height</span></code> - height</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">W</span></code> / <code class="docutils literal notranslate"><span class="pre">Width</span></code> - width</p></li>
 </ul>
-<p>These names are used in <a class="reference internal" href="../preprocessing.html#doxid-openvino-docs-o-v-u-g-preprocessing-overview"><span class="std std-ref">PreProcessing API</span></a>. There is a set of helper functions to get appropriate dimension index from a layout.</p>
+<p>These names are used in <a class="reference internal" href="../preprocessing.html#deploy-infer-preprocessing-overview"><span class="std std-ref">PreProcessing API</span></a>. There is a set of helper functions to get appropriate dimension index from a layout.</p>
 <div class='sphinxtabset'><div class="sphinxtab" data-sphinxtab-value="C++"><div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// returns 0 for batch</span>
 <a class="reference internal" href="../../../../api/groups/groupov_layout_cpp_api.html#doxid-group-ov-layout-cpp-api-1gae57e9fcaa7d8eaa7ddbcdfece346bccb"><span class="std std-ref">ov::layout::batch_idx</span></a><span></span><span class="p">(</span><span class="s">&quot;NCDHW&quot;</span><span class="p">);</span>
 

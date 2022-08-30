@@ -940,7 +940,7 @@
     <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="../preprocessing/preprocessing-api-details.html">
-       Preprocessing API - details
+       Preprocessing API
       </a>
      </li>
      <li class="toctree-l3">
@@ -2191,7 +2191,7 @@ of the sizes if GNA 2.0 compilation target is selected (see below).</p>
 <h3>Batch Size Limitation<a class="headerlink" href="#batch-size-limitation" title="Permalink to this headline">¶</a></h3>
 <p>Intel® GNA plugin supports the processing of context-windowed speech frames in batches of 1-8 frames.</p>
 <p>Refer to the <a class="reference internal" href="../preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout API overview</span></a> to determine batch dimension.</p>
-<p>To set layout of model inputs in runtime, use the <a class="reference internal" href="../preprocessing.html#doxid-openvino-docs-o-v-u-g-preprocessing-overview"><span class="std std-ref">Optimize Preprocessing</span></a> guide:</p>
+<p>To set layout of model inputs in runtime, use the <a class="reference internal" href="../preprocessing.html#deploy-infer-preprocessing-overview"><span class="std std-ref">Optimize Preprocessing</span></a> guide:</p>
 <div class='sphinxtabset'><div class="sphinxtab" data-sphinxtab-value="C++"><div class="highlight"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;openvino/openvino.hpp&gt;</span></pre></div></div><div class="highlight"><div class="highlight"><pre><a class="reference internal" href="../../../../api/groups/classov_1_1preprocess_1_1PrePostProcessor.html#doxid-classov-1-1preprocess-1-1-pre-post-processor"><span class="std std-ref">ov::preprocess::PrePostProcessor</span></a><span></span> <span class="n">ppp</span><span class="p">(</span><a class="reference internal" href="../../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga461856fdfb6d7533dc53355aec9e9fad"><span class="std std-ref">model</span></a><span></span><span class="p">);</span>
 <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">input</span> <span class="p">:</span> <a class="reference internal" href="../../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga461856fdfb6d7533dc53355aec9e9fad"><span class="std std-ref">model</span></a><span></span><span class="o">-&gt;</span><span class="n">inputs</span><span class="p">())</span> <span class="p">{</span>
     <span class="k">auto</span><span class="o">&amp;</span> <span class="n">in</span> <span class="o">=</span> <span class="n">ppp</span><span class="p">.</span><span class="n">input</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">get_any_name</span><span class="p">());</span>
