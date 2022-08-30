@@ -5,8 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Once a model is read, the preprocessing/ postprocessing steps can be added and then the resulting model can be saved to OpenVINO Intermediate Representation." name="description" />
+<meta content="OpenVINO, OpenVINO Intermediate Representation, OpenVINO IR, preprocessing, preprocessing steps, postprocessing, Model Optimizer, command-line options, YUV to RGB, FP32, float32, model caching, model shape, inference, model inference, ov::runtime::Core::read_model, read_model, batch size, change batch size, throughput, increase throughput, model layout, layout conversion, PrePostProcessor" name="keywords" />
 
-    <title>Use Case - Integrate and Save Preprocessing Steps Into IR &#8212; OpenVINO™  documentation</title>
+    <title>Preprocessing - Use Case &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet">
@@ -948,7 +950,7 @@
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Use Case - Integrate and Save Preprocessing Steps Into IR
+       Preprocessing - Use Case
       </a>
      </li>
     </ul>
@@ -1837,9 +1839,9 @@
             
                 <div>
                   
-  <section id="use-case-integrate-and-save-preprocessing-steps-into-ir">
-<span id="doxid-openvino-docs-o-v-u-g-preprocess-usecase-save"></span><span id="index-0"></span><h1>Use Case - Integrate and Save Preprocessing Steps Into IR<a class="headerlink" href="#use-case-integrate-and-save-preprocessing-steps-into-ir" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-preprocess-usecase-save-1md-openvino-docs-ov-runtime-ug-preprocessing-usecase-save"></span></p>
+  <span class="target" id="deploy-infer-preprocessing-use-case"><span id="index-0"></span></span><section id="preprocessing-use-case">
+<h1>Preprocessing - Use Case<a class="headerlink" href="#preprocessing-use-case" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-preprocessing-use-case-1md-openvino-docs-ov-runtime-ug-preprocessing-usecase-save"></span></p>
 <p>Previous sections covered the topic of the <a class="reference internal" href="preprocessing-api-details.html#deploy-infer-preprocessing-api"><span class="std std-ref">preprocessing steps</span></a> and the overview of <a class="reference internal" href="layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout</span></a> API.</p>
 <p>For many applications, it is also important to minimize read/load time of a model. Therefore, performing integration of preprocessing steps every time on application startup, after <code class="docutils literal notranslate"><span class="pre">ov::runtime::Core::read_model</span></code>, may seem inconvenient. In such cases, once pre and postprocessing steps have been added, it can be useful to store new execution model to OpenVINO Intermediate Representation (OpenVINO IR, <code class="docutils literal notranslate"><span class="pre">.xml</span></code> format).</p>
 <p>Most available preprocessing steps can also be performed via command-line options, using Model Optimizer. For details on such command-line options, refer to the <a class="reference internal" href="../../converting-models-with-model-optimizer/additional-optimization-use-cases.html#doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases"><span class="std std-ref">Optimizing Preprocessing Computation</span></a>.</p>
