@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="List of attributes usage by transformation." name="description" />
+<meta content="lpt, low precision transformations, attributes, precision, quantization interval, quantization alignment, quantization granularity, FakeQuantize decomposition, PrecisionPreserved, AvgPoolPrecisionPreserved, PerTensorQuantization, IntervalsAlignment, QuantizationAlignment" name="keywords" />
 
     <title>Low-Precision Transformation Attributes &#8212; OpenVINO™  documentation</title>
     
@@ -1827,9 +1829,9 @@
             
                 <div>
                   
-  <section id="low-precision-transformation-attributes">
-<span id="doxid-openvino-docs-o-v-u-g-lpt-attributes"></span><span id="index-0"></span><h1>Low-Precision Transformation Attributes<a class="headerlink" href="#low-precision-transformation-attributes" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-lpt-attributes-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-lpt-attributes"></span></p>
+  <span class="target" id="extensibility-plugin-lpt-attributes"><span id="index-0"></span></span><section id="low-precision-transformation-attributes">
+<h1>Low-Precision Transformation Attributes<a class="headerlink" href="#low-precision-transformation-attributes" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="extensibility-plugin-lpt-attributes-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-lpt-attributes"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <section id="introduction">
@@ -1849,32 +1851,32 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="low-precision-transformation-attributes/avgpoolprecisionpreserved.html#doxid-openvino-docs-o-v-u-g-lpt-avg-pool-precision-preserved"><span class="std std-ref">AvgPoolPrecisionPreserved</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="low-precision-transformation-attributes/avgpoolprecisionpreserved.html#lpt-attributes-avgpoolprecisionpreserved"><span class="std std-ref">AvgPoolPrecisionPreserved</span></a></p></td>
 <td><p>Precision</p></td>
 <td><p>No</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="low-precision-transformation-attributes/intervalsalignment.html#doxid-openvino-docs-o-v-u-g-lpt-intervals-alignment"><span class="std std-ref">IntervalsAlignment</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="low-precision-transformation-attributes/intervalsalignment.html#lpt-attributes-intervalsalignment"><span class="std std-ref">IntervalsAlignment</span></a></p></td>
 <td><p>Quantization interval</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="low-precision-transformation-attributes/precisionpreserved.html#doxid-openvino-docs-o-v-u-g-lpt-precision-preserved"><span class="std std-ref">PrecisionPreserved</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="low-precision-transformation-attributes/precisionpreserved.html#lpt-attributes-precisionpreserved"><span class="std std-ref">PrecisionPreserved</span></a></p></td>
 <td><p>Precision</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="low-precision-transformation-attributes/precisions.html#doxid-openvino-docs-o-v-u-g-lpt-precisions"><span class="std std-ref">Precisions</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="low-precision-transformation-attributes/precisions.html#lpt-attributes-precisions"><span class="std std-ref">Precisions</span></a></p></td>
 <td><p>Precision</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="low-precision-transformation-attributes/quantizationalignment.html#doxid-openvino-docs-o-v-u-g-lpt-quantization-alignment"><span class="std std-ref">QuantizationAlignment</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="low-precision-transformation-attributes/quantizationalignment.html#lpt-attributes-quantizationalignment"><span class="std std-ref">QuantizationAlignment</span></a></p></td>
 <td><p>Quantization granularity</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="low-precision-transformation-attributes/quantizationgranularity.html#doxid-openvino-docs-o-v-u-g-lpt-quantization-granularity"><span class="std std-ref">QuantizationGranularity</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="low-precision-transformation-attributes/quantizationgranularity.html#lpt-attributes-quantizationgranularity"><span class="std std-ref">QuantizationGranularity</span></a></p></td>
 <td><p>Quantization granularity</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
@@ -1939,7 +1941,12 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Note:</strong> the same type of attribute instances can be created in different transformations. This approach is the result of the transformation single-responsibility principle. For example, <code class="docutils literal notranslate"><span class="pre">Precision</span></code> attribute instances are created in <code class="docutils literal notranslate"><span class="pre">MarkupCanBeQuantized</span></code> and <code class="docutils literal notranslate"><span class="pre">MarkupPrecisions</span></code> transformations, but the reasons for their creation are different.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The same type of attribute instances can be created in different transformations. This approach is the result
+of the transformation single-responsibility principle. For example, <code class="docutils literal notranslate"><span class="pre">Precision</span></code> attribute instances are created
+in <code class="docutils literal notranslate"><span class="pre">MarkupCanBeQuantized</span></code> and <code class="docutils literal notranslate"><span class="pre">MarkupPrecisions</span></code> transformations, but the reasons for their creation are different.</p>
+</div>
 </section>
 </section>
 

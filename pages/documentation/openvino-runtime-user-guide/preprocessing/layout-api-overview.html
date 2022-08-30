@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The layout enables the application to interpret each particular dimension of input/ output tensor properly and the input size can be resized to fit the model." name="description" />
+<meta content="inference, model inference, input tensor, output tensor, input size, layout syntax, model modification, model conversion, model input, model output, specify dimension, short syntax, advanced syntax, partially defined syntax, dynamic layout, ov::Layout, batch dimension, channels dimension, batch size, width dimension, height dimension, depth dimension, NCHW, serialization, batch_idx, channels_idx, depth_idx height_idx, width_idx" name="keywords" />
 
     <title>Layout API Overview &#8212; OpenVINO™  documentation</title>
     
@@ -1869,9 +1871,9 @@
             
                 <div>
                   
-  <section id="layout-api-overview">
-<span id="doxid-openvino-docs-o-v-u-g-layout-overview"></span><span id="index-0"></span><h1>Layout API Overview<a class="headerlink" href="#layout-api-overview" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-layout-overview-1md-openvino-docs-ov-runtime-ug-layout-overview"></span></p>
+  <span class="target" id="deploy-infer-layout-api-overview"><span id="index-0"></span></span><section id="layout-api-overview">
+<h1>Layout API Overview<a class="headerlink" href="#layout-api-overview" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-layout-api-overview-1md-openvino-docs-ov-runtime-ug-layout-overview"></span></p>
 <p>The concept of layout helps you (and your application) to understand what each particular dimension of input/output tensor means. For example, if your input has the <code class="docutils literal notranslate"><span class="pre">{1,</span> <span class="pre">3,</span> <span class="pre">720,</span> <span class="pre">1280}</span></code> shape and the <code class="docutils literal notranslate"><span class="pre">NCHW</span></code> layout, it is clear that <code class="docutils literal notranslate"><span class="pre">N(batch)</span> <span class="pre">=</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">C(channels)</span> <span class="pre">=</span> <span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">H(height)</span> <span class="pre">=</span> <span class="pre">720</span></code>, and <code class="docutils literal notranslate"><span class="pre">W(width)</span> <span class="pre">=</span> <span class="pre">1280</span></code>. Without the layout information, the <code class="docutils literal notranslate"><span class="pre">{1,</span> <span class="pre">3,</span> <span class="pre">720,</span> <span class="pre">1280}</span></code> tuple does not give any idea to your application on what these numbers mean and how to resize the input image to fit the expectations of the model.</p>
 <p>With the <code class="docutils literal notranslate"><span class="pre">NCHW</span></code> layout, it is easier to understand what the <code class="docutils literal notranslate"><span class="pre">{8,</span> <span class="pre">3,</span> <span class="pre">224,</span> <span class="pre">224}</span></code> model shape means. Without the layout, it is just a 4-dimensional tensor.</p>
 <p>Below is a list of cases where input/output layout is important:</p>

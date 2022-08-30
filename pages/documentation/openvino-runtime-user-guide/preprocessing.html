@@ -1914,12 +1914,12 @@ always good.</p></li>
 <h2>Preprocessing API<a class="headerlink" href="#preprocessing-api" title="Permalink to this headline">¶</a></h2>
 <p>Intuitively, preprocessing API consists of the following parts:</p>
 <ol class="arabic simple">
-<li><p><strong>Tensor</strong> - declares user data format, like shape, <a class="reference internal" href="preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">layout</span></a>,
+<li><p><strong>Tensor</strong> - declares user data format, like shape, <a class="reference internal" href="preprocessing/layout-api-overview.html#deploy-infer-layout-api-overview"><span class="std std-ref">layout</span></a>,
 precision, color format from actual user’s data.</p></li>
 <li><p><strong>Steps</strong> - describes sequence of preprocessing steps which need to be
 applied to user data.</p></li>
 <li><p><strong>Model</strong> - specifies model data format. Usually, precision and shape are
-already known for model, only additional information, like <a class="reference internal" href="preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">layout</span></a>
+already known for model, only additional information, like <a class="reference internal" href="preprocessing/layout-api-overview.html#deploy-infer-layout-api-overview"><span class="std std-ref">layout</span></a>
 can be specified.</p></li>
 </ol>
 <div class="admonition note">
@@ -1971,7 +1971,7 @@ read from disk.</p>
 <ul class="simple">
 <li><p>Precision is <code class="docutils literal notranslate"><span class="pre">U8</span></code> (unsigned 8-bit integer).</p></li>
 <li><p>Data represents tensor with the <code class="docutils literal notranslate"><span class="pre">{1,480,640,3}</span></code> shape.</p></li>
-<li><p><a class="reference internal" href="preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout</span></a> is “NHWC”.
+<li><p><a class="reference internal" href="preprocessing/layout-api-overview.html#deploy-infer-layout-api-overview"><span class="std std-ref">Layout</span></a> is “NHWC”.
 It means: <code class="docutils literal notranslate"><span class="pre">height=480</span></code>, <code class="docutils literal notranslate"><span class="pre">width=640</span></code>, <code class="docutils literal notranslate"><span class="pre">channels=3</span></code> ‘.</p></li>
 <li><p>Color format is <code class="docutils literal notranslate"><span class="pre">BGR</span></code>.</p></li>
 </ul>
@@ -1981,7 +1981,7 @@ It means: <code class="docutils literal notranslate"><span class="pre">height=48
 <h3>Declaring Model Layout<a class="headerlink" href="#declaring-model-layout" title="Permalink to this headline">¶</a></h3>
 <p>Model input already has information about precision and shape. Preprocessing
 API is not intended to modify this. The only thing that may be specified is
-input data <a class="reference internal" href="preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">layout</span></a></p>
+input data <a class="reference internal" href="preprocessing/layout-api-overview.html#deploy-infer-layout-api-overview"><span class="std std-ref">layout</span></a></p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// `model&#39;s input` already `knows` it&#39;s shape and data type, no need to specify them here</span>
@@ -2060,7 +2060,7 @@ passed to the model without any data manipulation in the application.</p>
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="preprocessing/preprocessing-api-details.html#deploy-infer-preprocessing-api"><span class="std std-ref">Preprocessing Details</span></a></p></li>
-<li><p><a class="reference internal" href="preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">Layout API overview</span></a></p></li>
+<li><p><a class="reference internal" href="preprocessing/layout-api-overview.html#deploy-infer-layout-api-overview"><span class="std std-ref">Layout API overview</span></a></p></li>
 <li><p><code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1preprocess_1_1PrePostProcessor.html#doxid-classov-1-1preprocess-1-1-pre-post-processor"><span class="std std-ref"><span class="pre">ov::preprocess::PrePostProcessor</span></span></a></code> C++ class documentation</p></li>
 </ul>
 </section>

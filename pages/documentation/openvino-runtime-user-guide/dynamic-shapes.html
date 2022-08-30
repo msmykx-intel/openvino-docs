@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The Reshape method in OpenVINO Runtime API can handle dynamic shapes of models that support changing input shapes before model compilation." name="description" />
+<meta content="OpenVINO, OpenVINO Runtime API, inference, model inference, model shape, input shape, dynamic shape, dynamic dimensions, sequence length, ov::Dimension, ov.Dimension, lower bounds, upper bounds, reshape model, reshape method, compile_model method, spatial dimensions, batch dimension, undefined dimensions, OpenVINO IR, model optimizer, get_input_tensor, set_input_tensor, set_shape, tensor, partial shape, partial_shape, get_partial_shape" name="keywords" />
 
     <title>Dynamic Shapes &#8212; OpenVINO™  documentation</title>
     
@@ -1859,9 +1861,9 @@
             
                 <div>
                   
-  <section id="dynamic-shapes">
-<span id="doxid-openvino-docs-o-v-u-g-dynamic-shapes"></span><span id="index-0"></span><h1>Dynamic Shapes<a class="headerlink" href="#dynamic-shapes" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-dynamic-shapes-1md-openvino-docs-ov-runtime-ug-ov-dynamic-shapes"></span></p>
+  <span class="target" id="deploy-infer-dynamic-shapes"><span id="index-0"></span></span><section id="dynamic-shapes">
+<h1>Dynamic Shapes<a class="headerlink" href="#dynamic-shapes" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-dynamic-shapes-1md-openvino-docs-ov-runtime-ug-ov-dynamic-shapes"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>As it was demonstrated in the <a class="reference internal" href="changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Changing Input Shapes</span></a> article, there are models that support changing input shapes before model compilation in <code class="docutils literal notranslate"><span class="pre">Core::compile_model</span></code>. Reshaping models provides an ability to customize the model input shape for the exact size required in the end application. This article explains how the ability of model to reshape can further be leveraged in more dynamic scenarios.</p>

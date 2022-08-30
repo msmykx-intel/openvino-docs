@@ -2120,7 +2120,7 @@ consumption may be lower, compared to the other approaches.</p>
 <section id="dynamic-shapes">
 <h3>Dynamic Shapes<a class="headerlink" href="#dynamic-shapes" title="Permalink to this headline">¶</a></h3>
 <p>The GPU plugin supports dynamic shapes for batch dimension only (specified as
-<code class="docutils literal notranslate"><span class="pre">N</span></code> in the <a class="reference internal" href="../preprocessing/layout-api-overview.html#doxid-openvino-docs-o-v-u-g-layout-overview"><span class="std std-ref">layouts terms</span></a>)
+<code class="docutils literal notranslate"><span class="pre">N</span></code> in the <a class="reference internal" href="../preprocessing/layout-api-overview.html#deploy-infer-layout-api-overview"><span class="std std-ref">layouts terms</span></a>)
 with a fixed upper bound. Any other dynamic dimensions are unsupported. Internally,
 GPU plugin creates <code class="docutils literal notranslate"><span class="pre">log2(N)</span></code> (<code class="docutils literal notranslate"><span class="pre">N</span></code> - is an upper bound for batch dimension
 here) low-level execution graphs for batch sizes equal to powers of 2 to emulate
@@ -2176,7 +2176,7 @@ time is significantly longer, compared to the static batch scenario.</p>
 
 <span class="n">infer_request</span><span class="p">.</span><span class="n">infer</span><span class="p">([</span><span class="n">input_tensor</span><span class="p">])</span></pre></div></div></div>
 </div>
-<p>For more details, see the <a class="reference internal" href="../dynamic-shapes.html#doxid-openvino-docs-o-v-u-g-dynamic-shapes"><span class="std std-ref">dynamic shapes guide</span></a>.</p>
+<p>For more details, see the <a class="reference internal" href="../dynamic-shapes.html#deploy-infer-dynamic-shapes"><span class="std std-ref">dynamic shapes guide</span></a>.</p>
 </section>
 <section id="preprocessing-acceleration">
 <h3>Preprocessing Acceleration<a class="headerlink" href="#preprocessing-acceleration" title="Permalink to this headline">¶</a></h3>
