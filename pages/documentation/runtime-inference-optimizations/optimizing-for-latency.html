@@ -1846,13 +1846,13 @@ deliver a multi-tile scalability with the number of inference requests, while
 preserving the single-tile latency.</p>
 <p>Typically, human expertise is required to get more “throughput” out of the
 device, even in the inherently latency-oriented cases. OpenVINO can take this
-configuration burden via <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">high-level performance hints</span></a>,
+configuration burden via <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">high-level performance hints</span></a>,
 the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/enumov_1_1hint_1_1PerformanceMode.html#doxid-group-ov-runtime-cpp-prop-api-1gga032aa530efa40760b79af14913d48d73a501069dd75f76384ba18f133fdce99c2"><span class="std std-ref"><span class="pre">ov::hint::PerformanceMode::LATENCY</span></span></a></code>
 specified for the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga2691fe27acc8aa1d1700ad40b6da3ba2"><span class="std std-ref"><span class="pre">ov::hint::performance_mode</span></span></a></code>
 property for the <code class="docutils literal notranslate"><span class="pre">compile_model</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
+<p><a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
 is a recommended way for performance configuration, which is both device-agnostic and future-proof.</p>
 </div>
 <p>When multiple models are to be used simultaneously, consider running inference

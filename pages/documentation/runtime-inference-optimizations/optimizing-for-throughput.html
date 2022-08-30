@@ -1855,7 +1855,7 @@ performance configuration of OpenVINO.</p>
 <h2>Basic and Advanced Ways of Leveraging Throughput<a class="headerlink" href="#basic-and-advanced-ways-of-leveraging-throughput" title="Permalink to this headline">¶</a></h2>
 <p>There are two ways of leveraging throughput with individual devices:</p>
 <ul class="simple">
-<li><p><strong>Basic (high-level)</strong> flow with <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
+<li><p><strong>Basic (high-level)</strong> flow with <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
 which is inherently <strong>portable and future-proof</strong>.</p></li>
 <li><p><strong>Advanced (low-level)</strong> approach of explicit <strong>batching</strong> and <strong>streams</strong>.
 For more details, see the <a class="reference internal" href="advanced-throughput-options.html#deployment-throughput-advanced"><span class="std std-ref">runtime inference optimizations</span></a>.</p></li>
@@ -1876,7 +1876,7 @@ that are aggressively scheduled to be executed in parallel:</p>
 <li><p>Setup the configuration for the <em>device</em> (for example, as parameters of
 the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model</span></span></a></code>)
 via either previously introduced <a class="reference internal" href="advanced-throughput-options.html#deployment-throughput-advanced"><span class="std std-ref">low-level explicit options</span></a>
-or <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a> (<strong>preferable</strong>):</p>
+or <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a> (<strong>preferable</strong>):</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">compiled_model</span> <span class="o">=</span> <span class="n">core</span><span class="p">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&quot;GPU&quot;</span><span class="p">,</span>
@@ -1927,7 +1927,7 @@ as the memory-bandwidth, which is shared between CPU and iGPU.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>While the legacy approach of optimizing the parameters of each device
-separately works, the <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
+separately works, the <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
 allow configuring all devices (that are part of the specific multi-device configuration) at once.</p>
 </div>
 </section>

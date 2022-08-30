@@ -1849,7 +1849,7 @@ batching, especially for the multiple-core systems:</p>
 <p>Compared to the batching, the parallelism is somewhat transposed (i.e.,
 performed over inputs with much less synchronization within CNN ops):</p>
 <img alt="../../../_images/cpu_streams_explained.png" src="../../../_images/cpu_streams_explained.png" />
-<p>Keep in mind that <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#doxid-openvino-docs-o-v-u-g-performance-hints"><span class="std std-ref">high-level performance hints</span></a>
+<p>Keep in mind that <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">high-level performance hints</span></a>
 allow the implementation to select the optimal number of streams depending on
 model’s compute demands and CPU capabilities, including <a class="reference internal" href="../model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">int8 inference</span></a>
 hardware acceleration, number of cores, etc.</p>
