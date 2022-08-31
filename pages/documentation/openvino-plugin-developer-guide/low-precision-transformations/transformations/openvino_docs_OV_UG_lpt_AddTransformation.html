@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information about AddTransformation transformation." name="description" />
+<meta content="low precision transformation, lpt, AddTransformation" name="keywords" />
 
     <title>AddTransformation transformation &#8212; OpenVINO™  documentation</title>
     
@@ -291,19 +293,31 @@
             
                 <div>
                   
-  <section id="addtransformation-transformation">
-<span id="doxid-openvino-docs-o-v-u-g-lpt-add-transformation"></span><span id="index-0"></span><h1>AddTransformation transformation<a class="headerlink" href="#addtransformation-transformation" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-o-v-u-g-lpt-add-transformation-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-transformations-step3-main-arithmetic-add"></span> <a class="reference internal" href="../../../../../api/groups/classngraph_1_1pass_1_1low_precision_1_1AddTransformation.html#doxid-classngraph-1-1pass-1-1low-precision-1-1-add-transformation"><span class="std std-ref">ngraph::pass::low_precision::AddTransformation</span></a> class represents the <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation transformation.</p>
-<p>The transformation propagates dequantization subtraction from one input branch to another and propagates dequantization multiplication from the same branch through <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation. In transformation result, one <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation input branch is in low precision without dequantization operations (empty branch), another input branch is in original precision with updated dequantization operations (full branch).</p>
+  <span class="target" id="lpt-transformations-add-transformation"><span id="index-0"></span></span><section id="addtransformation-transformation">
+<h1>AddTransformation transformation<a class="headerlink" href="#addtransformation-transformation" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="lpt-transformations-add-transformation-1md-openvino-docs-ie-plugin-dg-plugin-transformation-pipeline-low-precision-transformations-transformations-step3-main-arithmetic-add"></span> <a class="reference internal" href="../../../../../api/groups/classngraph_1_1pass_1_1low_precision_1_1AddTransformation.html#doxid-classngraph-1-1pass-1-1low-precision-1-1-add-transformation"><span class="std std-ref">ngraph::pass::low_precision::AddTransformation</span></a>
+class represents the <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation transformation.</p>
+<p>The transformation propagates dequantization subtraction from one input branch to another and propagates dequantization
+multiplication from the same branch through <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation. In transformation result, one <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation input branch
+is in low precision without dequantization operations (empty branch), another input branch is in original precision
+with updated dequantization operations (full branch).</p>
 <p>Criteria for selecting an empty branch in order of priority:</p>
 <p><em>Step 1.</em> If one branch is quantized only, then the quantized branch is an empty branch.</p>
 <p><em>Step 2.</em> If only one branch has <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> before dequantization operations, then another branch is an empty branch.</p>
-<p><em>Step 3.</em> If some <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> has more than one consumer and another has only one, then the branch with <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> with several consumers is an empty branch.</p>
-<p><em>Step 4.</em> Constant branch is in original precision, data branch is an empty branch. In this case, dequantization operations are propagated to a constant branch and will be fused in one constant.</p>
-<p><em>Step 5.</em> If both branches have operations from the following list before <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> : <code class="docutils literal notranslate"><span class="pre">Convolution</span></code>, <code class="docutils literal notranslate"><span class="pre">GroupConvolution</span></code>, and <code class="docutils literal notranslate"><span class="pre">MatMul</span></code>, or do not have any operations from the list, then the branch with larger shape volume is empty.</p>
+<p><em>Step 3.</em> If some <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> has more than one consumer and another has only one, then the branch
+with <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> with several consumers is an empty branch.</p>
+<p><em>Step 4.</em> Constant branch is in original precision, data branch is an empty branch. In this case, dequantization
+operations are propagated to a constant branch and will be fused in one constant.</p>
+<p><em>Step 5.</em> If both branches have operations from the following list before <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> : <code class="docutils literal notranslate"><span class="pre">Convolution</span></code>,
+<code class="docutils literal notranslate"><span class="pre">GroupConvolution</span></code>, and <code class="docutils literal notranslate"><span class="pre">MatMul</span></code>, or do not have any operations from the list, then the branch with larger
+shape volume is empty.</p>
 <p><em>Step 6.</em> If the operation before <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> has several consumers in any branch, then the branch is empty.</p>
-<p>If dequantization operations on the full branch have a <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operation parent, then they will be fused with <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> during another low precision transformation. If a <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operation has a parent operation from the list: <code class="docutils literal notranslate"><span class="pre">Convolution</span></code>, <code class="docutils literal notranslate"><span class="pre">GroupConvolution</span></code>, and <code class="docutils literal notranslate"><span class="pre">MatMul</span></code>, then during inference the <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> can be inferred in one plugin kernel with the parent operation.</p>
-<p>Depending on the plugin instruction set, low precision inference for the <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation can be implemented in two logical steps in one plugin kernel:</p>
+<p>If dequantization operations on the full branch have a <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operation parent, then they will be fused
+with <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> during another low precision transformation. If a <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operation has a parent operation
+from the list: <code class="docutils literal notranslate"><span class="pre">Convolution</span></code>, <code class="docutils literal notranslate"><span class="pre">GroupConvolution</span></code>, and <code class="docutils literal notranslate"><span class="pre">MatMul</span></code>, then during inference the <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> can be
+inferred in one plugin kernel with the parent operation.</p>
+<p>Depending on the plugin instruction set, low precision inference for the <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation can be implemented in two logical
+steps in one plugin kernel:</p>
 <ul class="simple">
 <li><p>Inference step #1: Operations in the full branch, for example, <code class="docutils literal notranslate"><span class="pre">Convolution</span></code> and <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> with fused dequantization operations, and <code class="docutils literal notranslate"><span class="pre">Add</span></code> can be inferred in the original precision.</p></li>
 <li><p>Inference step #2: Inference step #1 result can be added with the empty branch tensor in low precision.</p></li>

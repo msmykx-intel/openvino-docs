@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>interface ngraph::snippets::op::VectorStore &#8212; OpenVINO™  documentation</title>
+    <title>interface ngraph::snippets::op::TileScheduler &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -71,7 +71,7 @@
     <script src="../../_static/togglebutton.js"></script>
     <script src="../../_static/target-highlight.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/classngraph_1_1snippets_1_1op_1_1VectorStore.html" />
+    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/classngraph_1_1snippets_1_1op_1_1TileScheduler.html" />
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -1701,16 +1701,6 @@
       </label>
       <ul class="current">
        <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1BlockedLoad.html">
-         BlockedLoad
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1BlockedParameter.html">
-         BlockedParameter
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1BroadcastLoad.html">
          BroadcastLoad
         </a>
@@ -1718,6 +1708,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1BroadcastMove.html">
          BroadcastMove
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1ConvertSaturation.html">
+         ConvertSaturation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1ConvertTruncation.html">
+         ConvertTruncation
         </a>
        </li>
        <li class="toctree-l4">
@@ -1746,13 +1746,8 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1ScalarLoad.html">
-         ScalarLoad
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1ScalarStore.html">
-         ScalarStore
+        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html">
+         Store
         </a>
        </li>
        <li class="toctree-l4">
@@ -1765,19 +1760,9 @@
          Tile
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1VectorLoad.html">
-         VectorLoad
-        </a>
-       </li>
        <li class="toctree-l4 current active">
         <a class="current reference internal" href="#">
-         VectorStore
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html">
-         Store
+         TileScheduler
         </a>
        </li>
       </ul>
@@ -1813,6 +1798,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1InsertConvertOnInputs.html">
+         InsertConvertOnInputs
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1InsertLoad.html">
          InsertLoad
         </a>
@@ -1833,13 +1823,18 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1ReplaceLoadsWithScalarLoads.html">
-         ReplaceLoadsWithScalarLoads
+        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1ResetTypeRelaxedNodePrecision.html">
+         ResetTypeRelaxedNodePrecision
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1ReplaceStoresWithScalarStores.html">
-         ReplaceStoresWithScalarStores
+        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1SetScalarCountForLoad.html">
+         SetScalarCountForLoad
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1SetScalarCountForStore.html">
+         SetScalarCountForStore
         </a>
        </li>
        <li class="toctree-l4">
@@ -1850,6 +1845,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1ConvertPowerToPowerStatic.html">
          ConvertPowerToPowerStatic
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="classngraph_1_1snippets_1_1pass_1_1TransformConvertToConvertTruncation.html">
+         TransformConvertToConvertTruncation
         </a>
        </li>
       </ul>
@@ -3364,22 +3364,32 @@
             
                 <div>
                   
-  <section id="interface-ngraph-snippets-op-vectorstore">
-<span id="doxid-classngraph-1-1snippets-1-1op-1-1-vector-store"></span><span id="index-0"></span><h1>interface ngraph::snippets::op::VectorStore<a class="headerlink" href="#interface-ngraph-snippets-op-vectorstore" title="Permalink to this headline">¶</a></h1>
-<p>Generated by Canonicalization for a vector value store from vector register.</p>
-<div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;vectorstore.hpp&gt;</span><span class="cp"></span>
+  <section id="interface-ngraph-snippets-op-tilescheduler">
+<span id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler"></span><span id="index-0"></span><h1>interface ngraph::snippets::op::TileScheduler<a class="headerlink" href="#interface-ngraph-snippets-op-tilescheduler" title="Permalink to this headline">¶</a></h1>
+<p>Contains a set of Tiles (currently one vector and one scalar) and performs necessary preparations before the Tiles could be executed: calculates offsets, sets proper work amounts, decrement pointers if the same data have to be read several times (broadcasting).</p>
+<div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;tile_scheduler.hpp&gt;</span><span class="cp"></span>
 
-<span class="k">template</span> <span class="nl">VectorStore</span><span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store"><span class="std std-ref">ngraph::snippets::op::Store</span></a><span></span>
+<span class="k">template</span> <span class="nl">TileScheduler</span><span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="classov_1_1op_1_1Op.html#doxid-classov-1-1op-1-1-op"><span class="std std-ref">ov::op::Op</span></a><span></span>
 <span class="p">{</span>
+    <span class="c1">// fields</span>
+
+    <a class="reference internal" href="namespacengraph_1_1snippets.html#doxid-namespacengraph-1-1snippets-1aac310a41d4cfe79709c551055124cd8d"><span class="std std-ref">AllocatedEmitter</span></a><span></span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1afb4c7751b48138625efeafb542150206"><span></span><span class="n">vector_region</span></span><span></span><span class="p">;</span>
+    <a class="reference internal" href="namespacengraph_1_1snippets.html#doxid-namespacengraph-1-1snippets-1aac310a41d4cfe79709c551055124cd8d"><span class="std std-ref">AllocatedEmitter</span></a><span></span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1a28e7e63474d631184eefe5ec334702ec"><span></span><span class="n">scalar_region</span></span><span></span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">void</span> <span class="err">\</span><span class="o">*</span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1afd8cd6a10f01ba38d70db16e8f664ae3"><span></span><span class="n">compile_params</span></span><span></span><span class="p">;</span>
+
     <span class="c1">// construction</span>
 
-    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-vector-store-1a616ed220ff4f7ab01c9c56ba3585071e"><span></span><span class="n">VectorStore</span></span><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="classov_1_1Output.html#doxid-classov-1-1-output"><span class="std std-ref">Output</span></a><span></span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">x</span><span class="p">);</span>
-    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-vector-store-1a1e8018602c59a6f4a8b4988e222a5f49"><span></span><span class="n">VectorStore</span></span><span></span><span class="p">();</span>
+    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1aff4ad863d4bfd404ac20936d57764b08"><span></span><span class="n">TileScheduler</span></span><span></span><span class="p">(</span>
+        <span class="k">const</span> <a class="reference internal" href="namespacengraph_1_1snippets.html#doxid-namespacengraph-1-1snippets-1aac310a41d4cfe79709c551055124cd8d"><span class="std std-ref">AllocatedEmitter</span></a><span></span><span class="o">&amp;</span> <span class="n">vector_region</span><span class="p">,</span>
+        <span class="k">const</span> <a class="reference internal" href="namespacengraph_1_1snippets.html#doxid-namespacengraph-1-1snippets-1aac310a41d4cfe79709c551055124cd8d"><span class="std std-ref">AllocatedEmitter</span></a><span></span><span class="o">&amp;</span> <span class="n">scalar_region</span>
+        <span class="p">);</span>
+
+    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1afa2296b1d78c5746656c82b8ecbc05f6"><span></span><span class="n">TileScheduler</span></span><span></span><span class="p">();</span>
 
     <span class="c1">// methods</span>
 
-    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-vector-store-1a4b73285377925fc3decf7cc9a6b4f8e2"><span></span><span class="n">OPENVINO_OP</span></span><span></span><span class="p">(</span><span class="s">&quot;VectorStore&quot;</span><span class="p">,</span> <span class="s">&quot;SnippetsOpset&quot;</span><span class="p">,</span> <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store"><span class="std std-ref">ngraph::snippets::op::Store</span></a><span></span><span class="p">);</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;</span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-vector-store-1ad0a186524520287927960149dd26dae6"><span></span><span class="n">clone_with_new_inputs</span></span><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="classngraph.html#doxid-classngraph-1a161d36c81df2d1949272f525a8d73605"><span class="std std-ref">OutputVector</span></a><span></span><span class="o">&amp;</span> <span class="n">new_args</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1af38be18cb80646173dae7f5e9eaae0fc"><span></span><span class="n">OPENVINO_OP</span></span><span></span><span class="p">(</span><span class="s">&quot;TileScheduler&quot;</span><span class="p">,</span> <span class="s">&quot;SnippetsOpset&quot;</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;</span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1snippets-1-1op-1-1-tile-scheduler-1a376480947927155e470c620024cb3385"><span></span><span class="n">clone_with_new_inputs</span></span><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="classngraph.html#doxid-classngraph-1a161d36c81df2d1949272f525a8d73605"><span class="std std-ref">OutputVector</span></a><span></span><span class="o">&amp;</span> <span class="n">inputs</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
 <span class="p">};</span></pre></div></div><section id="inherited-members">
 <h2>Inherited Members<a class="headerlink" href="#inherited-members" title="Permalink to this headline">¶</a></h2>
 <div class="highlight doxyrest-overview-inherited-code-block"><div class="highlight"><pre><span></span><span class="k">public</span><span class="o">:</span>
@@ -3524,16 +3534,7 @@
         <span class="p">);</span>
 
     <span class="k">static</span> <span class="n">_OPENVINO_HIDDEN_METHODconst</span> <span class="o">::</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node-1af929e4dd70a66e0116a9d076753a2569"><span class="std std-ref">ov::Node::type_info_t</span></a><span></span><span class="o">&amp;</span> <a class="reference internal" href="classov_1_1op_1_1Op.html#doxid-classov-1-1op-1-1-op-1a67be7c9343aa67e8dcc9866c722cb097"><span class="std std-ref">get_type_info_static</span></a><span></span><span class="p">();</span>
-    <span class="k">virtual</span> <span class="k">const</span> <span class="o">::</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node-1af929e4dd70a66e0116a9d076753a2569"><span class="std std-ref">ov::Node::type_info_t</span></a><span></span><span class="o">&amp;</span> <a class="reference internal" href="classov_1_1op_1_1Op.html#doxid-classov-1-1op-1-1-op-1a38f6f501e9e7c0ee100e23754460a449"><span class="std std-ref">get_type_info</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-    <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store-1afa2296c75c20e8b0a16cd3f88020b3d7"><span class="std std-ref">OPENVINO_OP</span></a><span></span><span class="p">(</span><span class="s">&quot;Store&quot;</span><span class="p">,</span> <span class="s">&quot;SnippetsOpset&quot;</span><span class="p">);</span>
-    <span class="k">virtual</span> <span class="kt">bool</span> <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store-1aae062a8e5241adbba4d8a7c5b3988b7a"><span class="std std-ref">visit_attributes</span></a><span></span><span class="p">(</span><a class="reference internal" href="classov_1_1AttributeVisitor.html#doxid-classov-1-1-attribute-visitor"><span class="std std-ref">AttributeVisitor</span></a><span></span><span class="o">&amp;</span> <span class="n">visitor</span><span class="p">);</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;</span> <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store-1ab9366ed8a86e828633aaaf8cbc60579e"><span class="std std-ref">clone_with_new_inputs</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="classngraph.html#doxid-classngraph-1a161d36c81df2d1949272f525a8d73605"><span class="std std-ref">OutputVector</span></a><span></span><span class="o">&amp;</span> <span class="n">new_args</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
-    <span class="k">virtual</span> <span class="kt">void</span> <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store-1a36de11ce03b4c864791c1d09b4826c56"><span class="std std-ref">validate_and_infer_types</span></a><span></span><span class="p">();</span>
-
-    OPENVINO_SUPPRESS_DEPRECATED_START<span></span> <span class="kt">bool</span> <a class="reference internal" href="classngraph_1_1snippets_1_1op_1_1Store.html#doxid-classngraph-1-1snippets-1-1op-1-1-store-1ae24caff49d2ee6fc66a5a132696ba872"><span class="std std-ref">evaluate</span></a><span></span><span class="p">(</span>
-        <span class="k">const</span> <a class="reference internal" href="classngraph.html#doxid-classngraph-1a4c69b1e96e984658be3a087d0610e67b"><span class="std std-ref">HostTensorVector</span></a><span></span><span class="o">&amp;</span> <span class="n">output_values</span><span class="p">,</span>
-        <span class="k">const</span> <a class="reference internal" href="classngraph.html#doxid-classngraph-1a4c69b1e96e984658be3a087d0610e67b"><span class="std std-ref">HostTensorVector</span></a><span></span><span class="o">&amp;</span> <span class="n">input_values</span>
-        <span class="p">)</span> <span class="k">const</span><span class="p">;</span></pre></div></div></section>
+    <span class="k">virtual</span> <span class="k">const</span> <span class="o">::</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node-1af929e4dd70a66e0116a9d076753a2569"><span class="std std-ref">ov::Node::type_info_t</span></a><span></span><span class="o">&amp;</span> <a class="reference internal" href="classov_1_1op_1_1Op.html#doxid-classov-1-1op-1-1-op-1a38f6f501e9e7c0ee100e23754460a449"><span class="std std-ref">get_type_info</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span></pre></div></div></section>
 </section>
 
 
