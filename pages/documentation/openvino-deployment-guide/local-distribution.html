@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="A local distribution will have its own copies of OpenVINO Runtime binaries along with a set of required libraries needed to deploy the application." name="description" />
+<meta content="OpenVINO Runtime, OpenVINO toolkit, deployment, deployment package, distribution, local distribution, OpenVINO binaries, Intel® Distribution of OpenVINO™ toolkit, openvino_c library, openvino_c, pluggable components, compute devices, inference execution mode, HETERO plugin, AUTO plugin, MULTI plugin, Automatic Device Selection, Multi-Device execution, frontend libraries, read model, distribution package, inference, G-API preprocessing, OpenVINO IR, Intel CPU, Intel GPU, Intel GNA, HDDL device, MYRIAD device, Arm® CPU, C++ application, inference device, plugin library," name="keywords" />
 
     <title>Libraries for Local Distribution &#8212; OpenVINO™  documentation</title>
     
@@ -1859,10 +1861,11 @@
             
                 <div>
                   
-  <section id="libraries-for-local-distribution">
-<span id="doxid-openvino-docs-deploy-local-distribution"></span><span id="index-0"></span><h1>Libraries for Local Distribution<a class="headerlink" href="#libraries-for-local-distribution" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-deploy-local-distribution-1md-openvino-docs-ov-runtime-ug-deployment-local-distribution"></span> With a local distribution, each C or C++ application/installer will have its own copies of OpenVINO Runtime binaries. However, OpenVINO has a scalable plugin-based architecture, which means that some components can be loaded in runtime only when they are really needed. Therefore, it is important to understand which minimal set of libraries is really needed to deploy the application. This guide helps you to achieve that goal.</p>
-<p>Local dsitribution is also appropriate for OpenVINO binaries built from sources using <a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki#how-to-build">Build instructions</a>, but the guide below supposes OpenVINO Runtime is built dynamically. For case of <a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki/StaticLibraries">Static OpenVINO Runtime</a> select the required OpenVINO capabilities on CMake configuration stage using <a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki/CMakeOptionsForCustomCompilation">CMake Options for Custom Compilation</a>, the build and link the OpenVINO components into the final application.</p>
+  <span class="target" id="deploy-infer-deploy-local-distribution"><span id="index-0"></span></span><section id="libraries-for-local-distribution">
+<h1>Libraries for Local Distribution<a class="headerlink" href="#libraries-for-local-distribution" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="deploy-infer-deploy-local-distribution-1md-openvino-docs-ov-runtime-ug-deployment-local-distribution"></span></p>
+<p>With a local distribution, each C or C++ application/installer will have its own copies of OpenVINO Runtime binaries. However, OpenVINO has a scalable plugin-based architecture, which means that some components can be loaded in runtime only when they are really needed. Therefore, it is important to understand which minimal set of libraries is really needed to deploy the application. This guide helps you to achieve that goal.</p>
+<p>Local distribution is also appropriate for OpenVINO binaries built from sources using <a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki#how-to-build">Build instructions</a>, but the guide below supposes OpenVINO Runtime is built dynamically. For case of <a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki/StaticLibraries">Static OpenVINO Runtime</a> select the required OpenVINO capabilities on CMake configuration stage using <a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki/CMakeOptionsForCustomCompilation">CMake Options for Custom Compilation</a>, the build and link the OpenVINO components into the final application.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The steps below are operating system independent and refer to a library
