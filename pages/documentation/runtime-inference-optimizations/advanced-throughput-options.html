@@ -1949,7 +1949,7 @@ size depends on the model, inference precision and other factors. Similarly,
 different devices require a different number of execution streams to saturate.
 In some cases, combination of streams and batching may be required to
 maximize the throughput.</p>
-<p>One possible throughput optimization strategy is to <strong>set an upper bound for latency and then increase the batch size and/or number of the streams until that tail latency is met (or the throughput is not growing anymore)</strong>. Consider <a class="reference internal" href="../dl-workbench-overview.html#doxid-workbench-docs-workbench-d-g-introduction"><span class="std std-ref">OpenVINO Deep Learning Workbench</span></a> that builds handy latency vs throughput charts, iterating over possible values of the batch size and number of streams.</p>
+<p>One possible throughput optimization strategy is to <strong>set an upper bound for latency and then increase the batch size and/or number of the streams until that tail latency is met (or the throughput is not growing anymore)</strong>. Consider <a class="reference internal" href="../dl-workbench-overview.html#dl-workbench-introduction"><span class="std std-ref">OpenVINO Deep Learning Workbench</span></a> that builds handy latency vs throughput charts, iterating over possible values of the batch size and number of streams.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When playing with <a class="reference internal" href="../openvino-runtime-user-guide/dynamic-shapes.html#deploy-infer-dynamic-shapes"><span class="std std-ref">dynamically-shaped inputs</span></a>,
