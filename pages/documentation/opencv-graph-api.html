@@ -1853,7 +1853,7 @@ but on the whole algorithm optimization.</p>
 and run the operations for a particular backend.</p>
 <p>The idea behind G-API is that if an algorithm can be expressed in a special embedded language (currently in C++),
 the framework can catch its sense and apply a number of optimizations to the whole thing automatically. Particular
-optimizations are selected based on which <a class="reference internal" href="opencv-graph-api/graph-api-kernel.html#doxid-openvino-docs-gapi-kernel-api"><span class="std std-ref">kernels</span></a> and
+optimizations are selected based on which <a class="reference internal" href="opencv-graph-api/graph-api-kernel.html#media-graphapi-kernel-api"><span class="std std-ref">kernels</span></a> and
 <a class="reference external" href="https://docs.opencv.org/4.5.0/dc/d1c/group__gapi__std__backends.html">backends</a> are involved in the graph
 compilation process, for example, the graph can be offloaded to GPU via the OpenCL backend, or optimized
 for memory consumption with the Fluid backend. Kernels, backends, and their settings are parameters to the graph
@@ -1888,7 +1888,7 @@ and there may be minor but compatibility-breaking changes in the future.</p>
 <p>Building graphs is easy with G-API. In fact, there is no notion of graphs exposed in the API, so the user doesn’t
 need to operate in terms of “nodes” and “edges” — instead, graphs are constructed implicitly via expressions .
 in a “functional” way. Expression-based graphs are built using two major concepts:
-<a class="reference internal" href="opencv-graph-api/graph-api-kernel.html#doxid-openvino-docs-gapi-kernel-api"><span class="std std-ref">operations</span></a> and
+<a class="reference internal" href="opencv-graph-api/graph-api-kernel.html#media-graphapi-kernel-api"><span class="std std-ref">operations</span></a> and
 <a class="reference external" href="https://docs.opencv.org/4.2.0/db/df1/group__gapi__data__objects.html">data objects</a>.</p>
 <p>In G-API, every graph begins and ends with data objects; data objects are passed to operations which produce ,
 (“return”) their results — new data objects, which are then passed to other operations, and so on. You can declare
