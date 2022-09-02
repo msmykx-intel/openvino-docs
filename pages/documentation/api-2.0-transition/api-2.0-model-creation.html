@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Model creation in OpenVINO™ Runtime API 2.0 is performed with nGraph engine that has been preserved in the new API and its namespace has been changed to 'ov'." name="description" />
+<meta content="OpenVINO™ Runtime, infer model, model inference, create model, OpenVINO™ Runtime API 2.0, API 2.0, nGraph, nGraph engine, ov namespace, application code, migration to API 2.0" name="keywords" />
 
     <title>Model Creation in OpenVINO™ Runtime &#8212; OpenVINO™  documentation</title>
     
@@ -1837,13 +1839,16 @@
             
                 <div>
                   
-  <section id="model-creation-in-openvino-runtime">
-<span id="doxid-openvino-2-0-model-creation"></span><span id="index-0"></span><h1>Model Creation in OpenVINO™ Runtime<a class="headerlink" href="#model-creation-in-openvino-runtime" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-2-0-model-creation-1md-openvino-docs-ov-runtime-ug-migration-ov-2-0-graph-construction"></span> OpenVINO™ Runtime with API 2.0 includes the nGraph engine as a common part. The <code class="docutils literal notranslate"><span class="pre">ngraph</span></code> namespace has been changed to <code class="docutils literal notranslate"><span class="pre">ov</span></code>, but all other parts of the ngraph API have been preserved.</p>
+  <span class="target" id="api-2-0-model-creation"><span id="index-0"></span></span><section id="model-creation-in-openvino-runtime">
+<h1>Model Creation in OpenVINO™ Runtime<a class="headerlink" href="#model-creation-in-openvino-runtime" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="api-2-0-model-creation-1md-openvino-docs-ov-runtime-ug-migration-ov-2-0-graph-construction"></span></p>
+<p>OpenVINO™ Runtime with API 2.0 includes the nGraph engine as a common part. The <code class="docutils literal notranslate"><span class="pre">ngraph</span></code> namespace has been changed to <code class="docutils literal notranslate"><span class="pre">ov</span></code>, but all other parts of the ngraph API have been preserved.</p>
 <p>The code snippets below show how to change the application code for migration to API 2.0.</p>
 <section id="ngraph-api">
 <h2>nGraph API<a class="headerlink" href="#ngraph-api" title="Permalink to this headline">¶</a></h2>
-<div class='sphinxtabset'><div class="sphinxtab" data-sphinxtab-value="C++"><div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// _____________    _____________</span>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// _____________    _____________</span>
 <span class="c1">// | Parameter |    | Parameter |</span>
 <span class="c1">// |   data1   |    |   data2   |</span>
 <span class="c1">// |___________|    |___________|</span>
@@ -1879,7 +1884,9 @@
 
 <span class="k">auto</span> <a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a4582949bb0b6082a5159f90c43a71ca9"><span class="std std-ref">f</span></a><span></span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ngraph</span><span class="o">::</span><span class="n">Function</span><span class="o">&gt;</span><span class="p">(</span><a class="reference internal" href="../../../api/groups/classngraph.html#doxid-classngraph-1aedfbc99202fbf343071141f5e0e26eff"><span class="std std-ref">ngraph::ResultVector</span></a><span></span><span class="p">{</span><a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a9f63c4359f72e8f64b3d6ff4883447f0"><span class="std std-ref">result</span></a><span></span><span class="p">},</span>
                                             <a class="reference internal" href="../../../api/groups/classngraph.html#doxid-classngraph-1a8288ec615d4e98f673d38597891c6e49"><span class="std std-ref">ngraph::ParameterVector</span></a><span></span><span class="p">{</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">},</span>
-                                            <span class="s">&quot;function_name&quot;</span><span class="p">);</span></pre></div></div></div><div class="sphinxtab" data-sphinxtab-value="Python"><div class="highlight"><div class="highlight"><pre><span></span><span class="cp"># _____________    _____________</span>
+                                            <span class="s">&quot;function_name&quot;</span><span class="p">);</span></pre></div></div></div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight"><div class="highlight"><pre><span></span><span class="cp"># _____________    _____________</span>
 <span class="cp"># | Parameter |    | Parameter |</span>
 <span class="cp"># |   data1   |    |   data2   |</span>
 <span class="cp"># |___________|    |___________|</span>
@@ -1915,10 +1922,14 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">ng</span><span class="p">.</span><span class="n">opset8</span><span class="p">.</span><span class="n">result</span><span class="p">(</span><span class="n">concat</span><span class="p">)</span>
 <span class="n">result</span><span class="p">.</span><span class="n">friendly_name</span> <span class="o">=</span> <span class="s">&quot;result&quot;</span> <span class="err">#</span> <span class="n">operation</span> <span class="n">name</span>
 
-<span class="n">f</span> <span class="o">=</span> <span class="n">ng</span><span class="p">.</span><span class="n">Function</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">],</span> <span class="s">&quot;function_name&quot;</span><span class="p">)</span></pre></div></div></div></div></section>
+<span class="n">f</span> <span class="o">=</span> <span class="n">ng</span><span class="p">.</span><span class="n">Function</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">],</span> <span class="s">&quot;function_name&quot;</span><span class="p">)</span></pre></div></div></div>
+</div>
+</section>
 <section id="api-2-0">
 <h2>API 2.0<a class="headerlink" href="#api-2-0" title="Permalink to this headline">¶</a></h2>
-<div class='sphinxtabset'><div class="sphinxtab" data-sphinxtab-value="C++"><div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// _____________    _____________</span>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">C++</label><div class="tab-content docutils">
+<div class="highlight"><div class="highlight"><pre><span></span><span class="c1">// _____________    _____________</span>
 <span class="c1">// | Parameter |    | Parameter |</span>
 <span class="c1">// |   data1   |    |   data2   |</span>
 <span class="c1">// |___________|    |___________|</span>
@@ -1952,7 +1963,9 @@
 <span class="k">auto</span> <a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a9f63c4359f72e8f64b3d6ff4883447f0"><span class="std std-ref">result</span></a><span></span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ov</span><span class="o">::</span><span class="n">opset8</span><span class="o">::</span><span class="n">Result</span><span class="o">&gt;</span><span class="p">(</span><a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a697183f9ae579acade2cb21c5ebad1ca"><span class="std std-ref">concat</span></a><span></span><span class="p">);</span>
 <a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a9f63c4359f72e8f64b3d6ff4883447f0"><span class="std std-ref">result</span></a><span></span><span class="o">-&gt;</span><span class="n">set_friendly_name</span><span class="p">(</span><span class="s">&quot;result&quot;</span><span class="p">);</span>  <span class="c1">// operation name</span>
 
-<span class="k">auto</span> <a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a4582949bb0b6082a5159f90c43a71ca9"><span class="std std-ref">f</span></a><span></span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ov</span><span class="o">::</span><span class="n">Model</span><span class="o">&gt;</span><span class="p">(</span><a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1adf9015702d0f2f7e69c705651f19b72a"><span class="std std-ref">ov::ResultVector</span></a><span></span><span class="p">{</span><a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a9f63c4359f72e8f64b3d6ff4883447f0"><span class="std std-ref">result</span></a><span></span><span class="p">},</span> <a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1a2fd9bce881f1d37b496cf2e098274098"><span class="std std-ref">ov::ParameterVector</span></a><span></span><span class="p">{</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">},</span> <span class="s">&quot;function_name&quot;</span><span class="p">);</span></pre></div></div></div><div class="sphinxtab" data-sphinxtab-value="Python"><div class="highlight"><div class="highlight"><pre><span></span><span class="cp"># _____________    _____________</span>
+<span class="k">auto</span> <a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a4582949bb0b6082a5159f90c43a71ca9"><span class="std std-ref">f</span></a><span></span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ov</span><span class="o">::</span><span class="n">Model</span><span class="o">&gt;</span><span class="p">(</span><a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1adf9015702d0f2f7e69c705651f19b72a"><span class="std std-ref">ov::ResultVector</span></a><span></span><span class="p">{</span><a class="reference internal" href="../../../api/groups/namespacengraph_1_1runtime_1_1reference.html#doxid-namespacengraph-1-1runtime-1-1reference-1a9f63c4359f72e8f64b3d6ff4883447f0"><span class="std std-ref">result</span></a><span></span><span class="p">},</span> <a class="reference internal" href="../../../api/groups/namespaceov.html#doxid-namespaceov-1a2fd9bce881f1d37b496cf2e098274098"><span class="std std-ref">ov::ParameterVector</span></a><span></span><span class="p">{</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">},</span> <span class="s">&quot;function_name&quot;</span><span class="p">);</span></pre></div></div></div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Python</label><div class="tab-content docutils">
+<div class="highlight"><div class="highlight"><pre><span></span><span class="cp"># _____________    _____________</span>
 <span class="cp"># | Parameter |    | Parameter |</span>
 <span class="cp"># |   data1   |    |   data2   |</span>
 <span class="cp"># |___________|    |___________|</span>
@@ -1990,7 +2003,9 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">ov</span><span class="p">.</span><span class="n">opset8</span><span class="p">.</span><span class="n">result</span><span class="p">(</span><span class="n">concat</span><span class="p">)</span>
 <span class="n">result</span><span class="p">.</span><span class="n">friendly_name</span> <span class="o">=</span> <span class="s">&quot;result&quot;</span>    <span class="err">#</span> <span class="n">operation</span> <span class="n">name</span>
 
-<span class="n">model</span> <span class="o">=</span> <a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref">ov.Model</span></a><span></span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">],</span> <span class="s">&quot;model_name&quot;</span><span class="p">)</span></pre></div></div></div></div></section>
+<span class="n">model</span> <span class="o">=</span> <a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref">ov.Model</span></a><span></span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">],</span> <span class="s">&quot;model_name&quot;</span><span class="p">)</span></pre></div></div></div>
+</div>
+</section>
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
