@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="The inference pipeline consists of a series of steps to be performed in a specific order to infer models with OpenVINO™ Runtime." name="description" />
+<meta content="OpenVINO™ Runtime, inference, model inference, infer models, inference pipeline, migrate to API 2.0, API 2.0, core object, create core object, load extensions, read a model, preprocessing, model preprocessing, load a model, inference request, create an inference request, tensor, input tensor, output tensor, fill input tensors, start inference, inference results, Inference Engine API, I32 precision, I64 precision, OpenVINO IR v11, compile model, compile_model, infer_request" name="keywords" />
 
     <title>Inference Pipeline &#8212; OpenVINO™  documentation</title>
     
@@ -1871,9 +1873,10 @@
             
                 <div>
                   
-  <section id="inference-pipeline">
-<span id="doxid-openvino-2-0-inference-pipeline"></span><span id="index-0"></span><h1>Inference Pipeline<a class="headerlink" href="#inference-pipeline" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-2-0-inference-pipeline-1md-openvino-docs-ov-runtime-ug-migration-ov-2-0-common-inference-pipeline"></span> To infer models with OpenVINO™ Runtime, you usually need to perform the following steps in the application pipeline:</p>
+  <span class="target" id="api-2-0-inference-pipeline"><span id="index-0"></span></span><section id="inference-pipeline">
+<h1>Inference Pipeline<a class="headerlink" href="#inference-pipeline" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="api-2-0-inference-pipeline-1md-openvino-docs-ov-runtime-ug-migration-ov-2-0-common-inference-pipeline"></span></p>
+<p>To infer models with OpenVINO™ Runtime, you usually need to perform the following steps in the application pipeline:</p>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="#create-core">Create a Core object.</a></p>
 <ul class="simple">
@@ -1891,7 +1894,7 @@
 <li><p><a class="reference external" href="#start-inference">Start inference.</a></p></li>
 <li><p><a class="reference external" href="#process-results">Process the inference results.</a></p></li>
 </ol>
-<p>Based on the steps, the following code demostrates how to change the application code to migrate to API 2.0.</p>
+<p>Based on the steps, the following code demonstrates how to change the application code to migrate to API 2.0.</p>
 <section id="create-a-core-object">
 <span id="create-core"></span><h2>1. Create a Core Object<a class="headerlink" href="#create-a-core-object" title="Permalink to this headline">¶</a></h2>
 <p><strong>Inference Engine API</strong></p>
