@@ -1904,7 +1904,7 @@
   <section id="int8-calibration">
 <span id="doxid-workbench-docs-workbench-d-g-int-8-quantization"></span><span id="index-0"></span><h1>INT8 Calibration<a class="headerlink" href="#int8-calibration" title="Permalink to this headline">¶</a></h1>
 <p><span class="target" id="doxid-workbench-docs-workbench-d-g-int-8-quantization-1md-openvino-workbench-docs-workbench-dg-int-8-quantization"></span> DL Workbench can lower the precision of a model from FP32 to INT8 with a process called calibration. Calibration accelerates the performance of certain models on hardware that supports INT8. A model in INT8 precision takes up less memory and has higher throughput capacity. Often this performance boost is achieved at the cost of a small accuracy reduction. With the DL Workbench, you can calibrate your model locally, on a <a class="reference external" href="#remote-calibration">remote target</a>, or in the <a class="reference external" href="#devcloud-calibration">Intel® DevCloud for the Edge</a>.</p>
-<p>To read more about INT8 inference, see <a class="reference internal" href="../../model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">Using Low-Precision INT8 Integer Inference</span></a> and <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">Post-Training Optimization Toolkit</span></a>.</p>
+<p>To read more about INT8 inference, see <a class="reference internal" href="../../model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">Using Low-Precision INT8 Integer Inference</span></a> and <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization.html#optim-perf-pot-intro"><span class="std std-ref">Post-Training Optimization Toolkit</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>INT8 calibration is <strong>not</strong> available in the following cases:</p>
@@ -2003,7 +2003,7 @@
 </section>
 <section id="select-calibration-scheme-advanced">
 <span id="preset"></span><h3>Select Calibration Scheme (Advanced)<a class="headerlink" href="#select-calibration-scheme-advanced" title="Permalink to this headline">¶</a></h3>
-<p>Calibration scheme is a collection of optimization algorithm parameters that improve a certain metric of an algorithm. See <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization/quantizing-model/default-quantization-algorithm.html#default-quantization-algorithm"><span class="std std-ref">optimization parameters</span></a> for details.</p>
+<p>Calibration scheme is a collection of optimization algorithm parameters that improve a certain metric of an algorithm. See <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization/quantizing-model/default-quantization-algorithm.html#optim-perf-def-quant-algorithm"><span class="std std-ref">optimization parameters</span></a> for details.</p>
 <img alt="../../../../_images/calibration_scheme.png" src="../../../../_images/calibration_scheme.png" />
 </section>
 </section>
@@ -2035,8 +2035,8 @@
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Compare_Performance_between_Two_Versions_of_Models.html#doxid-workbench-docs-workbench-d-g-compare-performance-between-two-versions-of-models"><span class="std std-ref">Compare Performance between Two Versions of a Model</span></a></p></li>
-<li><p><a class="reference internal" href="../../performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Optimization Guide</span></a></p></li>
-<li><p><a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">Post-Training Optimization Tool</span></a></p></li>
+<li><p><a class="reference internal" href="../../performance-optimization.html#optim-perf-introduction"><span class="std std-ref">Optimization Guide</span></a></p></li>
+<li><p><a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization.html#optim-perf-pot-intro"><span class="std std-ref">Post-Training Optimization Tool</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>
 </section>

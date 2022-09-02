@@ -1854,9 +1854,9 @@
             
                 <div>
                   
-  <span class="target" id="getting-performance-numbers"><span id="index-0"></span></span><section id="id1">
-<h1>Getting Performance Numbers<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="getting-performance-numbers-1md-openvino-docs-mo-dg-prepare-model-getting-performance-numbers"></span></p>
+  <span class="target" id="optim-perf-get-perf-numbers"><span id="index-0"></span></span><section id="getting-performance-numbers">
+<h1>Getting Performance Numbers<a class="headerlink" href="#getting-performance-numbers" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="optim-perf-get-perf-numbers-1md-openvino-docs-mo-dg-prepare-model-optim-perf-get-perf-numbers"></span></p>
 <p>This guide introduces things to notice and how to use the benchmark_app to get
 performance numbers. It also explains how the performance numbers are reflected
 through internal inference performance counters and execution graphs. In the
@@ -2039,12 +2039,12 @@ option. It requires OpenVINO to output the same execution statistics per layer,
 but in the form of plugin-specific <a class="reference external" href="https://netron.app/">Netron-viewable</a>
 graph to the specified file.</p>
 <p>Especially when performance-debugging the
-<a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency.html#deployment-optimizing-for-latency"><span class="std std-ref">latency</span></a>,
+<a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency.html#optim-perf-deploy-optim-latency"><span class="std std-ref">latency</span></a>,
 note that the counters do not reflect the time spent in the
 <code class="docutils literal notranslate"><span class="pre">plugin/device/driver/etc</span></code> queues. If the sum of the counters is too different
 from the latency of an inference request, consider testing with less inference
 requests. For example, running single
-<a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">OpenVINO stream</span></a>
+<a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#optim-perf-deploy-optim-throughput"><span class="std std-ref">OpenVINO stream</span></a>
 with multiple requests would produce nearly identical counters as running a
 single inference request, while the actual latency can be quite different.</p>
 <p>Lastly, the performance statistics with both performance counters and execution

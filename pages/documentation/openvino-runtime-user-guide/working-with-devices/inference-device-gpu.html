@@ -2021,7 +2021,7 @@ quantization primitives, and available hardware capabilities. The <code class="d
 <code class="docutils literal notranslate"><span class="pre">u8</span></code> / <code class="docutils literal notranslate"><span class="pre">i8</span></code> data types are used for quantized operations only, which means
 that they are not selected automatically for non-quantized operations. For more
 details on how to get a quantized model, refer to the
-<a class="reference internal" href="../../model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">Model Optimization guide</span></a>.</p>
+<a class="reference internal" href="../../model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">Model Optimization guide</span></a>.</p>
 <p>Floating-point precision of a GPU primitive is selected based on operation
 precision in the OpenVINO IR, except for the
 <a class="reference internal" href="../../converting-models-with-model-optimizer/fp16-compression-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-f-p16-compression"><span class="std std-ref">compressed f16 OpenVINO IR form</span></a>,
@@ -2115,7 +2115,7 @@ multi-stream feature is preferred to multiple instances of the model or
 application. The reason for this is that the implementation of streams in the
 GPU plugin supports weight memory sharing across streams, thus, memory
 consumption may be lower, compared to the other approaches.</p>
-<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations.html#runtime-inference-optimizations"><span class="std std-ref">optimization guide</span></a>.</p>
+<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations.html#optim-perf-runtime-inference-optim"><span class="std std-ref">optimization guide</span></a>.</p>
 </section>
 <section id="dynamic-shapes">
 <h3>Dynamic Shapes<a class="headerlink" href="#dynamic-shapes" title="Permalink to this headline">¶</a></h3>
@@ -2229,7 +2229,7 @@ call regardless of the <code class="docutils literal notranslate"><span class="p
 is a bottleneck in the model loading process, a significant load time reduction
 can be achieved with the <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga3276fc4ed7cc7d0bbdcf0ae12063728d"><span class="std std-ref"><span class="pre">ov::cache_dir</span></span></a></code>
 property enabled.</p>
-<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">Model caching overview</span></a>.</p>
+<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#optim-perf-model-caching"><span class="std std-ref">Model caching overview</span></a>.</p>
 </section>
 <section id="extensibility">
 <h3>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h3>
@@ -2309,7 +2309,7 @@ generate both variants, and the <code class="docutils literal notranslate"><span
 the <a class="reference external" href="https://docs.openvino.ai/latest/pot_introduction.html">Post-training Optimization Tool</a>.</p></li>
 <li><p>Try to group individual infer jobs by using
 <a class="reference internal" href="../automatic-batching.html#deploy-infer-automatic-batching"><span class="std std-ref">automatic batching</span></a>.</p></li>
-<li><p>Consider <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">caching</span></a>
+<li><p>Consider <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#optim-perf-model-caching"><span class="std std-ref">caching</span></a>
 to minimize model load time.</p></li>
 <li><p>If your application performs inference on the CPU alongside the GPU, or otherwise
 loads the host heavily, make sure that the OpenCL driver threads do not starve.
@@ -2328,7 +2328,7 @@ GPU streams or <a class="reference internal" href="../performance-hints.html#dep
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="../../../resources/record-of-openvino-supported-devices.html#doxid-openvino-docs-o-v-u-g-supported-plugins-supported-devices"><span class="std std-ref">Supported Devices</span></a></p></li>
-<li><p><a class="reference internal" href="../../performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Optimization guide</span></a></p></li>
+<li><p><a class="reference internal" href="../../performance-optimization.html#optim-perf-introduction"><span class="std std-ref">Optimization guide</span></a></p></li>
 <li><p><a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki/GPUPluginDevelopersDocs">GPU plugin developers documentation</a></p></li>
 </ul>
 </section>

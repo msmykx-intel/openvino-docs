@@ -1889,9 +1889,9 @@
             
                 <div>
                   
-  <span class="target" id="pot-faq"><span id="index-0"></span></span><section id="post-training-optimization-tool-faq">
+  <span class="target" id="optim-perf-pot-faq"><span id="index-0"></span></span><section id="post-training-optimization-tool-faq">
 <h1>Post-training Optimization Tool FAQ<a class="headerlink" href="#post-training-optimization-tool-faq" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="pot-faq-1md-openvino-tools-pot-docs-frequentlyaskedquestions"></span></p>
+<p><span class="target" id="optim-perf-pot-faq-1md-openvino-tools-pot-docs-frequentlyaskedquestions"></span></p>
 <p>If your question is not covered below, use the
 <a class="reference external" href="https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit">OpenVINO™ Community Forum page</a>,
 where you can participate freely.</p>
@@ -1921,8 +1921,8 @@ under Apache-2.0 License.</p>
 <span id="dataset"></span><h2>Can I quantize my model without a dataset?<a class="headerlink" href="#can-i-quantize-my-model-without-a-dataset" title="Permalink to this headline">¶</a></h2>
 <p>In general, you should have a dataset. The dataset should be annotated if you
 want to validate the accuracy. If your dataset is not annotated, you can use
-<a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a> to quantize
-the model or command-line interface with <a class="reference internal" href="command-line-interface/simplified-mode.html#pot-simplified-mode"><span class="std std-ref">Simplified mode</span></a>.</p>
+<a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a> to quantize
+the model or command-line interface with <a class="reference internal" href="command-line-interface/simplified-mode.html#optim-perf-pot-simplified"><span class="std std-ref">Simplified mode</span></a>.</p>
 </section>
 <section id="can-a-model-in-any-framework-be-quantized-by-the-pot">
 <span id="framework"></span><h2>Can a model in any framework be quantized by the POT?<a class="headerlink" href="#can-a-model-in-any-framework-be-quantized-by-the-pot" title="Permalink to this headline">¶</a></h2>
@@ -1934,7 +1934,7 @@ only. For that you need to convert your model to the IR format using
 <span id="noac"></span><h2>I’d like to quantize a model and I’ve converted it to IR but I don’t have the Accuracy Checker config. What can I do?<a class="headerlink" href="#i-d-like-to-quantize-a-model-and-i-ve-converted-it-to-ir-but-i-don-t-have-the-accuracy-checker-config-what-can-i-do" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Try quantization using Python API of the Post-training Optimization Tool. For
-more details see <a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Quantizing Model</span></a>.</p></li>
+more details see <a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Quantizing Model</span></a>.</p></li>
 <li><p>If you consider command-line usage only refer to Accuracy Checker documentation
 to create the Accuracy Checker configuration file, and try to find the
 configuration file for your model among the ones available in the Accuracy
@@ -1946,7 +1946,7 @@ to measure the accuracy.</p></li>
 </section>
 <section id="what-is-a-tradeoff-when-you-go-to-low-precision">
 <span id="tradeoff"></span><h2>What is a tradeoff when you go to low precision?<a class="headerlink" href="#what-is-a-tradeoff-when-you-go-to-low-precision" title="Permalink to this headline">¶</a></h2>
-<p>The tradeoff is between the accuracy drop and performance. When a model is in low precision, it is usually performed compared to the same model in full precision but the accuracy might be worse. You can find some benchmarking results in <a class="reference internal" href="../../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html#performance-int8-vs-fp32"><span class="std std-ref">INT8 vs FP32 Comparison on Select Networks and Platforms</span></a>. The other benefit of having a model in low precision is its smaller size.</p>
+<p>The tradeoff is between the accuracy drop and performance. When a model is in low precision, it is usually performed compared to the same model in full precision but the accuracy might be worse. You can find some benchmarking results in <a class="reference internal" href="../../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html#optim-perf-performance-int8-vs-fp32"><span class="std std-ref">INT8 vs FP32 Comparison on Select Networks and Platforms</span></a>. The other benefit of having a model in low precision is its smaller size.</p>
 </section>
 <section id="i-tried-all-recommendations-from-post-training-optimization-best-practices-but-either-have-a-high-accuracy-drop-or-bad-performance-after-quantization-what-else-can-i-do">
 <span id="nncf"></span><h2>I tried all recommendations from “Post-Training Optimization Best Practices” but either have a high accuracy drop or bad performance after quantization. What else can I do?<a class="headerlink" href="#i-tried-all-recommendations-from-post-training-optimization-best-practices-but-either-have-a-high-accuracy-drop-or-bad-performance-after-quantization-what-else-can-i-do" title="Permalink to this headline">¶</a></h2>
@@ -1958,8 +1958,8 @@ expect. Run your POT pipeline with an empty compression config and evaluate
 the resulting model metric. Compare this uncompressed model accuracy metric
 value with your reference.</p></li>
 <li><p>Run your compression pipeline with a single compression algorithm
-(<a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a>
-or <a class="reference internal" href="accuracy-aware-quantization.html#accuracy-aware-model-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>)
+(<a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a>
+or <a class="reference internal" href="accuracy-aware-quantization.html#optim-perf-accuracy-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>)
 without any parameter values specified in the config (except for <code class="docutils literal notranslate"><span class="pre">preset</span></code>
 and <code class="docutils literal notranslate"><span class="pre">stat_subset_size</span></code>). Make sure you get the desirable accuracy
 drop/performance gain in this case.</p></li>
@@ -1969,7 +1969,7 @@ try to compress your model using the
 <a class="reference external" href="https://github.com/openvinotoolkit/nncf_pytorch">Neural Network Compression Framework (NNCF)</a>.
 Note that NNCF usage requires you to have a PyTorch or TensorFlow 2 based
 training pipeline of your model to perform Quantization-aware Training.
-See <a class="reference internal" href="../../model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">Model Optimization Guide</span></a>
+See <a class="reference internal" href="../../model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">Model Optimization Guide</span></a>
 for more details.</p>
 </section>
 <section id="i-get-runtimeerror-cannot-get-memory-and-runtimeerror-output-data-was-not-allocated-when-i-quantize-my-model-by-the-pot">
@@ -1988,7 +1988,7 @@ memory. Note that such change might increase time required for quantization.</p>
 <li><p>Set <code class="docutils literal notranslate"><span class="pre">use_fast_bias</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">false</span></code>. In that case the POT will switch
 from the FastBiasCorrection algorithm to the full BiasCorrection algorithm
 which is usually more accurate and takes more time but requires less memory.
-See <a class="reference internal" href="best-practices.html#pot-quantization-best-practices"><span class="std std-ref">Post-Training Optimization Best Practices</span></a>
+See <a class="reference internal" href="best-practices.html#optim-perf-pot-best-practices"><span class="std std-ref">Post-Training Optimization Best Practices</span></a>
 for more details.</p></li>
 <li><p>Reshape your model to a lower resolution and resize the size of images in the
 dataset. Note that such change might impact the accuracy.</p></li>
@@ -2004,8 +2004,8 @@ and they sufficiently reflect the use case.</p></li>
 <li><p>If the command-line interface was used for quantization, a wrong Accuracy
 Checker configuration file could lead to this problem. Refer to Accuracy
 Checker documentation for more information.</p></li>
-<li><p>If <a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a> was
-used for quantization you can also try <a class="reference internal" href="accuracy-aware-quantization.html#accuracy-aware-model-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>
+<li><p>If <a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a> was
+used for quantization you can also try <a class="reference internal" href="accuracy-aware-quantization.html#optim-perf-accuracy-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>
 method that allows controlling maximum accuracy deviation.</p></li>
 </ul>
 </section>
@@ -2013,10 +2013,10 @@ method that allows controlling maximum accuracy deviation.</p></li>
 <span id="longtime"></span><h2>The quantization process of my model takes a lot of time. Can it be decreased somehow?<a class="headerlink" href="#the-quantization-process-of-my-model-takes-a-lot-of-time-can-it-be-decreased-somehow" title="Permalink to this headline">¶</a></h2>
 <p>Quantization time depends on multiple factors such as the size of the model
 and the dataset. It also depends on the algorithm: the
-<a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a> algorithm
-takes less time than the <a class="reference internal" href="accuracy-aware-quantization.html#accuracy-aware-model-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>
+<a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a> algorithm
+takes less time than the <a class="reference internal" href="accuracy-aware-quantization.html#optim-perf-accuracy-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>
 algorithm. The following configuration parameters also impact the quantization
-time duration (see details in <a class="reference internal" href="best-practices.html#pot-quantization-best-practices"><span class="std std-ref">Post-Training Optimization Best Practices</span></a>):</p>
+time duration (see details in <a class="reference internal" href="best-practices.html#optim-perf-pot-best-practices"><span class="std std-ref">Post-Training Optimization Best Practices</span></a>):</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">use_fast_bias</span></code> : when set to <code class="docutils literal notranslate"><span class="pre">false</span></code>, it increases the quantization time</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">stat_subset_size</span></code> : the higher the value of this parameter, the more time

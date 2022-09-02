@@ -1819,19 +1819,19 @@
             
                 <div>
                   
-  <span class="target" id="pot-api-examples"><span id="index-0"></span></span><section id="id1">
-<h1>POT API Examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="pot-api-examples-1md-openvino-tools-pot-openvino-tools-pot-api-samples-readme"></span></p>
+  <span class="target" id="optim-perf-pot-api-examples"><span id="index-0"></span></span><section id="pot-api-examples">
+<h1>POT API Examples<a class="headerlink" href="#pot-api-examples" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="optim-perf-pot-api-examples-1md-openvino-tools-pot-openvino-tools-pot-api-samples-readme"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>The Post-training Optimization Tool contains multiple examples that demonstrate
-how to use its <a class="reference internal" href="../pot-api.html#pot-api-reference"><span class="std std-ref">API</span></a> to optimize
+how to use its <a class="reference internal" href="../pot-api.html#optim-perf-pot-api"><span class="std std-ref">API</span></a> to optimize
 DL models. All available examples can be found on
 <a class="reference external" href="https://github.com/openvinotoolkit/openvino/tree/master/tools/pot/openvino/tools/pot/api/samples">GitHub</a>.</p>
 <p>The following examples demonstrate the implementation of <code class="docutils literal notranslate"><span class="pre">Engine</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Metric</span></code>, and <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> interfaces for various use cases:</p>
 <ol class="arabic simple">
-<li><p><a class="reference internal" href="api-examples/quantizing-image-classification-model.html#pot-api-example-classification"><span class="std std-ref">Quantizing Image Classification model</span></a></p>
+<li><p><a class="reference internal" href="api-examples/quantizing-image-classification-model.html#optim-perf-pot-api-example-classification"><span class="std std-ref">Quantizing Image Classification model</span></a></p>
 <ul class="simple">
 <li><p>Uses single <code class="docutils literal notranslate"><span class="pre">MobilenetV2</span></code> model from TensorFlow</p></li>
 <li><p>Implements <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> to load .JPEG images and annotations of
@@ -1840,7 +1840,7 @@ Imagenet database</p></li>
 <li><p>Uses DefaultQuantization algorithm for quantization model</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="api-examples/quantizing-with-accuracy-control.html#pot-api-example-accuracy"><span class="std std-ref">Quantizing Object Detection Model with Accuracy Control</span></a></p>
+<li><p><a class="reference internal" href="api-examples/quantizing-with-accuracy-control.html#optim-perf-pot-api-example-accuracy"><span class="std std-ref">Quantizing Object Detection Model with Accuracy Control</span></a></p>
 <ul class="simple">
 <li><p>Uses single <code class="docutils literal notranslate"><span class="pre">MobileNetV1</span> <span class="pre">FPN</span></code> model from TensorFlow</p></li>
 <li><p>Implements <code class="docutils literal notranslate"><span class="pre">Dataloader</span></code> to load images of COCO database</p></li>
@@ -1848,7 +1848,7 @@ Imagenet database</p></li>
 <li><p>Uses <code class="docutils literal notranslate"><span class="pre">AccuracyAwareQuantization</span></code> algorithm for quantization model</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="api-examples/quantizing-segmentation-model.html#pot-api-example-segmentation"><span class="std std-ref">Quantizing Semantic Segmentation Model</span></a></p>
+<li><p><a class="reference internal" href="api-examples/quantizing-segmentation-model.html#optim-perf-pot-api-example-segment"><span class="std std-ref">Quantizing Semantic Segmentation Model</span></a></p>
 <ul class="simple">
 <li><p>Uses single <code class="docutils literal notranslate"><span class="pre">DeepLabV3</span></code> model from TensorFlow</p></li>
 <li><p>Implements <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> to load .JPEG images and annotations of Pascal
@@ -1857,7 +1857,7 @@ VOC 2012 database</p></li>
 <li><p>Uses DefaultQuantization algorithm for quantization model</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="api-examples/quantizing-3d-segmentation-model.html#pot-api-example-3d-segmentation"><span class="std std-ref">Quantizing 3D Segmentation Model</span></a></p>
+<li><p><a class="reference internal" href="api-examples/quantizing-3d-segmentation-model.html#optim-perf-pot-api-example-3d-segment"><span class="std std-ref">Quantizing 3D Segmentation Model</span></a></p>
 <ul class="simple">
 <li><p>Uses single <code class="docutils literal notranslate"><span class="pre">Brain</span> <span class="pre">Tumor</span> <span class="pre">Segmentation</span></code> model from PyTorch</p></li>
 <li><p>Implements <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> to load images in NIfTI format from Medical
@@ -1868,7 +1868,7 @@ post-process the raw model output</p></li>
 <li><p>Uses DefaultQuantization algorithm for quantization model</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="api-examples/quantizing-face-detection-model.html#pot-api-example-face-detection"><span class="std std-ref">Quantizing Cascaded model</span></a></p>
+<li><p><a class="reference internal" href="api-examples/quantizing-face-detection-model.html#optim-perf-pot-api-example-face-detect"><span class="std std-ref">Quantizing Cascaded model</span></a></p>
 <ul class="simple">
 <li><p>Uses cascaded (composite) <code class="docutils literal notranslate"><span class="pre">MTCNN</span></code> model from Caffe that consists of
 three separate models in an OpenVino Intermediate Representation (IR)</p></li>
@@ -1882,7 +1882,7 @@ process raw model output for the correct statistics collection</p></li>
 <li><p>Uses DefaultQuantization algorithm for quantization model</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="api-examples/quantizing-for-gna-device.html#pot-api-example-gna"><span class="std std-ref">Quantizing for GNA Device</span></a></p>
+<li><p><a class="reference internal" href="api-examples/quantizing-for-gna-device.html#optim-perf-pot-api-example-gna"><span class="std std-ref">Quantizing for GNA Device</span></a></p>
 <ul class="simple">
 <li><p>Uses models from Kaldi</p></li>
 <li><p>Implements <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> to data in .ark format</p></li>

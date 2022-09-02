@@ -1834,9 +1834,9 @@
             
                 <div>
                   
-  <span class="target" id="runtime-inference-optimizations"><span id="index-0"></span></span><section id="id1">
-<h1>Runtime Inference Optimizations<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="runtime-inference-optimizations-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-guide"></span></p>
+  <span class="target" id="optim-perf-runtime-inference-optim"><span id="index-0"></span></span><section id="runtime-inference-optimizations">
+<h1>Runtime Inference Optimizations<a class="headerlink" href="#runtime-inference-optimizations" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="optim-perf-runtime-inference-optim-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-guide"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>Runtime optimizations, or deployment optimizations, focus on tuning inference
@@ -1859,13 +1859,13 @@ be orchestrated to save workload devoted to fetching and preparing input data.</
 <p>For more information on this topic, see the following articles:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="openvino-runtime-user-guide/working-with-devices.html#deploy-infer-working-with-devices-1features-support-matrix"><span class="std std-ref">feature support by device</span></a>,</p></li>
-<li><p><a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#deployment-general-optimizations-1inputs-pre-processing"><span class="std std-ref">Inputs Pre-processing with the OpenVINO</span></a>.</p></li>
-<li><p><a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#deployment-general-optimizations-1async-api"><span class="std std-ref">Async API</span></a>.</p></li>
-<li><p><a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#deployment-general-optimizations-1tensor-idiom"><span class="std std-ref">The ‘get_tensor’ Idiom</span></a>.</p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#optim-perf-deploy-general-optim-1inputs-pre-processing"><span class="std std-ref">Inputs Pre-processing with the OpenVINO</span></a>.</p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#optim-perf-deploy-general-optim-1async-api"><span class="std std-ref">Async API</span></a>.</p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#optim-perf-deploy-general-optim-1tensor-idiom"><span class="std std-ref">The ‘get_tensor’ Idiom</span></a>.</p></li>
 <li><p>For variably-sized inputs, consider <a class="reference internal" href="openvino-runtime-user-guide/dynamic-shapes.html#deploy-infer-dynamic-shapes"><span class="std std-ref">dynamic shapes</span></a>.</p></li>
 </ul>
-<p>See the <a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency.html#deployment-optimizing-for-latency"><span class="std std-ref">latency</span></a>
-and <a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">throughput</span></a> optimization guides, for <strong>use-case-specific optimizations</strong></p>
+<p>See the <a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency.html#optim-perf-deploy-optim-latency"><span class="std std-ref">latency</span></a>
+and <a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#optim-perf-deploy-optim-throughput"><span class="std std-ref">throughput</span></a> optimization guides, for <strong>use-case-specific optimizations</strong></p>
 <section id="writing-performance-portable-inference-applications">
 <h2>Writing Performance-Portable Inference Applications<a class="headerlink" href="#writing-performance-portable-inference-applications" title="Permalink to this headline">¶</a></h2>
 <p>Although inference performed in OpenVINO Runtime can be configured with a
@@ -1878,7 +1878,7 @@ result in different performance when used under different conditions.
 For example:</p>
 <ul class="simple">
 <li><p>both the CPU and GPU support the notion of
-<a class="reference internal" href="runtime-inference-optimizations/advanced-throughput-options.html#deployment-throughput-advanced"><span class="std std-ref">streams</span></a>,
+<a class="reference internal" href="runtime-inference-optimizations/advanced-throughput-options.html#optim-perf-deploy-throughput-adv"><span class="std std-ref">streams</span></a>,
 yet they deduce their optimal number very differently.</p></li>
 <li><p>Even among devices of the same type, different execution configurations can
 be considered optimal, as in the case of instruction sets or the number of
@@ -1889,7 +1889,7 @@ and possible model quantization.</p></li>
 <li><p>Execution “scheduling” impacts performance strongly and is highly
 device-specific, for example, GPU-oriented optimizations like batching,
 combining multiple inputs to achieve the optimal throughput,
-<a class="reference internal" href="runtime-inference-optimizations/further-low-level-implementation.html#deployment-low-level-implementation"><span class="std std-ref">do not always map well to the CPU</span></a>.</p></li>
+<a class="reference internal" href="runtime-inference-optimizations/further-low-level-implementation.html#optim-perf-deploy-low-level-implement"><span class="std std-ref">do not always map well to the CPU</span></a>.</p></li>
 </ul>
 <p>To make the configuration process much easier and its performance optimization
 more portable, the option of <a class="reference internal" href="openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">Performance Hints</span></a>
@@ -1903,10 +1903,10 @@ requests for different input sources</p>
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#deployment-optimizing-for-throughput-1throughput-app-design"><span class="std std-ref">Using Async API and running multiple inference requests in parallel to leverage throughput</span></a>.</p></li>
-<li><p><a class="reference internal" href="runtime-inference-optimizations/further-low-level-implementation.html#deployment-low-level-implementation"><span class="std std-ref">The throughput approach implementation details for specific devices</span></a></p></li>
-<li><p><a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">Details on throughput</span></a></p></li>
-<li><p><a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency.html#deployment-optimizing-for-latency"><span class="std std-ref">Details on latency</span></a></p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#optim-perf-deploy-optim-throughput-1throughput-app-design"><span class="std std-ref">Using Async API and running multiple inference requests in parallel to leverage throughput</span></a>.</p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/further-low-level-implementation.html#optim-perf-deploy-low-level-implement"><span class="std std-ref">The throughput approach implementation details for specific devices</span></a></p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/optimizing-for-throughput.html#optim-perf-deploy-optim-throughput"><span class="std std-ref">Details on throughput</span></a></p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency.html#optim-perf-deploy-optim-latency"><span class="std std-ref">Details on latency</span></a></p></li>
 <li><p><a class="reference internal" href="openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">API examples and details</span></a>.</p></li>
 </ul>
 </section>

@@ -1834,12 +1834,12 @@
             
                 <div>
                   
-  <span class="target" id="deployment-low-level-implementation"><span id="index-0"></span></span><section id="further-low-level-implementation">
+  <span class="target" id="optim-perf-deploy-low-level-implement"><span id="index-0"></span></span><section id="further-low-level-implementation">
 <h1>Further Low-Level Implementation<a class="headerlink" href="#further-low-level-implementation" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="deployment-low-level-implementation-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-internals"></span></p>
+<p><span class="target" id="optim-perf-deploy-low-level-implement-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-internals"></span></p>
 <section id="throughput-on-the-cpu-internals">
 <h2>Throughput on the CPU: Internals<a class="headerlink" href="#throughput-on-the-cpu-internals" title="Permalink to this headline">¶</a></h2>
-<p>As explained in the <a class="reference internal" href="optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">throughput-related section</span></a>,
+<p>As explained in the <a class="reference internal" href="optimizing-for-throughput.html#optim-perf-deploy-optim-throughput"><span class="std std-ref">throughput-related section</span></a>,
 the OpenVINO streams is a mean of running multiple requests in parallel. In
 order to best serve multiple inference requests executed simultaneously, the
 inference threads are grouped/pinned to the particular CPU cores, constituting
@@ -1851,7 +1851,7 @@ performed over inputs with much less synchronization within CNN ops):</p>
 <img alt="../../../_images/cpu_streams_explained.png" src="../../../_images/cpu_streams_explained.png" />
 <p>Keep in mind that <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">high-level performance hints</span></a>
 allow the implementation to select the optimal number of streams depending on
-model’s compute demands and CPU capabilities, including <a class="reference internal" href="../model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">int8 inference</span></a>
+model’s compute demands and CPU capabilities, including <a class="reference internal" href="../model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">int8 inference</span></a>
 hardware acceleration, number of cores, etc.</p>
 </section>
 <section id="automatic-batching-internals">
@@ -1875,7 +1875,7 @@ batch size. For example, a smaller batch size and timeout value may yield
 better results than a large batch size coupled with a timeout value that
 cannot guarantee accommodating all the required requests.</p>
 <p>Finally, following the <code class="docutils literal notranslate"><span class="pre">get_tensor</span></code> idiom section from the
-<a class="reference internal" href="general-optimizations.html#deployment-general-optimizations"><span class="std std-ref">general optimizations</span></a> helps Automatic
+<a class="reference internal" href="general-optimizations.html#optim-perf-deploy-general-optim"><span class="std std-ref">general optimizations</span></a> helps Automatic
 Batching to save on inputs/outputs copies. According to that you should always
 prefer the “get” versions of the tensors’ data access APIs in your applications.</p>
 </section>

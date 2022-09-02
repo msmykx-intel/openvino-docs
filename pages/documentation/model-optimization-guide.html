@@ -1834,9 +1834,9 @@
             
                 <div>
                   
-  <span class="target" id="model-optimization-guide"><span id="index-0"></span></span><section id="id1">
-<h1>Model Optimization Guide<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="model-optimization-guide-1md-openvino-docs-optimization-guide-model-optimization-guide"></span></p>
+  <span class="target" id="optim-perf-model-optim-guide"><span id="index-0"></span></span><section id="model-optimization-guide">
+<h1>Model Optimization Guide<a class="headerlink" href="#model-optimization-guide" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="optim-perf-model-optim-guide-1md-openvino-docs-optimization-guide-optim-perf-model-optim-guide"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>Model optimization is an optional offline step of improving final model
@@ -1848,11 +1848,11 @@ optimize models at different steps of model development:</p>
 by default. Yet, you are free to configure mean/scale values, batch size, RGB
 vs BGR input channels, and other parameters to speed up preprocess of a model
 (<a class="reference internal" href="converting-models-with-model-optimizer/additional-optimization-use-cases.html#doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases"><span class="std std-ref">Embedding Preprocessing Computation</span></a>).</p></li>
-<li><p><strong>Post-training Optimization tool</strong> <a class="reference internal" href="model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">(POT)</span></a> is
+<li><p><strong>Post-training Optimization tool</strong> <a class="reference internal" href="model-optimization-guide/post-training-model-optimization.html#optim-perf-pot-intro"><span class="std std-ref">(POT)</span></a> is
 designed to optimize inference of deep learning models by applying post-training
 methods that do not require model retraining or fine-tuning, for example,
 post-training 8-bit quantization.</p></li>
-<li><p><strong>Neural Network Compression Framework</strong> <a class="reference internal" href="model-optimization-guide/neural-network-compression-framework.html#nncf-introduction"><span class="std std-ref">(NNCF)</span></a>
+<li><p><strong>Neural Network Compression Framework</strong> <a class="reference internal" href="model-optimization-guide/neural-network-compression-framework.html#optim-perf-nncf-introduction"><span class="std std-ref">(NNCF)</span></a>
 provides a suite of advanced methods for training-time model optimization within
 the DL framework, such as PyTorch and TensorFlow. It supports methods, like
 Quantization-aware Training and Filter Pruning. NNCF-optimized models can be
@@ -1869,12 +1869,12 @@ NNCF may give better results.</p>
 for inference using the regular OpenVINO inference workflow. No changes to the
 code are required.</p>
 <p>If you are not familiar with model optimization methods, refer to
-<a class="reference internal" href="model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">post-training methods</span></a>.</p>
+<a class="reference internal" href="model-optimization-guide/post-training-model-optimization.html#optim-perf-pot-intro"><span class="std std-ref">post-training methods</span></a>.</p>
 </section>
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="runtime-inference-optimizations.html#runtime-inference-optimizations"><span class="std std-ref">Deployment optimization</span></a></p></li>
+<li><p><a class="reference internal" href="runtime-inference-optimizations.html#optim-perf-runtime-inference-optim"><span class="std std-ref">Deployment optimization</span></a></p></li>
 </ul>
 </section>
 </section>

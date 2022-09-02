@@ -1849,16 +1849,16 @@
             
                 <div>
                   
-  <span class="target" id="default-model-quantization"><span id="index-0"></span></span><section id="quantizing-model">
+  <span class="target" id="optim-perf-def-quantization"><span id="index-0"></span></span><section id="quantizing-model">
 <h1>Quantizing Model<a class="headerlink" href="#quantizing-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="default-model-quantization-1md-openvino-tools-pot-docs-defaultquantizationusage"></span></p>
+<p><span class="target" id="optim-perf-def-quantization-1md-openvino-tools-pot-docs-defaultquantizationusage"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>This guide describes how to apply model quantization with the Default Quantization
 method without accuracy control, using an unannotated dataset. To use this method,
 you need to create a Python script using an API of Post-Training Optimization Tool
 (POT) and implement data preparation logic and quantization pipeline. If you are
-not familiar with Python, try <a class="reference internal" href="command-line-interface.html#pot-cli"><span class="std std-ref">command-line interface</span></a>
+not familiar with Python, try <a class="reference internal" href="command-line-interface.html#optim-perf-pot-cli"><span class="std std-ref">command-line interface</span></a>
 of POT which is designed to quantize models from OpenVINO <a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo">Model Zoo</a>.
 The figure below shows the common workflow of the quantization script implemented
 with POT API.</p>
@@ -2043,7 +2043,7 @@ It is recommended to use not less than 300 samples.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;stat_batch_size&quot;</span></code> - size of batch to calculate activations statistics used
 for quantization. 1 if no parameter specified.</p></li>
 </ul>
-<p>For full specification, see the the <a class="reference internal" href="quantizing-model/default-quantization-algorithm.html#default-quantization-algorithm"><span class="std std-ref">Default Quantization method</span></a>.</p>
+<p>For full specification, see the the <a class="reference internal" href="quantizing-model/default-quantization-algorithm.html#optim-perf-def-quant-algorithm"><span class="std std-ref">Default Quantization method</span></a>.</p>
 </section>
 <section id="run-quantization">
 <h2>Run quantization<a class="headerlink" href="#run-quantization" title="Permalink to this headline">¶</a></h2>
@@ -2106,8 +2106,8 @@ An example code below shows a basic quantization workflow:</p>
 in the same way as the original full-precision model.</p>
 <p>If high degradation of accuracy occurs after applying the Default Quantization
 method, it is recommended to follow the tips from
-<a class="reference internal" href="best-practices.html#pot-quantization-best-practices"><span class="std std-ref">Quantization Best Practices</span></a> article or
-use <a class="reference internal" href="accuracy-aware-quantization.html#accuracy-aware-model-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a> method.</p>
+<a class="reference internal" href="best-practices.html#optim-perf-pot-best-practices"><span class="std std-ref">Quantization Best Practices</span></a> article or
+use <a class="reference internal" href="accuracy-aware-quantization.html#optim-perf-accuracy-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a> method.</p>
 </section>
 <section id="quantizing-cascaded-models">
 <h2>Quantizing cascaded models<a class="headerlink" href="#quantizing-cascaded-models" title="Permalink to this headline">¶</a></h2>
@@ -2118,7 +2118,7 @@ them. POT API provides the <code class="docutils literal notranslate"><span clas
 customization of the inference logic. However, it is recommended to inherit from
 <code class="docutils literal notranslate"><span class="pre">IEEngine</span></code> helper class that already contains all the logic required to do the
 inference based on OpenVINO Python API. For more details, see the following
-<a class="reference internal" href="examples/api-examples/quantizing-face-detection-model.html#pot-api-example-face-detection"><span class="std std-ref">example</span></a>.</p>
+<a class="reference internal" href="examples/api-examples/quantizing-face-detection-model.html#optim-perf-pot-api-example-face-detect"><span class="std std-ref">example</span></a>.</p>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>

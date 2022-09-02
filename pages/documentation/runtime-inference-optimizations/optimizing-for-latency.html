@@ -1819,15 +1819,15 @@
             
                 <div>
                   
-  <span class="target" id="deployment-optimizing-for-latency"><span id="index-0"></span></span><section id="optimizing-for-the-latency">
+  <span class="target" id="optim-perf-deploy-optim-latency"><span id="index-0"></span></span><section id="optimizing-for-the-latency">
 <h1>Optimizing for the Latency<a class="headerlink" href="#optimizing-for-the-latency" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="deployment-optimizing-for-latency-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-latency"></span></p>
+<p><span class="target" id="optim-perf-deploy-optim-latency-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-latency"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>A significant portion of deep learning use cases involve applications loading
 a single model and using a single input at a time, which is the of typical
 “consumer” scenario. While an application can create more than one request if
-needed, for example to support <a class="reference internal" href="general-optimizations.html#deployment-general-optimizations-1async-api"><span class="std std-ref">asynchronous inputs population</span></a>,
+needed, for example to support <a class="reference internal" href="general-optimizations.html#optim-perf-deploy-general-optim-1async-api"><span class="std std-ref">asynchronous inputs population</span></a>,
 its <strong>inference performance depends on how many requests are being inferred in parallel</strong>
 on a device.</p>
 <p>Similarly, when multiple models are served on the same device, it is important
@@ -1870,7 +1870,7 @@ inference due to on-device memory limitations.</p>
 <p>Such a “first-inference latency” scenario may pose an additional limitation on
 the model loadcompilation time, as inference accelerators (other than the CPU)
 usually require a certain level of model compilation upon loading. The
-<a class="reference internal" href="optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">model caching</span></a>
+<a class="reference internal" href="optimizing-for-latency/model-caching-overview.html#optim-perf-model-caching"><span class="std std-ref">model caching</span></a>
 option is a way to lessen the impact over multiple application runs. If model
 caching is not possible, for example, it may require write permissions for the
 application, the CPU offers the fastest model load time almost every time.</p>
@@ -1878,7 +1878,7 @@ application, the CPU offers the fastest model load time almost every time.</p>
 <a class="reference internal" href="../openvino-runtime-user-guide/automatic-device-selection.html#deploy-infer-auto-plugin"><span class="std std-ref">AUTO device selection inference mode</span></a>.
 It starts inference on the CPU, while waiting for the actual accelerator to
 load the model. At that point, it shifts to the new device seamlessly.</p>
-<p>Finally, note that any <a class="reference internal" href="optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">throughput-oriented options</span></a>
+<p>Finally, note that any <a class="reference internal" href="optimizing-for-throughput.html#optim-perf-deploy-optim-throughput"><span class="std std-ref">throughput-oriented options</span></a>
 may significantly increase the model uptime.</p>
 </section>
 

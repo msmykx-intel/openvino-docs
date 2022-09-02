@@ -1846,15 +1846,15 @@
             
                 <div>
                   
-  <span class="target" id="deployment-general-optimizations"><span id="index-0"></span></span><section id="general-optimizations">
+  <span class="target" id="optim-perf-deploy-general-optim"><span id="index-0"></span></span><section id="general-optimizations">
 <h1>General Optimizations<a class="headerlink" href="#general-optimizations" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="deployment-general-optimizations-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-common"></span></p>
+<p><span class="target" id="optim-perf-deploy-general-optim-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-common"></span></p>
 <p>This article covers application-level optimization techniques, such as
 asynchronous execution, to improve data pipelining, pre-processing acceleration
 and so on. While the techniques (e.g. pre-processing) can be specific to
 end-user applications, the associated performance improvements are general and
 shall improve any target scenario both latency and throughput.</p>
-<p><span class="target" id="deployment-general-optimizations-1inputs-pre-processing"></span></p>
+<p><span class="target" id="optim-perf-deploy-general-optim-1inputs-pre-processing"></span></p>
 <section id="inputs-pre-processing-with-openvino">
 <h2>Inputs Pre-Processing with OpenVINO<a class="headerlink" href="#inputs-pre-processing-with-openvino" title="Permalink to this headline">¶</a></h2>
 <p>In many cases, a network expects a pre-processed image. It is advised not to
@@ -1869,7 +1869,7 @@ convolution). For more details, see the
 <li><p>Data which is already in the “on-device” memory can be input directly by
 using the <a class="reference internal" href="../openvino-runtime-user-guide/working-with-devices/inference-device-gpu/remote-tensor-gpu.html#deploy-infer-gpu-device-remote-tensor"><span class="std std-ref">remote tensors API of the GPU Plugin</span></a>.</p></li>
 </ul>
-<p><span class="target" id="deployment-general-optimizations-1async-api"></span></p>
+<p><span class="target" id="optim-perf-deploy-general-optim-1async-api"></span></p>
 </section>
 <section id="prefer-openvino-async-api">
 <h2>Prefer OpenVINO Async API<a class="headerlink" href="#prefer-openvino-async-api" title="Permalink to this headline">¶</a></h2>
@@ -1940,7 +1940,7 @@ for complete examples of the Async API in action.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Using the Asynchronous API is a must for
-<a class="reference internal" href="optimizing-for-throughput.html#deployment-optimizing-for-throughput"><span class="std std-ref">throughput-oriented scenarios</span></a>.</p>
+<a class="reference internal" href="optimizing-for-throughput.html#optim-perf-deploy-optim-throughput"><span class="std std-ref">throughput-oriented scenarios</span></a>.</p>
 </div>
 <section id="notes-on-callbacks">
 <h3>Notes on Callbacks<a class="headerlink" href="#notes-on-callbacks" title="Permalink to this headline">¶</a></h3>
@@ -1962,7 +1962,7 @@ thread-safe.</p></li>
 should NOT include heavy operations (e.g. I/O) and/or blocking calls.
 Work done by any callback should be kept to a minimum.</p></li>
 </ul>
-<p><span class="target" id="deployment-general-optimizations-1tensor-idiom"></span></p>
+<p><span class="target" id="optim-perf-deploy-general-optim-1tensor-idiom"></span></p>
 </section>
 </section>
 <section id="the-get-tensor-idiom">

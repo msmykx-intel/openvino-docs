@@ -1846,9 +1846,9 @@
             
                 <div>
                   
-  <span class="target" id="pot-cli"><span id="index-0"></span></span><section id="pot-command-line-interface">
+  <span class="target" id="optim-perf-pot-cli"><span id="index-0"></span></span><section id="pot-command-line-interface">
 <h1>POT Command-line Interface<a class="headerlink" href="#pot-command-line-interface" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="pot-cli-1md-openvino-tools-pot-docs-cli"></span></p>
+<p><span class="target" id="optim-perf-pot-cli-1md-openvino-tools-pot-docs-cli"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <section id="introduction">
@@ -1862,7 +1862,7 @@ Examples of AccuracyChecker configuration files can be found on
 Each model folder contains YAML configuration file that can be used with POT as is.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>There is also the so-called <a class="reference internal" href="command-line-interface/simplified-mode.html#pot-simplified-mode"><span class="std std-ref">Simplified mode</span></a>
+<p>There is also the so-called <a class="reference internal" href="command-line-interface/simplified-mode.html#optim-perf-pot-simplified"><span class="std std-ref">Simplified mode</span></a>
 aimed at optimization of models from the Computer Vision domain and has a simple
 dataset preprocessing, like image resize and crop. In this case, you can also
 use POT CLI for optimization. However, the accuracy results are not guaranteed
@@ -1876,17 +1876,17 @@ since the accuracy measurement is not available.</p>
 <ul>
 <li><p><strong>Basic usage for DefaultQuantization</strong>. In this case you can run POT with
 basic setting just specifying all the options via command line. <code class="docutils literal notranslate"><span class="pre">-q</span> <span class="pre">default</span></code>
-stands for <a class="reference internal" href="quantizing-model/default-quantization-algorithm.html#default-quantization-algorithm"><span class="std std-ref">DefaultQuantization</span></a>
+stands for <a class="reference internal" href="quantizing-model/default-quantization-algorithm.html#optim-perf-def-quant-algorithm"><span class="std std-ref">DefaultQuantization</span></a>
 algorithm:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">pot</span> <span class="o">-</span><span class="n">q</span> <span class="k">default</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">path_to_xml</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">w</span> <span class="o">&lt;</span><span class="n">path_to_bin</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">ac</span><span class="o">-</span><span class="n">config</span> <span class="o">&lt;</span><span class="n">path_to_AC_config_yml</span><span class="o">&gt;</span></pre></div></div></li>
 <li><p><strong>Basic usage for AccuracyAwareQuantization</strong>. You can also run
-<a class="reference internal" href="accuracy-aware-quantization/accuracy-aware-quantization-algorithm.html#accuracy-aware-quantization-algorithm"><span class="std std-ref">AccuracyAwareQuantization</span></a> method
+<a class="reference internal" href="accuracy-aware-quantization/accuracy-aware-quantization-algorithm.html#optim-perf-accuracy-quant-algorithm"><span class="std std-ref">AccuracyAwareQuantization</span></a> method
 with basic options. <code class="docutils literal notranslate"><span class="pre">--max-drop</span> <span class="pre">0.01</span></code> option defines maximum accuracy
 deviation to 1 absolute percent from the original model:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">pot</span> <span class="o">-</span><span class="n">q</span> <span class="n">accuracy_aware</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">path_to_xml</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">w</span> <span class="o">&lt;</span><span class="n">path_to_bin</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">ac</span><span class="o">-</span><span class="n">config</span> <span class="o">&lt;</span><span class="n">path_to_AC_config_yml</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">max</span><span class="o">-</span><span class="n">drop</span> <span class="mf">0.01</span></pre></div></div></li>
 <li><p><strong>Advanced usage</strong>. In this case you should prepare a configuration file for
 the POT where you can specify advanced options for the optimization methods
-available. See <a class="reference internal" href="command-line-interface/configuration-file.html#pot-configuration-file"><span class="std std-ref">POT configuration file description</span></a>
+available. See <a class="reference internal" href="command-line-interface/configuration-file.html#optim-perf-pot-config-file"><span class="std std-ref">POT configuration file description</span></a>
 for more details. To launch the command-line tool with the configuration
 file run:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">pot</span> <span class="o">-</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">path_to_config_file</span><span class="o">&gt;</span></pre></div></div><p>For all available usage options, use the <code class="docutils literal notranslate"><span class="pre">-h</span></code>, <code class="docutils literal notranslate"><span class="pre">--help</span></code> arguments or
@@ -1896,7 +1896,7 @@ refer to the Command-Line Arguments section below.</p>
 <p>By default, the results are dumped into the separate output subfolder inside
 the <code class="docutils literal notranslate"><span class="pre">./results</span></code> folder that is created in the same directory where the tool
 is run from. Use the <code class="docutils literal notranslate"><span class="pre">-e</span></code> option to evaluate the accuracy directly from the tool.</p>
-<p>See also the <a class="reference internal" href="examples/command-line-example.html#pot-cli-example"><span class="std std-ref">End-to-end example</span></a>
+<p>See also the <a class="reference internal" href="examples/command-line-example.html#optim-perf-pot-cli-example"><span class="std std-ref">End-to-end example</span></a>
 about how to run a particular example of 8-bit quantization with the POT.</p>
 <section id="command-line-arguments">
 <h3>Command-Line Arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
@@ -1988,8 +1988,8 @@ uncompressed. Use with third-party components.</p></td>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="command-line-interface/simplified-mode.html#pot-simplified-mode"><span class="std std-ref">Optimization with Simplified mode</span></a></p></li>
-<li><p><a class="reference internal" href="best-practices.html#pot-quantization-best-practices"><span class="std std-ref">Post-Training Optimization Best Practices</span></a></p></li>
+<li><p><a class="reference internal" href="command-line-interface/simplified-mode.html#optim-perf-pot-simplified"><span class="std std-ref">Optimization with Simplified mode</span></a></p></li>
+<li><p><a class="reference internal" href="best-practices.html#optim-perf-pot-best-practices"><span class="std std-ref">Post-Training Optimization Best Practices</span></a></p></li>
 </ul>
 </section>
 </section>

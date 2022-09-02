@@ -1988,13 +1988,13 @@ can be used to print out supported data types for all detected devices.</p>
 quantization primitives, and available hardware capabilities. The <code class="docutils literal notranslate"><span class="pre">u1/u8/i8</span></code> data
 types are used for quantized operations only, i.e., those are not selected
 automatically for non-quantized operations.</p>
-<p>See the <a class="reference internal" href="../../model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">low-precision optimization guide</span></a>
+<p>See the <a class="reference internal" href="../../model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">low-precision optimization guide</span></a>
 for more details on how to get a quantized model.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Platforms that do not support Intel® AVX512-VNNI have a known “saturation issue”
 that may lead to reduced computational accuracy for <code class="docutils literal notranslate"><span class="pre">u8/i8</span></code> precision calculations.
-See the <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization/best-practices/saturation-issue.html#pot-saturation-issue"><span class="std std-ref">saturation (overflow) issue section</span></a> to
+See the <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization/best-practices/saturation-issue.html#optim-perf-pot-saturation"><span class="std std-ref">saturation (overflow) issue section</span></a> to
 get more information on how to detect such issues and possible workarounds.</p>
 </div>
 </section>
@@ -2087,7 +2087,7 @@ simultaneous usage of CPU and GPU.</p>
 <section id="multi-stream-execution">
 <h3>Multi-stream Execution<a class="headerlink" href="#multi-stream-execution" title="Permalink to this headline">¶</a></h3>
 <p>If either <code class="docutils literal notranslate"><span class="pre">ov::num_streams(n_streams)</span></code> with <code class="docutils literal notranslate"><span class="pre">n_streams</span> <span class="pre">&gt;</span> <span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">ov::hint::performance_mode(ov::hint::PerformanceMode::THROUGHPUT)</span></code> property is set for CPU plugin, then multiple streams are created for the model. In case of CPU plugin, each stream has its own host thread, which means that incoming infer requests can be processed simultaneously. Each stream is pinned to its own group of physical cores with respect to NUMA nodes physical memory usage to minimize overhead on data transfer between NUMA nodes.</p>
-<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations.html#runtime-inference-optimizations"><span class="std std-ref">optimization guide</span></a>.</p>
+<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations.html#optim-perf-runtime-inference-optim"><span class="std std-ref">optimization guide</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When it comes to latency, be aware that running only one stream on multi-socket
@@ -2196,7 +2196,7 @@ plugin instead of the initial OpenVINO IR, so the aforementioned transformation 
 will be skipped. These transformations take a significant amount of time during model
 compilation, so caching this representation reduces time spent for subsequent compilations
 of the model, thereby reducing first inference latency (FIL).</p>
-<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">model caching</span></a> overview.</p>
+<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#optim-perf-model-caching"><span class="std std-ref">model caching</span></a> overview.</p>
 </section>
 <section id="extensibility">
 <h3>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h3>
@@ -2325,7 +2325,7 @@ property must be set to <cite>True</cite>:</p>
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="../../../resources/record-of-openvino-supported-devices.html#doxid-openvino-docs-o-v-u-g-supported-plugins-supported-devices"><span class="std std-ref">Supported Devices</span></a></p></li>
-<li><p><a class="reference internal" href="../../performance-optimization.html#performance-optimization-guide-introduction"><span class="std std-ref">Optimization guide</span></a></p></li>
+<li><p><a class="reference internal" href="../../performance-optimization.html#optim-perf-introduction"><span class="std std-ref">Optimization guide</span></a></p></li>
 <li><p><a class="reference external" href="https://github.com/openvinotoolkit/openvino/wiki/CPUPluginDevelopersDocs">СPU plugin developers documentation</a></p></li>
 </ul>
 </section>

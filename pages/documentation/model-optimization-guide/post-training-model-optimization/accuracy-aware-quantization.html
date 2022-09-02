@@ -1849,19 +1849,19 @@
             
                 <div>
                   
-  <span class="target" id="accuracy-aware-model-quantization"><span id="index-0"></span></span><section id="quantizing-model-with-accuracy-control">
+  <span class="target" id="optim-perf-accuracy-quantization"><span id="index-0"></span></span><section id="quantizing-model-with-accuracy-control">
 <h1>Quantizing Model with Accuracy Control<a class="headerlink" href="#quantizing-model-with-accuracy-control" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="accuracy-aware-model-quantization-1md-openvino-tools-pot-docs-accuracyawarequantizationusage"></span></p>
+<p><span class="target" id="optim-perf-accuracy-quantization-1md-openvino-tools-pot-docs-accuracyawarequantizationusage"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>The Accuracy-aware Quantization algorithm allows to perform quantization while
 maintaining accuracy within a pre-defined range. Note that it should be used
-only if the <a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a>
+only if the <a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a>
 introduces a significant accuracy degradation. The reason for it not being the
 primary choice is its potential for performance degradation, due to some layers
 getting reverted to the original precision.</p>
 <p>To proceed with this article, make sure you have read how to use
-<a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a>.</p>
+<a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The Accuracy-aware Quantization algorithm’s behavior is different for
@@ -1879,7 +1879,7 @@ algorithm works for the <code class="docutils literal notranslate"><span class="
 </ol>
 <section id="prepare-data-and-dataset-interface">
 <h2>Prepare data and dataset interface<a class="headerlink" href="#prepare-data-and-dataset-interface" title="Permalink to this headline">¶</a></h2>
-<p>This step is the same as in <a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a>.
+<p>This step is the same as in <a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a>.
 The only difference is that <code class="docutils literal notranslate"><span class="pre">__getitem__()</span></code> should return <code class="docutils literal notranslate"><span class="pre">(data,</span> <span class="pre">annotation)</span></code>
 or <code class="docutils literal notranslate"><span class="pre">(data,</span> <span class="pre">annotation,</span> <span class="pre">metadata)</span></code>. The <code class="docutils literal notranslate"><span class="pre">annotation</span></code> is required and its format
 should correspond to the expectations of the <code class="docutils literal notranslate"><span class="pre">Metric</span></code> class. The <code class="docutils literal notranslate"><span class="pre">metadata</span></code>
@@ -2045,7 +2045,7 @@ the quantization. The default value is <code class="docutils literal notranslate
 on demand is also available in the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object.</p>
 <p>In case when Accuracy-aware Quantization does not allow achieving the desired
 accuracy-performance trade-off, it is recommended to try Quantization-aware
-Training from <a class="reference internal" href="../neural-network-compression-framework.html#nncf-introduction"><span class="std std-ref">NNCF</span></a>.</p>
+Training from <a class="reference internal" href="../neural-network-compression-framework.html#optim-perf-nncf-introduction"><span class="std std-ref">NNCF</span></a>.</p>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>

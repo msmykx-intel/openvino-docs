@@ -1848,12 +1848,12 @@
             
                 <div>
                   
-  <span class="target" id="pot-quantization-best-practices"><span id="index-0"></span></span><section id="post-training-quantization-best-practices">
+  <span class="target" id="optim-perf-pot-best-practices"><span id="index-0"></span></span><section id="post-training-quantization-best-practices">
 <h1>Post-Training Quantization Best Practices<a class="headerlink" href="#post-training-quantization-best-practices" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="pot-quantization-best-practices-1md-openvino-tools-pot-docs-bestpractices"></span></p>
+<p><span class="target" id="optim-perf-pot-best-practices-1md-openvino-tools-pot-docs-bestpractices"></span></p>
 <div class="toctree-wrapper compound">
 </div>
-<p>The <a class="reference internal" href="quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a> of the
+<p>The <a class="reference internal" href="quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a> of the
 Post-training Optimization Tool (POT) is the fastest and easiest way to get a
 quantized model. It requires only some unannotated representative dataset to
 be provided in most cases. Therefore, it is recommended to use it as a
@@ -1867,7 +1867,7 @@ ability to infer the original floating-point model is essential for model
 optimization. It is also worth mentioning that in case of the 8-bit quantization,
 it is recommended to run POT on the same CPU architecture when optimizing for
 CPU or VNNI-based CPU when quantizing for a non-CPU device, such as GPU, VPU,
-or GNA. It should help to avoid the impact of the <a class="reference internal" href="best-practices/saturation-issue.html#pot-saturation-issue"><span class="std std-ref">saturation issue</span></a>
+or GNA. It should help to avoid the impact of the <a class="reference internal" href="best-practices/saturation-issue.html#optim-perf-pot-saturation"><span class="std std-ref">saturation issue</span></a>
 that occurs on AVX and SSE based CPU devices.</p>
 </div>
 <section id="improving-accuracy-after-the-default-quantization">
@@ -1952,7 +1952,7 @@ can revert layers back to the original precision (see the details below).</p></l
 <section id="accuracy-aware-quantization">
 <h2>Accuracy-aware Quantization<a class="headerlink" href="#accuracy-aware-quantization" title="Permalink to this headline">¶</a></h2>
 <p>If the steps above do not result in an accurate quantized model, you may use
-the so-called <a class="reference internal" href="accuracy-aware-quantization.html#accuracy-aware-model-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>
+the so-called <a class="reference internal" href="accuracy-aware-quantization.html#optim-perf-accuracy-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a>
 algorithm, which produces mixed-precision models. Here is a fragment of
 Accuracy-aware Quantization configuration with default settings:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -1980,7 +1980,7 @@ for optimal quantization parameters before reverting layers to the “backup”
 precision. Note that this may impact the overall quantization time, though.</p>
 <p>If the Accuracy-aware Quantization algorithm does not provide the desired
 accuracy and performance or you need an accurate, fully-quantized model, use
-<a class="reference internal" href="../neural-network-compression-framework.html#nncf-introduction"><span class="std std-ref">NNCF</span></a> for Quantization-Aware Training.</p>
+<a class="reference internal" href="../neural-network-compression-framework.html#optim-perf-nncf-introduction"><span class="std std-ref">NNCF</span></a> for Quantization-Aware Training.</p>
 </section>
 </section>
 </section>

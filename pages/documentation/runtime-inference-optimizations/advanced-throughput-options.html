@@ -1856,12 +1856,12 @@
             
                 <div>
                   
-  <span class="target" id="deployment-throughput-advanced"><span id="index-0"></span></span><section id="advanced-throughput-options">
+  <span class="target" id="optim-perf-deploy-throughput-adv"><span id="index-0"></span></span><section id="advanced-throughput-options">
 <h1>Advanced Throughput Options<a class="headerlink" href="#advanced-throughput-options" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="deployment-throughput-advanced-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-tput-advanced"></span></p>
+<p><span class="target" id="optim-perf-deploy-throughput-adv-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-tput-advanced"></span></p>
 <section id="openvino-streams">
 <h2>OpenVINO Streams<a class="headerlink" href="#openvino-streams" title="Permalink to this headline">¶</a></h2>
-<p>As explained in the <a class="reference internal" href="general-optimizations.html#deployment-general-optimizations"><span class="std std-ref">common-optimizations section</span></a>,
+<p>As explained in the <a class="reference internal" href="general-optimizations.html#optim-perf-deploy-general-optim"><span class="std std-ref">common-optimizations section</span></a>,
 running multiple inference requests asynchronously is important for general
 application efficiency. Internally, every device implements a queue, which acts
 as a buffer, storing the inference requests until retrieved by the device at
@@ -1879,7 +1879,7 @@ while individual requests can have different shapes.</p>
 <p class="admonition-title">Note</p>
 <p>Most OpenVINO devices (including CPU, GPU and VPU) support the streams, yet the
 <em>optimal</em> number of the streams is deduced very differently. More information on this topic
-can be found in the section <a class="reference internal" href="#deployment-throughput-advanced-1stream-considerations"><span class="std std-ref">below</span></a>.</p>
+can be found in the section <a class="reference internal" href="#optim-perf-deploy-throughput-adv-1stream-considerations"><span class="std std-ref">below</span></a>.</p>
 </div>
 <p>A few general considerations:</p>
 <ul class="simple">
@@ -1888,7 +1888,7 @@ can be found in the section <a class="reference internal" href="#deployment-thro
 <li><p>When the number of streams is not specified, a device creates a bare
 minimum of streams (usually, just one), as the latency-oriented case is default.</p></li>
 <li><p>See further tips for the optimal number of the streams
-<a class="reference internal" href="#deployment-throughput-advanced-1throughput-advanced"><span class="std std-ref">below</span></a>.</p></li>
+<a class="reference internal" href="#optim-perf-deploy-throughput-adv-1throughput-advanced"><span class="std std-ref">below</span></a>.</p></li>
 </ul>
 </li>
 <li><p>Streams are memory-intensive, as every stream duplicates the intermediate
@@ -1908,7 +1908,7 @@ they are actually muxed into an inference queue of the particular
 <code class="docutils literal notranslate"><span class="pre">ov:Compiled_Model</span></code>. If there is a vacant stream, it pulls the request from
 the queue and actually expedites that to the on-device execution. There are
 further device-specific details, like for the CPU, in the
-<a class="reference internal" href="further-low-level-implementation.html#deployment-low-level-implementation"><span class="std std-ref">internals</span></a>
+<a class="reference internal" href="further-low-level-implementation.html#optim-perf-deploy-low-level-implement"><span class="std std-ref">internals</span></a>
 section.</p>
 </section>
 <section id="batching">
@@ -1936,7 +1936,7 @@ approach requires redesigning the application logic.</p></li>
 <p>In both cases, the optimal batch size is very device-specific. As explained
 below, the optimal batch size also depends on the model, inference
 precision and other factors.</p>
-<p><span class="target" id="deployment-throughput-advanced-1throughput-advanced"></span></p>
+<p><span class="target" id="optim-perf-deploy-throughput-adv-1throughput-advanced"></span></p>
 </section>
 <section id="choosing-the-number-of-streams-and-or-batch-size">
 <h2>Choosing the Number of Streams and/or Batch Size<a class="headerlink" href="#choosing-the-number-of-streams-and-or-batch-size" title="Permalink to this headline">¶</a></h2>
@@ -1962,7 +1962,7 @@ having different shapes.</p>
 is the alternative, portable and future-proof option, allowing OpenVINO to find
 the best combination of streams and batching for a given scenario and a model.</p>
 </div>
-<p><span class="target" id="deployment-throughput-advanced-1stream-considerations"></span></p>
+<p><span class="target" id="optim-perf-deploy-throughput-adv-1stream-considerations"></span></p>
 <section id="number-of-streams-considerations">
 <h3>Number of Streams Considerations<a class="headerlink" href="#number-of-streams-considerations" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">

@@ -1839,9 +1839,9 @@
             
                 <div>
                   
-  <span class="target" id="performance-optimization-guide-introduction"><span id="index-0"></span></span><section id="introduction-to-performance-optimization">
+  <span class="target" id="optim-perf-introduction"><span id="index-0"></span></span><section id="introduction-to-performance-optimization">
 <h1>Introduction to Performance Optimization<a class="headerlink" href="#introduction-to-performance-optimization" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="performance-optimization-guide-introduction-1md-openvino-docs-optimization-guide-dldt-optimization-guide"></span></p>
+<p><span class="target" id="optim-perf-introduction-1md-openvino-docs-optimization-guide-dldt-optimization-guide"></span></p>
 <p>Even though inference performance should be defined as a combination of many
 factors, including accuracy and efficiency, it is most often described as the
 speed of execution. As the rate with which the model processes live data, it
@@ -1855,14 +1855,14 @@ by the processing time.</p>
 <section id="end-to-end-application-performance">
 <h2>End-to-End Application Performance<a class="headerlink" href="#end-to-end-application-performance" title="Permalink to this headline">¶</a></h2>
 <p>It is important to separate the “pure” inference time of a neural network and the end-to-end application performance. For example, data transfers between the host and a device may unintentionally affect the performance when a host input tensor is processed on the accelerator such as dGPU.</p>
-<p>Similarly, the input-preprocessing contributes significantly to the inference time. As described in the <a class="reference internal" href="getting-performance-numbers.html#getting-performance-numbers"><span class="std std-ref">getting performance numbers</span></a> section, when evaluating <em>inference</em> performance, one option is to measure all such items separately. For the <strong>end-to-end scenario</strong>, though, consider image pre-processing with OpenVINO and the asynchronous execution as a way to lessen the communication costs (like data transfers). For more details, see the <a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#deployment-general-optimizations"><span class="std std-ref">general optimizations guide</span></a>.</p>
-<p>Another specific case is <strong>first-inference latency</strong> (for example, when a fast application start-up is required), where the resulting performance may be well dominated by the model loading time. <a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">Model caching</span></a> may be considered as a way to improve model loading/compilation time.</p>
-<p>Finally, <strong>memory footprint</strong> restriction is another possible concern when designing an application. While this is a motivation for the use of the <em>model</em> optimization techniques, keep in mind that the throughput-oriented execution is usually much more memory consuming. For more details, see the <a class="reference internal" href="runtime-inference-optimizations.html#runtime-inference-optimizations"><span class="std std-ref">Runtime Inference Optimizations guide</span></a>.</p>
+<p>Similarly, the input-preprocessing contributes significantly to the inference time. As described in the <a class="reference internal" href="getting-performance-numbers.html#optim-perf-get-perf-numbers"><span class="std std-ref">getting performance numbers</span></a> section, when evaluating <em>inference</em> performance, one option is to measure all such items separately. For the <strong>end-to-end scenario</strong>, though, consider image pre-processing with OpenVINO and the asynchronous execution as a way to lessen the communication costs (like data transfers). For more details, see the <a class="reference internal" href="runtime-inference-optimizations/general-optimizations.html#optim-perf-deploy-general-optim"><span class="std std-ref">general optimizations guide</span></a>.</p>
+<p>Another specific case is <strong>first-inference latency</strong> (for example, when a fast application start-up is required), where the resulting performance may be well dominated by the model loading time. <a class="reference internal" href="runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#optim-perf-model-caching"><span class="std std-ref">Model caching</span></a> may be considered as a way to improve model loading/compilation time.</p>
+<p>Finally, <strong>memory footprint</strong> restriction is another possible concern when designing an application. While this is a motivation for the use of the <em>model</em> optimization techniques, keep in mind that the throughput-oriented execution is usually much more memory consuming. For more details, see the <a class="reference internal" href="runtime-inference-optimizations.html#optim-perf-runtime-inference-optim"><span class="std std-ref">Runtime Inference Optimizations guide</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To get performance numbers for OpenVINO, along with the tips on how
 to measure and compare it with a native framework, see the
-<a class="reference internal" href="getting-performance-numbers.html#getting-performance-numbers"><span class="std std-ref">Getting performance numbers article</span></a>.</p>
+<a class="reference internal" href="getting-performance-numbers.html#optim-perf-get-perf-numbers"><span class="std std-ref">Getting performance numbers article</span></a>.</p>
 </div>
 </section>
 <section id="improving-performance-model-vs-runtime-optimizations">
@@ -1876,7 +1876,7 @@ with OpenVINO: model- and runtime-level optimizations. They are <strong>fully co
 <ul class="simple">
 <li><p><strong>Model optimizations</strong> include model modifications, such as quantization,
 pruning, optimization of preprocessing, etc. For more details, refer to this
-<a class="reference internal" href="model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">document</span></a>.</p>
+<a class="reference internal" href="model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">document</span></a>.</p>
 <ul>
 <li><p>The model optimizations directly improve the inference time, even without
 runtime parameters tuning (described below).</p></li>
@@ -1884,14 +1884,14 @@ runtime parameters tuning (described below).</p></li>
 </li>
 <li><p><strong>Runtime (Deployment) optimizations</strong> includes tuning of model <em>execution</em>
 parameters. Fore more details, see the
-<a class="reference internal" href="runtime-inference-optimizations.html#runtime-inference-optimizations"><span class="std std-ref">Runtime Inference Optimizations guide</span></a>.</p></li>
+<a class="reference internal" href="runtime-inference-optimizations.html#optim-perf-runtime-inference-optim"><span class="std std-ref">Runtime Inference Optimizations guide</span></a>.</p></li>
 </ul>
 </section>
 <section id="performance-benchmarks">
 <h2>Performance benchmarks<a class="headerlink" href="#performance-benchmarks" title="Permalink to this headline">¶</a></h2>
 <p>A wide range of public models for estimating performance and comparing the
 numbers (measured on various supported devices) are available in the
-<a class="reference internal" href="performance-benchmarks.html#performance-benchmarks"><span class="std std-ref">Performance benchmarks section</span></a>.</p>
+<a class="reference internal" href="performance-benchmarks.html#optim-perf-performance-benchmarks"><span class="std std-ref">Performance benchmarks section</span></a>.</p>
 </section>
 </section>
 

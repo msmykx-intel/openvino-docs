@@ -2021,11 +2021,11 @@ this mode may lead to increased CPU consumption</p>
 <section id="supported-inference-data-types">
 <h2>Supported Inference Data Types<a class="headerlink" href="#supported-inference-data-types" title="Permalink to this headline">¶</a></h2>
 <p>Intel® GNA essentially operates in the low-precision mode which represents a mix of 8-bit (<code class="docutils literal notranslate"><span class="pre">i8</span></code>), 16-bit (<code class="docutils literal notranslate"><span class="pre">i16</span></code>), and 32-bit (<code class="docutils literal notranslate"><span class="pre">i32</span></code>) integer computations.</p>
-<p>GNA plugin users are encouraged to use the <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">Post-Training Optimization Tool</span></a> to get a model with quantization hints based on statistics for the provided dataset.</p>
+<p>GNA plugin users are encouraged to use the <a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization.html#optim-perf-pot-intro"><span class="std std-ref">Post-Training Optimization Tool</span></a> to get a model with quantization hints based on statistics for the provided dataset.</p>
 <p>Unlike other plugins supporting low-precision execution, the GNA plugin can calculate quantization factors at the model loading time. Therefore, a model can be run without calibration. However, this mode may not provide satisfactory accuracy because the internal quantization algorithm is based on heuristics, the efficiency of which depends on the model and dynamic range of input data. This mode is going to be deprecated soon.</p>
 <p>GNA plugin supports the <code class="docutils literal notranslate"><span class="pre">i16</span></code> and <code class="docutils literal notranslate"><span class="pre">i8</span></code> quantized data types as inference precision of internal primitives.</p>
 <p><a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-hello-query-device.html#doxid-openvino-inference-engine-samples-hello-query-device-r-e-a-d-m-e"><span class="std std-ref">Hello Query Device C++ Sample</span></a> can be used to print out supported data types for all detected devices.</p>
-<p><a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization/examples/api-examples/quantizing-for-gna-device.html#pot-api-example-gna"><span class="std std-ref">POT API Usage sample for GNA</span></a> demonstrates how a model can be quantized for GNA, using POT API in two modes:</p>
+<p><a class="reference internal" href="../../model-optimization-guide/post-training-model-optimization/examples/api-examples/quantizing-for-gna-device.html#optim-perf-pot-api-example-gna"><span class="std std-ref">POT API Usage sample for GNA</span></a> demonstrates how a model can be quantized for GNA, using POT API in two modes:</p>
 <ul class="simple">
 <li><p>Accuracy (i16 weights)</p></li>
 <li><p>Performance (i8 weights)</p></li>
@@ -2038,7 +2038,7 @@ this mode may lead to increased CPU consumption</p>
 <section id="models-caching">
 <h3>Models Caching<a class="headerlink" href="#models-caching" title="Permalink to this headline">¶</a></h3>
 <p>Due to import/export functionality support (see below), cache for GNA plugin may be enabled via common <code class="docutils literal notranslate"><a class="reference internal" href="../../../../api/groups/groupov_runtime_cpp_prop_api.html#doxid-group-ov-runtime-cpp-prop-api-1ga3276fc4ed7cc7d0bbdcf0ae12063728d"><span class="std std-ref"><span class="pre">ov::cache_dir</span></span></a></code> property of OpenVINO™.</p>
-<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#model-caching-overview"><span class="std std-ref">Model caching overview</span></a>.</p>
+<p>For more details, see the <a class="reference internal" href="../../runtime-inference-optimizations/optimizing-for-latency/model-caching-overview.html#optim-perf-model-caching"><span class="std std-ref">Model caching overview</span></a>.</p>
 </section>
 <section id="import-export">
 <h3>Import/Export<a class="headerlink" href="#import-export" title="Permalink to this headline">¶</a></h3>

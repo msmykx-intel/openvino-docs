@@ -1834,9 +1834,9 @@
             
                 <div>
                   
-  <span class="target" id="pot-tool-introduction"><span id="index-0"></span></span><section id="optimizing-models-post-training">
+  <span class="target" id="optim-perf-pot-intro"><span id="index-0"></span></span><section id="optimizing-models-post-training">
 <h1>Optimizing models post-training<a class="headerlink" href="#optimizing-models-post-training" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="pot-tool-introduction-1md-openvino-tools-pot-docs-introduction"></span></p>
+<p><span class="target" id="optim-perf-pot-intro-1md-openvino-tools-pot-docs-introduction"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>Post-training model optimization is the process of applying special methods
@@ -1861,17 +1861,17 @@ performance and reduce the size of a model.</p>
 <p>Depending on your needs and requirements, POT provides two main quantization
 methods that can be used:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="post-training-model-optimization/quantizing-model.html#default-model-quantization"><span class="std std-ref">Default Quantization</span></a> a recommended
+<li><p><a class="reference internal" href="post-training-model-optimization/quantizing-model.html#optim-perf-def-quantization"><span class="std std-ref">Default Quantization</span></a> a recommended
 method that provides fast and accurate results in most cases. It requires only
 an unannotated dataset for quantization. For more details, see the
-<a class="reference internal" href="post-training-model-optimization/quantizing-model/default-quantization-algorithm.html#default-quantization-algorithm"><span class="std std-ref">Default Quantization algorithm</span></a>
+<a class="reference internal" href="post-training-model-optimization/quantizing-model/default-quantization-algorithm.html#optim-perf-def-quant-algorithm"><span class="std std-ref">Default Quantization algorithm</span></a>
 documentation.</p></li>
-<li><p><a class="reference internal" href="post-training-model-optimization/accuracy-aware-quantization.html#accuracy-aware-model-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a> an advanced
+<li><p><a class="reference internal" href="post-training-model-optimization/accuracy-aware-quantization.html#optim-perf-accuracy-quantization"><span class="std std-ref">Accuracy-aware Quantization</span></a> an advanced
 method that allows keeping accuracy at a predefined range, at the cost of
 performance improvement, when <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">Quantization</span></code> cannot guarantee it.
 This method requires an annotated representative dataset and may require more
 time for quantization. For more details, see the
-<a class="reference internal" href="post-training-model-optimization/accuracy-aware-quantization/accuracy-aware-quantization-algorithm.html#accuracy-aware-quantization-algorithm"><span class="std std-ref">Accuracy-aware Quantization algorithm</span></a>
+<a class="reference internal" href="post-training-model-optimization/accuracy-aware-quantization/accuracy-aware-quantization-algorithm.html#optim-perf-accuracy-quant-algorithm"><span class="std std-ref">Accuracy-aware Quantization algorithm</span></a>
 documentation.</p></li>
 </ul>
 <p>Different hardware platforms support different integer precisions and quantization
@@ -1885,12 +1885,12 @@ quantized models compatible with CPU, GPU, and VPU devices. GNA-quantized
 models are compatible only with CPU.</p>
 </div>
 <p>For benchmarking results collected for the models optimized with the POT tool,
-refer to the <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html#performance-int8-vs-fp32"><span class="std std-ref">INT8 vs FP32 Comparison on Select Networks and Platforms</span></a>.</p>
+refer to the <a class="reference internal" href="../performance-benchmarks/openvino-performance-benchmarks/model-accuracy-for-int8-fp32.html#optim-perf-performance-int8-vs-fp32"><span class="std std-ref">INT8 vs FP32 Comparison on Select Networks and Platforms</span></a>.</p>
 </section>
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://docs.openvino.ai/latest/openvino_docs_performance_benchmarks_openvino.html">Performance Benchmarks</a></p></li>
+<li><p><a class="reference external" href="https://docs.openvino.ai/latest/openvino_docs_optim_perf__performance_benchmarks_openvino.html">Performance Benchmarks</a></p></li>
 <li><p><a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html">INT8 Quantization by Using Web-Based Interface of the DL Workbench</a></p></li>
 </ul>
 </section>

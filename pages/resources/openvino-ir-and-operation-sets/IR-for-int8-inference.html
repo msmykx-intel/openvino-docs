@@ -1434,10 +1434,10 @@
 <p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-i-r-suitable-for-i-n-t8-inference-1md-openvino-docs-mo-dg-prepare-model-convert-model-ir-suitable-for-int8-inference"></span></p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>OpenVINO Runtime CPU and GPU devices can infer models in low precision. For more details, refer to the <a class="reference internal" href="../../documentation/model-optimization-guide.html#model-optimization-guide"><span class="std std-ref">Model Optimization Guide</span></a>.</p>
+<p>OpenVINO Runtime CPU and GPU devices can infer models in low precision. For more details, refer to the <a class="reference internal" href="../../documentation/model-optimization-guide.html#optim-perf-model-optim-guide"><span class="std std-ref">Model Optimization Guide</span></a>.</p>
 <p>Intermediate Representation should be specifically formed to be suitable for low precision inference. Such a model is called a Low Precision IR and can be generated in two ways:</p>
 <ul class="simple">
-<li><p>By <a class="reference internal" href="../../documentation/model-optimization-guide/post-training-model-optimization.html#pot-tool-introduction"><span class="std std-ref">quantizing regular IR with the Post-Training Optimization tool</span></a></p></li>
+<li><p>By <a class="reference internal" href="../../documentation/model-optimization-guide/post-training-model-optimization.html#optim-perf-pot-intro"><span class="std std-ref">quantizing regular IR with the Post-Training Optimization tool</span></a></p></li>
 <li><p>Using Model Optimizer for a model pre-trained for Low Precision inference: TensorFlow pre-TFLite models (<code class="docutils literal notranslate"><span class="pre">.pb</span></code> model file with <code class="docutils literal notranslate"><span class="pre">FakeQuantize\*</span></code> operations) and ONNX quantized models. Both TensorFlow and ONNX quantized models can be prepared by <a class="reference external" href="https://github.com/openvinotoolkit/nncf/blob/develop/README.md">Neural Network Compression Framework</a>.</p></li>
 </ul>
 <p>For an operation to be executed in INT8, it must have <code class="docutils literal notranslate"><span class="pre">FakeQuantize</span></code> operations as inputs. For more details, see the <span class="xref std std-ref">specification of `FakeQuantize</span> operation &lt;doxid-openvino_docs_ops_quantization__fake_quantize_1&gt;`.</p>

@@ -1839,10 +1839,10 @@
             
                 <div>
                   
-  <span class="target" id="deployment-optimizing-for-throughput"><span id="index-0"></span></span><section id="optimizing-for-throughput">
+  <span class="target" id="optim-perf-deploy-optim-throughput"><span id="index-0"></span></span><section id="optimizing-for-throughput">
 <h1>Optimizing for Throughput<a class="headerlink" href="#optimizing-for-throughput" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="deployment-optimizing-for-throughput-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-tput"></span></p>
-<p>As described in the section on the <a class="reference internal" href="optimizing-for-latency.html#deployment-optimizing-for-latency"><span class="std std-ref">latency-specific considerations</span></a>,
+<p><span class="target" id="optim-perf-deploy-optim-throughput-1md-openvino-docs-optimization-guide-dldt-deployment-optimization-tput"></span></p>
+<p>As described in the section on the <a class="reference internal" href="optimizing-for-latency.html#optim-perf-deploy-optim-latency"><span class="std std-ref">latency-specific considerations</span></a>,
 one of the possible use cases is <em>delivering every single request at the
 minimal delay</em>. Throughput, on the other hand, is about inference scenarios in
 which potentially <strong>large number of inference requests are served
@@ -1858,11 +1858,11 @@ performance configuration of OpenVINO.</p>
 <li><p><strong>Basic (high-level)</strong> flow with <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a>
 which is inherently <strong>portable and future-proof</strong>.</p></li>
 <li><p><strong>Advanced (low-level)</strong> approach of explicit <strong>batching</strong> and <strong>streams</strong>.
-For more details, see the <a class="reference internal" href="advanced-throughput-options.html#deployment-throughput-advanced"><span class="std std-ref">runtime inference optimizations</span></a>.</p></li>
+For more details, see the <a class="reference internal" href="advanced-throughput-options.html#optim-perf-deploy-throughput-adv"><span class="std std-ref">runtime inference optimizations</span></a>.</p></li>
 </ul>
 <p>In both cases, the application should be designed to execute multiple inference
 requests in parallel, as described in the following section.</p>
-<p><span class="target" id="deployment-optimizing-for-throughput-1throughput-app-design"></span></p>
+<p><span class="target" id="optim-perf-deploy-optim-throughput-1throughput-app-design"></span></p>
 </section>
 <section id="throughput-oriented-application-design">
 <h2>Throughput-Oriented Application Design<a class="headerlink" href="#throughput-oriented-application-design" title="Permalink to this headline">¶</a></h2>
@@ -1875,7 +1875,7 @@ that are aggressively scheduled to be executed in parallel:</p>
 <ul>
 <li><p>Setup the configuration for the <em>device</em> (for example, as parameters of
 the <code class="docutils literal notranslate"><a class="reference internal" href="../../../api/groups/classov_1_1Core.html#doxid-classov-1-1-core-1a46555f0803e8c29524626be08e7f5c5a"><span class="std std-ref"><span class="pre">ov::Core::compile_model</span></span></a></code>)
-via either previously introduced <a class="reference internal" href="advanced-throughput-options.html#deployment-throughput-advanced"><span class="std std-ref">low-level explicit options</span></a>
+via either previously introduced <a class="reference internal" href="advanced-throughput-options.html#optim-perf-deploy-throughput-adv"><span class="std std-ref">low-level explicit options</span></a>
 or <a class="reference internal" href="../openvino-runtime-user-guide/performance-hints.html#deploy-infer-performance-hints"><span class="std std-ref">OpenVINO performance hints</span></a> (<strong>preferable</strong>):</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">C++</label><div class="tab-content docutils">
@@ -1900,7 +1900,7 @@ number of the requests required to saturate the device.</p></li>
 </li>
 <li><p>Use the Async API with callbacks, to avoid any dependency on the completion
 order of the requests and possible device starvation, as explained in the
-<a class="reference internal" href="general-optimizations.html#deployment-general-optimizations"><span class="std std-ref">common-optimizations section</span></a>.</p></li>
+<a class="reference internal" href="general-optimizations.html#optim-perf-deploy-general-optim"><span class="std std-ref">common-optimizations section</span></a>.</p></li>
 </ul>
 </section>
 <section id="multi-device-execution">
@@ -1914,7 +1914,7 @@ application using it, multi-device is like any other device, as it manages all
 processes internally. Just like with other throughput-oriented scenarios, there
 are several major pre-requisites for optimal multi-device performance:</p>
 <ul class="simple">
-<li><p>Using the <a class="reference internal" href="general-optimizations.html#deployment-general-optimizations-1async-api"><span class="std std-ref">Asynchronous API</span></a>
+<li><p>Using the <a class="reference internal" href="general-optimizations.html#optim-perf-deploy-general-optim-1async-api"><span class="std std-ref">Asynchronous API</span></a>
 and <a class="reference internal" href="../openvino-runtime-user-guide/openvino-runtime-integrate-application/inference-request.html#deploy-infer-inference-request"><span class="std std-ref">callbacks</span></a> in particular.</p></li>
 <li><p>Providing the multi-device (and hence the underlying devices) with enough
 data to crunch. As the inference requests are naturally independent data pieces,
