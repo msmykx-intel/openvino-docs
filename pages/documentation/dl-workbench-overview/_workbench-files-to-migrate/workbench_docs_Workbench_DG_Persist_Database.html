@@ -1857,7 +1857,7 @@
   <section id="restore-dl-workbench-state">
 <span id="doxid-workbench-docs-workbench-d-g-persist-database"></span><span id="index-0"></span><h1>Restore DL Workbench State<a class="headerlink" href="#restore-dl-workbench-state" title="Permalink to this headline">¶</a></h1>
 <p><span class="target" id="doxid-workbench-docs-workbench-d-g-persist-database-1md-openvino-workbench-docs-workbench-dg-persist-database"></span></p>
-<p>DL Workbench enables performing multiple experiments to analyze performance and accuracy data. To always have access to your data in the DL Workbench, use additional parameters when you <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally.html#doxid-workbench-docs-workbench-d-g-run-locally"><span class="std std-ref">run the DL Workbench</span></a> that enable DL Workbench state preservation.</p>
+<p>DL Workbench enables performing multiple experiments to analyze performance and accuracy data. To always have access to your data in the DL Workbench, use additional parameters when you <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally.html#workbench-install-run-locally"><span class="std std-ref">run the DL Workbench</span></a> that enable DL Workbench state preservation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>It is highly recommended to enable DL Workbench state preservation.</p>
@@ -1875,7 +1875,7 @@
 <li><p>You do not plan to update the DL Workbench in the future.</p></li>
 <li><p>You just want to get acquainted with the DL Workbench and understand its key offerings.</p></li>
 </ul>
-<p>Even if you do not enable state preservation, your data is secured as long as there is a container on your machine. When you stop a container, you still have access to your data when you resume the container as described in the <em>Pause and Resume Docker Container</em> section of <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally/dl-workbench-docker.html#doxid-workbench-docs-workbench-d-g-docker-container"><span class="std std-ref">Work with Docker Container</span></a>. However, if you remove a container that you ran without enabling state preservation, all your data is lost with that removed container.</p>
+<p>Even if you do not enable state preservation, your data is secured as long as there is a container on your machine. When you stop a container, you still have access to your data when you resume the container as described in the <em>Pause and Resume Docker Container</em> section of <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally/dl-workbench-docker.html#workbench-run-docker-container"><span class="std std-ref">Work with Docker Container</span></a>. However, if you remove a container that you ran without enabling state preservation, all your data is lost with that removed container.</p>
 <p>To restore the DL Workbench data:</p>
 <ol class="arabic simple">
 <li><p>Follow instructions for you operating system to enable state preservation:</p>
@@ -1888,9 +1888,9 @@
 </ol>
 <section id="preserve-dl-workbench-state-on-linux-and-macos">
 <span id="preserve-linux-macos"></span><h2>Preserve DL Workbench State on Linux and macOS<a class="headerlink" href="#preserve-dl-workbench-state-on-linux-and-macos" title="Permalink to this headline">¶</a></h2>
-<p>To enable DL Workbench state preservation, mount a host directory to a Docker container. The example below shows how to mount a local folder while running a Docker container on Linux* with a CPU enabled as a profiling target and in detached mode. To learn how to run the application on different targets, operating system, or in a different mode, see <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally/dl-workbench-cofigurations.html#doxid-workbench-docs-workbench-d-g-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a> page.</p>
+<p>To enable DL Workbench state preservation, mount a host directory to a Docker container. The example below shows how to mount a local folder while running a Docker container on Linux* with a CPU enabled as a profiling target and in detached mode. To learn how to run the application on different targets, operating system, or in a different mode, see <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally/dl-workbench-cofigurations.html#workbench-run-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a> page.</p>
 <ol class="arabic">
-<li><p>To run DL Workbench with Python Starter on your OS, use the first command from <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally.html#doxid-workbench-docs-workbench-d-g-run-locally"><span class="std std-ref">installation form</span></a> :</p>
+<li><p>To run DL Workbench with Python Starter on your OS, use the first command from <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally.html#workbench-install-run-locally"><span class="std std-ref">installation form</span></a> :</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">openvino</span><span class="o">-</span><span class="n">workbench</span></pre></div></div></li>
 <li><p>In the directory with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script, create the <code class="docutils literal notranslate"><span class="pre">/home/workbench/.workbench</span></code> folder with read, write, and execute permissions:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">m</span> <span class="mi">777</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">workbench</span><span class="o">/</span><span class="p">.</span><span class="n">workbench</span></pre></div></div></li>
@@ -1908,7 +1908,7 @@
 <span id="preserve-windows"></span><h2>Preserve DL Workbench State on Windows<a class="headerlink" href="#preserve-dl-workbench-state-on-windows" title="Permalink to this headline">¶</a></h2>
 <p>Due to <a class="reference external" href="https://github.com/docker/for-win/issues/77">problems of mounting a local folder to a Docker container on Windows</a>, the best way to preserve the state on Windows is to use Docker <a class="reference external" href="https://docs.docker.com/storage/volumes/">volumes</a> :</p>
 <ol class="arabic">
-<li><p>Get a Docker image as described in the <strong>Install DL Workbench</strong> section of <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally.html#doxid-workbench-docs-workbench-d-g-run-locally"><span class="std std-ref">Install DL Workbench</span></a>.</p></li>
+<li><p>Get a Docker image as described in the <strong>Install DL Workbench</strong> section of <a class="reference internal" href="../dl-workbench-install/run-dl-workbench-locally.html#workbench-install-run-locally"><span class="std std-ref">Install DL Workbench</span></a>.</p></li>
 <li><p>Create a Docker volume:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">volume</span> <span class="n">create</span> <span class="n">workbench_volume</span></pre></div></div></li>
 <li><p>Start the DL Workbench with the mounted volume:</p>

@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information about running OpenVINO Deep Learning Workbench Intel® DevCloud for the Edge." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, DevCloud, Edge, INT8, accuracy, Intermediate Representation, visualization, JupyterLab" name="keywords" />
 
     <title>Run the DL Workbench in the Intel® DevCloud for the Edge &#8212; OpenVINO™  documentation</title>
     
@@ -1832,9 +1834,13 @@
             
                 <div>
                   
-  <section id="run-the-dl-workbench-in-the-intel-devcloud-for-the-edge">
-<span id="doxid-workbench-docs-workbench-d-g-start-d-l-workbench-in-dev-cloud"></span><span id="index-0"></span><h1>Run the DL Workbench in the Intel® DevCloud for the Edge<a class="headerlink" href="#run-the-dl-workbench-in-the-intel-devcloud-for-the-edge" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-start-d-l-workbench-in-dev-cloud-1md-openvino-workbench-docs-workbench-dg-start-dl-workbench-in-devcloud"></span> <a class="reference external" href="https://software.intel.com/content/www/us/en/develop/tools/devcloud.html">Intel® DevCloud for the Edge</a> is a computing resource to develop, test, and run your workloads across a range of Intel® CPUs, GPUs, and Movidius™ Myriad™ Vision Processing Units (VPUs). Running the DL Workbench in the DevCloud helps you optimize your model and analyze its performance on various Intel® hardware configurations. DevCloud is available for enterprise developers, independent developers, students, and faculty members.</p>
+  <span class="target" id="workbench-install-dev-cloud"><span id="index-0"></span></span><section id="run-the-dl-workbench-in-the-intel-devcloud-for-the-edge">
+<h1>Run the DL Workbench in the Intel® DevCloud for the Edge<a class="headerlink" href="#run-the-dl-workbench-in-the-intel-devcloud-for-the-edge" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-install-dev-cloud-1md-openvino-workbench-docs-workbench-dg-start-dl-workbench-in-devcloud"></span> <a class="reference external" href="https://software.intel.com/content/www/us/en/develop/tools/devcloud.html">Intel® DevCloud for the Edge</a>
+is a computing resource to develop, test, and run your workloads across a range of Intel® CPUs, GPUs, and Movidius™
+Myriad™ Vision Processing Units (VPUs). Running the DL Workbench in the DevCloud helps you optimize your model and analyze
+its performance on various Intel® hardware configurations. DevCloud is available for enterprise developers, independent
+developers, students, and faculty members.</p>
 <p>When running the DL Workbench in the DevCloud, you can use the following DL Workbench features:</p>
 <table class="table">
 <colgroup>
@@ -1876,16 +1882,15 @@
 </tr>
 </tbody>
 </table>
-<p>** <em>In the DevCloud, you are connecting only to remote machines that are available in it. You cannot work with your local workstation or connect to other machines in your local network.</em></p>
+<p>** <em>In the DevCloud, you are connecting only to remote machines that are available in it. You cannot work with your
+local workstation or connect to other machines in your local network.</em></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
 <li><p>Profiling and calibration on DevCloud machines take more time than on a local machine due to the exchange of models, datasets, the job script, and performance data.</p></li>
-</ul>
-</div>
-<ul class="simple">
 <li><p>Inference results may insignificantly vary for identical environment configurations. This happens because the same environment in the DevCloud does not mean the same physical machine.</p></li>
 </ul>
+</div>
 <section id="start-the-dl-workbench-in-the-intel-devcloud-for-the-edge">
 <h2>Start the DL Workbench in the Intel® DevCloud for the Edge<a class="headerlink" href="#start-the-dl-workbench-in-the-intel-devcloud-for-the-edge" title="Permalink to this headline">¶</a></h2>
 <table class="table">
@@ -1923,11 +1928,14 @@ src="https://www.youtube.com/embed/rygSRiKn0oY">
 <img alt="../../../../_images/devcloud_cell_4-1.png" src="../../../../_images/devcloud_cell_4-1.png" />
 </li>
 </ol>
-<p>Click this link to open the DL Workbench. Make sure your browser does not block pop-up windows as it prevents the tab from opening:</p>
+<p>Click this link to open the DL Workbench. Make sure your browser does not block pop-up windows as it prevents the tab
+from opening:</p>
 <img alt="../../../../_images/start_page_crop2.png" src="../../../../_images/start_page_crop2.png" />
-<p>You have started the DL Workbench in the DevCloud. A DL Workbench session in the DevCloud is limited to four hours. Remaining session time is indicated in the upper-right corner of the interface:</p>
+<p>You have started the DL Workbench in the DevCloud. A DL Workbench session in the DevCloud is limited to four hours.
+Remaining session time is indicated in the upper-right corner of the interface:</p>
 <img alt="../../../../_images/devcloud_time.png" src="../../../../_images/devcloud_time.png" />
-<p>After four hours, the Docker container with the DL Workbench stops, but your data is autosaved in the DevCloud. To continue working with the DL Workbench, restart the session.</p>
+<p>After four hours, the Docker container with the DL Workbench stops, but your data is autosaved in the DevCloud.
+To continue working with the DL Workbench, restart the session.</p>
 </section>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>

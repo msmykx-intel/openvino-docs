@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Prerequisites and recommended requirmenets for OpenVINO Deep Learning Workbench." name="description" />
+<meta content="Deep Learning Workbench, DL workbench, OpenVINO, DL workbench installation, installation prerequisites, recommended requirements, proxy, set proxy, windows, linux, macos" name="keywords" />
 
     <title>Prerequisites &#8212; OpenVINO™  documentation</title>
     
@@ -1849,9 +1851,10 @@
             
                 <div>
                   
-  <section id="prerequisites">
-<span id="doxid-workbench-docs-workbench-d-g-prerequisites"></span><span id="index-0"></span><h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-prerequisites-1md-openvino-workbench-docs-workbench-dg-prerequisites"></span> Follow these steps before running DL Workbench:</p>
+  <span class="target" id="workbench-install-prerequisites"><span id="index-0"></span></span><section id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-install-prerequisites-1md-openvino-workbench-docs-workbench-dg-prerequisites"></span> Follow
+these steps before running DL Workbench:</p>
 <ol class="arabic simple">
 <li><p>Make sure you have met the <a class="reference external" href="#recommended">recommended requirements</a>.</p></li>
 <li><p>Configure <a class="reference external" href="https://docs.docker.com/get-docker/">Docker</a> on your machine.</p></li>
@@ -1903,7 +1906,8 @@
 </tr>
 </tbody>
 </table>
-<p id="proxy">** You need more space if you optimize or measure accuracy of computationally expensive models, such as mask_rcnn_inception_v2_coco or faster-rcnn-resnet101-coco-sparse-60-0001.</p>
+<p id="proxy">** You need more space if you optimize or measure accuracy of computationally expensive models, such
+as mask_rcnn_inception_v2_coco or faster-rcnn-resnet101-coco-sparse-60-0001.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Windows, Linux and MacOS support CPU targets. GPU, Intel® Neural Compute Stick 2 and
@@ -1912,8 +1916,12 @@ Intel® Vision Accelerator Design with Intel® Movidius™ VPUs are supported on
 </section>
 <section id="set-proxy">
 <h2>Set Proxy<a class="headerlink" href="#set-proxy" title="Permalink to this headline">¶</a></h2>
-<p>If you are behind a firewall, Docker Desktop allows you to configure HTTP/HTTPS Proxy Settings, which are then automatically passed to Docker. If you <a class="reference external" href="https://docs.docker.com/network/proxy">specify proxy settings</a>, Docker will use them when pulling images.</p>
-<p>However, your proxy settings will not be automatically passed to the containers you want to start. You must specify your proxy parameters when creating each container if you want to set proxy settings for them. Use the <a class="reference internal" href="run-dl-workbench-locally.html#doxid-workbench-docs-workbench-d-g-run-locally"><span class="std std-ref">installation form</span></a> to specify proxy for containers.</p>
+<p>If you are behind a firewall, Docker Desktop allows you to configure HTTP/HTTPS Proxy Settings, which are then automatically
+passed to Docker. If you <a class="reference external" href="https://docs.docker.com/network/proxy">specify proxy settings</a>, Docker will use them when
+pulling images.</p>
+<p>However, your proxy settings will not be automatically passed to the containers you want to start. You must specify your
+proxy parameters when creating each container if you want to set proxy settings for them. Use the
+<a class="reference internal" href="run-dl-workbench-locally.html#workbench-install-run-locally"><span class="std std-ref">installation form</span></a> to specify proxy for containers.</p>
 <section id="set-proxy-for-linux">
 <h3>Set proxy for Linux<a class="headerlink" href="#set-proxy-for-linux" title="Permalink to this headline">¶</a></h3>
 <p>Use <a class="reference external" href="https://docs.docker.com/network/proxy/">Docker official guide</a> to configure proxy for containers.</p>

@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information about commands used for work with Docker Container in OpenVINO Deep Learning Workbench." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, Docker Container, commands, Upgrade the DL Workbench" name="keywords" />
 
     <title>Work with Docker Container &#8212; OpenVINO™  documentation</title>
     
@@ -1898,9 +1900,10 @@
             
                 <div>
                   
-  <section id="work-with-docker-container">
-<span id="doxid-workbench-docs-workbench-d-g-docker-container"></span><span id="index-0"></span><h1>Work with Docker Container<a class="headerlink" href="#work-with-docker-container" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-docker-container-1md-openvino-workbench-docs-workbench-dg-docker-container"></span> When working with the application inside a Docker container, you might need to:</p>
+  <span class="target" id="workbench-run-docker-container"><span id="index-0"></span></span><section id="work-with-docker-container">
+<h1>Work with Docker Container<a class="headerlink" href="#work-with-docker-container" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-run-docker-container-1md-openvino-workbench-docs-workbench-dg-docker-container"></span> When working with
+the application inside a Docker container, you might need to:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="#pause">Pause and resume a Docker container</a></p></li>
 <li><p><a class="reference external" href="#upgrade">Update the DL Workbench inside a Docker container</a></p></li>
@@ -1910,7 +1913,7 @@
 <p>Refer to the sections below to see instructions for each scenario.</p>
 <div class="admonition note" id="pause">
 <p class="admonition-title">Note</p>
-<p>To learn about the commands, see <a class="reference internal" href="dl-workbench-cofigurations.html#doxid-workbench-docs-workbench-d-g-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a>.</p>
+<p>To learn about the commands, see <a class="reference internal" href="dl-workbench-cofigurations.html#workbench-run-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a>.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1918,7 +1921,8 @@
 </div>
 <section id="pause-and-resume-docker-container">
 <h2>Pause and Resume Docker Container<a class="headerlink" href="#pause-and-resume-docker-container" title="Permalink to this headline">¶</a></h2>
-<p>To pause a container with the DL Workbench while keeping all your data in it, stop the container and then restart it later to the previous state with the commands below:</p>
+<p>To pause a container with the DL Workbench while keeping all your data in it, stop the container and then restart it
+later to the previous state with the commands below:</p>
 <ol class="arabic simple">
 <li><p>Stop the container:</p></li>
 </ol>
@@ -1950,7 +1954,8 @@
 </section>
 <section id="upgrade-the-dl-workbench-inside-a-docker-container">
 <span id="upgrade"></span><h2>Upgrade the DL Workbench Inside a Docker Container<a class="headerlink" href="#upgrade-the-dl-workbench-inside-a-docker-container" title="Permalink to this headline">¶</a></h2>
-<p>To get the highest version of the application in your Docker container, pause the container, pull the latest version, and run the container with the same folder or volume that you mounted to your previous Docker container.</p>
+<p>To get the highest version of the application in your Docker container, pause the container, pull the latest version,
+and run the container with the same folder or volume that you mounted to your previous Docker container.</p>
 <section id="stop-container">
 <h3>1. Stop Container<a class="headerlink" href="#stop-container" title="Permalink to this headline">¶</a></h3>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">stop</span> <span class="n">workbench</span></pre></div></div><ul>
@@ -1976,7 +1981,8 @@
 </section>
 <section id="start-new-container">
 <h3>3. Start New Container<a class="headerlink" href="#start-new-container" title="Permalink to this headline">¶</a></h3>
-<p>Mount the same folder or volume that you mounted to your previous Docker container and run the new container. You can specify the name of the new container using the <code class="docutils literal notranslate"><span class="pre">--container-name</span></code> argument, for example, <code class="docutils literal notranslate"><span class="pre">workbench_2022.1</span></code>.</p>
+<p>Mount the same folder or volume that you mounted to your previous Docker container and run the new container. You can
+specify the name of the new container using the <code class="docutils literal notranslate"><span class="pre">--container-name</span></code> argument, for example, <code class="docutils literal notranslate"><span class="pre">workbench_2022.1</span></code>.</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1"><cite>docker</cite> command</label><div class="tab-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">5665</span><span class="p">:</span><span class="mi">5665</span> <span class="o">--</span><span class="n">name</span> <span class="n">workbench_2022</span><span class="mf">.1</span> <span class="o">-</span><span class="n">it</span> <span class="n">openvino</span><span class="o">/</span><span class="n">workbench</span><span class="p">:</span><span class="mf">2022.1</span> <span class="o">--</span><span class="n">assets</span><span class="o">-</span><span class="n">directory</span>  <span class="o">~/.</span><span class="n">workbench</span>
@@ -1989,14 +1995,17 @@
 </div>
 </div>
 </div>
-<p>For full instructions on running a container and description of the arguments in the command above, see the <a class="reference internal" href="dl-workbench-cofigurations.html#doxid-workbench-docs-workbench-d-g-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a> page.</p>
-<p>Once the command executes, open the link <a class="reference external" href="https://127.0.0.1:5665">https://127.0.0.1:5665</a> in your browser, and the DL Workbench <strong>Start Page</strong> appears:</p>
+<p>For full instructions on running a container and description of the arguments in the command above, see the
+<a class="reference internal" href="dl-workbench-cofigurations.html#workbench-run-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a> page.</p>
+<p>Once the command executes, open the link <a class="reference external" href="https://127.0.0.1:5665">https://127.0.0.1:5665</a> in your browser,
+and the DL Workbench <strong>Start Page</strong> appears:</p>
 <img alt="../../../../../_images/start_page_crop3.png" src="../../../../../_images/start_page_crop3.png" />
 </section>
 </section>
 <section id="copy-files-from-docker-container">
 <span id="copy"></span><h2>Copy Files from Docker Container<a class="headerlink" href="#copy-files-from-docker-container" title="Permalink to this headline">¶</a></h2>
-<p>To copy files from the container, you do not need to enter it. Use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">cp</span></code> command, for example, this command copies the token to your Desktop:</p>
+<p>To copy files from the container, you do not need to enter it. Use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">cp</span></code> command, for example, this command copies
+the token to your Desktop:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">cp</span> <span class="o">&lt;</span><span class="n">container_name</span><span class="o">&gt;:/</span><span class="n">home</span><span class="o">/</span><span class="n">workbench</span><span class="o">/</span><span class="p">.</span><span class="n">workbench</span><span class="o">/</span><span class="n">token</span><span class="p">.</span><span class="n">txt</span> <span class="n">token</span><span class="p">.</span><span class="n">txt</span></pre></div></div><section id="copy-server-logs">
 <h3>Copy Server Logs<a class="headerlink" href="#copy-server-logs" title="Permalink to this headline">¶</a></h3>
 <p>If you cannot copy the logs from the DL Workbench UI, use the following command:</p>
@@ -2011,7 +2020,8 @@
 <section id="enter-container">
 <h3>1. Enter Container<a class="headerlink" href="#enter-container" title="Permalink to this headline">¶</a></h3>
 <p>If you want to inspect the container, run the following command:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">exec</span> <span class="o">-</span><span class="n">it</span> <span class="n">workbench</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span></pre></div></div><p>This command creates a new instance of a shell in the running Docker container and gives you access to a bash console as an OpenVINO user.</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">exec</span> <span class="o">-</span><span class="n">it</span> <span class="n">workbench</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span></pre></div></div><p>This command creates a new instance of a shell in the running Docker container and gives you access to a bash console
+as an OpenVINO user.</p>
 <p>If you want to change the container configurations, use:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">exec</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">it</span> <span class="n">workbench</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span></pre></div></div></section>
 <section id="inspect-the-container">
@@ -2020,7 +2030,8 @@
 <p>To see a list of files available inside the container, run <code class="docutils literal notranslate"><span class="pre">ls</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">/opt/intel/openvino/tools/workbench/</span></code> directory inside the container includes a service folder <code class="docutils literal notranslate"><span class="pre">wb/data</span></code>. Make sure you do not apply any changes to it.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">/opt/intel/openvino/tools/workbench/</span></code> directory inside the container includes a service folder <code class="docutils literal notranslate"><span class="pre">wb/data</span></code>.
+Make sure you do not apply any changes to it.</p>
 </div>
 </section>
 <section id="inspect-entry-point">
@@ -2039,7 +2050,7 @@
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="dl-workbench-cofigurations.html#doxid-workbench-docs-workbench-d-g-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a></p></li>
+<li><p><a class="reference internal" href="dl-workbench-cofigurations.html#workbench-run-advanced-configurations"><span class="std std-ref">Advanced Configurations</span></a></p></li>
 <li><p><a class="reference internal" href="../../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 <li><p><a class="reference internal" href="../../../openvino-dl-workbench-security.html#security-dl-workbench"><span class="std std-ref">Deep Learning Workbench Security</span></a></p></li>
 </ul>

@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Description of the first part of OpenVINO Deep Learning Workbench workflow - obtaining model. Obtaining model is required to start working with Deep Learning Workbench." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, import model, framework, convert model, Open Model Zoo, download modelc, visualize model" name="keywords" />
 
     <title>Import Model &#8212; OpenVINO™  documentation</title>
     
@@ -1842,9 +1844,11 @@
             
                 <div>
                   
-  <section id="import-model">
-<span id="doxid-workbench-docs-workbench-d-g-select-model"></span><span id="index-0"></span><h1>Import Model<a class="headerlink" href="#import-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-select-model-1md-openvino-workbench-docs-workbench-dg-select-model"></span> This document describes the first part of <a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">Get Started with DL Workbench</span></a> workflow, following the model import steps from the Create Project video.</p>
+  <span class="target" id="workbench-start-import-model"><span id="index-0"></span></span><section id="import-model">
+<h1>Import Model<a class="headerlink" href="#import-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-start-import-model-1md-openvino-workbench-docs-workbench-dg-select-model"></span> This document describes
+he first part of <a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">Get Started with DL Workbench</span></a> workflow, following the model import
+steps from the Create Project video.</p>
 <table class="table">
 <colgroup>
 <col style="width: 100%" />
@@ -1858,14 +1862,16 @@ src="https://www.youtube.com/embed/gzUFYxomjn8">
 </tr>
 </tbody>
 </table>
-<p>To start working with DL Workbench, you need to obtain a model. A model is a neural network that has been trained over a set of data using a certain frameworks, such as TensorFlow, ONNX, Caffe, MXNet, and others.</p>
+<p>To start working with DL Workbench, you need to obtain a model. A model is a neural network that has been trained over
+a set of data using a certain frameworks, such as TensorFlow, ONNX, Caffe, MXNet, and others.</p>
 <img alt="../../../../_images/obtain_model.png" src="../../../../_images/obtain_model.png" />
 <p>There are two ways to import a model in DL Workbench:</p>
 <ul class="simple">
 <li><p>Select a model from the Open Model Zoo. Open Model Zoo includes a set of high-quality pretrained Deep Learning <a class="reference external" href="https://docs.openvinotoolkit.org/latest/omz_models_group_public.html">public</a> and <a class="reference external" href="https://docs.openvinotoolkit.org/latest/omz_models_group_intel.html">Intel-trained</a> models for different use cases, such as classification, object detection, segmentation and many others.</p></li>
 <li><p>Import your <a class="reference internal" href="../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Select_Models.html#doxid-workbench-docs-workbench-d-g-select-models"><span class="std std-ref">original model</span></a>. Upload the files and start the import if you have a model pretrained in one of the supported frameworks or you already have an Intermediate Representation(IR) model.</p></li>
 </ul>
-<p>This document focuses on importing a model from the Open Model Zoo. If you want to learn about importing original model, see the <a class="reference internal" href="../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Select_Models.html#doxid-workbench-docs-workbench-d-g-select-models"><span class="std std-ref">Obtain Models</span></a> page.</p>
+<p>This document focuses on importing a model from the Open Model Zoo. If you want to learn about importing original model,
+see the <a class="reference internal" href="../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Select_Models.html#doxid-workbench-docs-workbench-d-g-select-models"><span class="std std-ref">Obtain Models</span></a> page.</p>
 <section id="download-model">
 <h2>Download Model<a class="headerlink" href="#download-model" title="Permalink to this headline">¶</a></h2>
 <p>First, you need to select a model. Click <strong>Explore 100+ OMZ Models</strong> on the start page.</p>
@@ -1875,11 +1881,16 @@ src="https://www.youtube.com/embed/gzUFYxomjn8">
 </section>
 <section id="convert-model">
 <h2>Convert Model<a class="headerlink" href="#convert-model" title="Permalink to this headline">¶</a></h2>
-<p>To work with DL Workbench, you need to obtain a model in the Intermediate Representation (IR) format. Specify the precision in which model weights should be stored to convert the selected TensorFlow model to IR. You can select either 32-bit (FP32) or 16-bit (FP16) floating-point values. In this tutorial we choose FP16, as it keeps good accuracy and provides smaller footprint. Select the precision and click <strong>Convert</strong>.</p>
+<p>To work with DL Workbench, you need to obtain a model in the Intermediate Representation (IR) format. Specify the precision
+in which model weights should be stored to convert the selected TensorFlow model to IR. You can select either 32-bit (FP32)
+or 16-bit (FP16) floating-point values. In this tutorial we choose FP16, as it keeps good accuracy and provides smaller
+footprint. Select the precision and click <strong>Convert</strong>.</p>
 <img alt="../../../../_images/convert_model_mobilenet.png" src="../../../../_images/convert_model_mobilenet.png" />
 <p>You will be redirected to the <strong>Create Project</strong> page, where you can check the import status.</p>
 <img alt="../../../../_images/mobilenet_imported.png" src="../../../../_images/mobilenet_imported.png" />
-<p>You have completed the first part of <a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">Get Started with DL Workbench</span></a> guide. The next step is to <a class="reference internal" href="dl-workbench-create-project.html#doxid-workbench-docs-workbench-create-project"><span class="std std-ref">create a project</span></a>. Before creating a project, you can find out how your model works on test images.</p>
+<p>You have completed the first part of <a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">Get Started with DL Workbench</span></a> guide. The next step
+is to <a class="reference internal" href="dl-workbench-create-project.html#workbench-start-create-project"><span class="std std-ref">create a project</span></a>. Before creating a project, you can find out how your model
+works on test images.</p>
 </section>
 <section id="optional-visualize-model">
 <h2>Optional. Visualize Model<a class="headerlink" href="#optional-visualize-model" title="Permalink to this headline">¶</a></h2>
@@ -1887,7 +1898,8 @@ src="https://www.youtube.com/embed/gzUFYxomjn8">
 <img alt="../../../../_images/actions.png" src="../../../../_images/actions.png" />
 <p>The <strong>Model Page</strong> will open. You can also access this page from the <strong>Start Page</strong> where all imported models are displayed:</p>
 <img alt="../../../../_images/mobilenet_start_page.png" src="../../../../_images/mobilenet_start_page.png" />
-<p>On this page you can see the list of available model projects, visualize the model structure and output, read information about theoretical analysis, conversion settings, and accuracy configurations.</p>
+<p>On this page you can see the list of available model projects, visualize the model structure and output, read information
+about theoretical analysis, conversion settings, and accuracy configurations.</p>
 <img alt="../../../../_images/mobilenet_model_page.png" src="../../../../_images/mobilenet_model_page.png" />
 <p>Drag and drop your image to evaluate the model performance:</p>
 <img alt="../../../../_images/mobilenet_visualization.png" src="../../../../_images/mobilenet_visualization.png" />
@@ -1896,7 +1908,7 @@ src="https://www.youtube.com/embed/gzUFYxomjn8">
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="dl-workbench-create-project.html#doxid-workbench-docs-workbench-create-project"><span class="std std-ref">Next Step: Create Project</span></a></p></li>
+<li><p><a class="reference internal" href="dl-workbench-create-project.html#workbench-start-create-project"><span class="std std-ref">Next Step: Create Project</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>
 </section>
