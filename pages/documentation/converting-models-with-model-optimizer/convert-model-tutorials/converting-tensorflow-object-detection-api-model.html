@@ -1874,7 +1874,7 @@
 <p class="admonition-title">Note</p>
 <p>Before converting, make sure you have configured Model Optimizer.
 For configuration steps, refer to the
-<a class="reference internal" href="../../converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Configuring Model Optimizer</span></a>.</p>
+<a class="reference internal" href="../../converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Configuring Model Optimizer</span></a>.</p>
 </div>
 <p>To convert a TensorFlow Object Detection API model, run the <code class="docutils literal notranslate"><span class="pre">mo</span></code> command with the following required parameters:</p>
 <ul class="simple">
@@ -1921,7 +1921,7 @@ specifying the command-line parameter: <code class="docutils literal notranslate
 inference results may be incorrect. If you convert a TensorFlow Object Detection API model
 to use with the OpenVINO sample applications, you must specify the <code class="docutils literal notranslate"><span class="pre">--reverse_input_channels</span></code>
 parameter. For more information about the parameter, refer to the <strong>When to Reverse Input Channels</strong>
-section of the <a class="reference internal" href="../input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">Converting a Model to Intermediate Representation (IR)</span></a> guide.</p>
+section of the <a class="reference internal" href="../input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">Converting a Model to Intermediate Representation (IR)</span></a> guide.</p>
 </div>
 <p>Additionally to the mandatory parameters listed above you can use optional conversion parameters if needed. A full list of parameters is available in the <a class="reference internal" href="../converting-tensorflow-model-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-tensor-flow"><span class="std std-ref">Converting a TensorFlow Model</span></a> guide.</p>
 <p>For example, if you downloaded the pre-trained <a class="reference external" href="http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2018_01_28.tar.gz">SSD InceptionV2 topology</a> and extracted archive to the directory <code class="docutils literal notranslate"><span class="pre">/tmp/ssd_inception_v2_coco_2018_01_28</span></code>, the sample command line to convert the model looks as follows:</p>

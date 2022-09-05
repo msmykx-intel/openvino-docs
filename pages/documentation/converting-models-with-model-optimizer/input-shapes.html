@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="When provided an additional shape definition with --input_shape and --static_shape parameters, Model Optimizer can increase efficiency of a model." name="description" />
+<meta content="Model Optimizer, deep learning model, convert a model, set input shape, --input_shape parameter, --static_shape parameter, dynamic input shapes, undefined dimensions, infer a model, model inference, --input_model parameter, TensorFlow, input shape, dynamic shapes, boundaries of dimensions, non-reshape-able models, reshape method, OpenVINO, OpenVINO Intermediate Representation, OpenVINO IR, static shapes, command-line parameter, OpenVINO Runtime API" name="keywords" />
 
     <title>Setting Input Shapes &#8212; OpenVINO™  documentation</title>
     
@@ -1837,10 +1839,11 @@
             
                 <div>
                   
-  <section id="setting-input-shapes">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"></span><span id="index-0"></span><h1>Setting Input Shapes<a class="headerlink" href="#setting-input-shapes" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1md-openvino-docs-mo-dg-prepare-model-convert-model-converting-model"></span> With Model Optimizer you can increase your model’s efficiency by providing an additional shape definition, with these two parameters: <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> and <code class="docutils literal notranslate"><span class="pre">--static_shape</span></code>.</p>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model-1when-to-specify-input-shapes"></span></p>
+  <span class="target" id="conv-prep-set-input-shapes"><span id="index-0"></span></span><section id="setting-input-shapes">
+<h1>Setting Input Shapes<a class="headerlink" href="#setting-input-shapes" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-set-input-shapes-1md-openvino-docs-mo-dg-prepare-model-convert-model-converting-model"></span></p>
+<p>With Model Optimizer you can increase your model’s efficiency by providing an additional shape definition, with these two parameters: <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> and <code class="docutils literal notranslate"><span class="pre">--static_shape</span></code>.</p>
+<p><span class="target" id="conv-prep-set-input-shapes-when-to-specify-input-shapes"></span></p>
 <section id="specifying-input-shape-command-line-parameter">
 <h2>Specifying input_shape Command-line Parameter<a class="headerlink" href="#specifying-input-shape-command-line-parameter" title="Permalink to this headline">¶</a></h2>
 <p>Model Optimizer supports conversion of models with dynamic input shapes that contain undefined dimensions. However, if the shape of data is not going to change from one inference request to another, it is recommended to set up static shapes (when all dimensions are fully defined) for the inputs. Doing it at this stage, instead of during inference in runtime, can be beneficial in terms of performance and memory consumption. To set up static shapes, Model Optimizer provides the <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> parameter. For more information on input shapes under runtime, refer to the <a class="reference internal" href="../openvino-runtime-user-guide/changing-input-shapes.html#deploy-infer-shape-inference"><span class="std std-ref">Changing input shapes</span></a> guide. To learn more about dynamic shapes in runtime, refer to the <a class="reference internal" href="../openvino-runtime-user-guide/dynamic-shapes.html#deploy-infer-dynamic-shapes"><span class="std std-ref">Dynamic Shapes</span></a> guide.</p>
@@ -1861,7 +1864,7 @@
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="../converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Introduction to converting models with Model Optimizer</span></a></p></li>
+<li><p><a class="reference internal" href="../converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Introduction to converting models with Model Optimizer</span></a></p></li>
 <li><p><a class="reference internal" href="cutting-model-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-cutting-model"><span class="std std-ref">Cutting Off Parts of a Model</span></a></p></li>
 </ul>
 </section>

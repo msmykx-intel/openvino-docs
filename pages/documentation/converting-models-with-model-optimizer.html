@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Model Optimizer furthers the transition between training and deployment environments, it adjusts deep learning models for optimal execution on target devices." name="description" />
+<meta content="Model Optimizer, convert models, deep learning model, TensorFlow, PaddlePaddle, PyTorch, MXNet, Caffe, Kaldi, ONNX, OpenVINO Intermediate Representation, OpenVINO IR, cross-platform tool, command-line tool, post-training optimization, convert a model to IR, mean-scale normalization, RGB format, model conversion, --input parameter, --input_shape parameter, set input shape, --data_type compression parameter, compress a model to FP16" name="keywords" />
 
     <title>Converting Models with Model Optimizer &#8212; OpenVINO™  documentation</title>
     
@@ -1832,9 +1834,9 @@
             
                 <div>
                   
-  <section id="converting-models-with-model-optimizer">
-<span id="doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"></span><span id="index-0"></span><h1>Converting Models with Model Optimizer<a class="headerlink" href="#converting-models-with-model-optimizer" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide-1md-openvino-docs-mo-dg-deep-learning-model-optimizer-devguide"></span></p>
+  <span class="target" id="conv-prep-conv-with-model-optimizer"><span id="index-0"></span></span><section id="converting-models-with-model-optimizer">
+<h1>Converting Models with Model Optimizer<a class="headerlink" href="#converting-models-with-model-optimizer" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-with-model-optimizer-1md-openvino-docs-mo-dg-deep-learning-model-optimizer-devguide"></span></p>
 <div class="toctree-wrapper compound" id="deep-learning-model-optimizer">
 </div>
 <p>Model Optimizer is a cross-platform command-line tool that facilitates the transition between training and deployment environments, performs static model analysis, and adjusts deep learning models for optimal execution on end-point target devices.</p>
@@ -1856,7 +1858,7 @@
 <p>To convert a model to IR, you can run Model Optimizer by using the following command:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">INPUT_MODEL</span></pre></div></div><p>If the out-of-the-box conversion (only the <code class="docutils literal notranslate"><span class="pre">--input_model</span></code> parameter is specified) is not successful, use the parameters mentioned below to override input shapes and cut the model:</p>
 <ul class="simple">
-<li><p>Model Optimizer provides two parameters to override original input shapes for model conversion: <code class="docutils literal notranslate"><span class="pre">--input</span></code> and <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code>. For more information about these parameters, refer to the <a class="reference internal" href="converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">Setting Input Shapes</span></a> guide.</p></li>
+<li><p>Model Optimizer provides two parameters to override original input shapes for model conversion: <code class="docutils literal notranslate"><span class="pre">--input</span></code> and <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code>. For more information about these parameters, refer to the <a class="reference internal" href="converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">Setting Input Shapes</span></a> guide.</p></li>
 <li><p>To cut off unwanted parts of a model (such as unsupported operations and training sub-graphs), use the <code class="docutils literal notranslate"><span class="pre">--input</span></code> and <code class="docutils literal notranslate"><span class="pre">--output</span></code> parameters to define new inputs and outputs of the converted model. For a more detailed description, refer to the <a class="reference internal" href="converting-models-with-model-optimizer/cutting-model-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-cutting-model"><span class="std std-ref">Cutting Off Parts of a Model</span></a> guide.</p></li>
 </ul>
 <p>You can also insert additional input pre-processing sub-graphs into the converted model by using the <code class="docutils literal notranslate"><span class="pre">--mean_values</span></code>, <code class="docutils literal notranslate"><span class="pre">scales_values</span></code>, <code class="docutils literal notranslate"><span class="pre">--layout</span></code>, and other parameters described in the <a class="reference internal" href="converting-models-with-model-optimizer/additional-optimization-use-cases.html#doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases"><span class="std std-ref">Embedding Preprocessing Computation</span></a> article.</p>

@@ -2334,7 +2334,7 @@ hardcoded in a constant somewhere in the network.</p>
 </ol>
 <img alt="low_latency_limitation_2" src="../../../_images/low_latency_limitation_2.png" />
 <p><strong>Current solution:</strong> Trim non-reshapable layers via
-<a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">ModelOptimizer CLI</span></a> :
+<a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">ModelOptimizer CLI</span></a> :
 the <code class="docutils literal notranslate"><span class="pre">--input</span></code> and <code class="docutils literal notranslate"><span class="pre">--output</span></code> parameters. For example, the parameter and the
 problematic constant in the picture above can be trimmed using the
 <code class="docutils literal notranslate"><span class="pre">--input</span> <span class="pre">Reshape_layer_name</span></code> command-line option. The problematic constant
@@ -2453,7 +2453,7 @@ or replaced with a constant.</p>
 <p><strong>Current solutions:</strong></p>
 <ul>
 <li><p>Replace a parameter with a constant (freeze) with the <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0</span> <span class="pre">…</span> <span class="pre">0]</span></code> value
-via <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">ModelOptimizer CLI</span></a> :
+via <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">ModelOptimizer CLI</span></a> :
 the <code class="docutils literal notranslate"><span class="pre">--input</span></code> or <code class="docutils literal notranslate"><span class="pre">--freeze_placeholder_with_value</span></code> parameters.</p></li>
 <li><p>Use nGraph API to replace a parameter with a constant, as shown in the
 example below:</p>
@@ -2477,7 +2477,7 @@ shapes is hardcoded in the constant somewhere in the network.</p>
 <img alt="low_latency_limitation_2" src="../../../_images/low_latency_limitation_2.png" />
 <p><strong>Current solutions:</strong></p>
 <ul>
-<li><p>Trim non-reshapable layers via <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">ModelOptimizer CLI</span></a> :
+<li><p>Trim non-reshapable layers via <a class="reference internal" href="../converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">ModelOptimizer CLI</span></a> :
 the <code class="docutils literal notranslate"><span class="pre">--input</span></code> and <code class="docutils literal notranslate"><span class="pre">--output</span></code> parameters. For example, the parameter and
 the problematic constant (as shown in the picture above) can be trimmed using
 the <code class="docutils literal notranslate"><span class="pre">--input</span> <span class="pre">Reshape_layer_name</span></code> command-line option.</p></li>

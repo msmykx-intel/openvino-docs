@@ -739,8 +739,8 @@
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">ffmpeg</span> <span class="o">-</span><span class="n">i</span> <span class="n">cat</span><span class="p">.</span><span class="n">jpg</span> <span class="o">-</span><span class="n">pix_fmt</span> <span class="n">nv12</span> <span class="n">cat</span><span class="p">.</span><span class="n">yuv</span></pre></div></div><p><strong>NOTES</strong> :</p>
 <ul class="simple">
 <li><p>Because the sample reads raw image files, you should provide a correct image size along with the image path. The sample expects the logical size of the image, not the buffer size. For example, for 640x480 BGR/RGB image the corresponding NV12 logical image size is also 640x480, whereas the buffer size is 640x720.</p></li>
-<li><p>By default, this sample expects that network input has BGR channels order. If you trained your model to work with RGB order, you need to reconvert your model using the Model Optimizer tool with <code class="docutils literal notranslate"><span class="pre">--reverse_input_channels</span></code> argument specified. For more information about the argument, refer to <strong>When to Reverse Input Channels</strong> section of <a class="reference internal" href="../../documentation/converting-models-with-model-optimizer/input-shapes.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-converting-model"><span class="std std-ref">Embedding Preprocessing Computation</span></a>.</p></li>
-<li><p>Before running the sample with a trained model, make sure the model is converted to the Inference Engine format (*.xml + *.bin) using the <a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Model Optimizer tool</span></a>.</p></li>
+<li><p>By default, this sample expects that network input has BGR channels order. If you trained your model to work with RGB order, you need to reconvert your model using the Model Optimizer tool with <code class="docutils literal notranslate"><span class="pre">--reverse_input_channels</span></code> argument specified. For more information about the argument, refer to <strong>When to Reverse Input Channels</strong> section of <a class="reference internal" href="../../documentation/converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">Embedding Preprocessing Computation</span></a>.</p></li>
+<li><p>Before running the sample with a trained model, make sure the model is converted to the Inference Engine format (*.xml + *.bin) using the <a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Model Optimizer tool</span></a>.</p></li>
 <li><p>The sample accepts models in ONNX format (.onnx) that do not require preprocessing.</p></li>
 </ul>
 <section id="example">
@@ -782,7 +782,7 @@
 <li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">Integrate the OpenVINO™ into Your Application</span></a></p></li>
 <li><p><a class="reference internal" href="../samples.html#get-started-samples-overview"><span class="std std-ref">Using OpenVINO™ Samples</span></a></p></li>
 <li><p>Model Downloader</p></li>
-<li><p><a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-deep-learning-model-optimizer-dev-guide"><span class="std std-ref">Model Optimizer</span></a></p></li>
+<li><p><a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Model Optimizer</span></a></p></li>
 </ul>
 </section>
 </section>
