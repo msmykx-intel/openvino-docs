@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="List containing OpenVINO Deep Learning Workbench main concepts." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, Resources, key concepts, main concepts, Intermediate Representation, OpenVINO IR, FP32, FP16, INT8, model task, dataset, local target, NCS2, OpenVINO Runtime" name="keywords" />
 
     <title>DL Workbench Key Concepts &#8212; OpenVINO™  documentation</title>
     
@@ -1912,12 +1914,15 @@
             
                 <div>
                   
-  <section id="dl-workbench-key-concepts">
-<span id="doxid-workbench-docs-workbench-d-g-key-concepts"></span><span id="index-0"></span><h1>DL Workbench Key Concepts<a class="headerlink" href="#dl-workbench-key-concepts" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-key-concepts-1md-openvino-workbench-docs-workbench-dg-key-concepts"></span> This page contains the main concepts of the OpenVINO™ DL Workbench.</p>
+  <span class="target" id="workbench-resources-key-concepts"><span id="index-0"></span></span><section id="dl-workbench-key-concepts">
+<h1>DL Workbench Key Concepts<a class="headerlink" href="#dl-workbench-key-concepts" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-resources-key-concepts-1md-openvino-workbench-docs-workbench-dg-key-concepts"></span> This page contains
+the main concepts of the OpenVINO™ DL Workbench.</p>
 <section id="project">
 <h2>Project<a class="headerlink" href="#project" title="Permalink to this headline">¶</a></h2>
-<p>Project is a combination of an OpenVINO IR model, a dataset, and a target device you use to perform experiments in the DL Workbench. You can work with multiple projects during one session. When <a class="reference internal" href="../../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">creating a project</span></a>, you can:</p>
+<p>Project is a combination of an OpenVINO IR model, a dataset, and a target device you use to perform experiments
+in the DL Workbench. You can work with multiple projects during one session. When
+<a class="reference internal" href="../../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">creating a project</span></a>, you can:</p>
 <ul class="simple">
 <li><p>Upload your own model or download one from the Intel® [Open Model Zoo](omz_models_group_intel) directly in the DL Workbench.</p></li>
 <li><p>Upload your own dataset or generate one in the DL Workbench.</p></li>
@@ -1927,16 +1932,19 @@
 <section id="intermediate-representation-ir">
 <h2>Intermediate Representation (IR)<a class="headerlink" href="#intermediate-representation-ir" title="Permalink to this headline">¶</a></h2>
 <p>Intermediate Representation (IR) is the OpenVINO™ format of pretrained model representation with two files:</p>
-<ul>
+<ul class="simple">
 <li><p>XML file describing the network topology</p></li>
-<li><p>BIN file containing weights and biases</p>
-<p>OpenVINO™ Runtime operates with models in the IR format. You can convert your model of a supported format into the IR format with the <a class="reference internal" href="../../../converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Model Optimizer</span></a> directly in the DL Workbench.</p>
-</li>
+<li><p>BIN file containing weights and biases</p></li>
 </ul>
+<dl class="simple">
+<dt>=</dt><dd><p>OpenVINO™ Runtime operates with models in the IR format. You can convert your model of a supported format into
+the IR format with the <a class="reference internal" href="../../../converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Model Optimizer</span></a> directly in the DL Workbench.</p>
+</dd>
+</dl>
 </section>
 <section id="original-model">
 <h2>Original Model<a class="headerlink" href="#original-model" title="Permalink to this headline">¶</a></h2>
-<p>Original model is your custom pretrained model in one of the supported formats: OpenVINO™ IR, Caffe*, MXNet*, ONNX*, or TensorFlow*.</p>
+<p>Original model is your custom pretrained model in one of the supported formats: OpenVINO™ IR, Caffe, MXNet, ONNX, or TensorFlow.</p>
 </section>
 <section id="model-task">
 <h2>Model Task<a class="headerlink" href="#model-task" title="Permalink to this headline">¶</a></h2>
@@ -1960,17 +1968,20 @@
 <li><p>FP32 - 32-bit floating point numbers</p></li>
 <li><p>FP16 - 16-bit floating point numbers</p></li>
 <li><p>INT8 - 8-bit integer numbers</p>
-<p>Usually a model has a mix of precisions. When converting a model, you have to choose between FP32 and FP16. FP16 is supported by all OpenVINO™ plugins while keeping good accuracy and speed gains over FP32.</p>
+<p>Usually a model has a mix of precisions. When converting a model, you have to choose between FP32 and FP16. FP16
+is supported by all OpenVINO™ plugins while keeping good accuracy and speed gains over FP32.</p>
 </li>
 </ul>
 </section>
 <section id="dataset">
 <h2>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h2>
-<p>Dataset is a set of testing and validation images with annotations. Dataset format depends on a task a model is trained to perform.</p>
+<p>Dataset is a set of testing and validation images with annotations. Dataset format depends on a task a model is trained
+to perform.</p>
 </section>
 <section id="target">
 <h2>Target<a class="headerlink" href="#target" title="Permalink to this headline">¶</a></h2>
-<p>Target is a system on which you want to perform an inference of your model. This can be your local workstation or a remote system.</p>
+<p>Target is a system on which you want to perform an inference of your model. This can be your local workstation or
+a remote system.</p>
 </section>
 <section id="local-target">
 <h2>Local Target<a class="headerlink" href="#local-target" title="Permalink to this headline">¶</a></h2>
@@ -1978,7 +1989,8 @@
 </section>
 <section id="remote-target">
 <h2>Remote Target<a class="headerlink" href="#remote-target" title="Permalink to this headline">¶</a></h2>
-<p>Remote target is a machine in your local network to which you connect your local workstation to <a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Remote_Profiling.html#doxid-workbench-docs-workbench-d-g-remote-profiling"><span class="std std-ref">gather performance data remotely</span></a>.</p>
+<p>Remote target is a machine in your local network to which you connect your local workstation to
+<a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Remote_Profiling.html#doxid-workbench-docs-workbench-d-g-remote-profiling"><span class="std std-ref">gather performance data remotely</span></a>.</p>
 </section>
 <section id="device">
 <h2>Device<a class="headerlink" href="#device" title="Permalink to this headline">¶</a></h2>
@@ -1994,27 +2006,38 @@
 </section>
 <section id="latency">
 <h2>Latency<a class="headerlink" href="#latency" title="Permalink to this headline">¶</a></h2>
-<p>Latency is the time required to complete a unit of work, for example, time required to perform an inference for a single image. Measured in milliseconds.</p>
+<p>Latency is the time required to complete a unit of work, for example, time required to perform an inference
+for a single image. Measured in milliseconds.</p>
 </section>
 <section id="openvino-runtime">
 <h2>OpenVINO™ Runtime<a class="headerlink" href="#openvino-runtime" title="Permalink to this headline">¶</a></h2>
-<p>OpenVINO™ Runtime is a set of C++ libraries providing a common API to deliver inference solutions on the platform of your choice: CPU, GPU, or VPU. OpenVINO™ <a class="reference internal" href="../../../openvino-runtime-user-guide.html#deploy-infer-openvino-runtime-user-guide"><span class="std std-ref">OpenVINO™ Runtime</span></a> is used inside the DL Workbench to infer models.</p>
+<p>OpenVINO™ Runtime is a set of C++ libraries providing a common API to deliver inference solutions on the platform
+of your choice: CPU, GPU, or VPU. OpenVINO™ <a class="reference internal" href="../../../openvino-runtime-user-guide.html#deploy-infer-openvino-runtime-user-guide"><span class="std std-ref">OpenVINO™ Runtime</span></a>
+is used inside the DL Workbench to infer models.</p>
 </section>
 <section id="accuracy">
 <h2>Accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h2>
-<p>Accuracy is the quality of predictions made by a neural network. Different use cases measure quality differently, so an accuracy metric depends on a particular model task.</p>
+<p>Accuracy is the quality of predictions made by a neural network. Different use cases measure quality differently,
+so an accuracy metric depends on a particular model task.</p>
 </section>
 <section id="calibration">
 <h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
-<p>Calibration is the process of lowering the precision of a model from FP32 to INT8. Calibration accelerates the performance of certain models on hardware that supports INT8 precision. An INT8 model takes up less memory footprint and speeds up inference time at the cost of a small reduction in accuracy. See <a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Int_8_Quantization.html#doxid-workbench-docs-workbench-d-g-int-8-quantization"><span class="std std-ref">INT8 Calibration</span></a> for details.</p>
+<p>Calibration is the process of lowering the precision of a model from FP32 to INT8. Calibration accelerates the
+performance of certain models on hardware that supports INT8 precision. An INT8 model takes up less memory footprint
+and speeds up inference time at the cost of a small reduction in accuracy. See
+<a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Int_8_Quantization.html#doxid-workbench-docs-workbench-d-g-int-8-quantization"><span class="std std-ref">INT8 Calibration</span></a> for details.</p>
 </section>
 <section id="deployment">
 <h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h2>
-<p>Deployment is the process of putting your model into a real-life application. DL Workbench enables you to download a deployment package with your model optimized for particular devices, including required libraries, API, and scripts. See <a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Deployment_Package.html#doxid-workbench-docs-workbench-d-g-deployment-package"><span class="std std-ref">Build Your Application with Deployment Package</span></a> for details.</p>
+<p>Deployment is the process of putting your model into a real-life application. DL Workbench enables you to download
+a deployment package with your model optimized for particular devices, including required libraries, API, and scripts.
+See <a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Deployment_Package.html#doxid-workbench-docs-workbench-d-g-deployment-package"><span class="std std-ref">Build Your Application with Deployment Package</span></a>
+for details.</p>
 </section>
 <section id="deployment-target">
 <h2>Deployment Target<a class="headerlink" href="#deployment-target" title="Permalink to this headline">¶</a></h2>
-<p>Deployment target is the target on which you plan to run a product application, so you perform calibration and tune runtime hyperparameters for this particular target.</p>
+<p>Deployment target is the target on which you plan to run a product application, so you perform calibration and tune
+runtime hyperparameters for this particular target.</p>
 </section>
 </section>
 
