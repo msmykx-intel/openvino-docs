@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Model Optimizer can convert all floating-point weights to FP16 data type and the resulting IR will be a compressed FP16 model." name="description" />
+<meta content="Model Optimizer, FP16, floating-point weights, compression to FP16, accuracy drop, FP16 precision, OpenVINO IR, OpenVINO Intermediate Representation, FP16 compression" name="keywords" />
 
     <title>Compressing a Model to FP16 &#8212; OpenVINO™  documentation</title>
     
@@ -1817,9 +1819,10 @@
             
                 <div>
                   
-  <section id="compressing-a-model-to-fp16">
-<span id="doxid-openvino-docs-m-o-d-g-f-p16-compression"></span><span id="index-0"></span><h1>Compressing a Model to FP16<a class="headerlink" href="#compressing-a-model-to-fp16" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-f-p16-compression-1md-openvino-docs-mo-dg-prepare-model-fp16-compression"></span> Model Optimizer can convert all floating-point weights to <code class="docutils literal notranslate"><span class="pre">FP16</span></code> data type. The resulting IR is called compressed <code class="docutils literal notranslate"><span class="pre">FP16</span></code> model.</p>
+  <span class="target" id="conv-prep-fp16-compression"><span id="index-0"></span></span><section id="compressing-a-model-to-fp16">
+<h1>Compressing a Model to FP16<a class="headerlink" href="#compressing-a-model-to-fp16" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-fp16-compression-1md-openvino-docs-mo-dg-prepare-model-fp16-compression"></span></p>
+<p>Model Optimizer can convert all floating-point weights to <code class="docutils literal notranslate"><span class="pre">FP16</span></code> data type. The resulting IR is called compressed <code class="docutils literal notranslate"><span class="pre">FP16</span></code> model.</p>
 <p>To compress the model, use the <code class="docutils literal notranslate"><span class="pre">--data_type</span></code> option:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">INPUT_MODEL</span> <span class="o">--</span><span class="n">data_type</span> <span class="n">FP16</span></pre></div></div><div class="admonition note">
 <p class="admonition-title">Note</p>

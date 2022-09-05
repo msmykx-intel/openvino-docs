@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Detailed instructions on how to convert a model from the MXNet format to the OpenVINO IR by using Model Optimizer." name="description" />
+<meta content="Model Optimizer, OpenVINO IR, OpenVINO Intermediate Representation, OpenVINO Development Tools, convert model, model conversion, convert from MXNet, convert an MXNet model, --input_model, convert to OpenVINO IR, conversion parameters, --input_symbol, Apache MXNet loader, Apache MXNet, command-line options, --legacy_mxnet_model, pretrained_model_name, ssd gluoncv topologies, convert ssd gluoncv topology, custom layer definition, supported MXNet layers" name="keywords" />
 
     <title>Converting an MXNet Model &#8212; OpenVINO™  documentation</title>
     
@@ -1852,9 +1854,9 @@
             
                 <div>
                   
-  <section id="converting-an-mxnet-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-mx-net"></span><span id="index-0"></span><h1>Converting an MXNet Model<a class="headerlink" href="#converting-an-mxnet-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-mx-net-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-mxnet"></span> <span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-mx-net-1convertmxnet"></span> To convert an MXNet model, run Model Optimizer with the path to the * <code class="docutils literal notranslate"><span class="pre">.params</span></code> * file of the input model:</p>
+  <span class="target" id="conv-prep-conv-from-mxnet"><span id="index-0"></span></span><section id="converting-an-mxnet-model">
+<h1>Converting an MXNet Model<a class="headerlink" href="#converting-an-mxnet-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-from-mxnet-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-mxnet"></span> <span class="target" id="conv-prep-conv-from-mxnet-1convertmxnet"></span> To convert an MXNet model, run Model Optimizer with the path to the * <code class="docutils literal notranslate"><span class="pre">.params</span></code> * file of the input model:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">model</span><span class="o">-</span><span class="n">file</span><span class="o">-</span><span class="mf">0000.</span><span class="n">params</span></pre></div></div><section id="using-mxnet-specific-conversion-parameters">
 <span id="mxnet-specific-conversion-params"></span><h2>Using MXNet-Specific Conversion Parameters<a class="headerlink" href="#using-mxnet-specific-conversion-parameters" title="Permalink to this headline">¶</a></h2>
 <p>The following list provides the MXNet-specific parameters.</p>

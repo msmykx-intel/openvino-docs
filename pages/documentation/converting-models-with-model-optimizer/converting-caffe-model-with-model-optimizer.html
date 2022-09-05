@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Detailed instructions on how to convert a model from the Caffe format to the OpenVINO IR by using Model Optimizer." name="description" />
+<meta content="Model Optimizer, OpenVINO IR, OpenVINO Intermediate Representation, OpenVINO Development Tools, convert model, model conversion, convert from Caffe, convert a Caffe model, --input_model, convert to OpenVINO IR, Caffe-specific parameters, --input_proto, --caffe_parser_path --disable_omitting_optional, --enable_flattening_nested_params, supported Caffe layers" name="keywords" />
 
     <title>Converting a Caffe Model &#8212; OpenVINO™  documentation</title>
     
@@ -1849,9 +1851,10 @@
             
                 <div>
                   
-  <section id="converting-a-caffe-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-caffe"></span><span id="index-0"></span><h1>Converting a Caffe Model<a class="headerlink" href="#converting-a-caffe-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-caffe-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-caffe"></span> <span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-caffe-1convert-from-caffe"></span> To convert a Caffe model, run Model Optimizer with the path to the input model <code class="docutils literal notranslate"><span class="pre">.caffemodel</span></code> file:</p>
+  <span class="target" id="conv-prep-conv-from-caffe"><span id="index-0"></span></span><section id="converting-a-caffe-model">
+<h1>Converting a Caffe Model<a class="headerlink" href="#converting-a-caffe-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-from-caffe-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-caffe"></span> <span class="target" id="conv-prep-conv-from-caffe-1convert-from-caffe"></span></p>
+<p>To convert a Caffe model, run Model Optimizer with the path to the input model <code class="docutils literal notranslate"><span class="pre">.caffemodel</span></code> file:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="o">&lt;</span><span class="n">INPUT_MODEL</span><span class="o">&gt;</span><span class="p">.</span><span class="n">caffemodel</span></pre></div></div><p>The following list provides the Caffe-specific parameters.</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">Caffe</span><span class="o">-</span><span class="n">specific</span> <span class="nl">parameters</span><span class="p">:</span>
   <span class="o">--</span><span class="n">input_proto</span> <span class="n">INPUT_PROTO</span><span class="p">,</span> <span class="o">-</span><span class="n">d</span> <span class="n">INPUT_PROTO</span>

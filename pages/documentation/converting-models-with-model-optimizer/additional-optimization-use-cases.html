@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Mean-scale normalization of input data, reverting data along channel dimension, and changing data layout can be additionally performed with Model Optimizer." name="description" />
+<meta content="Model Optimizer, OpenVINO IR, OpenVINO Intermediate Representation, preprocessing, inference, model inference, infer a model, sub-graphs, --scale_values, --reverse_input_channels, --layout, specify layout, mean-scale normalization, model input, input data, reverse input channels, NHWC layout, TensorFlow, BGR to RGB, RGB to BGR, change model layout, --source_layout, --target_layout, specify mean values, specify scale values, input preprocessing operations, command-line parameters" name="keywords" />
 
     <title>Embedding Preprocessing Computation &#8212; OpenVINO™  documentation</title>
     
@@ -1847,9 +1849,10 @@
             
                 <div>
                   
-  <section id="embedding-preprocessing-computation">
-<span id="doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases"></span><span id="index-0"></span><h1>Embedding Preprocessing Computation<a class="headerlink" href="#embedding-preprocessing-computation" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-additional-optimization-use-cases-1md-openvino-docs-mo-dg-prepare-model-additional-optimizations"></span> Input data for inference can be different from the training dataset and requires additional preprocessing before inference. To accelerate the whole pipeline including preprocessing and inference, Model Optimizer provides special parameters such as <code class="docutils literal notranslate"><span class="pre">--mean_values</span></code>,</p>
+  <span class="target" id="conv-prep-add-optim-preprocess"><span id="index-0"></span></span><section id="embedding-preprocessing-computation">
+<h1>Embedding Preprocessing Computation<a class="headerlink" href="#embedding-preprocessing-computation" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-add-optim-preprocess-1md-openvino-docs-mo-dg-prepare-model-additional-optimizations"></span></p>
+<p>Input data for inference can be different from the training dataset and requires additional preprocessing before inference. To accelerate the whole pipeline including preprocessing and inference, Model Optimizer provides special parameters such as <code class="docutils literal notranslate"><span class="pre">--mean_values</span></code>,</p>
 <p><code class="docutils literal notranslate"><span class="pre">--scale_values</span></code>, <code class="docutils literal notranslate"><span class="pre">--reverse_input_channels</span></code>, and <code class="docutils literal notranslate"><span class="pre">--layout</span></code>. Based on these parameters, Model Optimizer generates OpenVINO IR with additionally inserted sub-graphs to perform the defined preprocessing. This preprocessing block can perform mean-scale normalization of input data, reverting data along channel dimension, and changing the data layout. See the following sections for details on the parameters, or the <a class="reference internal" href="../openvino-runtime-user-guide/preprocessing.html#deploy-infer-preprocessing-overview"><span class="std std-ref">Overview of Preprocessing API</span></a> for the same functionality in OpenVINO Runtime.</p>
 <section id="specifying-layout">
 <h2>Specifying Layout<a class="headerlink" href="#specifying-layout" title="Permalink to this headline">¶</a></h2>

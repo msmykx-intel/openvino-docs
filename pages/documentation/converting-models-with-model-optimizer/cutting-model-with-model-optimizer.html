@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Model cutting occurs during conversion to OpenVINO IR when a model is too complex to be converted at once and there are a lot of unsupported operations." name="description" />
+<meta content="OpenVINO IR, OpenVINO Intermediate Representation, model conversion, convert a model, convert a model to IR, cutting model, Model Optimizer, OpenVINO™ Runtime, model inference, inference, command-line options, --input option, --output option, Reshape method, TensorFlow, TensorFlow models, custom layers, Input layer, model_optimizer, --output_dir argument, model input, model output, TensorBoard, ReLU layer, input shape, --input_shape, shape override, input tensor, multiple input ports, convolution, convolution weights, node, input port index" name="keywords" />
 
     <title>Cutting Off Parts of a Model &#8212; OpenVINO™  documentation</title>
     
@@ -1864,9 +1866,10 @@
             
                 <div>
                   
-  <section id="cutting-off-parts-of-a-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-cutting-model"></span><span id="index-0"></span><h1>Cutting Off Parts of a Model<a class="headerlink" href="#cutting-off-parts-of-a-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-cutting-model-1md-openvino-docs-mo-dg-prepare-model-convert-model-cutting-model"></span> Sometimes, it is necessary to remove parts of a model when converting it to OpenVINO IR. This chapter describes how to do it, using Model Optimizer command-line options. Model cutting applies mostly to TensorFlow models, which is why TensorFlow will be used in this chapter’s examples, but it may be also useful for other frameworks.</p>
+  <span class="target" id="conv-prep-cut-model"><span id="index-0"></span></span><section id="cutting-off-parts-of-a-model">
+<h1>Cutting Off Parts of a Model<a class="headerlink" href="#cutting-off-parts-of-a-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-cut-model-1md-openvino-docs-mo-dg-prepare-model-convert-model-cutting-model"></span></p>
+<p>Sometimes, it is necessary to remove parts of a model when converting it to OpenVINO IR. This chapter describes how to do it, using Model Optimizer command-line options. Model cutting applies mostly to TensorFlow models, which is why TensorFlow will be used in this chapter’s examples, but it may be also useful for other frameworks.</p>
 <section id="purpose-of-model-cutting">
 <h2>Purpose of Model Cutting<a class="headerlink" href="#purpose-of-model-cutting" title="Permalink to this headline">¶</a></h2>
 <p>The following examples are the situations when model cutting is useful or even required:</p>

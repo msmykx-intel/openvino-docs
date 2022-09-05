@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Detailed instructions on how to convert a model from the PyTorch format to the OpenVINO IR by using Model Optimizer." name="description" />
+<meta content="Model Optimizer, OpenVINO IR, OpenVINO Intermediate Representation, OpenVINO Development Tools, convert model, model conversion, convert from PyTorch, convert a PyTorch model, deep learning model, export to ONNX format, export a PyTorch model to ONNX, ONNX opset, opset 9, opset 11, export function, torch.onnx.export, convert ONNX to OpenVINO IR" name="keywords" />
 
     <title>Converting a PyTorch Model &#8212; OpenVINO™  documentation</title>
     
@@ -1837,12 +1839,13 @@
             
                 <div>
                   
-  <section id="converting-a-pytorch-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-py-torch"></span><span id="index-0"></span><h1>Converting a PyTorch Model<a class="headerlink" href="#converting-a-pytorch-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-py-torch-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-pytorch"></span> The PyTorch framework is supported through export to the ONNX format. In order to optimize and deploy a model that was trained with it:</p>
+  <span class="target" id="conv-prep-conv-from-pytorch"><span id="index-0"></span></span><section id="converting-a-pytorch-model">
+<h1>Converting a PyTorch Model<a class="headerlink" href="#converting-a-pytorch-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-from-pytorch-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-pytorch"></span></p>
+<p>The PyTorch framework is supported through export to the ONNX format. In order to optimize and deploy a model that was trained with it:</p>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="#export-to-onnx">Export a PyTorch model to ONNX</a>.</p></li>
-<li><p><a class="reference internal" href="converting-onnx-model-with-model-optimizer.html#doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-o-n-n-x"><span class="std std-ref">Convert the ONNX model</span></a> to produce an optimized <a class="reference internal" href="../../resources/openvino-ir-and-operation-sets.html#doxid-openvino-docs-m-o-d-g-i-r-and-opsets"><span class="std std-ref">Intermediate Representation</span></a> of the model based on the trained network topology, weights, and biases values.</p></li>
+<li><p><a class="reference internal" href="converting-onnx-model-with-model-optimizer.html#conv-prep-conv-from-onnx"><span class="std std-ref">Convert the ONNX model</span></a> to produce an optimized <a class="reference internal" href="../../resources/openvino-ir-and-operation-sets.html#doxid-openvino-docs-m-o-d-g-i-r-and-opsets"><span class="std std-ref">Intermediate Representation</span></a> of the model based on the trained network topology, weights, and biases values.</p></li>
 </ol>
 <section id="exporting-a-pytorch-model-to-onnx-format">
 <span id="export-to-onnx"></span><h2>Exporting a PyTorch Model to ONNX Format<a class="headerlink" href="#exporting-a-pytorch-model-to-onnx-format" title="Permalink to this headline">¶</a></h2>

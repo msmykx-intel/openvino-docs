@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Detailed instructions on how to convert a model from the Kaldi format to the OpenVINO IR by using Model Optimizer." name="description" />
+<meta content="Model Optimizer, OpenVINO IR, OpenVINO Intermediate Representation, OpenVINO Development Tools, convert model, model conversion, convert from Kaldi, convert a Kaldi model, --input_model, convert to OpenVINO IR, nnet1 model format, nnet2 model format, Kaldi-specific parameters, --counts, --remove_output_softmax, --remove_memory, Intel® Movidius™ Myriad™ VPU, inference device, CLI commands" name="keywords" />
 
     <title>Converting a Kaldi Model &#8212; OpenVINO™  documentation</title>
     
@@ -1848,14 +1850,14 @@
             
                 <div>
                   
-  <section id="converting-a-kaldi-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-kaldi"></span><span id="index-0"></span><h1>Converting a Kaldi Model<a class="headerlink" href="#converting-a-kaldi-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-kaldi-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-kaldi"></span></p>
+  <span class="target" id="conv-prep-conv-from-kaldi"><span id="index-0"></span></span><section id="converting-a-kaldi-model">
+<h1>Converting a Kaldi Model<a class="headerlink" href="#converting-a-kaldi-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-from-kaldi-1md-openvino-docs-mo-dg-prepare-model-convert-model-convert-model-from-kaldi"></span></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Model Optimizer supports the <a class="reference external" href="http://kaldi-asr.org/doc/dnn1.html">nnet1</a> and <a class="reference external" href="http://kaldi-asr.org/doc/dnn2.html">nnet2</a> formats of Kaldi models. The support of the <a class="reference external" href="http://kaldi-asr.org/doc/dnn3.html">nnet3</a> format is limited.</p>
 </div>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-convert-model-from-kaldi-1convert-from-kaldi"></span> To convert a Kaldi model, run Model Optimizer with the path to the input model <code class="docutils literal notranslate"><span class="pre">.nnet</span></code> or <code class="docutils literal notranslate"><span class="pre">.mdl</span></code> file:</p>
+<p><span class="target" id="conv-prep-conv-from-kaldi-1convert-from-kaldi"></span> To convert a Kaldi model, run Model Optimizer with the path to the input model <code class="docutils literal notranslate"><span class="pre">.nnet</span></code> or <code class="docutils literal notranslate"><span class="pre">.mdl</span></code> file:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="o">&lt;</span><span class="n">INPUT_MODEL</span><span class="o">&gt;</span><span class="p">.</span><span class="n">nnet</span></pre></div></div><section id="using-kaldi-specific-conversion-parameters">
 <span id="kaldi-specific-conversion-params"></span><h2>Using Kaldi-Specific Conversion Parameters<a class="headerlink" href="#using-kaldi-specific-conversion-parameters" title="Permalink to this headline">¶</a></h2>
 <p>The following list provides the Kaldi-specific parameters.</p>
@@ -1871,7 +1873,7 @@
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">wsj_dnn5b_smbr</span><span class="p">.</span><span class="n">nnet</span></pre></div></div></li>
 <li><p>To launch Model Optimizer for the <code class="docutils literal notranslate"><span class="pre">wsj_dnn5b_smbr</span></code> model with the existing file that contains counts for the last layer with biases:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">wsj_dnn5b_smbr</span><span class="p">.</span><span class="n">nnet</span> <span class="o">--</span><span class="n">counts</span> <span class="n">wsj_dnn5b_smbr</span><span class="p">.</span><span class="n">counts</span></pre></div></div><ul>
-<li><p>The Model Optimizer normalizes сounts in the following way:</p>
+<li><p>The Model Optimizer normalizes counts in the following way:</p>
 <div class="math notranslate nohighlight">
 \[S = \frac{1}{\sum_{j = 0}^{|C|}C_{j}}\]</div>
 <div class="math notranslate nohighlight">
