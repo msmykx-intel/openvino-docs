@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="This page presents frequently asked questions and answers regarding the use of Model Optimizer in OpenVINO™." name="description" />
+<meta content="frequently asked questions, Model Optimizer, OpenVINO, FAQ, converting models, input shape, output shape, deep learning model, caffe.proto, caffemodel, prototxt, CustomReshape, custom layers, --mean_file, mean file, model input shape, proto file, cannot infer shapes, --input_shape, Caffe, TensorFlow, MXNet, -mean_values, --scale option, --scale_values option, node without inputs, input nodes, TensorBoard, model output shape, TensorFlow 1.2, cannot pre-process, MXNet 1.0.0, MXNet module, layer shape inference, ONNX format, conversion to IR, conversion to OpenVINO IR" name="keywords" />
 
     <title>Model Optimizer Frequently Asked Questions &#8212; OpenVINO™  documentation</title>
     
@@ -2335,9 +2337,10 @@
             
                 <div>
                   
-  <section id="model-optimizer-frequently-asked-questions">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-model-optimizer-f-a-q"></span><span id="index-0"></span><h1>Model Optimizer Frequently Asked Questions<a class="headerlink" href="#model-optimizer-frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-model-optimizer-f-a-q-1md-openvino-docs-mo-dg-prepare-model-model-optimizer-faq"></span> If your question is not covered by the topics below, use the <a class="reference external" href="https://software.intel.com/en-us/openvino-toolkit/documentation/get-started">OpenVINO Support page</a>, where you can participate on a free forum.</p>
+  <span class="target" id="conv-prep-faq"><span id="index-0"></span></span><section id="model-optimizer-frequently-asked-questions">
+<h1>Model Optimizer Frequently Asked Questions<a class="headerlink" href="#model-optimizer-frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-faq-1md-openvino-docs-mo-dg-prepare-model-model-optimizer-faq"></span></p>
+<p>If your question is not covered by the topics below, use the <a class="reference external" href="https://software.intel.com/en-us/openvino-toolkit/documentation/get-started">OpenVINO Support page</a>, where you can participate on a free forum.</p>
 <section id="what-does-the-message-error-current-caffe-proto-does-not-contain-field-mean">
 <span id="question-1"></span><h2>1. What does the message “[ ERROR ]: Current caffe.proto does not contain field” mean?<a class="headerlink" href="#what-does-the-message-error-current-caffe-proto-does-not-contain-field-mean" title="Permalink to this headline">¶</a></h2>
 <p>Internally, Model Optimizer uses a protobuf library to parse and load Caffe models. This library requires a file grammar and a generated parser. For a Caffe fallback, Model Optimizer uses a Caffe-generated parser for a Caffe-specific <code class="docutils literal notranslate"><span class="pre">.proto</span></code> file (which is usually located in the <code class="docutils literal notranslate"><span class="pre">src/caffe/proto</span></code> directory). Make sure that you install exactly the same version of Caffe (with Python interface) as that was used to create the model.</p>

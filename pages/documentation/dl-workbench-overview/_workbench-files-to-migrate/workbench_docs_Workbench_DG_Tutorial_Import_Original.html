@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="List of recommendations for import original model process in OpenVINO Deep Learning Workbench." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, model, import, recommendations, TensorFlow, ONNX, Intermediate Representation, OpenVINO IR, check format, supported format" name="keywords" />
 
     <title>Import Original Model Recommendations &#8212; OpenVINO™  documentation</title>
     
@@ -1842,13 +1844,13 @@
             
                 <div>
                   
-  <section id="import-original-model-recommendations">
-<span id="doxid-workbench-docs-workbench-d-g-tutorial-import-original"></span><span id="index-0"></span><h1>Import Original Model Recommendations<a class="headerlink" href="#import-original-model-recommendations" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-tutorial-import-original-1md-openvino-workbench-docs-workbench-dg-import-custom-model"></span></p>
+  <span class="target" id="workbench-original-model-recommendations"><span id="index-0"></span></span><section id="import-original-model-recommendations">
+<h1>Import Original Model Recommendations<a class="headerlink" href="#import-original-model-recommendations" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-original-model-recommendations-1md-openvino-workbench-docs-workbench-dg-import-custom-model"></span></p>
 <p>Use the following recommendations to make the process of importing original models easier:</p>
 <ol class="arabic">
 <li><p><a class="reference external" href="#model-format">Check model format</a></p>
-<p>Сheck whether the model format is supported in the DL Workbench, for example, supported formats include TensorFlow*, ONNX*, OpenVINO™ Intermediate Representation (IR), and <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Select_Models.html#supported-frameworks">others</a>.</p>
+<p>Сheck whether the model format is supported in the DL Workbench, for example, supported formats include TensorFlow, ONNX, OpenVINO™ Intermediate Representation (IR), and <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Select_Models.html#supported-frameworks">others</a>.</p>
 </li>
 <li><p><a class="reference external" href="#supported-format">Convert model to supported format</a></p>
 <p>Optional. Convert the model if its format is not directly supported.</p>
@@ -1859,18 +1861,20 @@
 </ol>
 <section id="check-model-format">
 <span id="model-format"></span><h2>1. Check Model Format<a class="headerlink" href="#check-model-format" title="Permalink to this headline">¶</a></h2>
-<p>The import process depends on the framework of your model. Examples of the supported formats: TensorFlow* (Frozen graph, Checkpoint, Metagraph, SavedModel, Keras H5), ONNX*, OpenVINO™ IR.</p>
+<p>The import process depends on the framework of your model. Examples of the supported formats: TensorFlow (Frozen graph,
+Checkpoint, Metagraph, SavedModel, Keras H5), ONNX, OpenVINO™ IR.</p>
 <ul class="simple">
 <li><p>If the model is already in the IR format, no further steps are required. Import the model files and proceed to create a project.</p></li>
 </ul>
 <ul class="simple" id="convert-ir">
-<li><p>Optional. If the model is in one of the supported formats, go to <span class="target" id="doxid-workbench-docs-workbench-d-g-tutorial-import-original-1convert-ir"></span> Step 3 and import it in the DL Workbench to obtain a model in IR format.</p></li>
+<li><p>Optional. If the model is in one of the supported formats, go to <span class="target" id="workbench-original-model-recommendations-1convert-ir"></span> Step 3 and import it in the DL Workbench to obtain a model in IR format.</p></li>
 <li><p>If the model is not in one of the supported formats, proceed to the next step to convert it to a supported format and then to IR.</p></li>
 </ul>
 </section>
 <section id="convert-model-to-supported-format">
 <span id="supported-format"></span><h2>2. Convert Model to Supported Format<a class="headerlink" href="#convert-model-to-supported-format" title="Permalink to this headline">¶</a></h2>
-<p>To convert the model to one of the input formats supported in the DL Workbench, find a specific format you need to use for your model:</p>
+<p>To convert the model to one of the input formats supported in the DL Workbench, find a specific format you need to use for
+your model:</p>
 <ul>
 <li><p>If the model is from PyTorch framework, it is recommended to <a class="reference external" href="https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_convert_model_Convert_Model_From_PyTorch.html#export-pytorch-model-to-onnx-format">convert it to the ONNX format</a>.</p></li>
 <li><p>If the model is trained in another framework, look for a similar topology supported in the <a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo">Open Model Zoo (OMZ)</a>.</p>
@@ -1893,16 +1897,24 @@
 </section>
 <section id="import-model-in-dl-workbench">
 <span id="id1"></span><h2>3. Import Model in DL Workbench<a class="headerlink" href="#import-model-in-dl-workbench" title="Permalink to this headline">¶</a></h2>
-<p>As a result of importing your model in the DL Workbench, you will obtain the model in IR format. For that, go to the DL Workbench and click <em>Create Project</em> and <em>Import Model</em>.</p>
+<p>As a result of importing your model in the DL Workbench, you will obtain the model in IR format. For that, go to the
+DL Workbench and click <em>Create Project</em> and <em>Import Model</em>.</p>
 <img alt="../../../../_images/cp_yolo.png" src="../../../../_images/cp_yolo.png" />
 <img alt="../../../../_images/import_start_yolo.png" src="../../../../_images/import_start_yolo.png" />
-<p>Select the framework and provide the folder with the model in one of the supported format. Next, you need to fill out the import form in the DL Workbench. This information concerns the model training and depends on the framework, for example, the way the input images were fed to the Computer Vision model during training:</p>
+<p>Select the framework and provide the folder with the model in one of the supported format. Next, you need to fill out
+the import form in the DL Workbench. This information concerns the model training and depends on the framework, for example,
+the way the input images were fed to the Computer Vision model during training:</p>
 <ul class="simple">
 <li><p>color space (BGR, RGB, Grayscale)</p></li>
 <li><p>applied transformations (mean subtraction, scale factor multiplication)</p></li>
 </ul>
 <img alt="../../../../_images/import_params.png" src="../../../../_images/import_params.png" />
-<p>After importing your model in the DL Workbench, you can download the IR model and work with OpenVINO components or proceed to <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html">accelerate performance</a>, visualize model <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Visualize_Model.html">architecture</a> and <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Visualize_Accuracy.html">outputs</a>, <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_Create_Project.html#measure-performance">benchmark inferencing performance</a>, <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Measure_Accuracy.html">measure accuracy</a>, and explore other DL Workbench capabilities.</p>
+<p>After importing your model in the DL Workbench, you can download the IR model and work with OpenVINO components or proceed
+to <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html">accelerate performance</a>, visualize
+model <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Visualize_Model.html">architecture</a> and
+<a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Visualize_Accuracy.html">outputs</a>, <a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_Create_Project.html#measure-performance">benchmark inferencing performance</a>,
+<a class="reference external" href="https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Measure_Accuracy.html">measure accuracy</a>,
+and explore other DL Workbench capabilities.</p>
 <img alt="../../../../_images/model_download.png" src="../../../../_images/model_download.png" />
 </section>
 <section id="see-also">

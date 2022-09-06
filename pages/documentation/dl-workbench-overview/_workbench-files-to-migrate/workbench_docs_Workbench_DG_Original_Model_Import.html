@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Guide on how to import original models and convert them to Intermediate Representation format." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, original models, import model, convert model, Intermediate Representation, OpenVINO IR, upload model, create project, caffe, mxnet, onnx, tensorflow, input, advanced parameters" name="keywords" />
 
     <title>Import Original Model &#8212; OpenVINO™  documentation</title>
     
@@ -1869,9 +1871,9 @@
             
                 <div>
                   
-  <section id="import-original-model">
-<span id="doxid-workbench-docs-workbench-d-g-original-model-import"></span><span id="index-0"></span><h1>Import Original Model<a class="headerlink" href="#import-original-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-original-model-import-1md-openvino-workbench-docs-workbench-dg-original-models"></span></p>
+  <span class="target" id="workbench-models-original-model"><span id="index-0"></span></span><section id="import-original-model">
+<h1>Import Original Model<a class="headerlink" href="#import-original-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-models-original-model-1md-openvino-workbench-docs-workbench-dg-original-models"></span></p>
 <div class="toctree-wrapper compound">
 </div>
 <p>To import original model in the DL Workbench, you need to:</p>
@@ -1886,7 +1888,8 @@
 <p>In the DL Workbench, you can upload original models stored on your operating system.</p>
 <p>Click <strong>Create Project</strong> on the Start Page to import a model:</p>
 <img alt="../../../../_images/create_project_original.png" src="../../../../_images/create_project_original.png" />
-<p>Click <strong>Import Model</strong> and Select the Model Domain: Computer Vision (CV) or Natural Language Processing (NLP). The uploading process depends on the framework of your model. This section contains requirements for each supported framework:</p>
+<p>Click <strong>Import Model</strong> and Select the Model Domain: Computer Vision (CV) or Natural Language Processing (NLP). The
+uploading process depends on the framework of your model. This section contains requirements for each supported framework:</p>
 <img alt="../../../../_images/import_frameworks.png" src="../../../../_images/import_frameworks.png" />
 <details class="sphinx-bs dropdown card mb-3">
 <summary class="summary-title card-header">
@@ -1907,7 +1910,7 @@ Caffe<div class="summary-down docutils">
 <svg version="1.1" width="24" height="24" class="octicon octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
 </summary><div class="summary-content card-body docutils">
 <p class="card-text">To import a Caffe model, select the framework in the drop-down list, upload a <cite>.prototxt</cite> file and a <cite>.caffemodel</cite> file, and provide the name.</p>
-<p class="card-text">To learn more about Caffe* models, refer to the <a class="reference external" href="https://riptutorial.com/caffe/example/31619/prototxt-template">Caffe article</a>.</p>
+<p class="card-text">To learn more about Caffe models, refer to the <a class="reference external" href="https://riptutorial.com/caffe/example/31619/prototxt-template">Caffe article</a>.</p>
 </div>
 </details><details class="sphinx-bs dropdown card mb-3">
 <summary class="summary-title card-header">
@@ -2020,18 +2023,23 @@ imported models. To learn about the difference between frozen and non-frozen Ten
 </details></section>
 <section id="prepare-environment">
 <h2>2. Prepare Environment<a class="headerlink" href="#prepare-environment" title="Permalink to this headline">¶</a></h2>
-<p>At the <strong>Prepare Environment</strong> stage, the DL Workbench installs the necessary packages to work with the model framework. For each framework, the download happens only once and takes from two to five minutes. If the environment setup is successful, you will automatically proceed to the next step. Otherwise, look for a solution in <a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a>.</p>
+<p>At the <strong>Prepare Environment</strong> stage, the DL Workbench installs the necessary packages to work with the model framework.
+For each framework, the download happens only once and takes from two to five minutes. If the environment setup is successful,
+you will automatically proceed to the next step. Otherwise, look for a solution in
+<a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a>.</p>
 </section>
 <section id="convert-models-to-intermediate-representation-ir">
 <h2>3. Convert Models to Intermediate Representation (IR)<a class="headerlink" href="#convert-models-to-intermediate-representation-ir" title="Permalink to this headline">¶</a></h2>
-<p>To work with OpenVINO tools, you need to obtain a model in the Intermediate Representation (IR) format. IR is the OpenVINO format of pre-trained model representation with two files:</p>
+<p>To work with OpenVINO tools, you need to obtain a model in the Intermediate Representation (IR) format. IR is the
+OpenVINO format of pre-trained model representation with two files:</p>
 <ul class="simple">
 <li><p>XML file describing the network topology</p></li>
 <li><p>BIN file containing weights and biases</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For details on converting process, refer to <a class="reference internal" href="../../converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">Converting a Model to Intermediate Representation document</span></a>.</p>
+<p>For details on converting process, refer to
+<a class="reference internal" href="../../converting-models-with-model-optimizer/input-shapes.html#conv-prep-set-input-shapes"><span class="std std-ref">Converting a Model to Intermediate Representation document</span></a>.</p>
 </div>
 <section id="general-parameters">
 <h3>General Parameters<a class="headerlink" href="#general-parameters" title="Permalink to this headline">¶</a></h3>
@@ -2044,15 +2052,19 @@ imported models. To learn about the difference between frozen and non-frozen Ten
 </section>
 <section id="configuration-files">
 <h3>Configuration Files<a class="headerlink" href="#configuration-files" title="Permalink to this headline">¶</a></h3>
-<p>You can upload a Model Conversion Configuration File that contains the description of the necessary transformations required to convert a model to IR. Learn more about configuration files in the Model Optimizer <a class="reference external" href="https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_customize_model_optimizer_Customize_Model_Optimizer.html#generic-transformations-config-front-phase-transformations">documentation</a>.</p>
+<p>You can upload a Model Conversion Configuration File that contains the description of the necessary transformations required
+to convert a model to IR. Learn more about configuration files in the Model Optimizer
+<a class="reference external" href="https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_customize_model_optimizer_Customize_Model_Optimizer.html#generic-transformations-config-front-phase-transformations">documentation</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When importing TensorFlow* models, provide an additional pipeline configuration file and choose a model conversion configuration file.</p>
+<p>When importing TensorFlow models, provide an additional pipeline configuration file and choose a model conversion
+configuration file.</p>
 </div>
 </section>
 <section id="inputs">
 <h3>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h3>
-<p>On this step you can specify the inputs of your model. This is an optional step, if your model does not require any additional conversion configurations or belongs to the NLP domain, just click <strong>Convert</strong> to proceed to the next step.</p>
+<p>On this step you can specify the inputs of your model. This is an optional step, if your model does not require any
+additional conversion configurations or belongs to the NLP domain, just click <strong>Convert</strong> to proceed to the next step.</p>
 <p>Check <strong>Specify Inputs (Optional)</strong> box, if the model requires additional conversion settings, such as:</p>
 <ul class="simple">
 <li><p>changing the outputs;</p></li>
@@ -2091,7 +2103,8 @@ as input ones. To change default input layers, provide the <strong>name</strong>
 </details></section>
 <section id="advanced-parameters">
 <h3>Advanced Parameters<a class="headerlink" href="#advanced-parameters" title="Permalink to this headline">¶</a></h3>
-<p>In the Advanced Parameters, you can use default output layers or cut a model by specifying the layers you want to consider as output ones.</p>
+<p>In the Advanced Parameters, you can use default output layers or cut a model by specifying the layers you
+want to consider as output ones.</p>
 <p>For details on converting models from the supported frameworks, refer to the corresponding documentation:</p>
 <details class="sphinx-bs dropdown card mb-3">
 <summary class="summary-title card-header">
@@ -2126,7 +2139,9 @@ Check only if your model was trained with MXNet version lower than 1.0.0.</p>
 </section>
 <section id="configure-model-inputs">
 <h2>4. Configure Model Inputs<a class="headerlink" href="#configure-model-inputs" title="Permalink to this headline">¶</a></h2>
-<p>If the conversion step is completed successfully, you will obtain a model in the IR format. However, to use it in the OpenVINO tools (for example, benchmark the model, optimize it, and measure accuracy), you need to specify model layouts. Learn more about layouts in the <a class="reference external" href="https://docs.openvinotoolkit.org/latest/omz_tools_downloader.html">documentation</a>.</p>
+<p>If the conversion step is completed successfully, you will obtain a model in the IR format. However, to use it in the
+OpenVINO tools (for example, benchmark the model, optimize it, and measure accuracy), you need to specify model layouts.
+Learn more about layouts in the <a class="reference external" href="https://docs.openvinotoolkit.org/latest/omz_tools_downloader.html">documentation</a>.</p>
 <img alt="../../../../_images/configure_input.png" src="../../../../_images/configure_input.png" />
 <p>Layout describes the role of each dimension of input tensors.</p>
 <p>Computer Vision Models:</p>
@@ -2161,7 +2176,8 @@ Check only if your model was trained with MXNet version lower than 1.0.0.</p>
 </tr>
 </tbody>
 </table>
-<p>The role of dimensions may differ depending on the model and the way the data was fed to the model during training. Usually, NCHW is used for ONNX models, and NHWC for TensorFlow models. If you want to specify different dimension roles, select Custom.</p>
+<p>The role of dimensions may differ depending on the model and the way the data was fed to the model during training. Usually,
+NCHW is used for ONNX models, and NHWC for TensorFlow models. If you want to specify different dimension roles, select Custom.</p>
 <p>Natural Language Processing Models:</p>
 <table class="table">
 <colgroup>
@@ -2185,8 +2201,10 @@ Check only if your model was trained with MXNet version lower than 1.0.0.</p>
 </tr>
 </tbody>
 </table>
-<p>The role of dimensions may differ depending on the model and the way the data was fed to the model during training. Usually, NCHW is used for ONNX models, and NHWC for TensorFlow models. If you want to specify different dimension roles, select Custom.</p>
-<p>Once you click <strong>Validate and Import</strong>, you are redirected to the <strong>Create Project</strong> page, where you can select the model, analyze it and proceed to select a dataset.</p>
+<p>The role of dimensions may differ depending on the model and the way the data was fed to the model during training. Usually,
+NCHW is used for ONNX models, and NHWC for TensorFlow models. If you want to specify different dimension roles, select Custom.</p>
+<p>Once you click <strong>Validate and Import</strong>, you are redirected to the <strong>Create Project</strong> page, where you can select the model,
+analyze it and proceed to select a dataset.</p>
 </section>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
