@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Install and Configure Intel® Distribution of OpenVINO™ Toolkit for Linux &#8212; OpenVINO™  documentation</title>
+    <title>Install Intel® Distribution of OpenVINO™ Toolkit for Linux Using YUM Repository &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../../../../_static/css/theme.css" rel="stylesheet">
@@ -71,12 +71,12 @@
     <script src="../../../../../_static/togglebutton.js"></script>
     <script src="../../../../../_static/target-highlight.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <link rel="canonical" href="https://docs.openvino.ai/latest/pages/get-started-guide/install-openvino-overview/install-openvino-runtime/installing-openvino-for-linux/installer-linux.html" />
+    <link rel="canonical" href="https://docs.openvino.ai/latest/pages/get-started-guide/install-openvino-overview/install-openvino-runtime/install-openvino-linux/install-from-yum.html" />
     <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="Install Intel® Distribution of OpenVINO™ Toolkit from PyPI Repository" href="../installing-openvino-shared/installing-from-pypi.html" />
-    <link rel="prev" title="Install and Configure Intel® Distribution of OpenVINO™ toolkit for Linux" href="../installing-openvino-for-linux.html" />
+    <link rel="next" title="Install Intel® Distribution of OpenVINO™ toolkit from Anaconda Cloud" href="../installing-openvino-shared/intalling-from-anaconda.html" />
+    <link rel="prev" title="Install Intel® Distribution of OpenVINO™ Toolkit for Linux Using APT Repository" href="install-from-apt.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -251,7 +251,7 @@
     </label>
     <ul class="current">
      <li class="toctree-l3 current active has-children">
-      <a class="reference internal" href="../installing-openvino-for-linux.html">
+      <a class="reference internal" href="../install-openvino-linux.html">
        Linux
       </a>
       <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
@@ -260,8 +260,8 @@
        </i>
       </label>
       <ul class="current">
-       <li class="toctree-l4 current active">
-        <a class="current reference internal" href="#">
+       <li class="toctree-l4">
+        <a class="reference internal" href="installer-linux.html">
          Using Installer
         </a>
        </li>
@@ -271,12 +271,12 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="installing-from-apt.html">
+        <a class="reference internal" href="install-from-apt.html">
          From APT
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="installing-from-yum.html">
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
          From YUM
         </a>
        </li>
@@ -293,7 +293,7 @@
       </ul>
      </li>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../installing-openvino-for-windows.html">
+      <a class="reference internal" href="../install-openvino-windows.html">
        Windows
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
@@ -303,7 +303,7 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../installing-openvino-for-windows/installer-windows.html">
+        <a class="reference internal" href="../install-openvino-windows/installer-windows.html">
          Using Installer
         </a>
        </li>
@@ -318,7 +318,7 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../installing-openvino-for-windows/docker-windows.html">
+        <a class="reference internal" href="../install-openvino-windows/docker-windows.html">
          Using Docker
         </a>
        </li>
@@ -369,7 +369,7 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../creating-yocto-image.html">
+    <a class="reference internal" href="../../install-create-yocto-image.html">
      Creating a Yocto Image
     </a>
    </li>
@@ -598,43 +598,79 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#overview">
-   Overview
+  <a class="reference internal nav-link" href="#install-openvino-runtime">
+   Install OpenVINO Runtime
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-set-up-the-repository">
+     Step 1: Set Up the Repository
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2-install-openvino-runtime-using-the-yum-package-manager">
+     Step 2: Install OpenVINO Runtime Using the YUM Package Manager
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-install-the-latest-version">
+       To Install the Latest Version
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-install-a-specific-version">
+       To Install a Specific Version
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-check-for-installed-packages-and-version">
+       To Check for Installed Packages and Version
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-uninstall-the-latest-version">
+       To Uninstall the Latest Version
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-uninstall-a-specific-version">
+       To Uninstall a Specific Version
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-3-optional-install-opencv-from-yum">
+     Step 3 (Optional): Install OpenCV from YUM
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-install-the-latest-version-of-opencv">
+       To Install the Latest Version of OpenCV
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#to-install-a-specific-version-of-opencv">
+       To Install a Specific Version of OpenCV
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-4-optional-install-software-dependencies">
+     Step 4 (Optional): Install Software Dependencies
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-5-optional-configure-inference-on-non-cpu-devices">
+     Step 5 (Optional): Configure Inference on Non-CPU Devices
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#step-1-install-the-intel-distribution-of-openvino-toolkit">
-   Step 1: Install the Intel® Distribution of OpenVINO™ Toolkit
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#step-2-install-external-software-dependencies">
-   Step 2: Install External Software Dependencies
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#step-3-configure-the-environment">
-   Step 3: Configure the Environment
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#step-4-optional-download-additional-components">
-   Step 4 (Optional): Download Additional Components
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#step-5-optional-configure-inference-on-non-cpu-devices">
-   Step 5 (Optional): Configure Inference on Non-CPU Devices
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#step-6-what-s-next">
-   Step 6: What’s Next?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#uninstalling-the-intel-distribution-of-openvino-toolkit">
-   Uninstalling the Intel® Distribution of OpenVINO™ Toolkit
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s Next?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -681,156 +717,117 @@
             
                 <div>
                   
-  <section id="install-and-configure-intel-distribution-of-openvino-toolkit-for-linux">
-<span id="doxid-openvino-docs-install-guides-installing-openvino-linux"></span><span id="index-0"></span><h1>Install and Configure Intel® Distribution of OpenVINO™ Toolkit for Linux<a class="headerlink" href="#install-and-configure-intel-distribution-of-openvino-toolkit-for-linux" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-install-guides-installing-openvino-linux-1md-openvino-docs-install-guides-installing-openvino-linux"></span></p>
+  <section id="install-intel-distribution-of-openvino-toolkit-for-linux-using-yum-repository">
+<span id="install-linux-yum"></span><span id="index-0"></span><h1>Install Intel® Distribution of OpenVINO™ Toolkit for Linux Using YUM Repository<a class="headerlink" href="#install-intel-distribution-of-openvino-toolkit-for-linux-using-yum-repository" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="install-linux-yum-1md-openvino-docs-install-guides-installing-openvino-yum"></span> This guide provides installation steps for Intel® Distribution of OpenVINO™ toolkit for Linux distributed through the YUM repository.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Since the OpenVINO™ 2022.1 release, the following development tools: Model Optimizer, Post-Training Optimization Tool, Model Downloader and other Open Model Zoo tools, Accuracy Checker, and Annotation Converter are not part of the installer. These tools are now only available on <a class="reference external" href="https://pypi.org/project/openvino-dev/">pypi.org</a>.</p>
+<p>From the 2022.1 release, the OpenVINO™ Development Tools can only be installed via PyPI. If you want to develop or optimize your models with OpenVINO, see <a class="reference internal" href="../../install-openvino-dev-tools.html#install-openvino-dev-tools"><span class="std std-ref">Install OpenVINO Development Tools</span></a> for detailed steps.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>By downloading and using this container and the included software, you agree to the terms and conditions of the <a class="reference external" href="https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf">software license agreements</a>. Please review the content inside the <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/licensing</span></code> folder for more details.</p>
 </div>
 <section id="system-requirements">
 <h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
-<div class="tab-set docutils">
-<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Operating Systems</label><div class="tab-content docutils">
+<p>The complete list of supported hardware is available in the <a class="reference external" href="https://software.intel.com/content/www/us/en/develop/articles/openvino-relnotes.html">Release Notes</a>.</p>
+<p><strong>Operating systems</strong></p>
 <ul class="simple">
-<li><p>Ubuntu 18.04 long-term support (LTS), 64-bit</p></li>
-<li><p>Ubuntu 20.04 long-term support (LTS), 64-bit</p></li>
+<li><p>Red Hat Enterprise Linux 8, 64-bit</p></li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Since the OpenVINO™ 2022.1 release, CentOS 7.6, 64-bit is not longer supported.</p>
-</div>
-</div>
-<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Hardware</label><div class="tab-content docutils">
-<p>Optimized for these processors:</p>
-<ul class="simple">
-<li><p>6th to 12th generation Intel® Core™ processors and Intel® Xeon® processors</p></li>
-<li><p>3rd generation Intel® Xeon® Scalable processor (formerly code named Cooper Lake)</p></li>
-<li><p>Intel® Xeon® Scalable processor (formerly Skylake and Cascade Lake)</p></li>
-<li><p>Intel Atom® processor with support for Intel® Streaming SIMD Extensions 4.1 (Intel® SSE4.1)</p></li>
-<li><p>Intel Pentium® processor N4200/5, N3350/5, or N3450/5 with Intel® HD Graphics</p></li>
-<li><p>Intel® Iris® Xe MAX Graphics</p></li>
-<li><p>Intel® Neural Compute Stick 2</p></li>
-<li><p>Intel® Vision Accelerator Design with Intel® Movidius™ VPUs</p></li>
-</ul>
-</div>
-<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">Processor Notes</label><div class="tab-content docutils">
-<p>Processor graphics are not included in all processors.
-See <a class="reference external" href="https://ark.intel.com/">Product Specifications</a> for information about your processor.</p>
-</div>
-<input class="tab-input" id="tab-set--0-input--4" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--4">Software</label><div class="tab-content docutils">
+<p><strong>Software</strong></p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://cmake.org/download/">CMake 3.13 or higher, 64-bit</a></p></li>
-<li><p>GCC 7.5.0 (for Ubuntu 18.04) or GCC 9.3.0 (for Ubuntu 20.04)</p></li>
+<li><p>GCC 8.2.0</p></li>
 <li><p><a class="reference external" href="https://www.python.org/downloads/windows/">Python 3.6 - 3.9, 64-bit</a></p></li>
 </ul>
-</div>
-</div>
 </section>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>This guide provides step-by-step instructions on how to install the Intel® Distribution of OpenVINO™ toolkit. Links are provided for each type of compatible hardware including downloads, initialization and configuration steps. The following steps will be covered:</p>
-<ol class="arabic simple">
-<li><p><a class="reference external" href="#install-openvino">Install the Intel® Distribution of OpenVINO™ Toolkit</a></p></li>
-<li><p><a class="reference external" href="#install-external-dependencies">Install External Software Dependencies</a></p></li>
-<li><p><a class="reference external" href="#set-the-environment-variables">Configure the Environment</a></p></li>
-<li><p><a class="reference external" href="#model-optimizer">Download additional components (Optional)</a></p></li>
-<li><p><a class="reference external" href="#optional-steps">Configure Inference on non-CPU Devices (Optional)</a></p></li>
-<li><p><a class="reference external" href="#get-started">What’s next?</a></p></li>
-</ol>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Before you start your journey with installation of the Intel® Distribution of OpenVINO™, we encourage you to check our <a class="reference internal" href="../../../samples.html#code-samples"><span class="std std-ref">code samples</span></a> in C, C++, Python and <a class="reference internal" href="../../../../../tutorials.html#notebook-tutorials"><span class="std std-ref">notebook tutorials</span></a> that we prepared for you, so you could see all the amazing things that you can achieve with our tool.</p>
-</div>
-</section>
-<section id="step-1-install-the-intel-distribution-of-openvino-toolkit">
-<span id="install-openvino"></span><h2>Step 1: Install the Intel® Distribution of OpenVINO™ Toolkit<a class="headerlink" href="#step-1-install-the-intel-distribution-of-openvino-toolkit" title="Permalink to this headline">¶</a></h2>
+<section id="install-openvino-runtime">
+<h2>Install OpenVINO Runtime<a class="headerlink" href="#install-openvino-runtime" title="Permalink to this headline">¶</a></h2>
+<section id="step-1-set-up-the-repository">
+<h3>Step 1: Set Up the Repository<a class="headerlink" href="#step-1-set-up-the-repository" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
-<li><p>Select and download the Intel® Distribution of OpenVINO™ toolkit installer file from <a class="reference external" href="https://software.intel.com/en-us/openvino-toolkit/choose-download">Intel® Distribution of OpenVINO™ toolkit for Linux</a>.</p></li>
-<li><p>Open a command prompt terminal window. You can use the keyboard shortcut: Ctrl+Alt+T</p></li>
-<li><p>Change directories to where you downloaded the Intel Distribution of OpenVINO™ toolkit for Linux file.</p>
-<p>If you downloaded the starter script to the current user’s <code class="docutils literal notranslate"><span class="pre">Downloads</span></code> directory:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span></pre></div></div><p>You should find there a bootstrapper script <code class="docutils literal notranslate"><span class="pre">l_openvino_toolkit_p_&lt;version&gt;.sh</span></code>.</p>
-</li>
-<li><p>Add executable rights for the current user:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">l_openvino_toolkit_p_</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sh</span></pre></div></div></li>
-<li><p>If you want to use graphical user interface (GUI) installation wizard, run the script without any parameters:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">l_openvino_toolkit_p_</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sh</span></pre></div></div><p>You should see the following dialog box open up:</p>
-<a class="reference internal image-reference" href="../../../../../_images/openvino-install.png"><img alt="../../../../../_images/openvino-install.png" class="align-center" src="../../../../../_images/openvino-install.png" style="width: 400px;" /></a>
-<p>Otherwise, you can add parameters <code class="docutils literal notranslate"><span class="pre">-a</span></code> for additional arguments and <code class="docutils literal notranslate"><span class="pre">--cli</span></code> to run installation in command line (CLI):</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">l_openvino_toolkit_p_</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="p">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">cli</span></pre></div></div><div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>To get additional information on all parameters that can be used, use the help option: <code class="docutils literal notranslate"><span class="pre">--help</span></code>. Among others, you can find there <code class="docutils literal notranslate"><span class="pre">-s</span></code> option which offers silent mode, which together with <code class="docutils literal notranslate"><span class="pre">--eula</span> <span class="pre">approve</span></code> allows you to run whole installation with default values without any user inference.</p>
-</div>
-</li>
-<li><p>Follow the instructions on your screen. During the installation you will be asked to accept the license agreement. Your acceptance is required to continue. Check the installation process on the image below:</p></li>
-</ol>
-<img alt="../../../../../_images/openvino-install-linux-run-boostrapper-script.gif" src="../../../../../_images/openvino-install-linux-run-boostrapper-script.gif" />
-<p>Click on the image to see the details.</p>
-<p>By default, the Intel® Distribution of OpenVINO™ is installed to the following directory, referred to as <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;</span></code> elsewhere in the documentation:</p>
-<ul class="simple">
-<li><p>For root or administrator: <code class="docutils literal notranslate"><span class="pre">/opt/intel/openvino_&lt;version&gt;/</span></code></p></li>
-<li><p>For regular users: <code class="docutils literal notranslate"><span class="pre">/home/&lt;USER&gt;/intel/openvino_&lt;version&gt;/</span></code></p></li>
-</ul>
-<p>For simplicity, a symbolic link to the latest installation is also created: <code class="docutils literal notranslate"><span class="pre">/opt/intel/openvino_2022/</span></code> or <code class="docutils literal notranslate"><span class="pre">/home/&lt;USER&gt;/intel/openvino_2022/</span></code>.</p>
-<p>To check <strong>Release Notes</strong> please visit: <a class="reference external" href="https://software.intel.com/en-us/articles/OpenVINO-RelNotes">Release Notes</a>.</p>
-<p>The core components are now installed. Continue to the next section to install additional dependencies.</p>
-</section>
-<section id="step-2-install-external-software-dependencies">
-<span id="install-external-dependencies"></span><h2>Step 2: Install External Software Dependencies<a class="headerlink" href="#step-2-install-external-software-dependencies" title="Permalink to this headline">¶</a></h2>
-<p>This script enables you to install Linux platform development tools and components to work with the product.</p>
-<ol class="arabic">
-<li><p>Go to the <code class="docutils literal notranslate"><span class="pre">install_dependencies</span></code> directory:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">INSTALL_DIR</span><span class="o">&gt;/</span><span class="n">install_dependencies</span></pre></div></div></li>
-<li><p>Run a script to download and install the external software dependencies:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">E</span> <span class="p">.</span><span class="o">/</span><span class="n">install_openvino_dependencies</span><span class="p">.</span><span class="n">sh</span></pre></div></div><p>Once the dependencies are installed, continue to the next section to set your environment variables.</p>
+<li><p>Create the YUM repo file in the <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> directory as a normal user:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">tee</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">openvino</span><span class="o">-</span><span class="mf">2022.</span><span class="n">repo</span> <span class="o">&lt;&lt;</span> <span class="n">EOF</span>
+<span class="p">[</span><span class="n">OpenVINO</span><span class="p">]</span>
+<span class="n">name</span><span class="o">=</span><span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Distribution</span> <span class="n">of</span> <span class="n">OpenVINO</span> <span class="mi">2022</span>
+<span class="n">baseurl</span><span class="o">=</span><span class="nl">https</span><span class="p">:</span><span class="c1">//yum.repos.intel.com/openvino/2022</span>
+<span class="n">enabled</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">gpgcheck</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">repo_gpgcheck</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">gpgkey</span><span class="o">=</span><span class="nl">https</span><span class="p">:</span><span class="c1">//yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB</span>
+<span class="n">EOF</span></pre></div></div></li>
+<li><p>Move the new openvino-2022.repo file to the YUM configuration directory <code class="docutils literal notranslate"><span class="pre">/etc/yum.repos.d</span></code> :</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mv</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">openvino</span><span class="o">-</span><span class="mf">2022.</span><span class="n">repo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">yum</span><span class="p">.</span><span class="n">repos</span><span class="p">.</span><span class="n">d</span></pre></div></div></li>
+<li><p>Verify that the new repo is properly setup by running the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">repolist</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">openvino</span></pre></div></div><p>You will see the available list of packages.</p>
 </li>
 </ol>
+<p>To list available OpenVINO packages, use the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>yum list <span class="s1">&#39;openvino*&#39;</span>
+</pre></div>
+</div>
 </section>
-<section id="step-3-configure-the-environment">
-<span id="set-the-environment-variables"></span><h2>Step 3: Configure the Environment<a class="headerlink" href="#step-3-configure-the-environment" title="Permalink to this headline">¶</a></h2>
-<p>You must update several environment variables before you can compile and run OpenVINO™ applications. Set environment variables as follows:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">&lt;</span><span class="n">INSTALL_DIR</span><span class="o">&gt;/</span><span class="n">setupvars</span><span class="p">.</span><span class="n">sh</span></pre></div></div><p>If you have more than one OpenVINO™ version on your machine, you can easily switch its version by sourcing <code class="docutils literal notranslate"><span class="pre">setupvars.sh</span></code> of your choice.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can also run this script every time when you start new terminal session. Open <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> in your favorite editor, and add <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">&lt;INSTALL_DIR&gt;/setupvars.sh</span></code>. Next time when you open a terminal, you will see <code class="docutils literal notranslate"><span class="pre">[setupvars.sh]</span> <span class="pre">OpenVINO™</span> <span class="pre">environment</span> <span class="pre">initialized</span></code>. Changing <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> is not recommended when you have many OpenVINO™ versions on your machine and want to switch among them, as each may require different setup.</p>
+<section id="step-2-install-openvino-runtime-using-the-yum-package-manager">
+<h3>Step 2: Install OpenVINO Runtime Using the YUM Package Manager<a class="headerlink" href="#step-2-install-openvino-runtime-using-the-yum-package-manager" title="Permalink to this headline">¶</a></h3>
+<p>Intel® Distribution of OpenVINO™ toolkit will be installed in: <code class="docutils literal notranslate"><span class="pre">/opt/intel/openvino_&lt;VERSION&gt;.&lt;UPDATE&gt;.&lt;PATCH&gt;</span></code></p>
+<p>A symlink will be created: <code class="docutils literal notranslate"><span class="pre">/opt/intel/openvino_&lt;VERSION&gt;</span></code></p>
+<p>You can select one of the following procedures according to your need:</p>
+<section id="to-install-the-latest-version">
+<h4>To Install the Latest Version<a class="headerlink" href="#to-install-the-latest-version" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">openvino</span></pre></div></div></section>
+<section id="to-install-a-specific-version">
+<h4>To Install a Specific Version<a class="headerlink" href="#to-install-a-specific-version" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">openvino</span><span class="o">-&lt;</span><span class="n">VERSION</span><span class="o">&gt;</span><span class="p">.</span><span class="o">&lt;</span><span class="n">UPDATE</span><span class="o">&gt;</span><span class="p">.</span><span class="o">&lt;</span><span class="n">PATCH</span><span class="o">&gt;</span></pre></div></div><p>For example:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">openvino</span><span class="o">-</span><span class="mf">2022.1.0</span></pre></div></div></section>
+<section id="to-check-for-installed-packages-and-version">
+<h4>To Check for Installed Packages and Version<a class="headerlink" href="#to-check-for-installed-packages-and-version" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>yum list installed <span class="s1">&#39;openvino*&#39;</span>
+</pre></div>
 </div>
-<p>The environment variables are set. Next, you can download some additional tools.</p>
 </section>
-<section id="step-4-optional-download-additional-components">
-<span id="model-optimizer"></span><h2>Step 4 (Optional): Download Additional Components<a class="headerlink" href="#step-4-optional-download-additional-components" title="Permalink to this headline">¶</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Since the OpenVINO™ 2022.1 release, the following development tools: Model Optimizer, Post-Training Optimization Tool, Model Downloader and other Open Model Zoo tools, Accuracy Checker, and Annotation Converter are not part of the installer. The OpenVINO™ Development Tools can only be installed via PyPI now. See <a class="reference internal" href="../../install-openvino-dev-tools.html#install-openvino-dev-tools"><span class="std std-ref">Install OpenVINO™ Development Tools</span></a> for detailed steps.</p>
-</div>
-<details class="sphinx-bs dropdown card mb-3">
-<summary class="summary-title card-header">
-OpenCV<div class="summary-down docutils">
-<svg version="1.1" width="24" height="24" class="octicon octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="summary-up docutils">
-<svg version="1.1" width="24" height="24" class="octicon octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="summary-content card-body docutils">
-<p class="card-text">OpenCV is necessary to run demos from Open Model Zoo (OMZ). Some OpenVINO samples can also extend their capabilities when compiled with OpenCV as a dependency. The Intel® Distribution of OpenVINO™ provides a script to install OpenCV: <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/extras/scripts/download_opencv.sh</span></code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p class="card-text">Make sure you have 2 prerequisites installed: <code class="docutils literal notranslate"><span class="pre">curl</span></code> and <code class="docutils literal notranslate"><span class="pre">tar</span></code>.</p>
-</div>
-<p class="card-text">Depending on how you have installed the Intel® Distribution of OpenVINO™, the script should be run either as root or regular user. After the execution of the script, you will find OpenCV extracted to <code class="docutils literal notranslate"><span class="pre">&lt;INSTALL_DIR&gt;/extras/opencv</span></code>.</p>
-</div>
-</details></section>
+<section id="to-uninstall-the-latest-version">
+<h4>To Uninstall the Latest Version<a class="headerlink" href="#to-uninstall-the-latest-version" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">autoremove</span> <span class="n">openvino</span></pre></div></div></section>
+<section id="to-uninstall-a-specific-version">
+<h4>To Uninstall a Specific Version<a class="headerlink" href="#to-uninstall-a-specific-version" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">autoremove</span> <span class="n">openvino</span><span class="o">-&lt;</span><span class="n">VERSION</span><span class="o">&gt;</span><span class="p">.</span><span class="o">&lt;</span><span class="n">UPDATE</span><span class="o">&gt;</span><span class="p">.</span><span class="o">&lt;</span><span class="n">PATCH</span><span class="o">&gt;</span></pre></div></div></section>
+</section>
+<section id="step-3-optional-install-opencv-from-yum">
+<h3>Step 3 (Optional): Install OpenCV from YUM<a class="headerlink" href="#step-3-optional-install-opencv-from-yum" title="Permalink to this headline">¶</a></h3>
+<p>OpenCV is necessary to run C++ demos from Open Model Zoo. Some OpenVINO samples can also extend their capabilities when compiled with OpenCV as a dependency. OpenVINO provides a package to install OpenCV from YUM:</p>
+<section id="to-install-the-latest-version-of-opencv">
+<h4>To Install the Latest Version of OpenCV<a class="headerlink" href="#to-install-the-latest-version-of-opencv" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">openvino</span><span class="o">-</span><span class="n">opencv</span></pre></div></div></section>
+<section id="to-install-a-specific-version-of-opencv">
+<h4>To Install a Specific Version of OpenCV<a class="headerlink" href="#to-install-a-specific-version-of-opencv" title="Permalink to this headline">¶</a></h4>
+<p>Run the following command:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">openvino</span><span class="o">-</span><span class="n">opencv</span><span class="o">-&lt;</span><span class="n">VERSION</span><span class="o">&gt;</span><span class="p">.</span><span class="o">&lt;</span><span class="n">UPDATE</span><span class="o">&gt;</span><span class="p">.</span><span class="o">&lt;</span><span class="n">PATCH</span><span class="o">&gt;</span></pre></div></div></section>
+</section>
+<section id="step-4-optional-install-software-dependencies">
+<h3>Step 4 (Optional): Install Software Dependencies<a class="headerlink" href="#step-4-optional-install-software-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>After you have installed OpenVINO Runtime, if you decided to <a class="reference internal" href="../../install-openvino-dev-tools.html#install-openvino-dev-tools"><span class="std std-ref">install OpenVINO Development Tools</span></a>, make sure that you install external software dependencies first.</p>
+<p>Refer to <a class="reference external" href="openvino_docs_install_guides_installing_openvino_linux.html#install-external-dependencies">Install External Software Dependencies</a> for detailed steps.</p>
+</section>
 <section id="step-5-optional-configure-inference-on-non-cpu-devices">
-<span id="optional-steps"></span><h2>Step 5 (Optional): Configure Inference on Non-CPU Devices<a class="headerlink" href="#step-5-optional-configure-inference-on-non-cpu-devices" title="Permalink to this headline">¶</a></h2>
+<h3>Step 5 (Optional): Configure Inference on Non-CPU Devices<a class="headerlink" href="#step-5-optional-configure-inference-on-non-cpu-devices" title="Permalink to this headline">¶</a></h3>
 <div class="tab-set docutils">
-<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">GNA</label><div class="tab-content docutils">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">GNA</label><div class="tab-content docutils">
 <p>To enable the toolkit components to use Intel® Gaussian &amp; Neural Accelerator (GNA) on your system, follow the steps in <a class="reference internal" href="../../../install-additional-configurations/configuration-for-intel-gna.html#gna-guide"><span class="std std-ref">GNA Setup Guide</span></a>.</p>
 </div>
-<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">GPU</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">GPU</label><div class="tab-content docutils">
 <p>To enable the toolkit components to use processor graphics (GPU) on your system, follow the steps in <a class="reference internal" href="../../../install-additional-configurations/configuration-for-intel-gpu.html#gpu-guide"><span class="std std-ref">GPU Setup Guide</span></a>.</p>
 </div>
-<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">NCS 2</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">NCS 2</label><div class="tab-content docutils">
 <p>To perform inference on Intel® Neural Compute Stick 2 powered by the Intel® Movidius™ Myriad™ X VPU, follow the steps on <a class="reference internal" href="../../../install-additional-configurations/configuration-for-ncs2.html#ncs-guide"><span class="std std-ref">NCS2 Setup Guide</span></a>.</p>
 </div>
-<input class="tab-input" id="tab-set--1-input--4" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--4">VPU</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--0-input--4" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--4">VPU</label><div class="tab-content docutils">
 <p>To install and configure your Intel® Vision Accelerator Design with Intel® Movidius™ VPUs, see the <a class="reference internal" href="../../../install-additional-configurations/configuration-for-vpu.html#vpu-guide"><span class="std std-ref">VPU Configuration Guide</span></a>.
 After configuration is done, you are ready to run the verification scripts with the HDDL Plugin for your Intel® Vision Accelerator Design with Intel® Movidius™ VPUs.</p>
 <div class="admonition warning">
@@ -840,35 +837,23 @@ After configuration is done, you are ready to run the verification scripts with 
 </div>
 </div>
 </section>
-<section id="step-6-what-s-next">
-<span id="get-started"></span><h2>Step 6: What’s Next?<a class="headerlink" href="#step-6-what-s-next" title="Permalink to this headline">¶</a></h2>
-<p>Now you are ready to try out the toolkit.</p>
-<p>Developing in Python:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://docs.openvino.ai/latest/notebooks/101-tensorflow-to-openvino-with-output.html">Start with TensorFlow models with OpenVINO™</a></p></li>
-<li><p><a class="reference external" href="https://docs.openvino.ai/latest/notebooks/102-pytorch-onnx-to-openvino-with-output.html">Start with ONNX and PyTorch models with OpenVINO™</a></p></li>
-<li><p><a class="reference external" href="https://docs.openvino.ai/latest/notebooks/103-paddle-onnx-to-openvino-classification-with-output.html">Start with PaddlePaddle models with OpenVINO™</a></p></li>
-</ul>
-<p>Developing in C++:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../../../samples/cpp-sample-image-classification.html#doxid-openvino-inference-engine-samples-classification-sample-async-r-e-a-d-m-e"><span class="std std-ref">Image Classification Async C++ Sample</span></a></p></li>
-<li><p><a class="reference internal" href="../../../samples/cpp-sample-hello-classification.html#doxid-openvino-inference-engine-samples-hello-classification-r-e-a-d-m-e"><span class="std std-ref">Hello Classification C++ Sample</span></a></p></li>
-<li><p><a class="reference internal" href="../../../samples/cpp-sample-hello-reshape-ssd.html#doxid-openvino-inference-engine-samples-hello-reshape-ssd-r-e-a-d-m-e"><span class="std std-ref">Hello Reshape SSD C++ Sample</span></a></p></li>
-</ul>
 </section>
-<section id="uninstalling-the-intel-distribution-of-openvino-toolkit">
-<span id="uninstall"></span><h2>Uninstalling the Intel® Distribution of OpenVINO™ Toolkit<a class="headerlink" href="#uninstalling-the-intel-distribution-of-openvino-toolkit" title="Permalink to this headline">¶</a></h2>
-<p>To uninstall the toolkit, follow the steps on the <a class="reference internal" href="../../../uninstall-openvino.html#uninstall-openvino"><span class="std std-ref">Uninstalling page</span></a>.</p>
+<section id="what-s-next">
+<h2>What’s Next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
+<p>Now you may continue with the following tasks:</p>
+<ul class="simple">
+<li><p>To convert models for use with OpenVINO, see <a class="reference internal" href="../../../../documentation/converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Model Optimizer Developer Guide</span></a>.</p></li>
+<li><p>See pre-trained deep learning models in our <a class="reference internal" href="../../../../../model_zoo.html#doxid-model-zoo"><span class="std std-ref">Open Model Zoo</span></a>.</p></li>
+<li><p>Try out OpenVINO via <a class="reference external" href="https://docs.openvino.ai/latest/notebooks/notebooks.html">OpenVINO Notebooks</a>.</p></li>
+<li><p>To write your own OpenVINO™ applications, see <a class="reference internal" href="../../../../documentation/openvino-runtime-user-guide.html#deploy-infer-openvino-runtime-user-guide"><span class="std std-ref">OpenVINO Runtime User Guide</span></a>.</p></li>
+<li><p>See sample applications in <a class="reference internal" href="../../../samples.html#get-started-samples-overview"><span class="std std-ref">OpenVINO™ Toolkit Samples Overview</span></a>.</p></li>
+</ul>
 </section>
 <section id="additional-resources">
 <h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="../../../troubleshooting-overview.html#troubleshooting-guide-for-install"><span class="std std-ref">Troubleshooting Guide for OpenVINO Installation &amp; Configuration</span></a></p></li>
-<li><p>Converting models for use with OpenVINO™: <a class="reference internal" href="../../../../documentation/converting-models-with-model-optimizer.html#deep-learning-model-optimizer"><span class="std std-ref">Model Optimizer User Guide</span></a></p></li>
-<li><p>Writing your own OpenVINO™ applications: <a class="reference internal" href="../../../../documentation/openvino-runtime-user-guide.html#deep-learning-openvino-runtime"><span class="std std-ref">OpenVINO™ Runtime User Guide</span></a></p></li>
-<li><p>Sample applications: <a class="reference internal" href="../../../samples.html#code-samples"><span class="std std-ref">OpenVINO™ Toolkit Samples Overview</span></a></p></li>
-<li><p>Pre-trained deep learning models: <a class="reference internal" href="../../../../../model_zoo.html#id1"><span class="std std-ref">Overview of OpenVINO™ Toolkit Pre-Trained Models</span></a></p></li>
-<li><p>IoT libraries and code samples in the GitHUB repository: <a class="reference external" href="https://github.com/intel-iot-devkit">Intel® IoT Developer Kit</a></p></li>
+<li><p>Intel® Distribution of OpenVINO™ toolkit home page: <a class="reference external" href="https://software.intel.com/en-us/openvino-toolkit">https://software.intel.com/en-us/openvino-toolkit</a></p></li>
+<li><p>For IoT Libraries &amp; Code Samples, see <a class="reference external" href="https://github.com/intel-iot-devkit">Intel® IoT Developer Kit</a>.</p></li>
 </ul>
 </section>
 </section>
@@ -879,8 +864,8 @@ After configuration is done, you are ready to run the verification scripts with 
             
                 <div class='prev-next-bottom'>
                   
-    <a class='button bttn-sec button-size-l' id="prev-link" href="../installing-openvino-for-linux.html" title="previous page">Prev</a>
-    <a class='button bttn-sec button-size-l' id="next-link" href="../installing-openvino-shared/installing-from-pypi.html" title="next page">Next</a>
+    <a class='button bttn-sec button-size-l' id="prev-link" href="install-from-apt.html" title="previous page">Prev</a>
+    <a class='button bttn-sec button-size-l' id="next-link" href="../installing-openvino-shared/intalling-from-anaconda.html" title="next page">Next</a>
 
                 </div>
             

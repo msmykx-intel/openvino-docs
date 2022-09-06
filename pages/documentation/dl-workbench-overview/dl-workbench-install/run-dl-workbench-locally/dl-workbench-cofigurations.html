@@ -1420,7 +1420,7 @@
       <ul>
        <li class="toctree-l4">
         <a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Jupyter_Notebooks.html">
-         Learn Model Inference with OpenVINO™ API in JupyterLab* Environment
+         Learn Model Inference with OpenVINO™ API in JupyterLab Environment
         </a>
        </li>
       </ul>
@@ -2066,7 +2066,7 @@ in DL Workbench and use a <a class="reference external" href="https://docs.openv
 </section>
 <section id="disable-jupyterlab-inside-dl-workbench">
 <h2>Disable JupyterLab inside DL Workbench<a class="headerlink" href="#disable-jupyterlab-inside-dl-workbench" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Jupyter_Notebooks.html#doxid-workbench-docs-workbench-d-g-jupyter-notebooks"><span class="std std-ref">Jupyter notebooks</span></a> running in the same Docker container as the DL Workbench can impact inference results of experiments inside the DL Workbench. To get more accurate performance information, you might want to disable JupyterLab Environment. Use the <code class="docutils literal notranslate"><span class="pre">DISABLE_JUPYTER</span></code> or <code class="docutils literal notranslate"><span class="pre">--no-jupyter</span></code> argument when starting the DL Workbench. For example:</p>
+<p><a class="reference internal" href="../../_workbench-files-to-migrate/workbench_docs_Workbench_DG_Jupyter_Notebooks.html#workbench-jupyter-api"><span class="std std-ref">Jupyter notebooks</span></a> running in the same Docker container as the DL Workbench can impact inference results of experiments inside the DL Workbench. To get more accurate performance information, you might want to disable JupyterLab Environment. Use the <code class="docutils literal notranslate"><span class="pre">DISABLE_JUPYTER</span></code> or <code class="docutils literal notranslate"><span class="pre">--no-jupyter</span></code> argument when starting the DL Workbench. For example:</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1"><cite>docker run</cite> command</label><div class="tab-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">5665</span><span class="p">:</span><span class="mi">5665</span> <span class="o">--</span><span class="n">name</span> <span class="n">workbench</span> <span class="o">-</span><span class="n">e</span> <span class="n">DISABLE_JUPYTER</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span><span class="n">it</span> <span class="n">openvino</span><span class="o">/</span><span class="n">workbench</span><span class="p">:</span><span class="n">latest</span>
