@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information on how to create and import annotated datasets of different formats, upload not annotated dataset, and enlarge datasets using augmentation in OpenVINO Deep Learning Workbench." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, create dataset, import dataset, obatin dataset, enlarge datasets, model validation, image dataset, annoted dataset, not annoted dataset, text dataset" name="keywords" />
 
     <title>Obtain Datasets &#8212; OpenVINO™  documentation</title>
     
@@ -1837,12 +1839,13 @@
             
                 <div>
                   
-  <section id="obtain-datasets">
-<span id="doxid-workbench-docs-workbench-d-g-generate-datasets"></span><span id="index-0"></span><h1>Obtain Datasets<a class="headerlink" href="#obtain-datasets" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-generate-datasets-1md-openvino-workbench-docs-workbench-dg-import-datasets"></span></p>
+  <span class="target" id="workbench-dataset-obtain-datasets"><span id="index-0"></span></span><section id="obtain-datasets">
+<h1>Obtain Datasets<a class="headerlink" href="#obtain-datasets" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-dataset-obtain-datasets-1md-openvino-workbench-docs-workbench-dg-import-datasets"></span></p>
 <div class="toctree-wrapper compound">
 </div>
-<p>Validation of the model is always performed against specific data combined into datasets. To obtain trustworthy results, a dataset must satisfy the following requirements:</p>
+<p>Validation of the model is always performed against specific data combined into datasets. To obtain trustworthy results,
+a dataset must satisfy the following requirements:</p>
 <ul class="simple">
 <li><p>Format: the data should be compatible with the model domain (Computer Vision or Natural Language Processing).</p></li>
 <li><p>Content: a dataset must be representative. The data needs to be aligned with the model use case (for example, images of people for face detection).</p></li>
@@ -1850,7 +1853,8 @@
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can use <a class="reference external" href="https://openvinotoolkit.github.io/datumaro/docs/">Datumaro</a> to make the process of creating your dataset easier. Datumaro is a free framework and CLI tool for building, transforming, and analyzing datasets and annotations.</p>
+<p>You can use <a class="reference external" href="https://openvinotoolkit.github.io/datumaro/docs/">Datumaro</a> to make the process of creating your
+dataset easier. Datumaro is a free framework and CLI tool for building, transforming, and analyzing datasets and annotations.</p>
 </div>
 <section id="image-dataset">
 <h2>Image Dataset<a class="headerlink" href="#image-dataset" title="Permalink to this headline">¶</a></h2>
@@ -1912,13 +1916,14 @@ Upload Annotated Dataset<div class="summary-down docutils">
 <div class="summary-up docutils">
 <svg version="1.1" width="24" height="24" class="octicon octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
 </summary><div class="summary-content card-body docutils">
-<blockquote>
-<div><p class="card-text"><strong>NOTE</strong>: Sample datasets must consist of a small sampling of images and be in
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="card-text">Sample datasets must consist of a small sampling of images and be in
 ImageNet, Pascal Visual Object Classes (Pascal VOC), Common Objects in Context
 (COCO), Common Semantic Segmentation, Labeled Faces in the Wild (LFW), Visual Geometry Group Face 2 (VGGFace2), Wider Face, Open Images, Cityscapes
 or unannotated format. To learn more about
 the formats, refer to Dataset Types.</p>
-</div></blockquote>
+</div>
 <p class="card-text">On the <strong>Create Project</strong> page, go to <strong>Select a Validation Dataset</strong> tab and click <strong>Import Image Dataset</strong>:</p>
 <img alt="../../../../_images/dataset_import.png" src="../../../../_images/dataset_import.png" />
 <p class="card-text">To import a new dataset, click <strong>Upload Dataset</strong> tab.
@@ -1932,7 +1937,9 @@ datasets table, where you can see the status of the import and select a dataset 
 </details></section>
 <section id="text-dataset">
 <h2>Text Dataset<a class="headerlink" href="#text-dataset" title="Permalink to this headline">¶</a></h2>
-<p>A text dataset should be represented as a table in СSV/TSV format of at least two columns with Text and Label for Text Classification use case. Textual Entailment task requires a СSV table of three columns with Premise, Hypothesis, and Label. <a class="reference external" href="https://huggingface.co/datasets">HuggingFace’s datasets library</a> provides access to different text datasets.</p>
+<p>A text dataset should be represented as a table in СSV/TSV format of at least two columns with Text and Label for Text
+Classification use case. Textual Entailment task requires a СSV table of three columns with Premise, Hypothesis, and Label.
+<a class="reference external" href="https://huggingface.co/datasets">HuggingFace’s datasets library</a> provides access to different text datasets.</p>
 <details class="sphinx-bs dropdown card mb-3">
 <summary class="summary-title card-header">
 Upload Text Dataset<div class="summary-down docutils">
@@ -1960,8 +1967,8 @@ Upload Text Dataset<div class="summary-down docutils">
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#doxid-workbench-docs-workbench-d-g-dataset-types"><span class="std std-ref">Dataset Types</span></a></p></li>
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Download_and_Cut_Datasets.html#doxid-workbench-docs-workbench-d-g-download-and-cut-datasets"><span class="std std-ref">Cut Datasets</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#workbench-dataset-types"><span class="std std-ref">Dataset Types</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Download_and_Cut_Datasets.html#workbench-types-cut-datasets"><span class="std std-ref">Cut Datasets</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>
 </section>

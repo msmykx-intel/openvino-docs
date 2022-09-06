@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Information on how to cut datasets which are considered as &quot;big in size&quot; to decrease loading times. Provided is also list of datasets which support cutting." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, user guide, cut dataset, decrease loading time, ImageNet, Pascal Visual Object Classes, Pascal VOC, Common Objects in Context, COCO" name="keywords" />
 
     <title>Cut Datasets &#8212; OpenVINO™  documentation</title>
     
@@ -1863,15 +1865,18 @@
             
                 <div>
                   
-  <section id="cut-datasets">
-<span id="doxid-workbench-docs-workbench-d-g-download-and-cut-datasets"></span><span id="index-0"></span><h1>Cut Datasets<a class="headerlink" href="#cut-datasets" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-download-and-cut-datasets-1md-openvino-workbench-docs-workbench-dg-download-and-cut-datasets"></span> Original datasets are considerably big in size. If you want to save your time when loading original datasets into the DL Workbench, cut them as described in the following sections.</p>
+  <span class="target" id="workbench-types-cut-datasets"><span id="index-0"></span></span><section id="cut-datasets">
+<h1>Cut Datasets<a class="headerlink" href="#cut-datasets" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-types-cut-datasets-1md-openvino-workbench-docs-workbench-dg-download-and-cut-datasets"></span> Original
+datasets are considerably big in size. If you want to save your time when loading original datasets into the DL Workbench,
+cut them as described in the following sections.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="#imagenet">ImageNet</a></p></li>
 <li><p><a class="reference external" href="#voc">Pascal Visual Object Classes (Pascal VOC)</a></p></li>
 <li><p><a class="reference external" href="#coco">Common Objects in Context (COCO)</a></p></li>
 </ul>
-<p>To learn more about dataset types supported by the DL Workbench, their structure, and how to download them, refer to <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#doxid-workbench-docs-workbench-d-g-dataset-types"><span class="std std-ref">Dataset Types</span></a>.</p>
+<p>To learn more about dataset types supported by the DL Workbench, their structure, and how to download them, refer to
+<a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#workbench-dataset-types"><span class="std std-ref">Dataset Types</span></a>.</p>
 <section id="imagenet-dataset">
 <span id="imagenet"></span><h2>ImageNet Dataset<a class="headerlink" href="#imagenet-dataset" title="Permalink to this headline">¶</a></h2>
 <section id="cut-imagenet-dataset">
@@ -1879,16 +1884,17 @@
 <ol class="arabic simple">
 <li><p>Save <a class="reference external" href="https://raw.githubusercontent.com/aalborov/cut_dataset/38c6dd3948ce4084a52c66e2e83c63eb3fa883e9/cut_dataset.py">the script to cut datatsets</a> to the following directory:</p>
 <ul class="simple">
-<li><p>Linux*, macOS*: <code class="docutils literal notranslate"><span class="pre">/home/&lt;user&gt;/Work</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p></li>
-<li><p>Windows* : <code class="docutils literal notranslate"><span class="pre">C:\Work</span></code></p></li>
+<li><p>Linux, macOS: <code class="docutils literal notranslate"><span class="pre">/home/&lt;user&gt;/Work</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p></li>
+<li><p>Windows : <code class="docutils literal notranslate"><span class="pre">C:\Work</span></code></p></li>
 </ul>
 </li>
-<li><p>Put the <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#doxid-workbench-docs-workbench-d-g-dataset-types"><span class="std std-ref">downloaded dataset</span></a> in the same directory.</p></li>
+<li><p>Put the <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#workbench-dataset-types"><span class="std std-ref">downloaded dataset</span></a> in the same directory.</p></li>
 <li><p>Follow instructions for your operating system.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username. Run the following command in a terminal for Linux, macOS and in the Windows PowerShell* for Windows.</p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username. Run the following command in a terminal for Linux, macOS and in the Windows
+PowerShell for Windows.</p>
 </div>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Linux, macOS</label><div class="tab-content docutils">
@@ -1950,16 +1956,17 @@
 <ol class="arabic simple">
 <li><p>Save <a class="reference external" href="https://raw.githubusercontent.com/aalborov/cut_dataset/38c6dd3948ce4084a52c66e2e83c63eb3fa883e9/cut_dataset.py">the script to cut datatsets</a> to the following directory:</p>
 <ul class="simple">
-<li><p>Linux*, macOS*: <code class="docutils literal notranslate"><span class="pre">/home/&lt;user&gt;/Work</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p></li>
-<li><p>Windows* : <code class="docutils literal notranslate"><span class="pre">C:\Work</span></code></p></li>
+<li><p>Linux, macOS: <code class="docutils literal notranslate"><span class="pre">/home/&lt;user&gt;/Work</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p></li>
+<li><p>Windows : <code class="docutils literal notranslate"><span class="pre">C:\Work</span></code></p></li>
 </ul>
 </li>
-<li><p>Put the <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#doxid-workbench-docs-workbench-d-g-dataset-types"><span class="std std-ref">downloaded dataset</span></a> in the same directory.</p></li>
+<li><p>Put the <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#workbench-dataset-types"><span class="std std-ref">downloaded dataset</span></a> in the same directory.</p></li>
 <li><p>Follow instructions for your operating system.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username. Run the following command in a terminal for Linux, macOS and in the Windows PowerShell* for Windows.</p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username. Run the following command in a terminal for Linux, macOS and in the Windows
+PowerShell for Windows.</p>
 </div>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Linux, macOS</label><div class="tab-content docutils">
@@ -2021,21 +2028,24 @@
 <ol class="arabic">
 <li><p>Save <a class="reference external" href="https://raw.githubusercontent.com/aalborov/cut_dataset/38c6dd3948ce4084a52c66e2e83c63eb3fa883e9/cut_dataset.py">the script to cut datatsets</a> to the following directory:</p>
 <ul>
-<li><p>Linux*, macOS*: <code class="docutils literal notranslate"><span class="pre">/home/&lt;user&gt;/Work</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p>
+<li><p>Linux, macOS: <code class="docutils literal notranslate"><span class="pre">/home/&lt;user&gt;/Work</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username.</p>
 </div>
-<p>* Windows* : <code class="docutils literal notranslate"><span class="pre">C:\Work</span></code></p>
+<ul class="simple">
+<li><p>Windows : <code class="docutils literal notranslate"><span class="pre">C:\Work</span></code></p></li>
+</ul>
 </li>
 </ul>
 </li>
-<li><p>Put the <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#doxid-workbench-docs-workbench-d-g-dataset-types"><span class="std std-ref">downloaded archives</span></a> in the same directory.</p></li>
+<li><p>Put the <a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#workbench-dataset-types"><span class="std std-ref">downloaded archives</span></a> in the same directory.</p></li>
 <li><p>Follow instructions for your operating system.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username. Run the following command in a terminal for Linux, macOS and in the Windows PowerShell* for Windows.</p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;user&gt;</span></code> with your username. Run the following command in a terminal for Linux, macOS and in the Windows
+PowerShell for Windows.</p>
 </div>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Linux, macOS</label><div class="tab-content docutils">
@@ -2098,8 +2108,8 @@
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#doxid-workbench-docs-workbench-d-g-dataset-types"><span class="std std-ref">Dataset Types</span></a></p></li>
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Generate_Datasets.html#doxid-workbench-docs-workbench-d-g-generate-datasets"><span class="std std-ref">Import Datasets</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Dataset_Types.html#workbench-dataset-types"><span class="std std-ref">Dataset Types</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Generate_Datasets.html#workbench-dataset-obtain-datasets"><span class="std std-ref">Import Datasets</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>
 </section>
