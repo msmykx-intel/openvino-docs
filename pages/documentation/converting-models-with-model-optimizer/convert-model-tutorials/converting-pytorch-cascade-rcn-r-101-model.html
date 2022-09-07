@@ -5,8 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="This tutorial demonstrates how to convert a Cascade RCNN R-101 model from Pytorch to the OpenVINO Intermediate Representation." name="description" />
+<meta content="Model Optimizer, tutorial, convert a model, model conversion, --input_model, --input_model parameter, command-line parameter, OpenVINO™ toolkit, deep learning inference, OpenVINO Intermediate Representation, Pytorch, Cascade RCNN R-101, Cascade RCNN R-101 model, pre-trained model, convert a model to OpenVINO IR" name="keywords" />
 
-    <title>Converting a PyTorch Cascade RCNN R-101 Model &#8212; OpenVINO™  documentation</title>
+    <title>Convert a PyTorch Cascade RCNN R-101 Model &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet">
@@ -75,8 +77,8 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Converting a PyTorch F3Net Model" href="converting-pytorch-f3net-model.html" />
-    <link rel="prev" title="Converting a PyTorch BERT-NER Model" href="converting-pytorch-bert-ner-model.html" />
+    <link rel="next" title="Convert a PyTorch F3Net Model" href="converting-pytorch-f3net-model.html" />
+    <link rel="prev" title="Convert a PyTorch BERT-NER Model" href="converting-pytorch-bert-ner-model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -356,127 +358,127 @@
     <ul class="current">
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-attention-ocr-model.html">
-       Converting a TensorFlow Attention OCR Model
+       Convert a TensorFlow Attention OCR Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-bert-model.html">
-       Converting a TensorFlow BERT Model
+       Convert a TensorFlow BERT Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-crnn-model.html">
-       Converting a TensorFlow CRNN Model
+       Convert a TensorFlow CRNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-deepspeech-model.html">
-       Converting a TensorFlow DeepSpeech Model
+       Convert a TensorFlow DeepSpeech Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-efficientdet-model.html">
-       Converting TensorFlow EfficientDet Models
+       Convert TensorFlow EfficientDet Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-facenet-model.html">
-       Converting TensorFlow FaceNet Models
+       Convert TensorFlow FaceNet Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-gnmt-model.html">
-       Converting a TensorFlow GNMT Model
+       Convert a TensorFlow GNMT Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-language-model-on-billion-word-benchmark.html">
-       Converting a TensorFlow Language Model on One Billion Word Benchmark
+       Convert a TensorFlow Language Model on One Billion Word Benchmark
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-ncf-model.html">
-       Converting a TensorFlow Neural Collaborative Filtering Model
+       Convert a TensorFlow Neural Collaborative Filtering Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-object-detection-api-model.html">
-       Converting TensorFlow Object Detection API Models
+       Convert TensorFlow Object Detection API Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-retinanet-model.html">
-       Converting a TensorFlow RetinaNet Model
+       Convert a TensorFlow RetinaNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-slim-library-models.html">
-       Converting TensorFlow Slim Image Classification Model Library Models
+       Convert TensorFlow Slim Image Classification Model Library Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-wide-and-deep-family-models.html">
-       Converting TensorFlow Wide and Deep Family Models
+       Convert TensorFlow Wide and Deep Family Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-xlnet-model.html">
-       Converting a TensorFlow XLNet Model
+       Convert a TensorFlow XLNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-yolo-models.html">
-       Converting TensorFlow YOLO Models
+       Convert TensorFlow YOLO Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-faster-r-cnn-model.html">
-       Converting an ONNX Faster R-CNN Model
+       Convert an ONNX Faster R-CNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-gpt-2-model.html">
-       Converting an ONNX GPT-2 Model
+       Convert an ONNX GPT-2 Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-mask-r-cnn-model.html">
-       Converting an ONNX Mask R-CNN Model
+       Convert an ONNX Mask R-CNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-bert-ner-model.html">
-       Converting a PyTorch BERT-NER Model
+       Convert a PyTorch BERT-NER Model
       </a>
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Converting a PyTorch Cascade RCNN R-101 Model
+       Convert a PyTorch Cascade RCNN R-101 Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-f3net-model.html">
-       Converting a PyTorch F3Net Model
+       Convert a PyTorch F3Net Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-quartznet-model.html">
-       Converting a PyTorch QuartzNet Model
+       Convert a PyTorch QuartzNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-rcan-model.html">
-       Converting a PyTorch RCAN Model
+       Convert a PyTorch RCAN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-rnn-t-model.html">
-       Converting a PyTorch RNN-T Model
+       Convert a PyTorch RNN-T Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-yolact-model.html">
-       Converting a PyTorch YOLACT Model
+       Convert a PyTorch YOLACT Model
       </a>
      </li>
      <li class="toctree-l3">
@@ -486,12 +488,12 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-mxnet-style-transfer-model.html">
-       Converting an MXNet Style Transfer Model
+       Convert an MXNet Style Transfer Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-kaldi-aspire-chain-tdnn-model.html">
-       Converting a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model
+       Convert a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model
       </a>
      </li>
     </ul>
@@ -1784,13 +1786,13 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#downloading-and-converting-model-to-onnx">
-   Downloading and Converting Model to ONNX
+  <a class="reference internal nav-link" href="#download-and-convert-model-to-onnx">
+   Download and Convert Model to ONNX
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#converting-an-onnx-cascade-rcnn-r-101-model-to-openvino-ir">
-   Converting an ONNX Cascade RCNN R-101 Model to OpenVINO IR
+  <a class="reference internal nav-link" href="#convert-an-onnx-cascade-rcnn-r-101-model-to-openvino-ir">
+   Convert an ONNX Cascade RCNN R-101 Model to OpenVINO IR
   </a>
  </li>
 </ul>
@@ -1832,27 +1834,29 @@
             
                 <div>
                   
-  <section id="converting-a-pytorch-cascade-rcnn-r-101-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-pytorch-specific-convert-cascade-r-c-n-n-res101"></span><span id="index-0"></span><h1>Converting a PyTorch Cascade RCNN R-101 Model<a class="headerlink" href="#converting-a-pytorch-cascade-rcnn-r-101-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-pytorch-specific-convert-cascade-r-c-n-n-res101-1md-openvino-docs-mo-dg-prepare-model-convert-model-pytorch-specific-convert-cascade-rcnn-res101"></span> The goal of this article is to present a step-by-step guide on how to convert a PyTorch Cascade RCNN R-101 model to OpenVINO IR. First, you need to download the model and convert it to ONNX.</p>
-<section id="downloading-and-converting-model-to-onnx">
-<h2>Downloading and Converting Model to ONNX<a class="headerlink" href="#downloading-and-converting-model-to-onnx" title="Permalink to this headline">¶</a></h2>
+  <span class="target" id="conv-prep-pytorch-cascade-rcnn"><span id="index-0"></span></span><section id="convert-a-pytorch-cascade-rcnn-r-101-model">
+<h1>Convert a PyTorch Cascade RCNN R-101 Model<a class="headerlink" href="#convert-a-pytorch-cascade-rcnn-r-101-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-pytorch-cascade-rcnn-1md-openvino-docs-mo-dg-prepare-model-convert-model-pytorch-specific-convert-cascade-rcnn-res101"></span></p>
+<p>The goal of this article is to present a step-by-step guide on how to convert a PyTorch Cascade RCNN R-101 model to OpenVINO IR. First, you need to download the model and convert it to ONNX.</p>
+<section id="download-and-convert-model-to-onnx">
+<h2>Download and Convert Model to ONNX<a class="headerlink" href="#download-and-convert-model-to-onnx" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Clone the <a class="reference external" href="https://github.com/open-mmlab/mmdetection">repository</a> :</p></li>
 </ul>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="nl">https</span><span class="p">:</span><span class="c1">//github.com/open-mmlab/mmdetection</span>
 <span class="n">cd</span> <span class="n">mmdetection</span></pre></div></div><div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>To set up an environment, refer to the <a class="reference external" href="https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md#installation">instructions</a>.</p>
+<p>To set up an environment, refer to the
+<a class="reference external" href="https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md#installation">instructions</a>.</p>
 </div>
 <ul class="simple">
-<li><p>Download the pretrained <a class="reference external" href="https://download.openmmlab.com/mmdetection/v2.0/cascade_rcnn/cascade_rcnn_r101_fpn_1x_coco/cascade_rcnn_r101_fpn_1x_coco_20200317-0b6a2fbf.pth">model</a>. The model is also available <a class="reference external" href="https://github.com/open-mmlab/mmdetection/blob/master/configs/cascade_rcnn/README.md">here</a>.</p></li>
+<li><p>Download the pre-trained <a class="reference external" href="https://download.openmmlab.com/mmdetection/v2.0/cascade_rcnn/cascade_rcnn_r101_fpn_1x_coco/cascade_rcnn_r101_fpn_1x_coco_20200317-0b6a2fbf.pth">model</a>. The model is also available <a class="reference external" href="https://github.com/open-mmlab/mmdetection/blob/master/configs/cascade_rcnn/README.md">here</a>.</p></li>
 <li><p>To convert the model to ONNX format, use this <a class="reference external" href="https://github.com/open-mmlab/mmdetection/blob/master/tools/deployment/pytorch2onnx.py">script</a>.</p></li>
 </ul>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">tools</span><span class="o">/</span><span class="n">deployment</span><span class="o">/</span><span class="n">pytorch2onnx</span><span class="p">.</span><span class="n">py</span> <span class="n">configs</span><span class="o">/</span><span class="n">cascade_rcnn</span><span class="o">/</span><span class="n">cascade_rcnn_r101_fpn_1x_coco</span><span class="p">.</span><span class="n">py</span> <span class="n">cascade_rcnn_r101_fpn_1x_coco_20200317</span><span class="o">-</span><span class="mi">0</span><span class="n">b6a2fbf</span><span class="p">.</span><span class="n">pth</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">cascade_rcnn_r101_fpn_1x_coco</span><span class="p">.</span><span class="n">onnx</span></pre></div></div><p>The script generates ONNX model file <code class="docutils literal notranslate"><span class="pre">cascade_rcnn_r101_fpn_1x_coco.onnx</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">tools/deployment/</span></code>. If required, specify the model name or output directory, using <code class="docutils literal notranslate"><span class="pre">--output-file</span> <span class="pre">&lt;path-to-dir&gt;/&lt;model-name&gt;.onnx</span></code>.</p>
 </section>
-<section id="converting-an-onnx-cascade-rcnn-r-101-model-to-openvino-ir">
-<h2>Converting an ONNX Cascade RCNN R-101 Model to OpenVINO IR<a class="headerlink" href="#converting-an-onnx-cascade-rcnn-r-101-model-to-openvino-ir" title="Permalink to this headline">¶</a></h2>
+<section id="convert-an-onnx-cascade-rcnn-r-101-model-to-openvino-ir">
+<h2>Convert an ONNX Cascade RCNN R-101 Model to OpenVINO IR<a class="headerlink" href="#convert-an-onnx-cascade-rcnn-r-101-model-to-openvino-ir" title="Permalink to this headline">¶</a></h2>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">cascade_rcnn_r101_fpn_1x_coco</span><span class="p">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">mean_values</span> <span class="p">[</span><span class="mf">123.675</span><span class="p">,</span><span class="mf">116.28</span><span class="p">,</span><span class="mf">103.53</span><span class="p">]</span> <span class="o">--</span><span class="n">scale_values</span> <span class="p">[</span><span class="mf">58.395</span><span class="p">,</span><span class="mf">57.12</span><span class="p">,</span><span class="mf">57.375</span><span class="p">]</span></pre></div></div></section>
 </section>
 

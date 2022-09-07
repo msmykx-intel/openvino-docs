@@ -5,8 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="This tutorial demonstrates how to convert XLNet model from TensorFlow to the OpenVINO Intermediate Representation." name="description" />
+<meta content="Model Optimizer, tutorial, convert a model, model conversion, --input_model, --input_model parameter, command-line parameter, OpenVINO™ toolkit, deep learning inference, OpenVINO Intermediate Representation, TensorFlow, XLNet, XLNet model, convert a model to OpenVINO IR, pre-trained model, freeze a model, frozen model" name="keywords" />
 
-    <title>Converting a TensorFlow XLNet Model &#8212; OpenVINO™  documentation</title>
+    <title>Convert a TensorFlow XLNet Model &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet">
@@ -75,8 +77,8 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Converting TensorFlow YOLO Models" href="converting-tensorflow-yolo-models.html" />
-    <link rel="prev" title="Converting TensorFlow Wide and Deep Family Models" href="converting-tensorflow-wide-and-deep-family-models.html" />
+    <link rel="next" title="Convert TensorFlow YOLO Models" href="converting-tensorflow-yolo-models.html" />
+    <link rel="prev" title="Convert TensorFlow Wide and Deep Family Models" href="converting-tensorflow-wide-and-deep-family-models.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -356,127 +358,127 @@
     <ul class="current">
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-attention-ocr-model.html">
-       Converting a TensorFlow Attention OCR Model
+       Convert a TensorFlow Attention OCR Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-bert-model.html">
-       Converting a TensorFlow BERT Model
+       Convert a TensorFlow BERT Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-crnn-model.html">
-       Converting a TensorFlow CRNN Model
+       Convert a TensorFlow CRNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-deepspeech-model.html">
-       Converting a TensorFlow DeepSpeech Model
+       Convert a TensorFlow DeepSpeech Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-efficientdet-model.html">
-       Converting TensorFlow EfficientDet Models
+       Convert TensorFlow EfficientDet Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-facenet-model.html">
-       Converting TensorFlow FaceNet Models
+       Convert TensorFlow FaceNet Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-gnmt-model.html">
-       Converting a TensorFlow GNMT Model
+       Convert a TensorFlow GNMT Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-language-model-on-billion-word-benchmark.html">
-       Converting a TensorFlow Language Model on One Billion Word Benchmark
+       Convert a TensorFlow Language Model on One Billion Word Benchmark
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-ncf-model.html">
-       Converting a TensorFlow Neural Collaborative Filtering Model
+       Convert a TensorFlow Neural Collaborative Filtering Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-object-detection-api-model.html">
-       Converting TensorFlow Object Detection API Models
+       Convert TensorFlow Object Detection API Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-retinanet-model.html">
-       Converting a TensorFlow RetinaNet Model
+       Convert a TensorFlow RetinaNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-slim-library-models.html">
-       Converting TensorFlow Slim Image Classification Model Library Models
+       Convert TensorFlow Slim Image Classification Model Library Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-wide-and-deep-family-models.html">
-       Converting TensorFlow Wide and Deep Family Models
+       Convert TensorFlow Wide and Deep Family Models
       </a>
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Converting a TensorFlow XLNet Model
+       Convert a TensorFlow XLNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-yolo-models.html">
-       Converting TensorFlow YOLO Models
+       Convert TensorFlow YOLO Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-faster-r-cnn-model.html">
-       Converting an ONNX Faster R-CNN Model
+       Convert an ONNX Faster R-CNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-gpt-2-model.html">
-       Converting an ONNX GPT-2 Model
+       Convert an ONNX GPT-2 Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-mask-r-cnn-model.html">
-       Converting an ONNX Mask R-CNN Model
+       Convert an ONNX Mask R-CNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-bert-ner-model.html">
-       Converting a PyTorch BERT-NER Model
+       Convert a PyTorch BERT-NER Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-cascade-rcn-r-101-model.html">
-       Converting a PyTorch Cascade RCNN R-101 Model
+       Convert a PyTorch Cascade RCNN R-101 Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-f3net-model.html">
-       Converting a PyTorch F3Net Model
+       Convert a PyTorch F3Net Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-quartznet-model.html">
-       Converting a PyTorch QuartzNet Model
+       Convert a PyTorch QuartzNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-rcan-model.html">
-       Converting a PyTorch RCAN Model
+       Convert a PyTorch RCAN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-rnn-t-model.html">
-       Converting a PyTorch RNN-T Model
+       Convert a PyTorch RNN-T Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-yolact-model.html">
-       Converting a PyTorch YOLACT Model
+       Convert a PyTorch YOLACT Model
       </a>
      </li>
      <li class="toctree-l3">
@@ -486,12 +488,12 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-mxnet-style-transfer-model.html">
-       Converting an MXNet Style Transfer Model
+       Convert an MXNet Style Transfer Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-kaldi-aspire-chain-tdnn-model.html">
-       Converting a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model
+       Convert a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model
       </a>
      </li>
     </ul>
@@ -1789,18 +1791,18 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#downloading-the-pretrained-base-xlnet-model">
-   Downloading the Pretrained Base XLNet Model
+  <a class="reference internal nav-link" href="#download-the-pre-trained-base-xlnet-model">
+   Download the Pre-trained Base XLNet Model
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#downloading-the-pretrained-large-xlnet-model">
-   Downloading the Pretrained Large XLNet Model
+  <a class="reference internal nav-link" href="#download-the-pre-trained-large-xlnet-model">
+   Download the Pre-trained Large XLNet Model
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#converting-a-frozen-tensorflow-xlnet-model-to-ir">
-   Converting a frozen TensorFlow XLNet Model to IR
+  <a class="reference internal nav-link" href="#convert-a-frozen-tensorflow-xlnet-model-to-ir">
+   Convert a frozen TensorFlow XLNet Model to IR
   </a>
  </li>
 </ul>
@@ -1842,23 +1844,24 @@
             
                 <div>
                   
-  <section id="converting-a-tensorflow-xlnet-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-tf-specific-convert-x-l-net-from-tensorflow"></span><span id="index-0"></span><h1>Converting a TensorFlow XLNet Model<a class="headerlink" href="#converting-a-tensorflow-xlnet-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-tf-specific-convert-x-l-net-from-tensorflow-1md-openvino-docs-mo-dg-prepare-model-convert-model-tf-specific-convert-xlnet-from-tensorflow"></span> Pretrained models for XLNet (Bidirectional Encoder Representations from Transformers) are <a class="reference external" href="https://github.com/zihangdai/xlnet">publicly available</a>.</p>
+  <span class="target" id="conv-prep-conv-tensorflow-xl-net"><span id="index-0"></span></span><section id="convert-a-tensorflow-xlnet-model">
+<h1>Convert a TensorFlow XLNet Model<a class="headerlink" href="#convert-a-tensorflow-xlnet-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-tensorflow-xl-net-1md-openvino-docs-mo-dg-prepare-model-convert-model-tf-specific-convert-xlnet-from-tensorflow"></span></p>
+<p>Pre-trained models for XLNet (Bidirectional Encoder Representations from Transformers) are <a class="reference external" href="https://github.com/zihangdai/xlnet">publicly available</a>.</p>
 <section id="supported-models">
 <h2>Supported Models<a class="headerlink" href="#supported-models" title="Permalink to this headline">¶</a></h2>
-<p>The following models from the pretrained <a class="reference external" href="https://github.com/zihangdai/xlnet#pre-trained-models">XLNet model list</a> are currently supported:</p>
+<p>The following models from the pre-trained <a class="reference external" href="https://github.com/zihangdai/xlnet#pre-trained-models">XLNet model list</a> are currently supported:</p>
 <ul class="simple">
 <li><p>** ` &lt;<a class="reference external" href="https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip">https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip</a>&gt;`__ **</p></li>
 <li><p>** ` &lt;<a class="reference external" href="https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip">https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip</a>&gt;`__ **</p></li>
 </ul>
 </section>
-<section id="downloading-the-pretrained-base-xlnet-model">
-<h2>Downloading the Pretrained Base XLNet Model<a class="headerlink" href="#downloading-the-pretrained-base-xlnet-model" title="Permalink to this headline">¶</a></h2>
+<section id="download-the-pre-trained-base-xlnet-model">
+<h2>Download the Pre-trained Base XLNet Model<a class="headerlink" href="#download-the-pre-trained-base-xlnet-model" title="Permalink to this headline">¶</a></h2>
 <p>Download and unzip an archive with the <a class="reference external" href="https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip">XLNet-Base, Cased</a>.</p>
 <p>After the archive is unzipped, the directory <code class="docutils literal notranslate"><span class="pre">cased_L-12_H-768_A-12</span></code> is created and contains the following files:</p>
 <ul class="simple">
-<li><p>TensorFlow checkpoint (<code class="docutils literal notranslate"><span class="pre">xlnet_model.ckpt</span></code>), containing the pretrained weights (which is actually 3 files)</p></li>
+<li><p>TensorFlow checkpoint (<code class="docutils literal notranslate"><span class="pre">xlnet_model.ckpt</span></code>), containing the pre-trained weights (which is actually 3 files)</p></li>
 <li><p>sentence piece model (<code class="docutils literal notranslate"><span class="pre">spiece.model</span></code>) used for (de)tokenization</p></li>
 <li><p>config file (<code class="docutils literal notranslate"><span class="pre">xlnet_config.json</span></code>), which specifies the hyperparameters of the model</p></li>
 </ul>
@@ -1931,12 +1934,12 @@
     <span class="cp"># Write to tensorboard</span>
     <span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">summary</span><span class="p">.</span><span class="n">FileWriter</span><span class="p">(</span><span class="n">logdir</span><span class="o">=</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">graph_def</span><span class="o">=</span><span class="n">graph_def_freezed</span><span class="p">)</span> <span class="n">as</span> <span class="nl">writer</span><span class="p">:</span>
         <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">()</span></pre></div></div></section>
-<section id="downloading-the-pretrained-large-xlnet-model">
-<h2>Downloading the Pretrained Large XLNet Model<a class="headerlink" href="#downloading-the-pretrained-large-xlnet-model" title="Permalink to this headline">¶</a></h2>
+<section id="download-the-pre-trained-large-xlnet-model">
+<h2>Download the Pre-trained Large XLNet Model<a class="headerlink" href="#download-the-pre-trained-large-xlnet-model" title="Permalink to this headline">¶</a></h2>
 <p>Download and unzip an archive with the <a class="reference external" href="https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip">XLNet-Large, Cased</a>.</p>
 <p>After unzipping the archive, the directory <code class="docutils literal notranslate"><span class="pre">cased_L-12_H-1024_A-16</span></code> is created and contains the following files:</p>
 <ul class="simple">
-<li><p>TensorFlow checkpoint (<code class="docutils literal notranslate"><span class="pre">xlnet_model.ckpt</span></code>) containing the pretrained weights (which is actually 3 files)</p></li>
+<li><p>TensorFlow checkpoint (<code class="docutils literal notranslate"><span class="pre">xlnet_model.ckpt</span></code>) containing the pre-trained weights (which is actually 3 files)</p></li>
 <li><p>sentence piece model (<code class="docutils literal notranslate"><span class="pre">spiece.model</span></code>) used for (de)tokenization</p></li>
 <li><p>config file (<code class="docutils literal notranslate"><span class="pre">xlnet_config.json</span></code>) which specifies the hyperparameters of the model</p></li>
 </ul>
@@ -2006,8 +2009,8 @@
     <span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">summary</span><span class="p">.</span><span class="n">FileWriter</span><span class="p">(</span><span class="n">logdir</span><span class="o">=</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">graph_def</span><span class="o">=</span><span class="n">graph_def_freezed</span><span class="p">)</span> <span class="n">as</span> <span class="nl">writer</span><span class="p">:</span>
         <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">()</span></pre></div></div><p>The script should save into <code class="docutils literal notranslate"><span class="pre">~/XLNet-Large/xlnet</span></code>.</p>
 </section>
-<section id="converting-a-frozen-tensorflow-xlnet-model-to-ir">
-<h2>Converting a frozen TensorFlow XLNet Model to IR<a class="headerlink" href="#converting-a-frozen-tensorflow-xlnet-model-to-ir" title="Permalink to this headline">¶</a></h2>
+<section id="convert-a-frozen-tensorflow-xlnet-model-to-ir">
+<h2>Convert a frozen TensorFlow XLNet Model to IR<a class="headerlink" href="#convert-a-frozen-tensorflow-xlnet-model-to-ir" title="Permalink to this headline">¶</a></h2>
 <p>To generate the XLNet Intermediate Representation (IR) of the model, run Model Optimizer with the following parameters:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_model</span> <span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">model_frozen</span><span class="p">.</span><span class="n">pb</span> \
    <span class="o">--</span><span class="n">input</span> <span class="s">&quot;input_mask[50 1],input_ids[50 1],seg_ids[50 1]&quot;</span></pre></div></div></section>

@@ -5,8 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="This tutorial demonstrates how to convert a BERT model from TensorFlow to the OpenVINO Intermediate Representation." name="description" />
+<meta content="Model Optimizer, tutorial, convert a model, model conversion, --input_model, --input_model parameter, command-line parameter, OpenVINO™ toolkit, deep learning inference, OpenVINO Intermediate Representation, TensorFlow, BERT, BERT model, pre-trained model, Bidirectional Encoder Representations from Transformers" name="keywords" />
 
-    <title>Converting a TensorFlow BERT Model &#8212; OpenVINO™  documentation</title>
+    <title>Convert a TensorFlow BERT Model &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet">
@@ -75,8 +77,8 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Converting a TensorFlow CRNN Model" href="converting-tensorflow-crnn-model.html" />
-    <link rel="prev" title="Converting a TensorFlow Attention OCR Model" href="converting-tensorflow-attention-ocr-model.html" />
+    <link rel="next" title="Convert a TensorFlow CRNN Model" href="converting-tensorflow-crnn-model.html" />
+    <link rel="prev" title="Convert a TensorFlow Attention OCR Model" href="converting-tensorflow-attention-ocr-model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -356,127 +358,127 @@
     <ul class="current">
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-attention-ocr-model.html">
-       Converting a TensorFlow Attention OCR Model
+       Convert a TensorFlow Attention OCR Model
       </a>
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Converting a TensorFlow BERT Model
+       Convert a TensorFlow BERT Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-crnn-model.html">
-       Converting a TensorFlow CRNN Model
+       Convert a TensorFlow CRNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-deepspeech-model.html">
-       Converting a TensorFlow DeepSpeech Model
+       Convert a TensorFlow DeepSpeech Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-efficientdet-model.html">
-       Converting TensorFlow EfficientDet Models
+       Convert TensorFlow EfficientDet Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-facenet-model.html">
-       Converting TensorFlow FaceNet Models
+       Convert TensorFlow FaceNet Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-gnmt-model.html">
-       Converting a TensorFlow GNMT Model
+       Convert a TensorFlow GNMT Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-language-model-on-billion-word-benchmark.html">
-       Converting a TensorFlow Language Model on One Billion Word Benchmark
+       Convert a TensorFlow Language Model on One Billion Word Benchmark
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-ncf-model.html">
-       Converting a TensorFlow Neural Collaborative Filtering Model
+       Convert a TensorFlow Neural Collaborative Filtering Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-object-detection-api-model.html">
-       Converting TensorFlow Object Detection API Models
+       Convert TensorFlow Object Detection API Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-retinanet-model.html">
-       Converting a TensorFlow RetinaNet Model
+       Convert a TensorFlow RetinaNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-slim-library-models.html">
-       Converting TensorFlow Slim Image Classification Model Library Models
+       Convert TensorFlow Slim Image Classification Model Library Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-wide-and-deep-family-models.html">
-       Converting TensorFlow Wide and Deep Family Models
+       Convert TensorFlow Wide and Deep Family Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-xlnet-model.html">
-       Converting a TensorFlow XLNet Model
+       Convert a TensorFlow XLNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-tensorflow-yolo-models.html">
-       Converting TensorFlow YOLO Models
+       Convert TensorFlow YOLO Models
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-faster-r-cnn-model.html">
-       Converting an ONNX Faster R-CNN Model
+       Convert an ONNX Faster R-CNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-gpt-2-model.html">
-       Converting an ONNX GPT-2 Model
+       Convert an ONNX GPT-2 Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-onnx-mask-r-cnn-model.html">
-       Converting an ONNX Mask R-CNN Model
+       Convert an ONNX Mask R-CNN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-bert-ner-model.html">
-       Converting a PyTorch BERT-NER Model
+       Convert a PyTorch BERT-NER Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-cascade-rcn-r-101-model.html">
-       Converting a PyTorch Cascade RCNN R-101 Model
+       Convert a PyTorch Cascade RCNN R-101 Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-f3net-model.html">
-       Converting a PyTorch F3Net Model
+       Convert a PyTorch F3Net Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-quartznet-model.html">
-       Converting a PyTorch QuartzNet Model
+       Convert a PyTorch QuartzNet Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-rcan-model.html">
-       Converting a PyTorch RCAN Model
+       Convert a PyTorch RCAN Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-rnn-t-model.html">
-       Converting a PyTorch RNN-T Model
+       Convert a PyTorch RNN-T Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-pytorch-yolact-model.html">
-       Converting a PyTorch YOLACT Model
+       Convert a PyTorch YOLACT Model
       </a>
      </li>
      <li class="toctree-l3">
@@ -486,12 +488,12 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-mxnet-style-transfer-model.html">
-       Converting an MXNet Style Transfer Model
+       Convert an MXNet Style Transfer Model
       </a>
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-kaldi-aspire-chain-tdnn-model.html">
-       Converting a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model
+       Convert a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model
       </a>
      </li>
     </ul>
@@ -1789,13 +1791,13 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#downloading-the-pretrained-bert-model">
-   Downloading the Pretrained BERT Model
+  <a class="reference internal nav-link" href="#download-the-pre-trained-bert-model">
+   Download the Pre-trained BERT Model
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#converting-a-tensorflow-bert-model-to-ir">
-   Converting a TensorFlow BERT Model to IR
+  <a class="reference internal nav-link" href="#convert-a-tensorflow-bert-model-to-ir">
+   Convert a TensorFlow BERT model to IR
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1842,12 +1844,13 @@
             
                 <div>
                   
-  <section id="converting-a-tensorflow-bert-model">
-<span id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-tf-specific-convert-b-e-r-t-from-tensorflow"></span><span id="index-0"></span><h1>Converting a TensorFlow BERT Model<a class="headerlink" href="#converting-a-tensorflow-bert-model" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-docs-m-o-d-g-prepare-model-convert-model-tf-specific-convert-b-e-r-t-from-tensorflow-1md-openvino-docs-mo-dg-prepare-model-convert-model-tf-specific-convert-bert-from-tensorflow"></span> Pretrained models for BERT (Bidirectional Encoder Representations from Transformers) are <a class="reference external" href="https://github.com/google-research/bert">publicly available</a>.</p>
+  <span class="target" id="conv-prep-conv-tensorflow-bert"><span id="index-0"></span></span><section id="convert-a-tensorflow-bert-model">
+<h1>Convert a TensorFlow BERT Model<a class="headerlink" href="#convert-a-tensorflow-bert-model" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-conv-tensorflow-bert-1md-openvino-docs-mo-dg-prepare-model-convert-model-tf-specific-convert-bert-from-tensorflow"></span></p>
+<p>Pre-trained models for BERT (Bidirectional Encoder Representations from Transformers) are <a class="reference external" href="https://github.com/google-research/bert">publicly available</a>.</p>
 <section id="supported-models">
 <span id="id1"></span><h2>Supported Models<a class="headerlink" href="#supported-models" title="Permalink to this headline">¶</a></h2>
-<p>The following models from the pretrained <a class="reference external" href="https://github.com/google-research/bert#pre-trained-models">BERT model list</a> are currently supported:</p>
+<p>The following models from the pre-trained <a class="reference external" href="https://github.com/google-research/bert#pre-trained-models">BERT model list</a> are currently supported:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">BERT-Base,</span> <span class="pre">Cased</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">BERT-Base,</span> <span class="pre">Uncased</span></code></p></li>
@@ -1858,8 +1861,8 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">BERT-Large,</span> <span class="pre">Uncased</span></code></p></li>
 </ul>
 </section>
-<section id="downloading-the-pretrained-bert-model">
-<h2>Downloading the Pretrained BERT Model<a class="headerlink" href="#downloading-the-pretrained-bert-model" title="Permalink to this headline">¶</a></h2>
+<section id="download-the-pre-trained-bert-model">
+<h2>Download the Pre-trained BERT Model<a class="headerlink" href="#download-the-pre-trained-bert-model" title="Permalink to this headline">¶</a></h2>
 <p>Download and unzip an archive with the <a class="reference external" href="https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip">BERT-Base, Multilingual Uncased Model</a>.</p>
 <p>After the archive is unzipped, the directory <code class="docutils literal notranslate"><span class="pre">uncased_L-12_H-768_A-12</span></code> is created and contains the following files:</p>
 <ul class="simple">
@@ -1869,10 +1872,10 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">bert_model.ckpt.meta</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vocab.txt</span></code></p></li>
 </ul>
-<p>Pretrained model meta-graph files are <code class="docutils literal notranslate"><span class="pre">bert_model.ckpt.\*</span></code>.</p>
+<p>Pre-trained model meta-graph files are <code class="docutils literal notranslate"><span class="pre">bert_model.ckpt.\*</span></code>.</p>
 </section>
-<section id="converting-a-tensorflow-bert-model-to-ir">
-<h2>Converting a TensorFlow BERT Model to IR<a class="headerlink" href="#converting-a-tensorflow-bert-model-to-ir" title="Permalink to this headline">¶</a></h2>
+<section id="convert-a-tensorflow-bert-model-to-ir">
+<h2>Convert a TensorFlow BERT model to IR<a class="headerlink" href="#convert-a-tensorflow-bert-model-to-ir" title="Permalink to this headline">¶</a></h2>
 <p>To generate the BERT Intermediate Representation (IR) of the model, run Model Optimizer with the following parameters:</p>
 <div class="highlight"><div class="highlight"><pre><span></span> <span class="n">mo</span> \
 <span class="o">--</span><span class="n">input_meta_graph</span> <span class="n">uncased_L</span><span class="o">-</span><span class="mi">12</span><span class="n">_H</span><span class="o">-</span><span class="mi">768</span><span class="n">_A</span><span class="o">-</span><span class="mi">12</span><span class="o">/</span><span class="n">bert_model</span><span class="p">.</span><span class="n">ckpt</span><span class="p">.</span><span class="n">meta</span> \
