@@ -1868,7 +1868,7 @@ Optimizer with the following parameters:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Before you continue with this part of the article, get familiar with
-the <a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-automatic-speech-recognition.html#get-started-samples-cpp-speech"><span class="std std-ref">Speech Recognition sample</span></a>.</p>
+the <a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-automatic-speech-recognition.html#doxid-openvino-inference-engine-samples-speech-sample-r-e-a-d-m-e"><span class="std std-ref">Speech Recognition sample</span></a>.</p>
 </div>
 <p>In this example, the input data contains one utterance from one speaker.</p>
 <p>To run the ASpIRE Chain TDNN Model with Speech Recognition sample, You need to
@@ -1947,7 +1947,9 @@ for each frame. Copy the ivector <code class="docutils literal notranslate"><spa
 <section id="run-the-speech-recognition-sample">
 <h3>Run the Speech Recognition Sample<a class="headerlink" href="#run-the-speech-recognition-sample" title="Permalink to this headline">¶</a></h3>
 <p>Run the Speech Recognition sample with the created ivector <code class="docutils literal notranslate"><span class="pre">.ark</span></code> file:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">speech_sample</span> <span class="o">-</span><span class="n">i</span> <span class="n">feats</span><span class="p">.</span><span class="n">ark</span><span class="p">,</span><span class="n">ivector_online_ie</span><span class="p">.</span><span class="n">ark</span> <span class="o">-</span><span class="n">m</span> <span class="k">final</span><span class="p">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">d</span> <span class="n">CPU</span> <span class="o">-</span><span class="n">o</span> <span class="n">prediction</span><span class="p">.</span><span class="n">ark</span> <span class="o">-</span><span class="n">cw_l</span> <span class="mi">17</span> <span class="o">-</span><span class="n">cw_r</span> <span class="mi">12</span></pre></div></div><p>Results can be decoded as described in “Use of Sample in Kaldi Speech Recognition Pipeline” in the <a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-automatic-speech-recognition.html#get-started-samples-cpp-speech"><span class="std std-ref">Speech Recognition Sample description</span></a> article.</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">speech_sample</span> <span class="o">-</span><span class="n">i</span> <span class="n">feats</span><span class="p">.</span><span class="n">ark</span><span class="p">,</span><span class="n">ivector_online_ie</span><span class="p">.</span><span class="n">ark</span> <span class="o">-</span><span class="n">m</span> <span class="k">final</span><span class="p">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">d</span> <span class="n">CPU</span> <span class="o">-</span><span class="n">o</span> <span class="n">prediction</span><span class="p">.</span><span class="n">ark</span> <span class="o">-</span><span class="n">cw_l</span> <span class="mi">17</span> <span class="o">-</span><span class="n">cw_r</span> <span class="mi">12</span></pre></div></div><p>Results can be decoded as described in “Use of Sample in Kaldi Speech
+Recognition Pipeline” in the <a class="reference internal" href="../../../get-started-guide/samples/cpp-sample-automatic-speech-recognition.html#doxid-openvino-inference-engine-samples-speech-sample-r-e-a-d-m-e"><span class="std std-ref">Speech Recognition Sample description</span></a>
+article.</p>
 </section>
 </section>
 </section>
