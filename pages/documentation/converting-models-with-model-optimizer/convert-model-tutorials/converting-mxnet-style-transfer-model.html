@@ -78,7 +78,7 @@
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="Convert a Kaldi ASpIRE Chain Time Delay Neural Network (TDNN) Model" href="converting-kaldi-aspire-chain-tdnn-model.html" />
-    <link rel="prev" title="Converting MXNet GluonCV Models" href="converting-mxnet-gluoncv-models.html" />
+    <link rel="prev" title="Convert MXNet GluonCV Models" href="converting-mxnet-gluoncv-models.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -483,7 +483,7 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="converting-mxnet-gluoncv-models.html">
-       Converting MXNet GluonCV Models
+       Convert MXNet GluonCV Models
       </a>
      </li>
      <li class="toctree-l3 current active">
@@ -1822,12 +1822,16 @@
   <span class="target" id="conv-prep-mxnet-style-transfer"><span id="index-0"></span></span><section id="convert-an-mxnet-style-transfer-model">
 <h1>Convert an MXNet Style Transfer Model<a class="headerlink" href="#convert-an-mxnet-style-transfer-model" title="Permalink to this headline">¶</a></h1>
 <p><span class="target" id="conv-prep-mxnet-style-transfer-1md-openvino-docs-mo-dg-prepare-model-convert-model-mxnet-specific-convert-style-transfer-from-mxnet"></span></p>
-<p>This article provides instructions on how to generate a model for style transfer, using the public MXNet neural style transfer sample.</p>
-<p><strong>Step 1</strong> : Download or clone the repository <a class="reference external" href="https://github.com/zhaw/neural_style">Zhaw’s Neural Style Transfer repository</a> with an MXNet neural style transfer sample.</p>
-<p><strong>Step 2</strong> : Prepare the environment required to work with the cloned repository:</p>
+<p>This article provides instructions on how to generate a model for style
+transfer, using the public MXNet neural style transfer sample.</p>
+<p><strong>Step 1</strong> : Download or clone the repository <a class="reference external" href="https://github.com/zhaw/neural_style">Zhaw’s Neural Style Transfer repository</a>
+with an MXNet neural style transfer sample.</p>
+<p><strong>Step 2</strong> : Prepare the environment required to work with the cloned
+repository:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Python-tk installation is needed only for Linux. Python for Windows includes it by default.</p>
+<p>Python-tk installation is needed only for Linux. Python for Windows
+includes it by default.</p>
 </div>
 <ol class="arabic">
 <li><p>Install packages dependency.</p>
@@ -1837,63 +1841,95 @@
 <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">matplotlib</span>
 <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">scikit</span><span class="o">-</span><span class="n">image</span></pre></div></div></li>
 </ol>
-<p><strong>Step 3</strong> : Download the pre-trained <a class="reference external" href="https://github.com/dmlc/web-data/raw/master/mxnet/neural-style/model/vgg19.params">VGG19 model</a> and save it to the root directory of the cloned repository. The sample expects the model <code class="docutils literal notranslate"><span class="pre">vgg19.params</span></code> file to be in that directory.</p>
-<p><strong>Step 4</strong> : Modify source code files of style transfer sample from the cloned repository:</p>
+<p><strong>Step 3</strong> : Download the pre-trained <a class="reference external" href="https://github.com/dmlc/web-data/raw/master/mxnet/neural-style/model/vgg19.params">VGG19 model</a>
+and save it to the root directory of the cloned repository. The sample expects
+the model <code class="docutils literal notranslate"><span class="pre">vgg19.params</span></code> file to be in that directory.</p>
+<p><strong>Step 4</strong> : Modify source code files of style transfer sample from the cloned
+repository:</p>
 <ol class="arabic">
 <li><p>Go to the <code class="docutils literal notranslate"><span class="pre">fast_mrf_cnn</span></code> subdirectory.</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="p">.</span><span class="o">/</span><span class="n">fast_mrf_cnn</span></pre></div></div></li>
-<li><p>Open the <code class="docutils literal notranslate"><span class="pre">symbol.py</span></code> file and modify the <code class="docutils literal notranslate"><span class="pre">decoder_symbol()</span></code> function. You should see the following code there:</p>
+<li><p>Open the <code class="docutils literal notranslate"><span class="pre">symbol.py</span></code> file and modify the <code class="docutils literal notranslate"><span class="pre">decoder_symbol()</span></code> function.
+You should see the following code there:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">decoder_symbol</span><span class="p">()</span><span class="o">:</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="p">.</span><span class="n">sym</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="sc">&#39;data&#39;</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="p">.</span><span class="n">sym</span><span class="p">.</span><span class="n">Convolution</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">num_filter</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">pad</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sc">&#39;deco_conv1&#39;</span><span class="p">)</span></pre></div></div><p>Replace the code above with the following:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">decoder_symbol_with_vgg</span><span class="p">(</span><span class="n">vgg_symbol</span><span class="p">)</span><span class="o">:</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="p">.</span><span class="n">sym</span><span class="p">.</span><span class="n">Convolution</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">vgg_symbol</span><span class="p">,</span> <span class="n">num_filter</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">pad</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sc">&#39;deco_conv1&#39;</span><span class="p">)</span></pre></div></div></li>
 <li><p>Save and close the <code class="docutils literal notranslate"><span class="pre">symbol.py</span></code> file.</p></li>
-<li><p>Open and edit the <code class="docutils literal notranslate"><span class="pre">make_image.py</span></code> file. Go to the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">Maker</span></code> class:</p>
+<li><p>Open and edit the <code class="docutils literal notranslate"><span class="pre">make_image.py</span></code> file. Go to the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> function
+in the <code class="docutils literal notranslate"><span class="pre">Maker</span></code> class:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">.</span><span class="n">decoder_symbol</span><span class="p">()</span></pre></div></div><p>Modfiy it with the following code:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">.</span><span class="n">decoder_symbol_with_vgg</span><span class="p">(</span><span class="n">vgg_symbol</span><span class="p">)</span></pre></div></div></li>
-<li><p>To join the pre-trained weights with the decoder weights, make the following changes: After the code lines for loading the decoder weights:</p>
+<li><p>To join the pre-trained weights with the decoder weights, make the following
+changes: After the code lines for loading the decoder weights:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">args</span> <span class="o">=</span> <span class="n">mx</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="sc">&#39;%s_decoder_args.nd&#39;</span><span class="o">%</span><span class="n">model_prefix</span><span class="p">)</span>
 <span class="n">auxs</span> <span class="o">=</span> <span class="n">mx</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="sc">&#39;%s_decoder_auxs.nd&#39;</span><span class="o">%</span><span class="n">model_prefix</span><span class="p">)</span></pre></div></div><p>Add the following line:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">arg_dict</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></pre></div></div></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">arg_dict</span></code> instead of <code class="docutils literal notranslate"><span class="pre">args</span></code> as a parameter of the <code class="docutils literal notranslate"><span class="pre">decoder.bind()</span></code> function. Find the line below:</p>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">arg_dict</span></code> instead of <code class="docutils literal notranslate"><span class="pre">args</span></code> as a parameter of the
+<code class="docutils literal notranslate"><span class="pre">decoder.bind()</span></code> function. Find the line below:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">self</span><span class="p">.</span><span class="n">deco_executor</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="n">ctx</span><span class="o">=</span><span class="n">mx</span><span class="p">.</span><span class="n">gpu</span><span class="p">(),</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">aux_states</span><span class="o">=</span><span class="n">auxs</span><span class="p">)</span></pre></div></div><p>Replace it with the following:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">self</span><span class="p">.</span><span class="n">deco_executor</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="n">ctx</span><span class="o">=</span><span class="n">mx</span><span class="p">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">args</span><span class="o">=</span><span class="n">arg_dict</span><span class="p">,</span> <span class="n">aux_states</span><span class="o">=</span><span class="n">auxs</span><span class="p">)</span></pre></div></div></li>
-<li><p>Add the following code to the end of the <code class="docutils literal notranslate"><span class="pre">generate()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">Maker</span></code> class to save the result model as a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file:</p>
+<li><p>Add the following code to the end of the <code class="docutils literal notranslate"><span class="pre">generate()</span></code> function in the
+<code class="docutils literal notranslate"><span class="pre">Maker</span></code> class to save the result model as a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">self</span><span class="p">.</span><span class="n">vgg_executor</span><span class="p">.</span><span class="n">_symbol</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="sc">&#39;{}-symbol.json&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="sc">&#39;vgg19&#39;</span><span class="p">))</span>
 <span class="n">self</span><span class="p">.</span><span class="n">deco_executor</span><span class="p">.</span><span class="n">_symbol</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="sc">&#39;{}-symbol.json&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="sc">&#39;nst_vgg19&#39;</span><span class="p">))</span></pre></div></div></li>
 <li><p>Save and close the <code class="docutils literal notranslate"><span class="pre">make_image.py</span></code> file.</p></li>
 </ol>
-<p><strong>Step 5</strong> : Follow the instructions from the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file in the <code class="docutils literal notranslate"><span class="pre">fast_mrf_cnn</span></code> directory of the cloned repository and run the sample with a decoder model. For example, use the following code to run the sample with the pre-trained decoder weights from the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder and output shape:</p>
+<p><strong>Step 5</strong> : Follow the instructions from the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file in the
+<code class="docutils literal notranslate"><span class="pre">fast_mrf_cnn</span></code> directory of the cloned repository and run the sample with a
+decoder model. For example, use the following code to run the sample with the
+pre-trained decoder weights from the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder and output shape:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">import</span> <span class="n">make_image</span>
 <span class="n">maker</span> <span class="o">=</span> <span class="n">make_image</span><span class="p">.</span><span class="n">Maker</span><span class="p">(</span><span class="sc">&#39;models/13&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">))</span>
-<span class="n">maker</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="sc">&#39;output.jpg&#39;</span><span class="p">,</span> <span class="sc">&#39;../images/tubingen.jpg&#39;</span><span class="p">)</span></pre></div></div><p>The <code class="docutils literal notranslate"><span class="pre">models/13</span></code> string in the code above is composed of the following substrings:</p>
+<span class="n">maker</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="sc">&#39;output.jpg&#39;</span><span class="p">,</span> <span class="sc">&#39;../images/tubingen.jpg&#39;</span><span class="p">)</span></pre></div></div><p>The <code class="docutils literal notranslate"><span class="pre">models/13</span></code> string in the code above is composed of the following
+substrings:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">models/</span></code> path to the folder that contains <code class="docutils literal notranslate"><span class="pre">.nd</span></code> files with pre-trained styles weights.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">models/</span></code> path to the folder that contains <code class="docutils literal notranslate"><span class="pre">.nd</span></code> files with pre-trained
+styles weights.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">13</span></code> prefix pointing to the default decoder for the repository, <code class="docutils literal notranslate"><span class="pre">13_decoder</span></code>.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If an error prompts with “No module named <cite>cPickle</cite>”, try running the script from Step 5 in Python 2. After that return to Python 3 for the remaining steps.</p>
+<p>If an error prompts with “No module named <cite>cPickle</cite>”, try running the
+script from Step 5 in Python 2. After that return to Python 3 for the
+remaining steps.</p>
 </div>
-<p>Any style can be selected from <a class="reference external" href="https://pan.baidu.com/s/1skMHqYp">collection of pre-trained weights</a>. On the Chinese-language page, click the down arrow next to a size in megabytes. Then wait for an overlay box to appear, and click the blue button in it to download. The <code class="docutils literal notranslate"><span class="pre">generate()</span></code> function generates <code class="docutils literal notranslate"><span class="pre">nst_vgg19-symbol.json</span></code> and <code class="docutils literal notranslate"><span class="pre">vgg19-symbol.json</span></code> files for the specified shape. In the code, it is [1024 x 768] for a 4:3 ratio. You can specify another, for example, [224,224] for a square ratio.</p>
-<p><strong>Step 6</strong> : Run the Model Optimizer to generate an Intermediate Representation (IR):</p>
+<p>Any style can be selected from <a class="reference external" href="https://pan.baidu.com/s/1skMHqYp">collection of pre-trained weights</a>.
+On the Chinese-language page, click the down arrow next to a size in megabytes.
+Then wait for an overlay box to appear, and click the blue button in it to
+download. The <code class="docutils literal notranslate"><span class="pre">generate()</span></code> function generates <code class="docutils literal notranslate"><span class="pre">nst_vgg19-symbol.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">vgg19-symbol.json</span></code> files for the specified shape. In the code, it is
+[1024 x 768] for a 4:3 ratio. You can specify another, for example, [224,224]
+for a square ratio.</p>
+<p><strong>Step 6</strong> : Run the Model Optimizer to generate an Intermediate Representation
+(IR):</p>
 <ol class="arabic">
 <li><p>Create a new directory. For example:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">nst_model</span></pre></div></div></li>
-<li><p>Copy the initial and generated model files to the created directory. For example, to copy the pre-trained decoder weights from the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder to the <code class="docutils literal notranslate"><span class="pre">nst_model</span></code> directory, run the following commands:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="n">nst_vgg19</span><span class="o">-</span><span class="n">symbol</span><span class="p">.</span><span class="n">json</span> <span class="n">nst_model</span>
+</ol>
+<p>#. Copy the initial and generated model files to the created directory. For
+example, to copy the pre-trained decoder weights from the <code class="docutils literal notranslate"><span class="pre">models</span></code> folder to
+the <code class="docutils literal notranslate"><span class="pre">nst_model</span></code> directory, run the following commands:</p>
+<blockquote>
+<div><div class="highlight"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="n">nst_vgg19</span><span class="o">-</span><span class="n">symbol</span><span class="p">.</span><span class="n">json</span> <span class="n">nst_model</span>
 <span class="n">cp</span> <span class="n">vgg19</span><span class="o">-</span><span class="n">symbol</span><span class="p">.</span><span class="n">json</span> <span class="n">nst_model</span>
 <span class="n">cp</span> <span class="p">..</span><span class="o">/</span><span class="n">vgg19</span><span class="p">.</span><span class="n">params</span> <span class="n">nst_model</span><span class="o">/</span><span class="n">vgg19</span><span class="o">-</span><span class="mf">0000.</span><span class="n">params</span>
 <span class="n">cp</span> <span class="n">models</span><span class="o">/</span><span class="mi">13</span><span class="n">_decoder_args</span><span class="p">.</span><span class="n">nd</span> <span class="n">nst_model</span>
 <span class="n">cp</span> <span class="n">models</span><span class="o">/</span><span class="mi">13</span><span class="n">_decoder_auxs</span><span class="p">.</span><span class="n">nd</span> <span class="n">nst_model</span></pre></div></div><div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Make sure that all the <code class="docutils literal notranslate"><span class="pre">.params</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> files are in the same directory as the <code class="docutils literal notranslate"><span class="pre">.nd</span></code> files. Otherwise, the conversion process fails.</p>
+<p>Make sure that all the <code class="docutils literal notranslate"><span class="pre">.params</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> files are in the
+same directory as the <code class="docutils literal notranslate"><span class="pre">.nd</span></code> files. Otherwise, the conversion process
+fails.</p>
 </div>
-</li>
-<li><p>Run the Model Optimizer for Apache MXNet. Use the <code class="docutils literal notranslate"><span class="pre">--nd_prefix_name</span></code> option to specify the decoder prefix and <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> to specify input shapes in [N,C,W,H] order. For example:</p>
+</div></blockquote>
+<ol class="arabic">
+<li><p>Run the Model Optimizer for Apache MXNet. Use the <code class="docutils literal notranslate"><span class="pre">--nd_prefix_name</span></code>
+option to specify the decoder prefix and <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> to specify input
+shapes in [N,C,W,H] order. For example:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mo</span> <span class="o">--</span><span class="n">input_symbol</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">nst_model</span><span class="o">&gt;/</span><span class="n">nst_vgg19</span><span class="o">-</span><span class="n">symbol</span><span class="p">.</span><span class="n">json</span> <span class="o">--</span><span class="n">framework</span> <span class="n">mxnet</span> <span class="o">--</span><span class="n">output_dir</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">output_dir</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">input_shape</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">]</span> <span class="o">--</span><span class="n">nd_prefix_name</span> <span class="mi">13</span><span class="n">_decoder</span> <span class="o">--</span><span class="n">pretrained_model</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">nst_model</span><span class="o">&gt;/</span><span class="n">vgg19</span><span class="o">-</span><span class="mf">0000.</span><span class="n">params</span></pre></div></div></li>
-<li><p>The IR is generated (<code class="docutils literal notranslate"><span class="pre">.bin</span></code>, <code class="docutils literal notranslate"><span class="pre">.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">.mapping</span></code> files) in the specified output directory, and ready to be consumed by the OpenVINO Runtime.</p></li>
+<li><p>The IR is generated (<code class="docutils literal notranslate"><span class="pre">.bin</span></code>, <code class="docutils literal notranslate"><span class="pre">.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">.mapping</span></code> files) in the
+specified output directory, and ready to be consumed by the OpenVINO Runtime.</p></li>
 </ol>
 </section>
 

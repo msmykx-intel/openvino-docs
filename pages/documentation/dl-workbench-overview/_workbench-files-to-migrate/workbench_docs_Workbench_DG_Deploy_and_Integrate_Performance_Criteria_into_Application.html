@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="OpenVINO Deep Learning Workbench guide on how to incorporate the optimal configuration of inferences, batch and target for a model settings into the inference engine deployed in application." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, guide, user guide, deploy and integrate performance criteria, Performance criteria, optimal configuration of inferences, batch, target, model setting, inference engine, optimal combination of streams and batches, inference, results, latency threshold, request, integrate otpimal combination" name="keywords" />
 
     <title>Deploy and Integrate Performance Criteria into Application &#8212; OpenVINO™  documentation</title>
     
@@ -481,7 +483,7 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../../converting-models-with-model-optimizer/convert-model-tutorials/converting-mxnet-gluoncv-models.html">
-       Converting MXNet GluonCV Models
+       Convert MXNet GluonCV Models
       </a>
      </li>
      <li class="toctree-l3">
@@ -1844,15 +1846,21 @@
             
                 <div>
                   
-  <section id="deploy-and-integrate-performance-criteria-into-application">
-<span id="doxid-workbench-docs-workbench-d-g-deploy-and-integrate-performance-criteria-into-application"></span><span id="index-0"></span><h1>Deploy and Integrate Performance Criteria into Application<a class="headerlink" href="#deploy-and-integrate-performance-criteria-into-application" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-deploy-and-integrate-performance-criteria-into-application-1md-openvino-workbench-docs-workbench-dg-deploy-and-integrate-performance-criteria-into-application"></span> Once you identify the optimal configuration of inferences, batch and target for a model, you can incorporate those settings into the inference engine deployed with your application.</p>
+  <span class="target" id="workbench-deployment-deploy-and-integrate-performance-criteria-into-app"><span id="index-0"></span></span><section id="deploy-and-integrate-performance-criteria-into-application">
+<h1>Deploy and Integrate Performance Criteria into Application<a class="headerlink" href="#deploy-and-integrate-performance-criteria-into-application" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-deployment-deploy-and-integrate-performance-criteria-into-app-1md-openvino-workbench-docs-workbench-dg-deploy-and-integrate-performance-criteria-into-application"></span>
+Once you identify the optimal configuration of inferences, batch and target for a model, you can incorporate those
+settings into the inference engine deployed with your application.</p>
 <iframe  allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="560" height="315" src="https://www.youtube.com/embed/-i8gdbukpU4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><section id="discover-optimal-combination-of-streams-and-batches-with-dl-workbench">
 <span id="discover"></span><h2>Discover Optimal Combination of Streams and Batches with DL Workbench<a class="headerlink" href="#discover-optimal-combination-of-streams-and-batches-with-dl-workbench" title="Permalink to this headline">¶</a></h2>
-<p>To find an optimal combination of inference requests and batches, follow the steps described in <a class="reference internal" href="workbench_docs_Workbench_DG_Run_Single_Inference.html#doxid-workbench-docs-workbench-d-g-run-single-inference"><span class="std std-ref">Run Range of Inferences</span></a>.</p>
-<p>The optimal combination is the highest point on the <strong>Inference Results</strong> graph. However, you can choose to limit latency values by specifying the <strong>Latency Threshold</strong> value and select an optimal inference among the limited number of inferences:</p>
+<p>To find an optimal combination of inference requests and batches, follow the steps described in
+<a class="reference internal" href="workbench_docs_Workbench_DG_Run_Single_Inference.html#doxid-workbench-docs-workbench-d-g-run-single-inference"><span class="std std-ref">Run Range of Inferences</span></a>.</p>
+<p>The optimal combination is the highest point on the <strong>Inference Results</strong> graph. However, you can choose to
+limit latency values by specifying the <strong>Latency Threshold</strong> value and select an optimal inference among the
+limited number of inferences:</p>
 <img alt="../../../../_images/deployment_package_01.png" src="../../../../_images/deployment_package_01.png" />
-<p>To view information about latency, throughput, batch, and parallel requests of a specific job, hover your cursor over the corresponding point on the graph:</p>
+<p>To view information about latency, throughput, batch, and parallel requests of a specific job, hover your cursor
+over the corresponding point on the graph:</p>
 <img alt="../../../../_images/deployment_package_02.png" src="../../../../_images/deployment_package_02.png" />
 <p>For details, read <a class="reference internal" href="../../openvino-runtime-user-guide/openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">Integrate the OpenVINO™ Runtime New Request API with Your Application</span></a>.</p>
 </section>
@@ -1860,11 +1868,15 @@
 <h2>Integrate Optimal Combination into Sample Application<a class="headerlink" href="#integrate-optimal-combination-into-sample-application" title="Permalink to this headline">¶</a></h2>
 <section id="use-streams-and-batches-in-your-application">
 <h3>Use Streams and Batches in Your Application<a class="headerlink" href="#use-streams-and-batches-in-your-application" title="Permalink to this headline">¶</a></h3>
-<p>Learn how to use batches and streams in your application with DL Workbench C++ Sample Application. To access the sample, open the <strong>Learn OpenVINO</strong> tab, select <strong>Model Inference with OpenVINO API</strong>, then select <strong>C++ API</strong> and click <strong>Open</strong>.</p>
+<p>Learn how to use batches and streams in your application with DL Workbench C++ Sample Application. To access the
+sample, open the <strong>Learn OpenVINO</strong> tab, select <strong>Model Inference with OpenVINO API</strong>, then select <strong>C++ API</strong> and
+click <strong>Open</strong>.</p>
 <img alt="../../../../_images/csample.png" src="../../../../_images/csample.png" />
 <p>The notebook with the C++ Sample Application opens:</p>
 <img alt="../../../../_images/sample_jupyter.png" src="../../../../_images/sample_jupyter.png" />
-<p>This notebook is created for educational purposes and does not guarantee the immediate creation of a highly efficient application. You can build your own application based on the code from this tutorial. The tutorial guides you through the following steps:</p>
+<p>This notebook is created for educational purposes and does not guarantee the immediate creation of a highly efficient ,
+application. You can build your own application based on the code from this tutorial. The tutorial guides you through
+the following steps:</p>
 <ol class="arabic">
 <li><p>Learn about OpenVINO™ inference</p>
 <p>Read quick theory to learn about batches and streams, inference requests, and Asynchronous API.</p>
@@ -1899,7 +1911,7 @@
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Deployment_Package.html#doxid-workbench-docs-workbench-d-g-deployment-package"><span class="std std-ref">Build Your Application with Deployment Package</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Deployment_Package.html#workbench-guide-deployment-package"><span class="std std-ref">Build Your Application with Deployment Package</span></a></p></li>
 <li><p><a class="reference internal" href="../../openvino-deployment-guide/deployment-manager-tool.html#deploy-infer-deploy-manager"><span class="std std-ref">Deployment Manager Guide</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>

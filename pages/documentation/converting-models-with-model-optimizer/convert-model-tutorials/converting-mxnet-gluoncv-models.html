@@ -8,7 +8,7 @@
 <meta content="This tutorial demonstrates how to convert GluonCV models from MXNet to the OpenVINO Intermediate Representation." name="description" />
 <meta content="Model Optimizer, tutorial, convert a model, model conversion, --input_model, --input_model parameter, command-line parameter, OpenVINO™ toolkit, deep learning inference, OpenVINO Intermediate Representation, MXNet, GluonCV, GluonCV model, pre-trained model, convert a model to OpenVINO IR" name="keywords" />
 
-    <title>Converting MXNet GluonCV Models &#8212; OpenVINO™  documentation</title>
+    <title>Convert MXNet GluonCV Models &#8212; OpenVINO™  documentation</title>
     
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet">
@@ -483,7 +483,7 @@
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Converting MXNet GluonCV Models
+       Convert MXNet GluonCV Models
       </a>
      </li>
      <li class="toctree-l3">
@@ -1819,17 +1819,28 @@
             
                 <div>
                   
-  <span class="target" id="conv-prep-mxnet-gluon-cv"><span id="index-0"></span></span><section id="converting-mxnet-gluoncv-models">
-<h1>Converting MXNet GluonCV Models<a class="headerlink" href="#converting-mxnet-gluoncv-models" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="conv-prep-mxnet-gluon-cv-1md-openvino-docs-mo-dg-prepare-model-convert-model-mxnet-specific-convert-gluoncv-models"></span> This article provides the instructions and examples on how to use Model Optimizer to convert <a class="reference external" href="https://gluon-cv.mxnet.io/model_zoo/detection.html">GluonCV SSD and YOLO-v3 models</a> to IR.</p>
+  <span class="target" id="conv-prep-mxnet-gluon-cv"><span id="index-0"></span></span><section id="convert-mxnet-gluoncv-models">
+<h1>Convert MXNet GluonCV Models<a class="headerlink" href="#convert-mxnet-gluoncv-models" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="conv-prep-mxnet-gluon-cv-1md-openvino-docs-mo-dg-prepare-model-convert-model-mxnet-specific-convert-gluoncv-models"></span></p>
+<p>This article provides the instructions and examples on how to use Model
+Optimizer to convert <a class="reference external" href="https://gluon-cv.mxnet.io/model_zoo/detection.html">GluonCV SSD and YOLO-v3 models</a>
+to IR.</p>
 <ol class="arabic">
-<li><p>Choose the topology available from the <a class="reference external" href="https://gluon-cv.mxnet.io/model_zoo/detection.html">GluonCV Model Zoo</a> and export to the MXNet format using the GluonCV API. For example, for the <code class="docutils literal notranslate"><span class="pre">ssd_512_mobilenet1.0</span></code> topology:</p>
+<li><p>Choose the topology available from the <a class="reference external" href="https://gluon-cv.mxnet.io/model_zoo/detection.html">GluonCV Model Zoo</a>
+and export to the MXNet format using the GluonCV API. For example, for the
+<code class="docutils literal notranslate"><span class="pre">ssd_512_mobilenet1.0</span></code> topology:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">from</span> <span class="n">gluoncv</span> <span class="n">import</span> <span class="n">model_zoo</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">utils</span>
 <span class="n">from</span> <span class="n">gluoncv</span><span class="p">.</span><span class="n">utils</span> <span class="n">import</span> <span class="n">export_block</span>
 <span class="n">net</span> <span class="o">=</span> <span class="n">model_zoo</span><span class="p">.</span><span class="n">get_model</span><span class="p">(</span><span class="sc">&#39;ssd_512_mobilenet1.0_voc&#39;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-<span class="n">export_block</span><span class="p">(</span><span class="sc">&#39;ssd_512_mobilenet1.0_voc&#39;</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="sc">&#39;HWC&#39;</span><span class="p">)</span></pre></div></div><p>As a result, you will get an MXNet model representation in <code class="docutils literal notranslate"><span class="pre">ssd_512_mobilenet1.0.params</span></code> and <code class="docutils literal notranslate"><span class="pre">ssd_512_mobilenet1.0.json</span></code> files generated in the current directory.</p>
+<span class="n">export_block</span><span class="p">(</span><span class="sc">&#39;ssd_512_mobilenet1.0_voc&#39;</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="sc">&#39;HWC&#39;</span><span class="p">)</span></pre></div></div><p>As a result, you will get an MXNet model representation in
+<code class="docutils literal notranslate"><span class="pre">ssd_512_mobilenet1.0.params</span></code> and <code class="docutils literal notranslate"><span class="pre">ssd_512_mobilenet1.0.json</span></code> files
+generated in the current directory.</p>
 </li>
-<li><p>Run the Model Optimizer tool, specifying the <code class="docutils literal notranslate"><span class="pre">--enable_ssd_gluoncv</span></code> option. Make sure the <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> parameter is set to the input shape layout of your model (NHWC or NCHW). The examples below illustrate running the Model Optimizer for the SSD and YOLO-v3 models trained with the NHWC layout and located in the <code class="docutils literal notranslate"><span class="pre">&lt;model_directory&gt;</span></code> :</p></li>
+<li><p>Run the Model Optimizer tool, specifying the <code class="docutils literal notranslate"><span class="pre">--enable_ssd_gluoncv</span></code>
+option. Make sure the <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> parameter is set to the input shape
+layout of your model (NHWC or NCHW). The examples below illustrate running
+the Model Optimizer for the SSD and YOLO-v3 models trained with the NHWC
+layout and located in the <code class="docutils literal notranslate"><span class="pre">&lt;model_directory&gt;</span></code> :</p></li>
 </ol>
 <ul>
 <li><p><strong>For GluonCV SSD topologies:</strong></p>

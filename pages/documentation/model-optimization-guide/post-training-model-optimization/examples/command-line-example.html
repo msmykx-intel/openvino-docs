@@ -483,7 +483,7 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../../../converting-models-with-model-optimizer/convert-model-tutorials/converting-mxnet-gluoncv-models.html">
-       Converting MXNet GluonCV Models
+       Convert MXNet GluonCV Models
       </a>
      </li>
      <li class="toctree-l3">
@@ -1900,7 +1900,7 @@ tool:</p>
 <section id="performance-benchmarking-of-full-precision-models">
 <h2>Performance Benchmarking of Full-Precision Models<a class="headerlink" href="#performance-benchmarking-of-full-precision-models" title="Permalink to this headline">¶</a></h2>
 <p>Check the performance of the full-precision model in the IR format using
-<a class="reference internal" href="../../../../get-started-guide/samples/python-benchmark-tool.html#doxid-openvino-inference-engine-tools-benchmark-tool-r-e-a-d-m-e"><span class="std std-ref">Deep Learning Benchmark</span></a>
+<a class="reference internal" href="../../../../get-started-guide/samples/python-benchmark-tool.html#get-started-samples-python-benchmark"><span class="std std-ref">Deep Learning Benchmark</span></a>
 tool:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">benchmark_app</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">EXAMPLE_DIR</span><span class="o">&gt;/</span><span class="k">public</span><span class="o">/</span><span class="n">mobilenet</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">pytorch</span><span class="o">/</span><span class="n">FP32</span><span class="o">/</span><span class="n">mobilenet</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">pytorch</span><span class="p">.</span><span class="n">xml</span></pre></div></div><p>Note that the results might be different dependently on characteristics of
 your machine. On a machine with Intel Core i9-10920X CPU &#64; 3.50GHz it is like:</p>
@@ -2030,7 +2030,7 @@ the accuracy top-1 metric on VNNI based CPU.</p>
 <section id="performance-benchmarking-of-quantized-model">
 <h2>Performance Benchmarking of Quantized Model<a class="headerlink" href="#performance-benchmarking-of-quantized-model" title="Permalink to this headline">¶</a></h2>
 <p>Check the performance of the quantized model using
-<a class="reference internal" href="../../../../get-started-guide/samples/python-benchmark-tool.html#doxid-openvino-inference-engine-tools-benchmark-tool-r-e-a-d-m-e"><span class="std std-ref">Deep Learning Benchmark</span></a>
+<a class="reference internal" href="../../../../get-started-guide/samples/python-benchmark-tool.html#get-started-samples-python-benchmark"><span class="std std-ref">Deep Learning Benchmark</span></a>
 tool:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">benchmark_app</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">INT8_MODEL</span><span class="o">&gt;</span></pre></div></div><p>where <code class="docutils literal notranslate"><span class="pre">&lt;INT8_MODEL&gt;</span></code> is the path to the quantized model.</p>
 <p>Note that the results might be different dependently on characteristics of your

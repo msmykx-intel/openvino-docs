@@ -483,7 +483,7 @@
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../converting-models-with-model-optimizer/convert-model-tutorials/converting-mxnet-gluoncv-models.html">
-       Converting MXNet GluonCV Models
+       Convert MXNet GluonCV Models
       </a>
      </li>
      <li class="toctree-l3">
@@ -2091,7 +2091,7 @@
 <section id="using-the-multi-device-with-openvino-samples-and-benchmarking-performance">
 <h2>Using the Multi-Device with OpenVINO Samples and Benchmarking Performance<a class="headerlink" href="#using-the-multi-device-with-openvino-samples-and-benchmarking-performance" title="Permalink to this headline">¶</a></h2>
 <p>To see how the Multi-Device execution is used in practice and test its performance, take a look at OpenVINO’s Benchmark Application which presents the optimal performance of the plugin without the need for additional settings, like the number of requests or CPU threads. Here is an example command to evaluate performance of HDDL+GPU:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">benchmark_app</span> <span class="err">–</span><span class="n">d</span> <span class="nl">MULTI</span><span class="p">:</span><span class="n">HDDL</span><span class="p">,</span><span class="n">GPU</span> <span class="err">–</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">niter</span> <span class="mi">1000</span></pre></div></div><p>For more information, refer to the <a class="reference internal" href="../../get-started-guide/samples/cpp-benchmark-tool.html#doxid-openvino-inference-engine-samples-benchmark-app-r-e-a-d-m-e"><span class="std std-ref">C++</span></a> or <a class="reference internal" href="../../get-started-guide/samples/python-benchmark-tool.html#doxid-openvino-inference-engine-tools-benchmark-tool-r-e-a-d-m-e"><span class="std std-ref">Python</span></a> version instructions.</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">benchmark_app</span> <span class="err">–</span><span class="n">d</span> <span class="nl">MULTI</span><span class="p">:</span><span class="n">HDDL</span><span class="p">,</span><span class="n">GPU</span> <span class="err">–</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">niter</span> <span class="mi">1000</span></pre></div></div><p>For more information, refer to the <a class="reference internal" href="../../get-started-guide/samples/cpp-benchmark-tool.html#get-started-samples-cpp-benchmark"><span class="std std-ref">C++</span></a> or <a class="reference internal" href="../../get-started-guide/samples/python-benchmark-tool.html#get-started-samples-python-benchmark"><span class="std std-ref">Python</span></a> version instructions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can keep using the FP16 IR without converting it to FP32, even if some of the listed devices do not support it. The conversion will be done automatically for you.</p>
