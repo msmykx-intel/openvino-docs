@@ -789,13 +789,13 @@
 <section id="open-dev-ion-failed-in-hddldaemon-log">
 <h3>“open /dev/ion failed!” in hddldaemon log<a class="headerlink" href="#open-dev-ion-failed-in-hddldaemon-log" title="Permalink to this headline">¶</a></h3>
 <p>Check if <code class="docutils literal notranslate"><span class="pre">myd_ion</span></code> kernel module is installed by running the following command:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">lsmod</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">myd_ion</span></pre></div></div><p>If you do not see any output from the command, reinstall the <code class="docutils literal notranslate"><span class="pre">myd_ion</span></code> module.</p>
-</section>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">lsmod</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">myd_ion</span></pre></div></div><p>If you do not see any output from the command, you can use the following command to reinstall the <cite>myd_ion</cite> module:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">myd_ion</span></pre></div></div></section>
 <section id="constantly-getting-name-mapping-open-failed-err-2-no-such-file-or-directory-in-hddldaemon-log">
 <h3>Constantly getting “_name_mapping open failed err=2,No such file or directory” in hddldaemon log<a class="headerlink" href="#constantly-getting-name-mapping-open-failed-err-2-no-such-file-or-directory-in-hddldaemon-log" title="Permalink to this headline">¶</a></h3>
 <p>Check if myd_vsc kernel module is installed by running the following command:</p>
-<div class="highlight"><div class="highlight"><pre><span></span><span class="n">lsmod</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">myd_vsc</span></pre></div></div><p>If you do not see any output from the command reinstall the <code class="docutils literal notranslate"><span class="pre">myd_vsc</span></code> module.</p>
-</section>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">lsmod</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">myd_vsc</span></pre></div></div><p>If you do not see any output from the command, you can use the following command to reinstall the <cite>myd_vsc</cite> module:</p>
+<div class="highlight"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">myd_vsc</span></pre></div></div></section>
 <section id="required-key-not-available-appears-when-trying-to-install-the-myd-ion-or-myd-vsc-modules">
 <h3>“Required key not available” appears when trying to install the myd_ion or myd_vsc modules<a class="headerlink" href="#required-key-not-available-appears-when-trying-to-install-the-myd-ion-or-myd-vsc-modules" title="Permalink to this headline">¶</a></h3>
 <p>Run the following commands:</p>
