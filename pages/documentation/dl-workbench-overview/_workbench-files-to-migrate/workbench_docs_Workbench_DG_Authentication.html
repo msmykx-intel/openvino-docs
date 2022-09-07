@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Guide on how to enable and configure authentication settings for OpenVINO Deep Learning Workbench. Information include details on how to use authentication token." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, security, authentication, token, guide, enable authentication, configure authentication, ont-time link with token, one-time token, login token, jupyterlab, jupyterlab token" name="keywords" />
 
     <title>Enable Authentication in DL Workbench &#8212; OpenVINO™  documentation</title>
     
@@ -1859,29 +1861,34 @@
             
                 <div>
                   
-  <section id="enable-authentication-in-dl-workbench">
-<span id="doxid-workbench-docs-workbench-d-g-authentication"></span><span id="index-0"></span><h1>Enable Authentication in DL Workbench<a class="headerlink" href="#enable-authentication-in-dl-workbench" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-authentication-1md-openvino-workbench-docs-workbench-dg-authentication"></span> By default, the DL Workbench is started without authentication settings. This can cause problems with sensitive data, like your model or performance information. It is recommended to enable authentication when starting the DL Workbench.</p>
+  <span class="target" id="workbench-security-authentication"><span id="index-0"></span></span><section id="enable-authentication-in-dl-workbench">
+<h1>Enable Authentication in DL Workbench<a class="headerlink" href="#enable-authentication-in-dl-workbench" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-security-authentication-1md-openvino-workbench-docs-workbench-dg-authentication"></span> By default,
+the DL Workbench is started without authentication settings. This can cause problems with sensitive data, like your
+model or performance information. It is recommended to enable authentication when starting the DL Workbench.</p>
 <section id="enable-authentication">
 <h2>Enable Authentication<a class="headerlink" href="#enable-authentication" title="Permalink to this headline">¶</a></h2>
-<p>To enable authentication, use <code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">ENABLE_AUTH=1</span></code> when you start the DL Workbench with the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command or <code class="docutils literal notranslate"><span class="pre">--enable-auth</span></code> with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script:</p>
+<p>To enable authentication, use <code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">ENABLE_AUTH=1</span></code> when you start the DL Workbench with the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command
+or <code class="docutils literal notranslate"><span class="pre">--enable-auth</span></code> with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script:</p>
 <ul>
 <li><p>Example <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">5665</span><span class="o">:</span><span class="mi">5665</span> <span class="o">--</span><span class="n">name</span> <span class="n">workbench</span> <span class="o">-</span><span class="n">e</span> <span class="n">ENABLE_AUTH</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span><span class="n">it</span> <span class="n">openvino</span><span class="o">/</span><span class="nl">workbench</span><span class="p">:</span><span class="mf">2022.1</span></pre></div></div></li>
 <li><p>Example <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> command:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">openvino</span><span class="o">-</span><span class="n">workbench</span> <span class="o">--</span><span class="n">image</span> <span class="n">openvino</span><span class="o">/</span><span class="nl">workbench</span><span class="p">:</span><span class="mf">2022.1</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">authentication</span></pre></div></div></li>
 </ul>
-<p>When you enable authentication, the terminal displays the following when the Docker container with the DL Workbench is up and running:</p>
+<p>When you enable authentication, the terminal displays the following when the Docker container with the DL Workbench
+is up and running:</p>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="#url-token">One-time link with token</a></p></li>
 <li><p><a class="reference external" href="#login-token">Login token</a></p></li>
-<li><p><a class="reference external" href="#jupyter-token">JupyterLab* token</a></p></li>
+<li><p><a class="reference external" href="#jupyter-token">JupyterLab token</a></p></li>
 </ol>
 <img alt="../../../../_images/auth2.png" src="../../../../_images/auth2.png" />
 </section>
 <section id="configure-authentication">
 <h2>Configure Authentication<a class="headerlink" href="#configure-authentication" title="Permalink to this headline">¶</a></h2>
-<p>To set up your own login token, use <code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">CUSTOM_TOKEN=&lt;token&gt;</span></code> when you start the DL Workbench with the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command or <code class="docutils literal notranslate"><span class="pre">--custom-token</span> <span class="pre">&lt;token&gt;</span></code> with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script:</p>
+<p>To set up your own login token, use <code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">CUSTOM_TOKEN=&lt;token&gt;</span></code> when you start the DL Workbench with the <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code>
+command or <code class="docutils literal notranslate"><span class="pre">--custom-token</span> <span class="pre">&lt;token&gt;</span></code> with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script:</p>
 <ul>
 <li><p>Example <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">5665</span><span class="o">:</span><span class="mi">5665</span> <span class="o">--</span><span class="n">name</span> <span class="n">workbench</span> <span class="o">-</span><span class="n">e</span> <span class="n">ENABLE_AUTH</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span><span class="n">e</span> <span class="n">CUSTOM_TOKEN</span><span class="o">=</span><span class="n">MY_CUSTOM_TOKEN</span> <span class="o">-</span><span class="n">it</span> <span class="n">openvino</span><span class="o">/</span><span class="nl">workbench</span><span class="p">:</span><span class="mf">2022.1</span></pre></div></div></li>
@@ -1893,37 +1900,44 @@
 <h2>How to Use Tokens<a class="headerlink" href="#how-to-use-tokens" title="Permalink to this headline">¶</a></h2>
 <section id="one-time-link-with-token">
 <span id="url-token"></span><h3>One-Time Link with Token<a class="headerlink" href="#one-time-link-with-token" title="Permalink to this headline">¶</a></h3>
-<p>The link is provided to make it easy for you to go to the DL Workbench for the first time. For each new container, a unique one-time link is generated and expires once you click it. Use this link to access the DL Workbench for the first time. When you click the link, the DL Workbench <strong>Active Projects</strong> page appears, and you can move on to <a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">work with models and sample datasets</span></a> by clicking <strong>Create Project</strong> :</p>
+<p>The link is provided to make it easy for you to go to the DL Workbench for the first time. For each new container,
+a unique one-time link is generated and expires once you click it. Use this link to access the DL Workbench for the
+first time. When you click the link, the DL Workbench <strong>Active Projects</strong> page appears, and you can move on to
+<a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">work with models and sample datasets</span></a> by clicking <strong>Create Project</strong> :</p>
 <img alt="../../../../_images/start_page_crop.png" src="../../../../_images/start_page_crop.png" />
 <p>Accept or block cookies in the pop-up window. You can change your decision later on the <strong>Settings</strong> panel.</p>
 <img alt="../../../../_images/pop_up_cookies.png" src="../../../../_images/pop_up_cookies.png" />
 </section>
 <section id="login-token">
 <span id="id1"></span><h3>Login Token<a class="headerlink" href="#login-token" title="Permalink to this headline">¶</a></h3>
-<p>The login token is valid as long as you do not remove the current Docker container, so treat the token as a password for the current DL Workbench session. Use it whenever you see the <strong>Enter OpenVINO DL Workbench</strong> window.</p>
-<p>Open the <a class="reference external" href="http://127.0.0.1:5665">http://127.0.0.1:5665</a> link without the URL token, and the <strong>Enter OpenVINO DL Workbench</strong> page appears. Copy the login token from the console and paste it into the field:</p>
+<p>The login token is valid as long as you do not remove the current Docker container, so treat the token as a password
+for the current DL Workbench session. Use it whenever you see the <strong>Enter OpenVINO DL Workbench</strong> window.</p>
+<p>Open the <a class="reference external" href="http://127.0.0.1:5665">http://127.0.0.1:5665</a> link without the URL token, and the
+<strong>Enter OpenVINO DL Workbench</strong> page appears. Copy the login token from the console and paste it into the field:</p>
 <img alt="../../../../_images/auth1.png" src="../../../../_images/auth1.png" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The token is also saved to a folder inside a Docker container, and you can obtain it with the command below:</p>
-</div>
 <p><code class="docutils literal notranslate"><span class="pre">`bash</span> <span class="pre">docker</span> <span class="pre">cp</span> <span class="pre">workbench:/home/workbench/.workbench/token.txt</span> <span class="pre">token.txt</span> <span class="pre">``</span> <span class="pre">``&lt;blockquote&gt;If</span> <span class="pre">you</span> <span class="pre">do</span> <span class="pre">not</span> <span class="pre">want</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">the</span> <span class="pre">token</span> <span class="pre">inside</span> <span class="pre">a</span> <span class="pre">Docker</span> <span class="pre">container,</span> <span class="pre">use</span></code> SAVE_TOKEN_TO_FILE=0 <code class="docutils literal notranslate"><span class="pre">when</span> <span class="pre">you</span> <span class="pre">start</span> <span class="pre">the</span> <span class="pre">DL</span> <span class="pre">Workbench</span> <span class="pre">with</span> <span class="pre">the</span></code> docker run <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">or</span></code> disable-token-saving <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">the</span></code> openvino-workbench` script.</p>
-<p>Press <strong>Start</strong>. The <strong>Start Page</strong> appears, and you can move on to <a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">work with models and sample datasets</span></a> by clicking <strong>Create Project</strong>.</p>
+</div>
+<p>Press <strong>Start</strong>. The <strong>Start Page</strong> appears, and you can move on to
+<a class="reference internal" href="../dl-workbench-get-started.html#dl-workbench-get-started"><span class="std std-ref">work with models and sample datasets</span></a> by clicking <strong>Create Project</strong>.</p>
 <img alt="../../../../_images/start_page_crop.png" src="../../../../_images/start_page_crop.png" />
 <p>Accept or block cookies in the pop-up window. You can change your decision later on the <strong>Settings</strong> panel.</p>
 <img alt="../../../../_images/pop_up_cookies.png" src="../../../../_images/pop_up_cookies.png" />
 </section>
 <section id="jupyterlab-token">
 <span id="jupyter-token"></span><h3>JupyterLab Token<a class="headerlink" href="#jupyterlab-token" title="Permalink to this headline">¶</a></h3>
-<p>Use this token when you access the <a class="reference internal" href="workbench_docs_Workbench_DG_Jupyter_Notebooks.html#workbench-jupyter-api"><span class="std std-ref">JupyterLab Environment</span></a> delivered by the DL Workbench. This token is valid as long as you do not remove the current Docker container.</p>
+<p>Use this token when you access the <a class="reference internal" href="workbench_docs_Workbench_DG_Jupyter_Notebooks.html#workbench-jupyter-api"><span class="std std-ref">JupyterLab Environment</span></a> delivered by the DL Workbench.
+This token is valid as long as you do not remove the current Docker container.</p>
 <img alt="../../../../_images/auth4.png" src="../../../../_images/auth4.png" />
 </section>
 </section>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="workbench_docs_security_Workbench.html#doxid-workbench-docs-security-workbench"><span class="std std-ref">Deep Learning Workbench Security</span></a></p></li>
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Configure_TLS.html#doxid-workbench-docs-workbench-d-g-configure-t-l-s"><span class="std std-ref">Configure Transport Layer Security (TLS)</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_security_Workbench.html#workbench-guide-security"><span class="std std-ref">Deep Learning Workbench Security</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Configure_TLS.html#workbench-security-tls"><span class="std std-ref">Configure Transport Layer Security (TLS)</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>
 </section>

@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Guide on how to configure Transprt Layer Security (TLS) in OpenVINO Deep Learning Workbench. Guide includes information on certification status for Linux, Windows and macOS systems." name="description" />
+<meta content="OpenVINO, Deep Learning Workbench, DL Workbench, security, guide, transport layer security, tls, configure tls, configure transport layer security, self-signed certificate, trusted certificate, linux, windows, macos" name="keywords" />
 
     <title>Configure Transport Layer Security (TLS) &#8212; OpenVINO™  documentation</title>
     
@@ -1785,12 +1787,17 @@
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#trusted-certificate-on-linux">
-   Trusted Certificate on Linux*
+   Trusted Certificate on Linux
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#self-signed-certificate-on-linux">
    Self-Signed Certificate on Linux
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trusted-certificate-on-windows">
+   Trusted Certificate on Windows
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1800,7 +1807,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#trusted-certificate-on-macos">
-   Trusted Certificate on macOS*
+   Trusted Certificate on macOS
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1852,9 +1859,10 @@
             
                 <div>
                   
-  <section id="configure-transport-layer-security-tls">
-<span id="doxid-workbench-docs-workbench-d-g-configure-t-l-s"></span><span id="index-0"></span><h1>Configure Transport Layer Security (TLS)<a class="headerlink" href="#configure-transport-layer-security-tls" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-workbench-docs-workbench-d-g-configure-t-l-s-1md-openvino-workbench-docs-workbench-dg-configure-tls"></span> Three environment variables below enable you to use a self-signed certificate with OpenSSL* for the DL Workbench:</p>
+  <span class="target" id="workbench-security-tls"><span id="index-0"></span></span><section id="configure-transport-layer-security-tls">
+<h1>Configure Transport Layer Security (TLS)<a class="headerlink" href="#configure-transport-layer-security-tls" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="workbench-security-tls-1md-openvino-workbench-docs-workbench-dg-configure-tls"></span> Three environment variables
+below enable you to use a self-signed certificate with OpenSSL for the DL Workbench:</p>
 <p>Docker <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> command:</p>
 <table class="table">
 <colgroup>
@@ -1903,8 +1911,8 @@
 </table>
 <p>Follow instructions for your system and certificate status in the sections below.</p>
 <section id="trusted-certificate-on-linux">
-<h2>Trusted Certificate on Linux*<a class="headerlink" href="#trusted-certificate-on-linux" title="Permalink to this headline">¶</a></h2>
-<p>When installing from Docker Hub* with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script :</p>
+<h2>Trusted Certificate on Linux<a class="headerlink" href="#trusted-certificate-on-linux" title="Permalink to this headline">¶</a></h2>
+<p>When installing from Docker Hub with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script :</p>
 <ol class="arabic">
 <li><p>In the directory with the script, create the <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder with read, write, and execute permissions:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">-</span><span class="n">m</span> <span class="mi">777</span> <span class="n">assets</span></pre></div></div></li>
@@ -1922,7 +1930,7 @@
 </section>
 <section id="self-signed-certificate-on-linux">
 <h2>Self-Signed Certificate on Linux<a class="headerlink" href="#self-signed-certificate-on-linux" title="Permalink to this headline">¶</a></h2>
-<p>When installing from Docker Hub* with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script :</p>
+<p>When installing from Docker Hub with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script :</p>
 <ol class="arabic">
 <li><p>In the directory with the <code class="docutils literal notranslate"><span class="pre">openvino-workbench</span></code> script, create the <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder with read, write, and execute permissions:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">-</span><span class="n">m</span> <span class="mi">777</span> <span class="n">assets</span></pre></div></div></li>
@@ -1939,6 +1947,11 @@
 <p>Replace the placeholders in angle brackets the full path to the <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder.</p>
 </div>
 </li>
+</ol>
+</section>
+<section id="trusted-certificate-on-windows">
+<h2>Trusted Certificate on Windows<a class="headerlink" href="#trusted-certificate-on-windows" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
 <li><p>Open a terminal and create the <code class="docutils literal notranslate"><span class="pre">workbench_volume</span></code> volume:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">volume</span> <span class="n">create</span> <span class="n">workbench_volume</span></pre></div></div></li>
 <li><p>Put your trusted key and certificate in the <code class="docutils literal notranslate"><span class="pre">workbench_volume</span></code> volume:</p>
@@ -1967,7 +1980,7 @@
            <span class="o">-</span><span class="n">e</span> <span class="n">SSL_VERIFY</span> <span class="n">off</span>
            <span class="o">-</span><span class="n">it</span> <span class="n">openvino</span><span class="o">/</span><span class="nl">workbench</span><span class="p">:</span><span class="n">latest</span></pre></div></div></section>
 <section id="trusted-certificate-on-macos">
-<h2>Trusted Certificate on macOS*<a class="headerlink" href="#trusted-certificate-on-macos" title="Permalink to this headline">¶</a></h2>
+<h2>Trusted Certificate on macOS<a class="headerlink" href="#trusted-certificate-on-macos" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p>In the <code class="docutils literal notranslate"><span class="pre">home</span></code> directory, create the <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder with read, write, and execute permissions:</p>
 <div class="highlight"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">-</span><span class="n">m</span> <span class="mi">777</span> <span class="n">assets</span></pre></div></div></li>
@@ -2003,8 +2016,8 @@
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="workbench_docs_security_Workbench.html#doxid-workbench-docs-security-workbench"><span class="std std-ref">Deep Learning Workbench Security</span></a></p></li>
-<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Authentication.html#doxid-workbench-docs-workbench-d-g-authentication"><span class="std std-ref">Enable Authentication in DL Workbench</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_security_Workbench.html#workbench-guide-security"><span class="std std-ref">Deep Learning Workbench Security</span></a></p></li>
+<li><p><a class="reference internal" href="workbench_docs_Workbench_DG_Authentication.html#workbench-security-authentication"><span class="std std-ref">Enable Authentication in DL Workbench</span></a></p></li>
 <li><p><a class="reference internal" href="../dl-workbench-troubleshooting.html#dl-workbench-troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
 </ul>
 </section>

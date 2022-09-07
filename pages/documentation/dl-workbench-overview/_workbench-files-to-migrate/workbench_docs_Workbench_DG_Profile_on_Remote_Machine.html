@@ -1873,7 +1873,7 @@
 <span id="id1"></span><h2>Security Aspects of Remote Profiling<a class="headerlink" href="#security-aspects-of-remote-profiling" title="Permalink to this headline">¶</a></h2>
 <p>SSH keys are sensitive data and using them in the DL Workbench is at your own risk.</p>
 <p>DL Workbench takes control of a remote machine to perform a limited set of tasks, like installing dependencies and OpenVINO™ tools. Connect a machine at your own risk and according to the security policy of your organization.</p>
-<p><a class="reference internal" href="workbench_docs_Workbench_DG_Configure_TLS.html#doxid-workbench-docs-workbench-d-g-configure-t-l-s"><span class="std std-ref">Run the DL Workbench with Transport Layer Security (TLS)</span></a> to ensure data protection.</p>
+<p><a class="reference internal" href="workbench_docs_Workbench_DG_Configure_TLS.html#workbench-security-tls"><span class="std std-ref">Run the DL Workbench with Transport Layer Security (TLS)</span></a> to ensure data protection.</p>
 <p>Sensitive data is removed when you remove a machine from the DL Workbench or remove the Docker container with the DL Workbench.</p>
 <p>DL Workbench installs dependencies on a target machine and therefore takes additional space on it. DL Workbench data is stored in the <code class="docutils literal notranslate"><span class="pre">.workbench</span></code> folder in your user directory. To remove the new data from your target machine, remove the <code class="docutils literal notranslate"><span class="pre">.workbench</span></code> folder. DL Workbench transfers models and datasets to the target machine with the SSH protocol and removes them after completing experiments there.</p>
 </section>
