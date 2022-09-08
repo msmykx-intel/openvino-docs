@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="A demonstration of how to infer acoustic model based on Kaldi neural networks and speech feature vectors using Asynchronous Inference Request (C++) API." name="description" />
+<meta content="OpenVINO toolkit, code sample, build a sample, build OpenVINO samples, OpenVINO sample, run inference, do inference, inference, model inference, infer a model, infer a sample, Asynchronous Inference Request API, Async API, C++ sample, C++ API, OpenVINO™ Runtime API, Kaldi ARK, Numpy, uncompressed NPZ, acoustic model, automatic speech recognition, speech recognition, speech to text, speech inference, Model Optimizer, convert a model, OpenVINO IR, Kaldi nnet1, Kaldi nnet2, neural model, GNA plugin, Intel GNA, Intel CPU, Intel GPU, MYRIAD" name="keywords" />
 
     <title>Automatic Speech Recognition C++ Sample &#8212; OpenVINO™  documentation</title>
     
@@ -682,9 +684,10 @@
             
                 <div>
                   
-  <section id="automatic-speech-recognition-c-sample">
-<span id="doxid-openvino-inference-engine-samples-speech-sample-r-e-a-d-m-e"></span><span id="index-0"></span><h1>Automatic Speech Recognition C++ Sample<a class="headerlink" href="#automatic-speech-recognition-c-sample" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-inference-engine-samples-speech-sample-r-e-a-d-m-e-1md-openvino-samples-cpp-speech-sample-readme"></span> This sample demonstrates how to execute an Asynchronous Inference of acoustic model based on Kaldi neural networks and speech feature vectors.</p>
+  <span class="target" id="get-started-samples-cpp-speech"><span id="index-0"></span></span><section id="automatic-speech-recognition-c-sample">
+<h1>Automatic Speech Recognition C++ Sample<a class="headerlink" href="#automatic-speech-recognition-c-sample" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="get-started-samples-cpp-speech-1md-openvino-samples-cpp-speech-sample-readme"></span></p>
+<p>This sample demonstrates how to execute an Asynchronous Inference of acoustic model based on Kaldi neural networks and speech feature vectors.</p>
 <p>The sample works with Kaldi ARK or Numpy uncompressed NPZ files, so it does not cover an end-to-end speech recognition scenario (speech to text), requiring additional preprocessing (feature extraction) to get a feature vector from a speech signal, as well as postprocessing (decoding) to produce text from scores.</p>
 <p>The following C++ API is used in the application:</p>
 <table class="table">
@@ -734,7 +737,7 @@
 </tr>
 </tbody>
 </table>
-<p>Basic OpenVINO™ Runtime API is covered by <a class="reference internal" href="cpp-sample-hello-classification.html#doxid-openvino-inference-engine-samples-hello-classification-r-e-a-d-m-e"><span class="std std-ref">Hello Classification C++ sample</span></a>.</p>
+<p>Basic OpenVINO™ Runtime API is covered by <a class="reference internal" href="cpp-sample-hello-classification.html#get-started-samples-cpp-hello-class"><span class="std std-ref">Hello Classification C++ sample</span></a>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -933,7 +936,7 @@ hardware version 1 and 2). This limitation will be removed in GNA hardware versi
 <ul class="simple">
 <li><p><a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application.html#deploy-infer-integrate-application"><span class="std std-ref">Integrate the OpenVINO™ Runtime with Your Application</span></a></p></li>
 <li><p><a class="reference internal" href="../samples.html#get-started-samples-overview"><span class="std std-ref">Using OpenVINO™ Toolkit Samples</span></a></p></li>
-<li><p>Model Downloader</p></li>
+<li><p><a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo/blob/master/tools/model_tools/README.md">Model Downloader</a></p></li>
 <li><p><a class="reference internal" href="../../documentation/converting-models-with-model-optimizer.html#conv-prep-conv-with-model-optimizer"><span class="std std-ref">Model Optimizer</span></a></p></li>
 </ul>
 </section>

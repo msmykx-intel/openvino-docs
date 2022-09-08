@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="A demonstration of how to create a model on the fly with a provided weights file and infer it later using Synchronous Inference Request (C++) API." name="description" />
+<meta content="OpenVINO toolkit, code sample, build a sample, build OpenVINO samples, OpenVINO sample, run inference, do inference, inference, Model Optimizer, convert a model, model inference, infer a sample, infer a model, image classification, image classification model, Synchronous Inference Request API, C++ sample, C++ API, LeNet, Intel GPU, Caffe, Caffe model, pre-trained model, model weights, weights file, model weights file, FP32 weights" name="keywords" />
 
     <title>Model Creation C++ Sample &#8212; OpenVINO™  documentation</title>
     
@@ -646,9 +648,10 @@
             
                 <div>
                   
-  <section id="model-creation-c-sample">
-<span id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e"></span><span id="index-0"></span><h1>Model Creation C++ Sample<a class="headerlink" href="#model-creation-c-sample" title="Permalink to this headline">¶</a></h1>
-<p><span class="target" id="doxid-openvino-inference-engine-samples-model-creation-sample-r-e-a-d-m-e-1md-openvino-samples-cpp-model-creation-sample-readme"></span> This sample demonstrates how to execute an synchronous inference using <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">model</span></a> built on the fly which uses weights from LeNet classification model, which is known to work well on digit classification tasks.</p>
+  <span class="target" id="get-started-samples-cpp-model-creation"><span id="index-0"></span></span><section id="model-creation-c-sample">
+<h1>Model Creation C++ Sample<a class="headerlink" href="#model-creation-c-sample" title="Permalink to this headline">¶</a></h1>
+<p><span class="target" id="get-started-samples-cpp-model-creation-1md-openvino-samples-cpp-model-creation-sample-readme"></span></p>
+<p>This sample demonstrates how to execute an synchronous inference using <a class="reference internal" href="../../documentation/openvino-runtime-user-guide/openvino-runtime-integrate-application/model-representation.html#deploy-infer-model-representation"><span class="std std-ref">model</span></a> built on the fly which uses weights from LeNet classification model, which is known to work well on digit classification tasks.</p>
 <p>You do not need an XML file to create a model. The API of <a class="reference internal" href="../../../api/groups/classov_1_1Model.html#doxid-classov-1-1-model"><span class="std std-ref">ov::Model</span></a> allows creating a model on the fly from the source code.</p>
 <p>The following C++ API is used in the application:</p>
 <table class="table">
@@ -690,7 +693,7 @@
 </tr>
 </tbody>
 </table>
-<p>Basic OpenVINO™ Runtime API is covered by <a class="reference internal" href="cpp-sample-hello-classification.html#doxid-openvino-inference-engine-samples-hello-classification-r-e-a-d-m-e"><span class="std std-ref">Hello Classification C++ sample</span></a>.</p>
+<p>Basic OpenVINO™ Runtime API is covered by <a class="reference internal" href="cpp-sample-hello-classification.html#get-started-samples-cpp-hello-class"><span class="std std-ref">Hello Classification C++ sample</span></a>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -715,7 +718,7 @@
 <td><p><a class="reference internal" href="../../resources/record-of-openvino-supported-devices.html#doxid-openvino-docs-o-v-u-g-supported-plugins-supported-devices"><span class="std std-ref">All</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p>Other language realization</p></td>
-<td><p><a class="reference internal" href="python-sample-model-creation.html#doxid-openvino-inference-engine-ie-bridges-python-sample-model-creation-sample-r-e-a-d-m-e"><span class="std std-ref">Python</span></a></p></td>
+<td><p><a class="reference internal" href="python-sample-model-creation.html#get-started-samples-python-model-creation"><span class="std std-ref">Python</span></a></p></td>
 </tr>
 </tbody>
 </table>
