@@ -1,16 +1,22 @@
 .. index:: pair: page; Install and Configure Intel® Distribution of OpenVINO™ Toolkit for Linux
 .. _install__linux_installer:
 
+.. meta::
+   :description: Guide on how to install and configure OpenVINO for Linux using an installer.
+   :keywords: OpenVINO, installer, confiugration, Linux, installer, ubuntu, operating system, 
+              hardware, software, cmake, gcc, python, initialization, External Software Dependencies, 
+              Configure Inference, runtime, Configure Environment
+
 
 Install and Configure Intel® Distribution of OpenVINO™ Toolkit for Linux
 ===========================================================================
 
 :target:`install__linux_installer_1md_openvino_docs_install_guides_installing_openvino_linux`
 
-.. note:: Since the OpenVINO™ 2022.1 release, the following development tools: Model Optimizer, Post-Training Optimization Tool, Model Downloader and other Open Model Zoo tools, Accuracy Checker, and Annotation Converter are not part of the installer. These tools are now only available on `pypi.org <https://pypi.org/project/openvino-dev/>`__.
-
-
-
+.. note::
+   Since the OpenVINO™ 2022.1 release, the following development tools: Model Optimizer, Post-Training Optimization 
+   Tool, Model Downloader and other Open Model Zoo tools, Accuracy Checker, and Annotation Converter are not part 
+   of the installer. These tools are now only available on `pypi.org <https://pypi.org/project/openvino-dev/>`__.
 
 
 System Requirements
@@ -53,7 +59,9 @@ System Requirements
 Overview
 ~~~~~~~~
 
-This guide provides step-by-step instructions on how to install the Intel® Distribution of OpenVINO™ toolkit. Links are provided for each type of compatible hardware including downloads, initialization and configuration steps. The following steps will be covered:
+This guide provides step-by-step instructions on how to install the Intel® Distribution of OpenVINO™ toolkit. 
+Links are provided for each type of compatible hardware including downloads, initialization and configuration 
+steps. The following steps will be covered:
 
 #. `Install the Intel® Distribution of OpenVINO™ Toolkit <#install-openvino>`__
 
@@ -68,7 +76,9 @@ This guide provides step-by-step instructions on how to install the Intel® Dist
 #. `What's next? <#get-started>`__
 
 .. important::
-   Before you start your journey with installation of the Intel® Distribution of OpenVINO™, we encourage you to check our :ref:`code samples <code samples>` in C, C++, Python and :ref:`notebook tutorials <notebook tutorials>` that we prepared for you, so you could see all the amazing things that you can achieve with our tool.
+   Before you start your journey with installation of the Intel® Distribution of OpenVINO™, we encourage you to 
+   check our :ref:`code samples <code samples>` in C, C++, Python and :ref:`notebook tutorials <notebook tutorials>` 
+   that we prepared for you, so you could see all the amazing things that you can achieve with our tool.
 
 .. _install-openvino:
 
@@ -117,7 +127,10 @@ Step 1: Install the Intel® Distribution of OpenVINO™ Toolkit
    
    
    
-   .. note:: To get additional information on all parameters that can be used, use the help option: ``--help``. Among others, you can find there ``-s`` option which offers silent mode, which together with ``--eula approve`` allows you to run whole installation with default values without any user inference.
+   .. note::
+      To get additional information on all parameters that can be used, use the help option: ``--help``. Among 
+      others, you can find there ``-s`` option which offers silent mode, which together with ``--eula approve`` 
+      allows you to run whole installation with default values without any user inference.
 
 #. Follow the instructions on your screen. During the installation you will be asked to accept the license agreement. Your acceptance is required to continue. Check the installation process on the image below:
 
@@ -127,13 +140,15 @@ Click on the image to see the details.
 
 
 
-By default, the Intel® Distribution of OpenVINO™ is installed to the following directory, referred to as ``<INSTALL_DIR>`` elsewhere in the documentation:
+By default, the Intel® Distribution of OpenVINO™ is installed to the following directory, referred to as 
+``<INSTALL_DIR>`` elsewhere in the documentation:
 
 * For root or administrator: ``/opt/intel/openvino_<version>/``
 
 * For regular users: ``/home/<USER>/intel/openvino_<version>/``
 
-For simplicity, a symbolic link to the latest installation is also created: ``/opt/intel/openvino_2022/`` or ``/home/<USER>/intel/openvino_2022/``.
+For simplicity, a symbolic link to the latest installation is also created: ``/opt/intel/openvino_2022/`` or 
+``/home/<USER>/intel/openvino_2022/``.
 
 To check **Release Notes** please visit: `Release Notes <https://software.intel.com/en-us/articles/OpenVINO-RelNotes>`__.
 
@@ -165,15 +180,21 @@ This script enables you to install Linux platform development tools and componen
 Step 3: Configure the Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You must update several environment variables before you can compile and run OpenVINO™ applications. Set environment variables as follows:
+You must update several environment variables before you can compile and run OpenVINO™ applications. Set 
+environment variables as follows:
 
 .. ref-code-block:: cpp
 
 	source <INSTALL_DIR>/setupvars.sh
 
-If you have more than one OpenVINO™ version on your machine, you can easily switch its version by sourcing ``setupvars.sh`` of your choice.
+If you have more than one OpenVINO™ version on your machine, you can easily switch its version by sourcing 
+``setupvars.sh`` of your choice.
 
-.. note:: You can also run this script every time when you start new terminal session. Open ``~/.bashrc`` in your favorite editor, and add ``source <INSTALL_DIR>/setupvars.sh``. Next time when you open a terminal, you will see ``[setupvars.sh] OpenVINO™ environment initialized``. Changing ``.bashrc`` is not recommended when you have many OpenVINO™ versions on your machine and want to switch among them, as each may require different setup.
+.. note::
+   You can also run this script every time when you start new terminal session. Open ``~/.bashrc`` in your 
+   favorite editor, and add ``source <INSTALL_DIR>/setupvars.sh``. Next time when you open a terminal, you will 
+   see ``[setupvars.sh] OpenVINO™ environment initialized``. Changing ``.bashrc`` is not recommended when you 
+   have many OpenVINO™ versions on your machine and want to switch among them, as each may require different setup.
 
 
 
@@ -184,13 +205,11 @@ The environment variables are set. Next, you can download some additional tools.
 Step 4 (Optional): Download Additional Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. note:: Since the OpenVINO™ 2022.1 release, the following development tools: Model Optimizer, Post-Training Optimization Tool, Model Downloader and other Open Model Zoo tools, Accuracy Checker, and Annotation Converter are not part of the installer. The OpenVINO™ Development Tools can only be installed via PyPI now. See :ref:`Install OpenVINO™ Development Tools <install_openvino_dev_tools>` for detailed steps.
-
-
-
-
-
-
+.. note::
+   Since the OpenVINO™ 2022.1 release, the following development tools: Model Optimizer, Post-Training Optimization 
+   Tool, Model Downloader and other Open Model Zoo tools, Accuracy Checker, and Annotation Converter are not part 
+   of the installer. The OpenVINO™ Development Tools can only be installed via PyPI now. See 
+   :ref:`Install OpenVINO™ Development Tools <install_openvino_dev_tools>` for detailed steps.
 
 
 

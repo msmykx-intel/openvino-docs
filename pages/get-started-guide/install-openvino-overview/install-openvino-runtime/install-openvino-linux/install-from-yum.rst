@@ -1,28 +1,37 @@
 .. index:: pair: page; Install Intel® Distribution of OpenVINO™ Toolkit for Linux Using YUM Repository
 .. _install__linux_yum:
 
+.. meta::
+   :description: Guide on how to install OpenVINO runtime for linux using YUM 
+                 repository.
+   :keywords: OpenVINO, runtime, install, guide, linux, yum, system requirements, red hat, 
+              red hat enterprise, cmake, gcc, python, set up, repository, opencv, software dependencies, 
+              configure inference, 
+
 
 Install Intel® Distribution of OpenVINO™ Toolkit for Linux Using YUM Repository
 ==================================================================================
 
-:target:`install__linux_yum_1md_openvino_docs_install_guides_installing_openvino_yum` This guide provides installation steps for Intel® Distribution of OpenVINO™ toolkit for Linux distributed through the YUM repository.
+:target:`install__linux_yum_1md_openvino_docs_install_guides_installing_openvino_yum` This guide provides 
+installation steps for Intel® Distribution of OpenVINO™ toolkit for Linux distributed through the YUM repository.
 
-.. note:: From the 2022.1 release, the OpenVINO™ Development Tools can only be installed via PyPI. If you want to develop or optimize your models with OpenVINO, see :ref:`Install OpenVINO Development Tools <install_openvino_dev_tools>` for detailed steps.
-
-
-
-
-
-.. warning:: By downloading and using this container and the included software, you agree to the terms and conditions of the `software license agreements <https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf>`__. Please review the content inside the ``<INSTALL_DIR>/licensing`` folder for more details.
+.. note::
+   From the 2022.1 release, the OpenVINO™ Development Tools can only be installed via PyPI. If you want to 
+   develop or optimize your models with OpenVINO, see 
+   :ref:`Install OpenVINO Development Tools <install_openvino_dev_tools>` for detailed steps.
 
 
-
+.. warning::
+   By downloading and using this container and the included software, you agree to the terms and conditions of 
+   the `software license agreements <https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf>`__. 
+   Please review the content inside the ``<INSTALL_DIR>/licensing`` folder for more details.
 
 
 System Requirements
 ~~~~~~~~~~~~~~~~~~~
 
-The complete list of supported hardware is available in the `Release Notes <https://software.intel.com/content/www/us/en/develop/articles/openvino-relnotes.html>`__.
+The complete list of supported hardware is available in the 
+`Release Notes <https://software.intel.com/content/www/us/en/develop/articles/openvino-relnotes.html>`__.
 
 **Operating systems**
 
@@ -139,7 +148,8 @@ Run the following command:
 Step 3 (Optional): Install OpenCV from YUM
 ------------------------------------------
 
-OpenCV is necessary to run C++ demos from Open Model Zoo. Some OpenVINO samples can also extend their capabilities when compiled with OpenCV as a dependency. OpenVINO provides a package to install OpenCV from YUM:
+OpenCV is necessary to run C++ demos from Open Model Zoo. Some OpenVINO samples can also extend their 
+capabilities when compiled with OpenCV as a dependency. OpenVINO provides a package to install OpenCV from YUM:
 
 To Install the Latest Version of OpenCV
 +++++++++++++++++++++++++++++++++++++++
@@ -162,7 +172,9 @@ Run the following command:
 Step 4 (Optional): Install Software Dependencies
 ------------------------------------------------
 
-After you have installed OpenVINO Runtime, if you decided to :ref:`install OpenVINO Development Tools <install_openvino_dev_tools>`, make sure that you install external software dependencies first.
+After you have installed OpenVINO Runtime, if you decided to 
+:ref:`install OpenVINO Development Tools <install_openvino_dev_tools>`, make sure that you install external 
+software dependencies first.
 
 Refer to :ref:`Install External Software Dependencies <linux-install-external-dependencies>` for detailed steps.
 
@@ -208,7 +220,7 @@ Now you may continue with the following tasks:
 Additional Resources
 ~~~~~~~~~~~~~~~~~~~~
 
-* Intel® Distribution of OpenVINO™ toolkit home page: `https://software.intel.com/en-us/openvino-toolkit <https://software.intel.com/en-us/openvino-toolkit>`__
+* Intel® Distribution of OpenVINO™ toolkit `home page <https://software.intel.com/en-us/openvino-toolkit>`__.
 
 * For IoT Libraries & Code Samples, see `Intel® IoT Developer Kit <https://github.com/intel-iot-devkit>`__.
 
