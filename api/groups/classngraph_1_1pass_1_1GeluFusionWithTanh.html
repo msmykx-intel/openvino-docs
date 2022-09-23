@@ -1956,6 +1956,11 @@
   </ul>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1pass_1_1AUGRUCellFusion.html">
+   AUGRUCellFusion
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1pass_1_1AddFakeQuantizeFusion.html">
    AddFakeQuantizeFusion
   </a>
@@ -2431,6 +2436,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1pass_1_1GRUCellFusion.html">
+   GRUCellFusion
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1pass_1_1GatherNegativeConstIndicesNormalize.html">
    GatherNegativeConstIndicesNormalize
   </a>
@@ -2448,6 +2458,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1pass_1_1GeluFusion.html">
    GeluFusion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1pass_1_1GeluFusionWithErfFour.html">
+   GeluFusionWithErfFour
   </a>
  </li>
  <li class="toctree-l1">
@@ -3371,7 +3386,7 @@
                   
   <section id="class-ngraph-pass-gelufusionwithtanh">
 <span id="doxid-classngraph-1-1pass-1-1-gelu-fusion-with-tanh"></span><span id="index-0"></span><h1>class ngraph::pass::GeluFusionWithTanh<a class="headerlink" href="#class-ngraph-pass-gelufusionwithtanh" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="classngraph_1_1pass_1_1GeluFusion.html#doxid-classngraph-1-1pass-1-1-gelu-fusion"><span class="std std-ref">GeluFusion</span></a> transformation replaces a sub-graph x * (0.5 * (1 + tanh([sqrt(2 / pi)] * [x + 0.044715^3])) with a Gelu (Tanh) op.</p>
+<p><a class="reference internal" href="classngraph_1_1pass_1_1GeluFusion.html#doxid-classngraph-1-1pass-1-1-gelu-fusion"><span class="std std-ref">GeluFusion</span></a> transformation replaces a sub-graph x * (0.5 * (1 + tanh([sqrt(2 / pi)] * [x + 0.044715^3]))) with a Gelu (Tanh) op.</p>
 <div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;gelu_fusion.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">class</span> <span class="nl">GeluFusionWithTanh</span><span class="p">:</span> <span class="k">public</span> <a class="reference internal" href="classov_1_1pass_1_1MatcherPass.html#doxid-classov-1-1pass-1-1-matcher-pass"><span class="std std-ref">ov::pass::MatcherPass</span></a><span></span>
