@@ -16,7 +16,8 @@
 Heterogeneous execution
 =======================
 
-:target:`deploy_infer__hetero_plugin_1md_openvino_docs_ov_runtime_ug_hetero_execution` Heterogeneous execution enables executing inference of one model on several devices. Its purpose is to:
+:target:`deploy_infer__hetero_plugin_1md_openvino_docs_ov_runtime_ug_hetero_execution` Heterogeneous execution enables 
+executing inference of one model on several devices. Its purpose is to:
 
 * Utilize the power of accelerators to process the heaviest parts of the model and to execute unsupported operations on fallback devices, like the CPU.
 
@@ -28,12 +29,14 @@ Execution via the heterogeneous mode can be divided into two independent steps:
 
 #. Compiling a model to the Heterogeneous device assumes splitting the model to parts, compiling them on the specified devices (via ``:ref:`ov::device::priorities <doxid-group__ov__runtime__cpp__prop__api_1gae88af90a18871677f39739cb0ef0101e>```), and executing them in the Heterogeneous mode. The model is split to subgraphs in accordance with the affinities, where a set of connected operations with the same affinity is to be a dedicated subgraph. Each subgraph is compiled on a dedicated device and multiple ``:ref:`ov::CompiledModel <doxid-classov_1_1_compiled_model>``` objects are made, which are connected via automatically allocated intermediate tensors.
 
-These two steps are not interconnected and affinities can be set in one of two ways, used separately or in combination (as described below): in the ``manual`` or the ``automatic`` mode.
+These two steps are not interconnected and affinities can be set in one of two ways, used separately or in combination 
+(as described below): in the ``manual`` or the ``automatic`` mode.
 
 Defining and Configuring the Hetero Device
 ------------------------------------------
 
-Following the OpenVINO™ naming convention, the Hetero execution plugin is assigned the label of ``"HETERO".`` It may be defined with no additional parameters, resulting in defaults being used, or configured further with the following setup options:
+Following the OpenVINO™ naming convention, the Hetero execution plugin is assigned the label of ``"HETERO".`` It may be 
+defined with no additional parameters, resulting in defaults being used, or configured further with the following setup options:
 
 +-------------------------------+--------------------------------------------+-----------------------------------------------------------+
 | Parameter Name & C++ property | Property values                            | Description                                               |
@@ -49,24 +52,25 @@ Manual and Automatic modes for assigning affinities
 The Manual Mode
 +++++++++++++++
 
-It assumes setting affinities explicitly for all operations in the model using ``:ref:`ov::Node::get_rt_info <doxid-classov_1_1_node_1a6941c753af92828d842297b74df1c45a>``` with the ``"affinity"`` key.
+It assumes setting affinities explicitly for all operations in the model using 
+``:ref:`ov::Node::get_rt_info <doxid-classov_1_1_node_1a6941c753af92828d842297b74df1c45a>``` with the ``"affinity"`` key.
+
+
+If you assign specific operation to a specific device, make sure that the device actually supports the operation. 
+Randomly selecting operations and setting affinities may lead to decrease in model accuracy. To avoid that, try to set 
+the related operations or subgraphs of this operation to the same affinity, such as the constant operation that will be 
+folded into this operation.
+
+
 
 .. raw:: html
 
    <div class='sphinxtabset'>
 
 
-
-
-
-
-
 .. raw:: html
 
    <div class="sphinxtab" data-sphinxtab-value="C++">
-
-
-
 
 
 .. ref-code-block:: cpp

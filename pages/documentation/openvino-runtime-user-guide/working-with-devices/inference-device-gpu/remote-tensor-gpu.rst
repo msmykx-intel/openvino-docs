@@ -312,7 +312,7 @@ To request the current default context of the plugin, use one of the following m
 
 .. raw:: html
 
-   <div class="sphinxtab" data-sphinxtab-value="Bacthing via throughput hint">
+   <div class="sphinxtab" data-sphinxtab-value="Batching via throughput hint">
 
 
 
