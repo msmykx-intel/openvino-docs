@@ -1,3 +1,7 @@
+# A test repository. The OpenVINO documentation is maintained in the main repository:
+
+[OFFICIAL OPENVINO DOCUMENTATION](https://github.com/openvinotoolkit/openvino)
+
 # Notes
 
 Steps:
