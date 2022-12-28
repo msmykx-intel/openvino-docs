@@ -612,47 +612,47 @@ WARNING) are disabled to simplify the tutorial. For production use,
 it is recommended to enable logging by removing
 <code class="docutils literal notranslate"><span class="pre">set_log_level(logging.ERROR)</span></code>.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pathlib import Path
+import logging
 
-<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="kn">import</span> <span class="nn">tensorflow_datasets</span> <span class="k">as</span> <span class="nn">tfds</span>
-<span class="kn">from</span> <span class="nn">tensorflow.python.keras</span> <span class="kn">import</span> <span class="n">layers</span>
-<span class="kn">from</span> <span class="nn">tensorflow.python.keras</span> <span class="kn">import</span> <span class="n">models</span>
+import tensorflow as tf
+import tensorflow_datasets as tfds
+from tensorflow.python.keras import layers
+from tensorflow.python.keras import models
 
-<span class="kn">from</span> <span class="nn">nncf</span> <span class="kn">import</span> <span class="n">NNCFConfig</span>
-<span class="kn">from</span> <span class="nn">nncf.tensorflow.helpers.model_creation</span> <span class="kn">import</span> <span class="n">create_compressed_model</span>
-<span class="kn">from</span> <span class="nn">nncf.tensorflow.initialization</span> <span class="kn">import</span> <span class="n">register_default_init_args</span>
-<span class="kn">from</span> <span class="nn">nncf.common.utils.logger</span> <span class="kn">import</span> <span class="n">set_log_level</span>
+from nncf import NNCFConfig
+from nncf.tensorflow.helpers.model_creation import create_compressed_model
+from nncf.tensorflow.initialization import register_default_init_args
+from nncf.common.utils.logger import set_log_level
 
-<span class="n">set_log_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+set_log_level(logging.ERROR)
 
-<span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">OUTPUT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
-<span class="n">MODEL_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">OUTPUT_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+MODEL_DIR = Path(&quot;model&quot;)
+OUTPUT_DIR = Path(&quot;output&quot;)
+MODEL_DIR.mkdir(exist_ok=True)
+OUTPUT_DIR.mkdir(exist_ok=True)
 
-<span class="n">BASE_MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;ResNet-18&quot;</span>
+BASE_MODEL_NAME = &quot;ResNet-18&quot;
 
-<span class="n">fp32_h5_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">MODEL_DIR</span> <span class="o">/</span> <span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_fp32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.h5&quot;</span><span class="p">)</span>
-<span class="n">fp32_sm_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_fp32&quot;</span><span class="p">))</span>
-<span class="n">fp32_ir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="s2">&quot;saved_model&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
-<span class="n">int8_pb_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_int8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.pb&quot;</span><span class="p">)</span>
-<span class="n">int8_pb_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_int8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.pb&quot;</span><span class="p">)</span>
-<span class="n">int8_ir_path</span> <span class="o">=</span> <span class="n">int8_pb_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+fp32_h5_path = Path(MODEL_DIR / (BASE_MODEL_NAME + &quot;_fp32&quot;)).with_suffix(&quot;.h5&quot;)
+fp32_sm_path = Path(OUTPUT_DIR / (BASE_MODEL_NAME + &quot;_fp32&quot;))
+fp32_ir_path = Path(OUTPUT_DIR / &quot;saved_model&quot;).with_suffix(&quot;.xml&quot;)
+int8_pb_path = Path(OUTPUT_DIR / (BASE_MODEL_NAME + &quot;_int8&quot;)).with_suffix(&quot;.pb&quot;)
+int8_pb_name = Path(BASE_MODEL_NAME + &quot;_int8&quot;).with_suffix(&quot;.pb&quot;)
+int8_ir_path = int8_pb_path.with_suffix(&quot;.xml&quot;)
 
-<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">128</span>
-<span class="n">IMG_SIZE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>  <span class="c1"># Default Imagenet image size</span>
-<span class="n">NUM_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># For Imagenette dataset</span>
+BATCH_SIZE = 128
+IMG_SIZE = (64, 64)  # Default Imagenet image size
+NUM_CLASSES = 10  # For Imagenette dataset
 
-<span class="n">LR</span> <span class="o">=</span> <span class="mf">1e-5</span>
+LR = 1e-5
 
-<span class="n">MEAN_RGB</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.485</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.456</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.406</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span>  <span class="c1"># From Imagenet dataset</span>
-<span class="n">STDDEV_RGB</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.229</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.224</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.225</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span>  <span class="c1"># From Imagenet dataset</span>
+MEAN_RGB = (0.485 * 255, 0.456 * 255, 0.406 * 255)  # From Imagenet dataset
+STDDEV_RGB = (0.229 * 255, 0.224 * 255, 0.225 * 255)  # From Imagenet dataset
 
-<span class="n">fp32_pth_url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.openvinotoolkit.org/repositories/nncf/openvino_notebook_ckpts/305_resnet18_imagenette_fp32_v1.h5&quot;</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">fp32_h5_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">(),</span> <span class="n">fp32_pth_url</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Absolute path where the model weights are saved:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">fp32_h5_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+fp32_pth_url = &quot;https://storage.openvinotoolkit.org/repositories/nncf/openvino_notebook_ckpts/305_resnet18_imagenette_fp32_v1.h5&quot;
+_ = tf.keras.utils.get_file(fp32_h5_path.resolve(), fp32_pth_url)
+print(f&#39;Absolute path where the model weights are saved:\n {fp32_h5_path.resolve()}&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="n">storage</span><span class="o">.</span><span class="n">openvinotoolkit</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">nncf</span><span class="o">/</span><span class="n">openvino_notebook_ckpts</span><span class="o">/</span><span class="mi">305</span><span class="n">_resnet18_imagenette_fp32_v1</span><span class="o">.</span><span class="n">h5</span>
@@ -667,101 +667,101 @@ it is recommended to enable logging by removing
 <p>Download and prepare Imagenette 160px dataset. - Number of classes: 10 -
 Download size: 94.18 MiB | Split | Examples | |————–<a href="#id1"><span class="problematic" id="id2">|</span></a>———-| |
 ‘train’ | 12,894 | | ‘validation’ | 500 |</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span><span class="p">,</span> <span class="n">datasets_info</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;imagenette/160px&#39;</span><span class="p">,</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_supervised</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">with_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                    <span class="n">read_config</span><span class="o">=</span><span class="n">tfds</span><span class="o">.</span><span class="n">ReadConfig</span><span class="p">(</span><span class="n">shuffle_seed</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="n">train_dataset</span><span class="p">,</span> <span class="n">validation_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">]</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">show_examples</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">datasets_info</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>datasets, datasets_info = tfds.load(&#39;imagenette/160px&#39;, shuffle_files=True, as_supervised=True, with_info=True,
+                                    read_config=tfds.ReadConfig(shuffle_seed=0))
+train_dataset, validation_dataset = datasets[&#39;train&#39;], datasets[&#39;validation&#39;]
+fig = tfds.show_examples(train_dataset, datasets_info)
 </pre></div>
 </div>
 <img alt="../_images/305-tensorflow-quantization-aware-training-with-output_4_0.png" src="../_images/305-tensorflow-quantization-aware-training-with-output_4_0.png" />
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocessing</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">IMG_SIZE</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="o">-</span> <span class="n">MEAN_RGB</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="o">/</span> <span class="n">STDDEV_RGB</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">NUM_CLASSES</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">label</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def preprocessing(image, label):
+    image = tf.image.resize(image, IMG_SIZE)
+    image = image - MEAN_RGB
+    image = image / STDDEV_RGB
+    label = tf.one_hot(label, NUM_CLASSES)
+    return image, label
 
 
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocessing</span><span class="p">,</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
-                              <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
-                              <span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">))</span>
+train_dataset = (train_dataset.map(preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+                              .batch(BATCH_SIZE)
+                              .prefetch(tf.data.experimental.AUTOTUNE))
 
-<span class="n">validation_dataset</span> <span class="o">=</span> <span class="p">(</span><span class="n">validation_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocessing</span><span class="p">,</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
-                                        <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
-                                        <span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">))</span>
+validation_dataset = (validation_dataset.map(preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+                                        .batch(BATCH_SIZE)
+                                        .prefetch(tf.data.experimental.AUTOTUNE))
 </pre></div>
 </div>
 </section>
 <section id="define-a-floating-point-model">
 <h2>Define a Floating-Point Model<a class="headerlink" href="#define-a-floating-point-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">residual_conv_block</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cut</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">layer</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">)(</span><span class="n">input_tensor</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def residual_conv_block(filters, stage, block, strides=(1, 1), cut=&#39;pre&#39;):
+    def layer(input_tensor):
+        x = layers.BatchNormalization(epsilon=2e-5)(input_tensor)
+        x = layers.Activation(&#39;relu&#39;)(x)
 
-        <span class="c1"># Defining shortcut connection.</span>
-        <span class="k">if</span> <span class="n">cut</span> <span class="o">==</span> <span class="s1">&#39;pre&#39;</span><span class="p">:</span>
-            <span class="n">shortcut</span> <span class="o">=</span> <span class="n">input_tensor</span>
-        <span class="k">elif</span> <span class="n">cut</span> <span class="o">==</span> <span class="s1">&#39;post&#39;</span><span class="p">:</span>
-            <span class="n">shortcut</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_uniform&#39;</span><span class="p">,</span>
-                                     <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        # Defining shortcut connection.
+        if cut == &#39;pre&#39;:
+            shortcut = input_tensor
+        elif cut == &#39;post&#39;:
+            shortcut = layers.Conv2D(filters, (1, 1), strides=strides, kernel_initializer=&#39;he_uniform&#39;,
+                                     use_bias=False)(x)
 
-        <span class="c1"># Continue with convolution layers.</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ZeroPadding2D</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_uniform&#39;</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        # Continue with convolution layers.
+        x = layers.ZeroPadding2D(padding=(1, 1))(x)
+        x = layers.Conv2D(filters, (3, 3), strides=strides, kernel_initializer=&#39;he_uniform&#39;, use_bias=False)(x)
 
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ZeroPadding2D</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_uniform&#39;</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        x = layers.BatchNormalization(epsilon=2e-5)(x)
+        x = layers.Activation(&#39;relu&#39;)(x)
+        x = layers.ZeroPadding2D(padding=(1, 1))(x)
+        x = layers.Conv2D(filters, (3, 3), kernel_initializer=&#39;he_uniform&#39;, use_bias=False)(x)
 
-        <span class="c1"># Add residual connection.</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Add</span><span class="p">()([</span><span class="n">x</span><span class="p">,</span> <span class="n">shortcut</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">x</span>
+        # Add residual connection.
+        x = layers.Add()([x, shortcut])
+        return x
 
-    <span class="k">return</span> <span class="n">layer</span>
+    return layer
 
 
-<span class="k">def</span> <span class="nf">ResNet18</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiates the ResNet18 architecture.&quot;&quot;&quot;</span>
-    <span class="n">img_input</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+def ResNet18(input_shape=None):
+    &quot;&quot;&quot;Instantiates the ResNet18 architecture.&quot;&quot;&quot;
+    img_input = layers.Input(shape=input_shape, name=&#39;data&#39;)
 
-    <span class="c1"># ResNet18 bottom</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">img_input</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ZeroPadding2D</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_uniform&#39;</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ZeroPadding2D</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    # ResNet18 bottom
+    x = layers.BatchNormalization(epsilon=2e-5, scale=False)(img_input)
+    x = layers.ZeroPadding2D(padding=(3, 3))(x)
+    x = layers.Conv2D(64, (7, 7), strides=(2, 2), kernel_initializer=&#39;he_uniform&#39;, use_bias=False)(x)
+    x = layers.BatchNormalization(epsilon=2e-5)(x)
+    x = layers.Activation(&#39;relu&#39;)(x)
+    x = layers.ZeroPadding2D(padding=(1, 1))(x)
+    x = layers.MaxPooling2D((3, 3), strides=(2, 2), padding=&#39;valid&#39;)(x)
 
-    <span class="c1"># ResNet18 body</span>
-    <span class="n">repetitions</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">stage</span><span class="p">,</span> <span class="n">rep</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rep</span><span class="p">):</span>
-            <span class="n">filters</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">stage</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">block</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">stage</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">residual_conv_block</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cut</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">block</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">residual_conv_block</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">cut</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">residual_conv_block</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cut</span><span class="o">=</span><span class="s1">&#39;pre&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    # ResNet18 body
+    repetitions = (2, 2, 2, 2)
+    for stage, rep in enumerate(repetitions):
+        for block in range(rep):
+            filters = 64 * (2 ** stage)
+            if block == 0 and stage == 0:
+                x = residual_conv_block(filters, stage, block, strides=(1, 1), cut=&#39;post&#39;)(x)
+            elif block == 0:
+                x = residual_conv_block(filters, stage, block, strides=(2, 2), cut=&#39;post&#39;)(x)
+            else:
+                x = residual_conv_block(filters, stage, block, strides=(1, 1), cut=&#39;pre&#39;)(x)
+    x = layers.BatchNormalization(epsilon=2e-5)(x)
+    x = layers.Activation(&#39;relu&#39;)(x)
 
-    <span class="c1"># ResNet18 top</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling2D</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">NUM_CLASSES</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;softmax&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    # ResNet18 top
+    x = layers.GlobalAveragePooling2D()(x)
+    x = layers.Dense(NUM_CLASSES)(x)
+    x = layers.Activation(&#39;softmax&#39;)(x)
 
-    <span class="c1"># Create the model.</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">img_input</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    # Create the model.
+    model = models.Model(img_input, x)
 
-    <span class="k">return</span> <span class="n">model</span>
+    return model
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMG_SHAPE</span> <span class="o">=</span> <span class="n">IMG_SIZE</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ResNet18</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="n">IMG_SHAPE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>IMG_SHAPE = IMG_SIZE + (3,)
+model = ResNet18(input_shape=IMG_SHAPE)
 </pre></div>
 </div>
 </section>
@@ -774,17 +774,17 @@ model and a training pipeline.</p>
 recommended to skip <code class="docutils literal notranslate"><span class="pre">FP32</span></code> model training and load the weights that
 are provided.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the floating-point weights.</span>
-<span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">fp32_h5_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the floating-point weights.
+model.load_weights(fp32_h5_path)
 
-<span class="c1"># Compile the floating-point model.</span>
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">CategoricalCrossentropy</span><span class="p">(</span><span class="n">label_smoothing</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
-              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;acc@1&#39;</span><span class="p">)])</span>
+# Compile the floating-point model.
+model.compile(loss=tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
+              metrics=[tf.keras.metrics.CategoricalAccuracy(name=&#39;acc@1&#39;)])
 
-<span class="c1"># Validate the floating-point model.</span>
-<span class="n">test_loss</span><span class="p">,</span> <span class="n">acc_fp32</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">validation_dataset</span><span class="p">,</span>
-                                     <span class="n">callbacks</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ProgbarLogger</span><span class="p">(</span><span class="n">stateful_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;acc@1&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Accuracy of FP32 model: </span><span class="si">{</span><span class="n">acc_fp32</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Validate the floating-point model.
+test_loss, acc_fp32 = model.evaluate(validation_dataset,
+                                     callbacks=tf.keras.callbacks.ProgbarLogger(stateful_metrics=[&#39;acc@1&#39;]))
+print(f&quot;\nAccuracy of FP32 model: {acc_fp32:.3f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span><span class="o">/</span><span class="mi">4</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="n">s</span> <span class="mi">136</span><span class="n">ms</span><span class="o">/</span><span class="n">sample</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.9807</span> <span class="o">-</span> <span class="n">acc</span><span class="o">@</span><span class="mi">1</span><span class="p">:</span> <span class="mf">0.8220</span>
@@ -794,8 +794,8 @@ are provided.</p>
 </div>
 <p>Save the floating-point model to the saved model, which will be later
 used for conversion to OpenVINO IR and further performance measurement.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fp32_sm_path</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Absolute path where the model is saved:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">fp32_sm_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.save(fp32_sm_path)
+print(f&#39;Absolute path where the model is saved:\n {fp32_sm_path.resolve()}&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span><span class="n">tensorflow</span><span class="p">:</span><span class="n">Assets</span> <span class="n">written</span> <span class="n">to</span><span class="p">:</span> <span class="n">output</span><span class="o">/</span><span class="n">ResNet</span><span class="o">-</span><span class="mi">18</span><span class="n">_fp32</span><span class="o">/</span><span class="n">assets</span>
@@ -820,14 +820,14 @@ scenario and requires only 3 modifications.</p>
 <ol class="arabic simple">
 <li><p>Configure NNCF parameters to specify compression</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nncf_config_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;input_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;sample_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">IMG_SIZE</span><span class="p">)},</span>
-    <span class="s2">&quot;log_dir&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">OUTPUT_DIR</span><span class="p">),</span>  <span class="c1"># The log directory for NNCF-specific logging outputs.</span>
-    <span class="s2">&quot;compression&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;quantization&quot;</span><span class="p">,</span>  <span class="c1"># Specify the algorithm here.</span>
-    <span class="p">},</span>
-<span class="p">}</span>
-<span class="n">nncf_config</span> <span class="o">=</span> <span class="n">NNCFConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">nncf_config_dict</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nncf_config_dict = {
+    &quot;input_info&quot;: {&quot;sample_size&quot;: [1, 3] + list(IMG_SIZE)},
+    &quot;log_dir&quot;: str(OUTPUT_DIR),  # The log directory for NNCF-specific logging outputs.
+    &quot;compression&quot;: {
+        &quot;algorithm&quot;: &quot;quantization&quot;,  # Specify the algorithm here.
+    },
+}
+nncf_config = NNCFConfig.from_dict(nncf_config_dict)
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -835,31 +835,31 @@ scenario and requires only 3 modifications.</p>
 and determine which activation should be signed or unsigned from the
 collected statistics, using a given number of samples.</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nncf_config</span> <span class="o">=</span> <span class="n">register_default_init_args</span><span class="p">(</span><span class="n">nncf_config</span><span class="o">=</span><span class="n">nncf_config</span><span class="p">,</span>
-                                         <span class="n">data_loader</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
-                                         <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nncf_config = register_default_init_args(nncf_config=nncf_config,
+                                         data_loader=train_dataset,
+                                         batch_size=BATCH_SIZE)
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Create a wrapped model ready for compression fine-tuning from a
 pre-trained <code class="docutils literal notranslate"><span class="pre">FP32</span></code> model and a configuration object.</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compression_ctrl</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">create_compressed_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nncf_config</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>compression_ctrl, model = create_compressed_model(model, nncf_config)
 </pre></div>
 </div>
 <p>Evaluate the new model on the validation set after initialization of
 quantization. The accuracy should be not far from the accuracy of the
 floating-point <code class="docutils literal notranslate"><span class="pre">FP32</span></code> model for a simple case like the one being
 demonstrated here.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compile the INT8 model.</span>
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">LR</span><span class="p">),</span>
-              <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">CategoricalCrossentropy</span><span class="p">(</span><span class="n">label_smoothing</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
-              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;acc@1&#39;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compile the INT8 model.
+model.compile(optimizer=tf.keras.optimizers.Adam(lr=LR),
+              loss=tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
+              metrics=[tf.keras.metrics.CategoricalAccuracy(name=&#39;acc@1&#39;)])
 
-<span class="c1"># Validate the INT8 model.</span>
-<span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">validation_dataset</span><span class="p">,</span>
-                                     <span class="n">callbacks</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ProgbarLogger</span><span class="p">(</span><span class="n">stateful_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;acc@1&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Accuracy of INT8 model after initialization: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Validate the INT8 model.
+test_loss, test_acc = model.evaluate(validation_dataset,
+                                     callbacks=tf.keras.callbacks.ProgbarLogger(stateful_metrics=[&#39;acc@1&#39;]))
+print(f&quot;\nAccuracy of INT8 model after initialization: {test_acc:.3f}&quot;)
 </pre></div>
 </div>
 <pre class="literal-block">/opt/home/k8sworker/cibuilds/ov-notebook/OVNotebookOps-231/.workspace/scm/ov-notebook/.venv/lib/python3.8/site-packages/tensorflow/python/keras/optimizer_v2/optimizer_v2.py:374: UserWarning: The <cite>lr</cite> argument is deprecated, use <cite>learning_rate</cite> instead.
@@ -877,15 +877,15 @@ improve quantized model accuracy. Normally, several epochs of tuning are
 required with a small learning rate, the same that is usually used at
 the end of the training of the original model. No other changes in the
 training pipeline are required. Here is a simple example.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train the INT8 model.</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
-          <span class="n">epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Train the INT8 model.
+model.fit(train_dataset,
+          epochs=2)
 
-<span class="c1"># Validate the INT8 model.</span>
-<span class="n">test_loss</span><span class="p">,</span> <span class="n">acc_int8</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">validation_dataset</span><span class="p">,</span>
-                                     <span class="n">callbacks</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ProgbarLogger</span><span class="p">(</span><span class="n">stateful_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;acc@1&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Accuracy of INT8 model after fine-tuning: </span><span class="si">{</span><span class="n">acc_int8</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Accuracy drop of tuned INT8 model over pre-trained FP32 model: </span><span class="si">{</span><span class="n">acc_fp32</span> <span class="o">-</span> <span class="n">acc_int8</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Validate the INT8 model.
+test_loss, acc_int8 = model.evaluate(validation_dataset,
+                                     callbacks=tf.keras.callbacks.ProgbarLogger(stateful_metrics=[&#39;acc@1&#39;]))
+print(f&quot;\nAccuracy of INT8 model after fine-tuning: {acc_int8:.3f}&quot;)
+print(f&quot;\nAccuracy drop of tuned INT8 model over pre-trained FP32 model: {acc_fp32 - acc_int8:.3f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Epoch</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
@@ -902,8 +902,8 @@ training pipeline are required. Here is a simple example.</p>
 <p>Save the <code class="docutils literal notranslate"><span class="pre">INT8</span></code> model to the frozen graph (saved model does not work
 with quantized model for now). Frozen graph will be later used for
 conversion to OpenVINO IR and further performance measurement.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compression_ctrl</span><span class="o">.</span><span class="n">export_model</span><span class="p">(</span><span class="n">int8_pb_path</span><span class="p">,</span> <span class="s1">&#39;frozen_graph&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Absolute path where the int8 model is saved:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">int8_pb_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>compression_ctrl.export_model(int8_pb_path, &#39;frozen_graph&#39;)
+print(f&#39;Absolute path where the int8 model is saved:\n {int8_pb_path.resolve()}&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Absolute</span> <span class="n">path</span> <span class="n">where</span> <span class="n">the</span> <span class="n">int8</span> <span class="n">model</span> <span class="ow">is</span> <span class="n">saved</span><span class="p">:</span>
@@ -922,7 +922,7 @@ Guide</a>.</p>
 warnings in the output. When Model Optimization successfully exports to
 OpenVINO IR, the last lines of the output will include:
 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">10</span> <span class="pre">model</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mo --framework<span class="o">=</span>tf --input_shape<span class="o">=[</span><span class="m">1</span>,64,64,3<span class="o">]</span> --input<span class="o">=</span>data --saved_model_dir<span class="o">=</span><span class="nv">$fp32_sm_path</span> --output_dir<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!mo --framework=tf --input_shape=[1,64,64,3] --input=data --saved_model_dir=$fp32_sm_path --output_dir=$OUTPUT_DIR
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">Optimizer</span> <span class="n">arguments</span><span class="p">:</span>
@@ -970,7 +970,7 @@ OpenVINO IR, the last lines of the output will include:
 <span class="n">Find</span> <span class="n">more</span> <span class="n">information</span> <span class="n">about</span> <span class="n">API</span> <span class="n">v2</span><span class="mf">.0</span> <span class="ow">and</span> <span class="n">IR</span> <span class="n">v11</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">openvino</span><span class="o">.</span><span class="n">ai</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mo --framework<span class="o">=</span>tf --input_shape<span class="o">=[</span><span class="m">1</span>,64,64,3<span class="o">]</span> --input<span class="o">=</span>Placeholder --input_model<span class="o">=</span><span class="nv">$int8_pb_path</span> --output_dir<span class="o">=</span><span class="nv">$OUTPUT_DIR</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!mo --framework=tf --input_shape=[1,64,64,3] --input=Placeholder --input_model=$int8_pb_path --output_dir=$OUTPUT_DIR
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Model Optimizer arguments:
@@ -1031,18 +1031,18 @@ CPU for one minute. Change CPU to GPU to benchmark on GPU. Run
 <code class="docutils literal notranslate"><span class="pre">benchmark_app</span> <span class="pre">--help</span></code> to see an overview of all command-line
 options.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">parse_benchmark_output</span><span class="p">(</span><span class="n">benchmark_output</span><span class="p">):</span>
-    <span class="n">parsed_output</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">benchmark_output</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;  &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">parsed_output</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def parse_benchmark_output(benchmark_output):
+    parsed_output = [line for line in benchmark_output if not (line.startswith(r&quot;[&quot;) or line.startswith(&quot;  &quot;) or line == &quot;&quot;)]
+    print(*parsed_output, sep=&#39;\n&#39;)
 
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Benchmark FP32 model (IR)&#39;</span><span class="p">)</span>
-<span class="n">benchmark_output</span> <span class="o">=</span> <span class="o">!</span> benchmark_app -m <span class="nv">$fp32_ir_path</span> -d CPU -api async -t <span class="m">15</span>
-<span class="n">parse_benchmark_output</span><span class="p">(</span><span class="n">benchmark_output</span><span class="p">)</span>
+print(&#39;Benchmark FP32 model (IR)&#39;)
+benchmark_output = ! benchmark_app -m $fp32_ir_path -d CPU -api async -t 15
+parse_benchmark_output(benchmark_output)
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Benchmark INT8 model (IR)&#39;</span><span class="p">)</span>
-<span class="n">benchmark_output</span> <span class="o">=</span> <span class="o">!</span> benchmark_app -m <span class="nv">$int8_ir_path</span> -d CPU -api async -t <span class="m">15</span>
-<span class="n">parse_benchmark_output</span><span class="p">(</span><span class="n">benchmark_output</span><span class="p">)</span>
+print(&#39;\nBenchmark INT8 model (IR)&#39;)
+benchmark_output = ! benchmark_app -m $int8_ir_path -d CPU -api async -t 15
+parse_benchmark_output(benchmark_output)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Benchmark FP32 model (IR)
@@ -1057,10 +1057,10 @@ RuntimeError: Model file /opt/home/k8sworker/cibuilds/ov-notebook/OVNotebookOps-
 </pre></div>
 </div>
 <p>Show CPU Information for reference.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">ie</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s1">&#39;CPU&#39;</span><span class="p">,</span> <span class="s2">&quot;FULL_DEVICE_NAME&quot;</span><span class="p">)</span>
+ie = Core()
+ie.get_property(&#39;CPU&#39;, &quot;FULL_DEVICE_NAME&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;Intel(R) Core(TM) i9-10920X CPU @ 3.50GHz&#39;</span>

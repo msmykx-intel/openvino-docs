@@ -644,55 +644,55 @@ Vision (pp. 8878-8887).</p>
 </section>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import json
+import shutil
+import sys
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+from IPython.display import Markdown, display
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">load_image</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import load_image
 </pre></div>
 </div>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A device to use for inference. For example, &quot;CPU&quot;, or &quot;GPU&quot;.</span>
-<span class="n">DEVICE</span> <span class="o">=</span> <span class="s2">&quot;CPU&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># A device to use for inference. For example, &quot;CPU&quot;, or &quot;GPU&quot;.
+DEVICE = &quot;CPU&quot;
 
-<span class="c1"># A directory where the model will be downloaded.</span>
-<span class="n">model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">model_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+# A directory where the model will be downloaded.
+model_dir = Path(&quot;model&quot;)
+model_dir.mkdir(exist_ok=True)
 
-<span class="c1"># The output directory.</span>
-<span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
-<span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+# The output directory.
+output_dir = Path(&quot;output&quot;)
+output_dir.mkdir(exist_ok=True)
 
-<span class="c1"># The name of the model from Open Model Zoo.</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;deblurgan-v2&quot;</span>
-<span class="n">model_xml_path</span> <span class="o">=</span> <span class="n">model_dir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">)</span>
+# The name of the model from Open Model Zoo.
+model_name = &quot;deblurgan-v2&quot;
+model_xml_path = model_dir / Path(f&quot;{model_name}.xml&quot;)
 
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16&quot;</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;~/open_model_zoo_models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
-<span class="n">omz_cache_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;~/open_model_zoo_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+precision = &quot;FP16&quot;
+base_model_dir = Path(&quot;~/open_model_zoo_models&quot;).expanduser()
+omz_cache_dir = Path(&quot;~/open_model_zoo_cache&quot;).expanduser()
 </pre></div>
 </div>
 </section>
 <section id="download-deblurgan-v2-model-from-open-model-zoo">
 <h2>Download DeblurGAN-v2 Model from Open Model Zoo<a class="headerlink" href="#download-deblurgan-v2-model-from-open-model-zoo" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download_command</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;omz_downloader --name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> --output_dir&quot;</span>
-    <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --cache_dir </span><span class="si">{</span><span class="n">omz_cache_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download command: `</span><span class="si">{</span><span class="n">download_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">))</span>
-<span class="o">!</span> <span class="nv">$download_command</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>download_command = (
+    f&quot;omz_downloader --name {model_name} --output_dir&quot;
+    f&quot; {base_model_dir} --cache_dir {omz_cache_dir}&quot;
+)
+display(Markdown(f&quot;Download command: `{download_command}`&quot;))
+display(Markdown(f&quot;Downloading {model_name}...&quot;))
+! $download_command
 </pre></div>
 </div>
 <p>Download command:
@@ -721,14 +721,14 @@ Vision (pp. 8878-8887).</p>
 <p>Model Conversion may take a while. When the conversion succeeds, the
 last lines of the output will include
 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">convert_command</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;omz_converter --name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> --precisions </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;--download_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convert command: `</span><span class="si">{</span><span class="n">convert_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>convert_command = (
+    f&quot;omz_converter --name {model_name} --precisions {precision} &quot;
+    f&quot;--download_dir {base_model_dir} --output_dir {base_model_dir}&quot;
+)
+display(Markdown(f&quot;Convert command: `{convert_command}`&quot;))
+display(Markdown(f&quot;Converting {model_name}...&quot;))
 
-<span class="o">!</span> <span class="nv">$convert_command</span>
+! $convert_command
 </pre></div>
 </div>
 <p>Convert command:
@@ -785,21 +785,21 @@ last lines of the output will include
 <h2>Copy the Model<a class="headerlink" href="#copy-the-model" title="Permalink to this headline">¶</a></h2>
 <p>Copy the DeblurGAN-v2 Model to the specified <code class="docutils literal notranslate"><span class="pre">model_dir</span></code> directory in
 the settings.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_info</span> <span class="o">=</span> <span class="o">%</span><span class="k">sx</span> omz_info_dumper --name <span class="nv">$model_name</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_info = %sx omz_info_dumper --name $model_name
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_info_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model_info</span><span class="o">.</span><span class="n">get_nlstr</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_info_json = json.loads(model_info.get_nlstr())[0]
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_downloaded_dir</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">base_model_dir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_info_json</span><span class="p">[</span><span class="s2">&quot;subdirectory&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_downloaded_dir = (
+    base_model_dir / Path(model_info_json[&quot;subdirectory&quot;]) / Path(precision)
+)
 
-<span class="k">for</span> <span class="n">model_file</span> <span class="ow">in</span> <span class="n">model_downloaded_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="n">model_dir</span> <span class="o">/</span> <span class="n">model_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
-        <span class="k">pass</span>
+for model_file in model_downloaded_dir.iterdir():
+    try:
+        shutil.copyfile(model_file, model_dir / model_file.name)
+    except FileExistsError:
+        pass
 </pre></div>
 </div>
 <section id="load-the-model">
@@ -808,22 +808,22 @@ the settings.</p>
 <code class="docutils literal notranslate"><span class="pre">ie.read_model</span></code> and compile it for the specified device with
 <code class="docutils literal notranslate"><span class="pre">ie.compile_model</span></code>. Get input and output keys and the expected input
 shape for the model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_xml_path</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+model = ie.read_model(model=model_xml_path)
+compiled_model = ie.compile_model(model=model, device_name=DEVICE)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_input_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">model_output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_input_layer = compiled_model.input(0)
+model_output_layer = compiled_model.output(0)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_input_layer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_input_layer
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">ConstOutput</span><span class="p">:</span> <span class="n">names</span><span class="p">[</span><span class="n">blur_image</span><span class="p">]</span> <span class="n">shape</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">736</span><span class="p">,</span><span class="mi">1312</span><span class="p">}</span> <span class="nb">type</span><span class="p">:</span> <span class="n">f32</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_output_layer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_output_layer
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">ConstOutput</span><span class="p">:</span> <span class="n">names</span><span class="p">[</span><span class="n">deblur_image</span><span class="p">]</span> <span class="n">shape</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">736</span><span class="p">,</span><span class="mi">1312</span><span class="p">}</span> <span class="nb">type</span><span class="p">:</span> <span class="n">f32</span><span class="o">&gt;</span>
@@ -841,27 +841,27 @@ from <code class="docutils literal notranslate"><span class="pre">notebooks.util
 input sizes, and reshaped to <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W)</span></code>, where <code class="docutils literal notranslate"><span class="pre">N</span></code> is a number
 of images in the batch, <code class="docutils literal notranslate"><span class="pre">C</span></code> is a number of channels, <code class="docutils literal notranslate"><span class="pre">H</span></code> is the
 height, and <code class="docutils literal notranslate"><span class="pre">W</span></code> is the width.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Image filename (local path or URL)</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;https://user-images.githubusercontent.com/41332813/166901955-5d813e4c-a895-4da2-a36c-a96b3f627ebb.png&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Image filename (local path or URL)
+filename = &quot;https://user-images.githubusercontent.com/41332813/166901955-5d813e4c-a895-4da2-a36c-a96b3f627ebb.png&quot;
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the input image.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the input image.
+image = load_image(filename)
 
-<span class="c1"># Convert the image if it is stored in RGBA format.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;RGB&#39;</span><span class="p">))</span>
+# Convert the image if it is stored in RGBA format.
+image = np.asarray(Image.fromarray(image).convert(&#39;RGB&#39;))
 
-<span class="c1"># N,C,H,W = batch size, number of channels, height, width.</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">model_input_layer</span><span class="o">.</span><span class="n">shape</span>
+# N,C,H,W = batch size, number of channels, height, width.
+N, C, H, W = model_input_layer.shape
 
-<span class="c1"># Resize the image to meet network expected input sizes.</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+# Resize the image to meet network expected input sizes.
+resized_image = cv2.resize(image, (W, H))
 
-<span class="c1"># Reshape to network input shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+# Reshape to network input shape.
+input_image = np.expand_dims(resized_image.transpose(2, 0, 1), 0)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7f96e9b18580</span><span class="o">&gt;</span>
@@ -873,17 +873,17 @@ height, and <code class="docutils literal notranslate"><span class="pre">W</span
 <h2>Do Inference on the Input Image<a class="headerlink" href="#do-inference-on-the-input-image" title="Permalink to this headline">¶</a></h2>
 <p>Do the inference, convert the result to an image shape and resize it to
 the original image size.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inference.</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">model_output_layer</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Inference.
+result = compiled_model([input_image])[model_output_layer]
 
-<span class="c1"># Convert the result to an image shape.</span>
-<span class="n">result_image</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+# Convert the result to an image shape.
+result_image = result[0].transpose((1, 2, 0))
 
-<span class="c1"># Resize to the original image size.</span>
-<span class="n">resized_result_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">result_image</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+# Resize to the original image size.
+resized_result_image = cv2.resize(result_image, image.shape[:2][::-1])
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">result_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.imshow(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7f96e41c7e80</span><span class="o">&gt;</span>
@@ -894,8 +894,8 @@ the original image size.</p>
 <section id="load-the-groundtruth-image">
 <h2>Load the groundtruth Image<a class="headerlink" href="#load-the-groundtruth-image" title="Permalink to this headline">¶</a></h2>
 <p>Load the groundtruth image for comparison.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load grountruth image.</span>
-<span class="n">groundtruth_image</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="s2">&quot;https://user-images.githubusercontent.com/41332813/166900611-83be8ae5-23ed-4426-b535-fad960795687.png&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load grountruth image.
+groundtruth_image = load_image(&quot;https://user-images.githubusercontent.com/41332813/166900611-83be8ae5-23ed-4426-b535-fad960795687.png&quot;)
 </pre></div>
 </div>
 </section>
@@ -903,19 +903,19 @@ the original image size.</p>
 <h2>Display results<a class="headerlink" href="#display-results" title="Permalink to this headline">¶</a></h2>
 <p>Images are in <code class="docutils literal notranslate"><span class="pre">BGR</span></code> format, so they will be converted to the <code class="docutils literal notranslate"><span class="pre">RGB</span></code>
 format in order to be properly displayed by matplotlib library.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create subplot(r,c) by providing the no. of rows (r),</span>
-<span class="c1"># number of columns (c) and figure size.</span>
-<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create subplot(r,c) by providing the no. of rows (r),
+# number of columns (c) and figure size.
+f, ax = plt.subplots(1, 3, figsize=(20, 15))
 
-<span class="c1"># Use the created array and display the images horizontally.</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Blurred&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+# Use the created array and display the images horizontally.
+ax[0].set_title(&quot;Blurred&quot;)
+ax[0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;DeblurGAN-v2&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">resized_result_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+ax[1].set_title(&quot;DeblurGAN-v2&quot;)
+ax[1].imshow(cv2.cvtColor(resized_result_image, cv2.COLOR_BGR2RGB))
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Groundtruth&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">groundtruth_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+ax[2].set_title(&quot;Groundtruth&quot;)
+ax[2].imshow(cv2.cvtColor(groundtruth_image, cv2.COLOR_BGR2RGB))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7f96e41030d0</span><span class="o">&gt;</span>
@@ -927,11 +927,11 @@ format in order to be properly displayed by matplotlib library.</p>
 <h2>Save the deblurred image<a class="headerlink" href="#save-the-deblurred-image" title="Permalink to this headline">¶</a></h2>
 <p>Save the output image of the DeblurGAN-v2 model in the <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>
 directory.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">savename</span> <span class="o">=</span> <span class="s2">&quot;deblurred.png&quot;</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span>
-    <span class="n">output_dir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">savename</span><span class="p">),</span>
-    <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">resized_result_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">),</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>savename = &quot;deblurred.png&quot;
+plt.imsave(
+    output_dir / Path(savename),
+    cv2.cvtColor(resized_result_image, cv2.COLOR_BGR2RGB),
+)
 </pre></div>
 </div>
 </section>

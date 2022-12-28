@@ -2021,11 +2021,6 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#accuracy">
-   Accuracy
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#inputs">
    Inputs
   </a>
@@ -2083,8 +2078,8 @@
 <h1>smartlab-sequence-modelling-0001<a class="headerlink" href="#smartlab-sequence-modelling-0001" title="Permalink to this headline">¶</a></h1>
 <section id="use-case-and-high-level-description">
 <h2>Use Case and High-Level Description<a class="headerlink" href="#use-case-and-high-level-description" title="Permalink to this headline">¶</a></h2>
-<p>This is an online action segmentation network for 16 classes trained on Intel dataset. It is an online version of MSTCN++. The difference between online MSTCN++ and MSTCN++ is that the former accept stream video as input while the latter assume the whole video is given.</p>
-<p>For the original MSTCN++ model details see <a class="reference external" href="https://arxiv.org/abs/2006.09220">paper</a></p>
+<p>This is a feature extractor that is based on Mobilenet-v3 network without origianl classifier layer. Input is RGB image and output is feature vector.
+For the original mobilenet-v3 model details see <a class="reference external" href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_small.html#torchvision.models.mobilenet_v3_small">PyTorch* document</a> and <a class="reference external" href="https://arxiv.org/abs/1905.02244">paper</a>.</p>
 </section>
 <section id="specification">
 <h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
@@ -2096,10 +2091,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>GOPs</p></td>
-<td><p>0.048915</p></td>
+<td><p>0.11</p></td>
 </tr>
 <tr class="row-odd"><td><p>MParams</p></td>
-<td><p>1.018179</p></td>
+<td><p>2.537</p></td>
 </tr>
 <tr class="row-even"><td><p>Source framework</p></td>
 <td><p>PyTorch*</p></td>
@@ -2107,152 +2102,20 @@
 </tbody>
 </table>
 </section>
-<section id="accuracy">
-<h2>Accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h2>
-<table>
-    <tr>
-        <th colspan="2">Accuracy</th>
-        <th>noise/background</th>
-        <th>remove_support_sleeve</th>
-        <th>adjust_rider</th>
-        <th>adjust_nut</th>
-        <th>adjust_balancing</th>
-        <th>open_box</th>
-        <th>close_box</th>
-        <th>choose_weight</th>
-        <th>put_left</th>
-        <th>put_right</th>
-        <th>take_left</th>
-        <th>take_right</th>
-        <th>install support_sleeve</th>
-        <th>mean</th>
-        <th>mPR (P+R)/2</th>
-    </tr>
-    <tbody>
-        <tr>
-            <td rowspan=2>frame-level</td>
-            <td rowspan=1>precision</td>
-            <td>0.22</td>
-            <td>0.84</td>
-            <td>0.81</td>
-            <td>0.62</td>
-            <td>0.67</td>
-            <td>0.87</td>
-            <td>0.56</td>
-            <td>0.52</td>
-            <td>0.54</td>
-            <td>0.74</td>
-            <td>0.62</td>
-            <td>0.68</td>
-            <td>0.86</td>
-            <td>0.66</td>
-            <td rowspan=2>0.66</td>
-        </tr>
-        <tr>
-            <td rowspan=1>recall</td>
-            <td>0.4</td>
-            <td>0.95</td>
-            <td>0.83</td>
-            <td>0.86</td>
-            <td>0.43</td>
-            <td>0.8</td>
-            <td>0.31</td>
-            <td>0.52</td>
-            <td>0.68</td>
-            <td>0.65</td>
-            <td>0.62</td>
-            <td>0.51</td>
-            <td>0.92</td>
-            <td>0.65</td>
-        </tr>
-        <tr>
-            <td rowspan=2>segment IOU</td>
-            <td rowspan=1>precision</td>
-            <td>0.38</td>
-            <td>0.94</td>
-            <td>0.77</td>
-            <td>0.65</td>
-            <td>0.6</td>
-            <td>0.85</td>
-            <td>0.56</td>
-            <td>0.68</td>
-            <td>0.74</td>
-            <td>0.88</td>
-            <td>0.72</td>
-            <td>0.78</td>
-            <td>0.69</td>
-            <td>0.7</td>
-            <td rowspan=2>0.77</td>
-        </tr>
-        <tr>
-            <td>recall</td>
-            <td>0.64</td>
-            <td>1</td>
-            <td>0.96</td>
-            <td>0.94</td>
-            <td>0.62</td>
-            <td>0.96</td>
-            <td>0.48</td>
-            <td>0.77</td>
-            <td>0.91</td>
-            <td>0.88</td>
-            <td>0.83</td>
-            <td>0.85</td>
-            <td>1</td>
-            <td>0.83</td>
-        </tr>
-    </tbody>
-</table>
-<p>Notice: In the accuracy report, feature extraction network is i3d-rgb, you can get this model from <code class="docutils literal notranslate"><span class="pre">../../public/i3d-rgb-tf/README.md</span></code>.</p>
-</section>
 <section id="inputs">
 <h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<p>The inputs to the network are feature vectors at each video frame, which should be the output of feature extraction network, such as <a class="reference internal" href="../../public/i3d-rgb-tf/README.html"><span class="doc std std-doc">i3d-rgb-tf</span></a> and <a class="reference internal" href="../../public/resnet-50-tf/README.html"><span class="doc std std-doc">resnet-50-tf</span></a>, and feature outputs of the previous frame.</p>
-<p>You can check the i3d-rgb and smartlab-sequence-modelling-0001 usage in demos/smartlab_demo</p>
-<ol class="arabic simple">
-<li><p>Input feature, name: <code class="docutils literal notranslate"><span class="pre">input</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">2048,</span> <span class="pre">24</span></code>, format: <code class="docutils literal notranslate"><span class="pre">B,</span> <span class="pre">W,</span> <span class="pre">H</span></code>, where:</p>
+<p>Image, name: <code class="docutils literal notranslate"><span class="pre">input</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">3,</span> <span class="pre">224,</span> <span class="pre">224</span></code>, format: <code class="docutils literal notranslate"><span class="pre">B,</span> <span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W</span></code>, where:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">B</span></code> - batch size</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">W</span></code> - feature map width</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">H</span></code> - feature map height</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code> - number of channels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">H</span></code> - image height</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">W</span></code> - image width</p></li>
 </ul>
-</li>
-<li><p>History feature 1, name: <code class="docutils literal notranslate"><span class="pre">fhis_in_0</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">12,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H',</span> <span class="pre">W</span></code>,</p></li>
-<li><p>History feature 2, name: <code class="docutils literal notranslate"><span class="pre">fhis_in_1</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">11,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H',</span> <span class="pre">W</span></code>,</p></li>
-<li><p>History feature 3, name: <code class="docutils literal notranslate"><span class="pre">fhis_in_2</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">11,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H',</span> <span class="pre">W</span></code>,</p></li>
-<li><p>History feature 4, name: <code class="docutils literal notranslate"><span class="pre">fhis_in_3</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">11,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H',</span> <span class="pre">W</span></code>, where:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code> - the channel number of feature vector</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">H</span></code>- feature map height</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">W</span></code> - feature map width</p></li>
-</ul>
-</li>
-</ol>
 </section>
 <section id="outputs">
 <h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p>The outputs also include two parts: predictions and four feature outputs. Predictions is the action classification and prediction results. Four Feature maps are the model layer features in past frames.</p>
-<ol class="arabic simple">
-<li><p>Prediction, name: <code class="docutils literal notranslate"><span class="pre">output</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">4,</span> <span class="pre">1,</span> <span class="pre">64,</span> <span class="pre">24</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">B,</span> <span class="pre">H,</span> <span class="pre">W</span></code>,</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code> - the channel number of feature vector</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">B</span></code> - batch size</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">H</span></code>- feature map height</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">W</span></code> - feature map width
-After post-process with argmax() function, the prediction result can be used to decide the action type of the current frame.</p></li>
-</ul>
-</li>
-<li><p>History feature 1, name: <code class="docutils literal notranslate"><span class="pre">fhis_out_0</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">12,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W</span></code>,</p></li>
-<li><p>History feature 2, name: <code class="docutils literal notranslate"><span class="pre">fhis_out_1</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">11,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W</span></code>,</p></li>
-<li><p>History feature 3, name: <code class="docutils literal notranslate"><span class="pre">fhis_out_2</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">11,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W</span></code>,</p></li>
-<li><p>History feature 4, name: <code class="docutils literal notranslate"><span class="pre">fhis_out_3</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">11,</span> <span class="pre">64,</span> <span class="pre">2048</span></code>, format: <code class="docutils literal notranslate"><span class="pre">C,</span> <span class="pre">H,</span> <span class="pre">W</span></code>, where:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code> - the channel number of feature vector</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">H</span></code>- feature map height</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">W</span></code> - feature map width</p></li>
-</ul>
-</li>
-</ol>
+<p>Model has output name: <code class="docutils literal notranslate"><span class="pre">output</span></code>, shape: <code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">576,</span> <span class="pre">1,</span> <span class="pre">1</span></code>
+<code class="docutils literal notranslate"><span class="pre">576</span></code> is the length of feature map.</p>
 </section>
 <section id="legal-information">
 <h2>Legal Information<a class="headerlink" href="#legal-information" title="Permalink to this headline">¶</a></h2>

@@ -639,22 +639,22 @@ post-processing from Ultralytics in our quantization pipeline.</p>
 <h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
 <section id="download-the-yolov5-model">
 <h3>Download the YOLOv5 model<a class="headerlink" href="#download-the-yolov5-model" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">addict</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import numpy as np
+import matplotlib.pyplot as plt
+import torch
+from pathlib import Path
+from addict import Dict
+from IPython.display import Markdown, display
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./yolov5/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">command_download</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;git clone https://github.com/ultralytics/yolov5.git -b v6.1&quot;</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">command_download</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command_download</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Download Ultralytics Yolov5 project source:&quot;</span><span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">command_download</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-    <span class="n">download_res</span> <span class="o">=</span> <span class="o">%</span><span class="k">sx</span> <span class="nv">$command_download</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ultralytics Yolov5 repo already exists.&quot;</span><span class="p">)</span>
+if not Path(&quot;./yolov5/&quot;).exists():
+    command_download = f&#39;{&quot;git clone https://github.com/ultralytics/yolov5.git -b v6.1&quot;}&#39;
+    command_download = &quot; &quot;.join(command_download.split())
+    print(&quot;Download Ultralytics Yolov5 project source:&quot;)
+    display(Markdown(f&quot;`{command_download}`&quot;))
+    download_res = %sx $command_download
+else:
+    print(&quot;Ultralytics Yolov5 repo already exists.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Download</span> <span class="n">Ultralytics</span> <span class="n">Yolov5</span> <span class="n">project</span> <span class="n">source</span><span class="p">:</span>
@@ -671,27 +671,27 @@ post-processing from Ultralytics in our quantization pipeline.</p>
 OpenVINO IR, with FP32 precision.</p>
 </li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Convert PyTorch model to ONNX Model:&quot;</span><span class="p">)</span>
-<span class="n">command_export</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;cd yolov5 &amp;&amp; python export.py --weights yolov5m/yolov5m.pt --imgsz 640 --batch-size 1 --include onnx &quot;</span><span class="si">}</span><span class="s1">&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">command_export</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="o">!</span> <span class="nv">$command_export</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&quot;Convert PyTorch model to ONNX Model:&quot;)
+command_export = f&#39;{&quot;cd yolov5 &amp;&amp; python export.py --weights yolov5m/yolov5m.pt --imgsz 640 --batch-size 1 --include onnx &quot;}&#39;
+display(Markdown(f&quot;`{command_export}`&quot;))
+! $command_export
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Convert ONNX model to OpenVINO IR:&quot;</span><span class="p">)</span>
-<span class="n">onnx_path</span> <span class="o">=</span> <span class="s2">&quot;./yolov5/yolov5m/yolov5m.onnx&quot;</span>
-<span class="n">IMAGE_HEIGHT</span> <span class="o">=</span> <span class="mi">640</span>
-<span class="n">IMAGE_WIDTH</span> <span class="o">=</span> <span class="mi">640</span>
-<span class="n">model_output_path</span> <span class="o">=</span> <span class="s2">&quot;./yolov5/yolov5m/yolov5m_openvino_model/&quot;</span>
+print(&quot;Convert ONNX model to OpenVINO IR:&quot;)
+onnx_path = &quot;./yolov5/yolov5m/yolov5m.onnx&quot;
+IMAGE_HEIGHT = 640
+IMAGE_WIDTH = 640
+model_output_path = &quot;./yolov5/yolov5m/yolov5m_openvino_model/&quot;
 
-<span class="c1"># Construct the command for Model Optimizer.</span>
-<span class="n">command_mo</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;mo</span>
-<span class="s2">                 --input_model &quot;</span><span class="si">{</span><span class="n">onnx_path</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="s2">                 --input_shape &quot;[1, 3, </span><span class="si">{</span><span class="n">IMAGE_HEIGHT</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">IMAGE_WIDTH</span><span class="si">}</span><span class="s2">]&quot;</span>
-<span class="s2">                 --data_type FP32</span>
-<span class="s2">                 --output_dir &quot;</span><span class="si">{</span><span class="n">model_output_path</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="s2">                 &quot;&quot;&quot;</span>
-<span class="n">command_mo</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command_mo</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">command_mo</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="o">!</span> <span class="nv">$command_mo</span>
+# Construct the command for Model Optimizer.
+command_mo = f&quot;&quot;&quot;mo
+                 --input_model &quot;{onnx_path}&quot;
+                 --input_shape &quot;[1, 3, {IMAGE_HEIGHT}, {IMAGE_WIDTH}]&quot;
+                 --data_type FP32
+                 --output_dir &quot;{model_output_path}&quot;
+                 &quot;&quot;&quot;
+command_mo = &quot; &quot;.join(command_mo.split())
+display(Markdown(f&quot;`{command_mo}`&quot;))
+! $command_mo
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Convert</span> <span class="n">PyTorch</span> <span class="n">model</span> <span class="n">to</span> <span class="n">ONNX</span> <span class="n">Model</span><span class="p">:</span>
@@ -763,19 +763,19 @@ Convert ONNX model to OpenVINO IR:
 </section>
 <section id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;./yolov5&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sys.path.append(&quot;./yolov5&quot;)
 
-<span class="kn">from</span> <span class="nn">yolov5.utils.datasets</span> <span class="kn">import</span> <span class="n">create_dataloader</span>
-<span class="kn">from</span> <span class="nn">yolov5.utils.general</span> <span class="kn">import</span> <span class="n">check_dataset</span><span class="p">,</span> <span class="n">non_max_suppression</span><span class="p">,</span> <span class="n">scale_coords</span><span class="p">,</span> <span class="n">xywh2xyxy</span><span class="p">,</span> <span class="n">check_yaml</span><span class="p">,</span><span class="n">increment_path</span>
-<span class="kn">from</span> <span class="nn">yolov5.utils.metrics</span> <span class="kn">import</span> <span class="n">ap_per_class</span>
-<span class="kn">from</span> <span class="nn">yolov5.val</span> <span class="kn">import</span> <span class="n">process_batch</span>
+from yolov5.utils.datasets import create_dataloader
+from yolov5.utils.general import check_dataset, non_max_suppression, scale_coords, xywh2xyxy, check_yaml,increment_path
+from yolov5.utils.metrics import ap_per_class
+from yolov5.val import process_batch
 
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.api</span> <span class="kn">import</span> <span class="n">Metric</span><span class="p">,</span> <span class="n">DataLoader</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.engines.ie_engine</span> <span class="kn">import</span> <span class="n">IEEngine</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.graph</span> <span class="kn">import</span> <span class="n">load_model</span><span class="p">,</span> <span class="n">save_model</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.graph.model_utils</span> <span class="kn">import</span> <span class="n">compress_model_weights</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.pipeline.initializer</span> <span class="kn">import</span> <span class="n">create_pipeline</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.utils.logger</span> <span class="kn">import</span> <span class="n">init_logger</span><span class="p">,</span> <span class="n">get_logger</span>
+from openvino.tools.pot.api import Metric, DataLoader
+from openvino.tools.pot.engines.ie_engine import IEEngine
+from openvino.tools.pot.graph import load_model, save_model
+from openvino.tools.pot.graph.model_utils import compress_model_weights
+from openvino.tools.pot.pipeline.initializer import create_pipeline
+from openvino.tools.pot.utils.logger import init_logger, get_logger
 </pre></div>
 </div>
 </section>
@@ -788,59 +788,59 @@ Convert ONNX model to OpenVINO IR:
 inherits from POT API class DataLoader. The Ultralytics YOLOv5 training
 process requires image data normalization from [0,225] 8-bit integer
 range to [0.0,1.0] 32-bit floating point range.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">YOLOv5DataLoader</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Inherit from DataLoader function and implement for YOLOv5.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class YOLOv5DataLoader(DataLoader):
+    &quot;&quot;&quot; Inherit from DataLoader function and implement for YOLOv5.
+    &quot;&quot;&quot;
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    def __init__(self, config):
+        if not isinstance(config, Dict):
+            config = Dict(config)
+        super().__init__(config)
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data_source</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">data_source</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_imgsz</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">imgsz</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stride</span> <span class="o">=</span> <span class="mi">32</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_single_cls</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">single_cls</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pad</span> <span class="o">=</span> <span class="mf">0.5</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_rect</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_dataloader</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_loader</span><span class="p">)</span>
+        self._data_source = config.data_source
+        self._imgsz = config.imgsz
+        self._batch_size = 1
+        self._stride = 32
+        self._single_cls = config.single_cls
+        self._pad = 0.5
+        self._rect = False
+        self._workers = 1
+        self._data_loader = self._init_dataloader()
+        self._data_iter = iter(self._data_loader)
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    def __len__(self):
+        return len(self._data_loader.dataset)
 
-    <span class="k">def</span> <span class="nf">_init_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">dataloader</span> <span class="o">=</span> <span class="n">create_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_source</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">],</span> <span class="n">imgsz</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_imgsz</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_stride</span><span class="p">,</span>
-                                       <span class="n">single_cls</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_single_cls</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pad</span><span class="p">,</span> <span class="n">rect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rect</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">dataloader</span>
+    def _init_dataloader(self):
+        dataloader = create_dataloader(self._data_source[&#39;val&#39;], imgsz=self._imgsz, batch_size=self._batch_size, stride=self._stride,
+                                       single_cls=self._single_cls, pad=self._pad, rect=self._rect, workers=self._workers)[0]
+        return dataloader
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">batch_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_iter</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_data_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_loader</span><span class="p">)</span>
-            <span class="n">batch_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_iter</span><span class="p">)</span>
+    def __getitem__(self, item):
+        try:
+            batch_data = next(self._data_iter)
+        except StopIteration:
+            self._data_iter = iter(self._data_loader)
+            batch_data = next(self._data_iter)
 
-        <span class="n">im</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">batch_data</span>
+        im, target, path, shape = batch_data
 
-        <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
-        <span class="n">im</span> <span class="o">/=</span> <span class="mi">255</span>
-        <span class="n">nb</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        im = im.float()
+        im /= 255
+        nb, _, height, width = im.shape
+        img = im.cpu().detach().numpy()
+        target = target.cpu().detach().numpy()
 
-        <span class="n">annotation</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;image_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">shape</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">width</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">height</span>
-        <span class="n">annotation</span><span class="p">[</span><span class="s1">&#39;img&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">img</span>
+        annotation = dict()
+        annotation[&#39;image_path&#39;] = path
+        annotation[&#39;target&#39;] = target
+        annotation[&#39;batch_size&#39;] = nb
+        annotation[&#39;shape&#39;] = shape
+        annotation[&#39;width&#39;] = width
+        annotation[&#39;height&#39;] = height
+        annotation[&#39;img&#39;] = img
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">annotation</span><span class="p">),</span> <span class="n">img</span>
+        return (item, annotation), img
 </pre></div>
 </div>
 </section>
@@ -855,127 +855,127 @@ inherited from the POT API Metric class.</p>
 <p>The COCOMetric.update() function contains post-processing with Non-Max
 Suppression to sort boxes by score and select the box with the highest
 score.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">COCOMetric</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Inherit from DataLoader function and implement for YOLOv5.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class COCOMetric(Metric):
+    &quot;&quot;&quot; Inherit from DataLoader function and implement for YOLOv5.
+    &quot;&quot;&quot;
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metric_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;AP@0.5&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;AP@0.5:0.95&quot;</span><span class="p">:</span> <span class="p">[]}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_metric_dict</span><span class="p">,)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_stats</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_conf_thres</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">conf_thres</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_iou_thres</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">iou_thres</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_single_cls</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">single_cls</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nc</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">nc</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_class_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span><span class="n">name</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">names</span><span class="p">)}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">device</span>
+    def __init__(self, config):
+        super().__init__()
+        self._metric_dict = {&quot;AP@0.5&quot;: [], &quot;AP@0.5:0.95&quot;: []}
+        self._names = (*self._metric_dict,)
+        self._stats = []
+        self._last_stats = []
+        self._conf_thres = config.conf_thres
+        self._iou_thres = config.iou_thres
+        self._single_cls = config.single_cls
+        self._nc = config.nc
+        self._class_names = {idx:name for idx,name in enumerate(config.names)}
+        self._device = config.device
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns metric value for the last model output.</span>
-<span class="sd">        Both use AP@0.5 and AP@0.5:0.95</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mp</span><span class="p">,</span> <span class="n">mr</span><span class="p">,</span> <span class="n">map50</span><span class="p">,</span> <span class="nb">map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_stats</span><span class="p">)</span>
+    @property
+    def value(self):
+        &quot;&quot;&quot; Returns metric value for the last model output.
+        Both use AP@0.5 and AP@0.5:0.95
+        &quot;&quot;&quot;
+        mp, mr, map50, map = self._process_stats(self._last_stats)
 
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="p">[</span><span class="n">map50</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="p">[</span><span class="nb">map</span><span class="p">]}</span>
+        return {self._names[0]: [map50], self._names[1]: [map]}
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">avg_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns metric value for all model outputs.</span>
-<span class="sd">        Both use AP@0.5 and AP@0.5:0.95</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mp</span><span class="p">,</span> <span class="n">mr</span><span class="p">,</span> <span class="n">map50</span><span class="p">,</span> <span class="nb">map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="p">)</span>
+    @property
+    def avg_value(self):
+        &quot;&quot;&quot; Returns metric value for all model outputs.
+        Both use AP@0.5 and AP@0.5:0.95
+        &quot;&quot;&quot;
+        mp, mr, map50, map = self._process_stats(self._stats)
 
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">map50</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="nb">map</span><span class="p">}</span>
+        return {self._names[0]: map50, self._names[1]: map}
 
-    <span class="k">def</span> <span class="nf">_process_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">):</span>
-        <span class="n">mp</span><span class="p">,</span> <span class="n">mr</span><span class="p">,</span> <span class="n">map50</span><span class="p">,</span> <span class="nb">map</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
-        <span class="n">stats</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">stats</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span> <span class="ow">and</span> <span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="n">tp</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">ap</span><span class="p">,</span> <span class="n">ap_class</span> <span class="o">=</span> <span class="n">ap_per_class</span><span class="p">(</span><span class="o">*</span><span class="n">stats</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_class_names</span><span class="p">)</span>
-            <span class="n">ap50</span><span class="p">,</span> <span class="n">ap</span> <span class="o">=</span> <span class="n">ap</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ap</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">mp</span><span class="p">,</span> <span class="n">mr</span><span class="p">,</span> <span class="n">map50</span><span class="p">,</span> <span class="nb">map</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">ap50</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">ap</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">minlength</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_nc</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    def _process_stats(self, stats):
+        mp, mr, map50, map = 0.0, 0.0, 0.0, 0.0
+        stats = [np.concatenate(x, 0) for x in zip(*stats)]
+        if len(stats) and stats[0].any():
+            tp, fp, p, r, f1, ap, ap_class = ap_per_class(*stats, plot=False, save_dir=None, names=self._class_names)
+            ap50, ap = ap[:, 0], ap.mean(1)
+            mp, mr, map50, map = p.mean(), r.mean(), ap50.mean(), ap.mean()
+            np.bincount(stats[3].astype(np.int64), minlength=self._nc)
+        else:
+            torch.zeros(1)
 
-        <span class="k">return</span> <span class="n">mp</span><span class="p">,</span> <span class="n">mr</span><span class="p">,</span> <span class="n">map50</span><span class="p">,</span> <span class="nb">map</span>
+        return mp, mr, map50, map
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculates and updates metric value</span>
-<span class="sd">        Contains postprocessing part from Ultralytics YOLOv5 project</span>
-<span class="sd">        :param output: model output</span>
-<span class="sd">        :param target: annotations</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    def update(self, output, target):
+        &quot;&quot;&quot; Calculates and updates metric value
+        Contains postprocessing part from Ultralytics YOLOv5 project
+        :param output: model output
+        :param target: annotations
+        &quot;&quot;&quot;
 
-        <span class="n">annotation</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
-        <span class="n">width</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
-        <span class="n">height</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">]</span>
-        <span class="n">shapes</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span>
-        <span class="n">paths</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;image_path&quot;</span><span class="p">]</span>
-        <span class="n">im</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;img&quot;</span><span class="p">]</span>
+        annotation = target[0][&quot;target&quot;]
+        width = target[0][&quot;width&quot;]
+        height = target[0][&quot;height&quot;]
+        shapes = target[0][&quot;shape&quot;]
+        paths = target[0][&quot;image_path&quot;]
+        im = target[0][&quot;img&quot;]
 
-        <span class="n">iouv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>  <span class="c1"># iou vector for mAP@0.5:0.95</span>
-        <span class="n">niou</span> <span class="o">=</span> <span class="n">iouv</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
-        <span class="n">seen</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># NMS</span>
-        <span class="n">annotation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span>
-        <span class="n">annotation</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">*=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>  <span class="c1"># to pixels</span>
-        <span class="n">lb</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">non_max_suppression</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conf_thres</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iou_thres</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">lb</span><span class="p">,</span>
-                                  <span class="n">multi_label</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">agnostic</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_single_cls</span><span class="p">)</span>
-        <span class="c1"># Metrics</span>
-        <span class="k">for</span> <span class="n">si</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">out</span><span class="p">):</span>
-            <span class="n">labels</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="n">annotation</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">si</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
-            <span class="n">nl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-            <span class="n">tcls</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">if</span> <span class="n">nl</span> <span class="k">else</span> <span class="p">[]</span>  <span class="c1"># target class</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="n">si</span><span class="p">]),</span> <span class="n">shapes</span><span class="p">[</span><span class="n">si</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">seen</span> <span class="o">+=</span> <span class="mi">1</span>
+        iouv = torch.linspace(0.5, 0.95, 10).to(self._device)  # iou vector for mAP@0.5:0.95
+        niou = iouv.numel()
+        seen = 0
+        stats = []
+        # NMS
+        annotation = torch.Tensor(annotation)
+        annotation[:, 2:] *= torch.Tensor([width, height, width, height]).to(self._device)  # to pixels
+        lb = []
+        out = output[0]
+        out = torch.Tensor(out).to(self._device)
+        out = non_max_suppression(out, self._conf_thres, self._iou_thres, labels=lb,
+                                  multi_label=True, agnostic=self._single_cls)
+        # Metrics
+        for si, pred in enumerate(out):
+            labels = annotation[annotation[:, 0] == si, 1:]
+            nl = len(labels)
+            tcls = labels[:, 0].tolist() if nl else []  # target class
+            _, shape = Path(paths[si]), shapes[si][0]
+            seen += 1
 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nl</span><span class="p">:</span>
-                    <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">niou</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(),</span> <span class="n">tcls</span><span class="p">))</span>
-                <span class="k">continue</span>
+            if len(pred) == 0:
+                if nl:
+                    stats.append((torch.zeros(0, niou, dtype=torch.bool), torch.Tensor(), torch.Tensor(), tcls))
+                continue
 
-            <span class="c1"># Predictions</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_cls</span><span class="p">:</span>
-                <span class="n">pred</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">predn</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-            <span class="n">scale_coords</span><span class="p">(</span><span class="n">im</span><span class="p">[</span><span class="n">si</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">predn</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">shape</span><span class="p">,</span> <span class="n">shapes</span><span class="p">[</span><span class="n">si</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># native-space pred</span>
+            # Predictions
+            if self._single_cls:
+                pred[:, 5] = 0
+            predn = pred.clone()
+            scale_coords(im[si].shape[1:], predn[:, :4], shape, shapes[si][1])  # native-space pred
 
-            <span class="c1"># Evaluate</span>
-            <span class="k">if</span> <span class="n">nl</span><span class="p">:</span>
-                <span class="n">tbox</span> <span class="o">=</span> <span class="n">xywh2xyxy</span><span class="p">(</span><span class="n">labels</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>  <span class="c1"># target boxes</span>
-                <span class="n">scale_coords</span><span class="p">(</span><span class="n">im</span><span class="p">[</span><span class="n">si</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">tbox</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">shapes</span><span class="p">[</span><span class="n">si</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># native-space labels</span>
-                <span class="n">labelsn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">labels</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">],</span> <span class="n">tbox</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># native-space labels</span>
-                <span class="n">correct</span> <span class="o">=</span> <span class="n">process_batch</span><span class="p">(</span><span class="n">predn</span><span class="p">,</span> <span class="n">labelsn</span><span class="p">,</span> <span class="n">iouv</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">correct</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">niou</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
-            <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">correct</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">pred</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">pred</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">tcls</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">correct</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">pred</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">pred</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">tcls</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_stats</span> <span class="o">=</span> <span class="n">stats</span>
+            # Evaluate
+            if nl:
+                tbox = xywh2xyxy(labels[:, 1:5])  # target boxes
+                scale_coords(im[si].shape[1:], tbox, shape, shapes[si][1])  # native-space labels
+                labelsn = torch.cat((labels[:, 0:1], tbox), 1)  # native-space labels
+                correct = process_batch(predn, labelsn, iouv)
+            else:
+                correct = torch.zeros(pred.shape[0], niou, dtype=torch.bool)
+            stats.append((correct.cpu(), pred[:, 4].cpu(), pred[:, 5].cpu(), tcls))
+            self._stats.append((correct.cpu(), pred[:, 4].cpu(), pred[:, 5].cpu(), tcls))
+        self._last_stats = stats
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Resets metric &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metric_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;AP@0.5&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;AP@0.5:0.95&quot;</span><span class="p">:</span> <span class="p">[]}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_stats</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span> <span class="o">=</span> <span class="p">[]</span>
+    def reset(self):
+        &quot;&quot;&quot; Resets metric &quot;&quot;&quot;
+        self._metric_dict = {&quot;AP@0.5&quot;: [], &quot;AP@0.5:0.95&quot;: []}
+        self._last_stats = []
+        self._stats = []
 
-    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a dictionary of metric attributes {metric_name: {attribute_name: value}}.</span>
-<span class="sd">        Required attributes: &#39;direction&#39;: &#39;higher-better&#39; or &#39;higher-worse&#39;</span>
-<span class="sd">                                                 &#39;type&#39;: metric type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="s1">&#39;higher-better&#39;</span><span class="p">,</span>
-                                 <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;AP@0.5&#39;</span><span class="p">},</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="s1">&#39;higher-better&#39;</span><span class="p">,</span>
-                                 <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;AP@0.5:0.95&#39;</span><span class="p">}}</span>
+    def get_attributes(self):
+        &quot;&quot;&quot;
+        Returns a dictionary of metric attributes {metric_name: {attribute_name: value}}.
+        Required attributes: &#39;direction&#39;: &#39;higher-better&#39; or &#39;higher-worse&#39;
+                                                 &#39;type&#39;: metric type
+        &quot;&quot;&quot;
+        return {self._names[0]: {&#39;direction&#39;: &#39;higher-better&#39;,
+                                 &#39;type&#39;: &#39;AP@0.5&#39;},
+                self._names[1]: {&#39;direction&#39;: &#39;higher-better&#39;,
+                                 &#39;type&#39;: &#39;AP@0.5:0.95&#39;}}
 </pre></div>
 </div>
 </section>
@@ -990,59 +990,59 @@ to keep accuracy loss below a predefined threshold, at the cost of
 performance during the quantization process (it takes longer to quantize
 the model). This is useful when DefaultQuantization results in more
 accuracy loss than desired.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_config</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Set the configuration of the model, engine,</span>
-<span class="sd">    dataset, metric and quantization algorithm.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">data_yaml</span> <span class="o">=</span> <span class="n">check_yaml</span><span class="p">(</span><span class="s2">&quot;./yolov5/data/coco128.yaml&quot;</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">check_dataset</span><span class="p">(</span><span class="n">data_yaml</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_config():
+    &quot;&quot;&quot; Set the configuration of the model, engine,
+    dataset, metric and quantization algorithm.
+    &quot;&quot;&quot;
+    config = dict()
+    data_yaml = check_yaml(&quot;./yolov5/data/coco128.yaml&quot;)
+    data = check_dataset(data_yaml)
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">({</span>
-        <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;yolov5m&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;./yolov5/yolov5m/yolov5m_openvino_model/yolov5m.xml&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="s2">&quot;./yolov5/yolov5m/yolov5m_openvino_model/yolov5m.bin&quot;</span>
-    <span class="p">})</span>
+    model_config = Dict({
+        &quot;model_name&quot;: &quot;yolov5m&quot;,
+        &quot;model&quot;: &quot;./yolov5/yolov5m/yolov5m_openvino_model/yolov5m.xml&quot;,
+        &quot;weights&quot;: &quot;./yolov5/yolov5m/yolov5m_openvino_model/yolov5m.bin&quot;
+    })
 
-    <span class="n">engine_config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">({</span>
-        <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;CPU&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;stat_requests_number&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-        <span class="s2">&quot;eval_requests_number&quot;</span><span class="p">:</span> <span class="mi">8</span>
-    <span class="p">})</span>
+    engine_config = Dict({
+        &quot;device&quot;: &quot;CPU&quot;,
+        &quot;stat_requests_number&quot;: 8,
+        &quot;eval_requests_number&quot;: 8
+    })
 
-    <span class="n">dataset_config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">({</span>
-        <span class="s2">&quot;data_source&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-        <span class="s2">&quot;imgsz&quot;</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
-        <span class="s2">&quot;single_cls&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="p">})</span>
+    dataset_config = Dict({
+        &quot;data_source&quot;: data,
+        &quot;imgsz&quot;: 640,
+        &quot;single_cls&quot;: True,
+    })
 
-    <span class="n">metric_config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">({</span>
-        <span class="s2">&quot;conf_thres&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
-        <span class="s2">&quot;iou_thres&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span>
-        <span class="s2">&quot;single_cls&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s2">&quot;nc&quot;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">,</span>  <span class="c1"># if opt.single_cls else int(data[&#39;nc&#39;]),</span>
-        <span class="s2">&quot;names&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;names&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span>
-    <span class="p">})</span>
+    metric_config = Dict({
+        &quot;conf_thres&quot;: 0.001,
+        &quot;iou_thres&quot;: 0.65,
+        &quot;single_cls&quot;: True,
+        &quot;nc&quot;: 1 ,  # if opt.single_cls else int(data[&#39;nc&#39;]),
+        &quot;names&quot;: data[&quot;names&quot;],
+        &quot;device&quot;: &quot;cpu&quot;
+    })
 
-    <span class="n">algorithms</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DefaultQuantization&quot;</span><span class="p">,</span>  <span class="c1"># or AccuracyAware</span>
-            <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;target_device&quot;</span><span class="p">:</span> <span class="s2">&quot;CPU&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;preset&quot;</span><span class="p">:</span> <span class="s2">&quot;mixed&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;stat_subset_size&quot;</span><span class="p">:</span> <span class="mi">300</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
+    algorithms = [
+        {
+            &quot;name&quot;: &quot;DefaultQuantization&quot;,  # or AccuracyAware
+            &quot;params&quot;: {
+                    &quot;target_device&quot;: &quot;CPU&quot;,
+                    &quot;preset&quot;: &quot;mixed&quot;,
+                    &quot;stat_subset_size&quot;: 300
+            }
+        }
+    ]
 
-    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span>
-    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine_config</span>
-    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_config</span>
-    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_config</span>
-    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;algorithms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">algorithms</span>
+    config[&quot;model&quot;] = model_config
+    config[&quot;engine&quot;] = engine_config
+    config[&quot;dataset&quot;] = dataset_config
+    config[&quot;metric&quot;] = metric_config
+    config[&quot;algorithms&quot;] = algorithms
 
-    <span class="k">return</span> <span class="n">config</span>
+    return config
 </pre></div>
 </div>
 </section>
@@ -1053,53 +1053,53 @@ The optimized model and collected min-max values will be saved.</p>
 <p>It will take few minutes for generating FP32-INT8 model, please check
 the quantized model is successfully saved and you get the metric results
 of INT8 model before running on next cell.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot; Download dataset and set config</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run the POT. This will take few minutes...&quot;</span><span class="p">)</span>
-<span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
-<span class="n">init_logger</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="n">save_dir</span> <span class="o">=</span> <span class="n">increment_path</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./yolov5/yolov5m/yolov5m_openvino_model/&quot;</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># increment run</span>
-<span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># make dir</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>&quot;&quot;&quot; Download dataset and set config
+&quot;&quot;&quot;
+print(&quot;Run the POT. This will take few minutes...&quot;)
+config = get_config()
+init_logger(level=&#39;INFO&#39;)
+logger = get_logger(__name__)
+save_dir = increment_path(Path(&quot;./yolov5/yolov5m/yolov5m_openvino_model/&quot;), exist_ok=True)  # increment run
+save_dir.mkdir(parents=True, exist_ok=True)  # make dir
 
-<span class="c1"># Step 1: Load the model.</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">])</span>
+# Step 1: Load the model.
+model = load_model(config[&quot;model&quot;])
 
-<span class="c1"># Step 2: Initialize the data loader.</span>
-<span class="n">data_loader</span> <span class="o">=</span> <span class="n">YOLOv5DataLoader</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">])</span>
+# Step 2: Initialize the data loader.
+data_loader = YOLOv5DataLoader(config[&quot;dataset&quot;])
 
-<span class="c1"># Step 3 (Optional. Required for AccuracyAwareQuantization): Initialize the metric.</span>
-<span class="n">metric</span> <span class="o">=</span> <span class="n">COCOMetric</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">])</span>
+# Step 3 (Optional. Required for AccuracyAwareQuantization): Initialize the metric.
+metric = COCOMetric(config[&quot;metric&quot;])
 
-<span class="c1"># Step 4: Initialize the engine for metric calculation and statistics collection.</span>
-<span class="n">engine</span> <span class="o">=</span> <span class="n">IEEngine</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;engine&quot;</span><span class="p">],</span> <span class="n">data_loader</span><span class="o">=</span><span class="n">data_loader</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+# Step 4: Initialize the engine for metric calculation and statistics collection.
+engine = IEEngine(config=config[&quot;engine&quot;], data_loader=data_loader, metric=metric)
 
-<span class="c1"># Step 5: Create a pipeline of compression algorithms.</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;algorithms&quot;</span><span class="p">],</span> <span class="n">engine</span><span class="p">)</span>
+# Step 5: Create a pipeline of compression algorithms.
+pipeline = create_pipeline(config[&quot;algorithms&quot;], engine)
 
-<span class="n">metric_results</span> <span class="o">=</span> <span class="kc">None</span>
+metric_results = None
 
-<span class="c1"># Check the FP32 model accuracy.</span>
-<span class="n">metric_results_fp32</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+# Check the FP32 model accuracy.
+metric_results_fp32 = pipeline.evaluate(model)
 
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;FP32 model metric_results: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">metric_results_fp32</span><span class="p">))</span>
+logger.info(&quot;FP32 model metric_results: {}&quot;.format(metric_results_fp32))
 
-<span class="c1"># Step 6: Execute the pipeline to calculate Min-Max value</span>
-<span class="n">compressed_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+# Step 6: Execute the pipeline to calculate Min-Max value
+compressed_model = pipeline.run(model)
 
-<span class="c1"># Step 7 (Optional):  Compress model weights to quantized precision</span>
-<span class="c1">#                     in order to reduce the size of final .bin file.</span>
-<span class="n">compress_model_weights</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">)</span>
+# Step 7 (Optional):  Compress model weights to quantized precision
+#                     in order to reduce the size of final .bin file.
+compress_model_weights(compressed_model)
 
-<span class="c1"># Step 8: Save the compressed model to the desired path.</span>
-<span class="n">optimized_save_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;optimized&quot;</span><span class="p">)</span>
-<span class="n">save_model</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">optimized_save_dir</span><span class="p">),</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;model_name&quot;</span><span class="p">])</span>
+# Step 8: Save the compressed model to the desired path.
+optimized_save_dir = Path(save_dir).joinpath(&quot;optimized&quot;)
+save_model(compressed_model, Path(Path.cwd()).joinpath(optimized_save_dir), config[&quot;model&quot;][&quot;model_name&quot;])
 
-<span class="c1"># Step 9 (Optional): Evaluate the compressed model. Print the results.</span>
-<span class="n">metric_results_i8</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">)</span>
+# Step 9 (Optional): Evaluate the compressed model. Print the results.
+metric_results_i8 = pipeline.evaluate(compressed_model)
 
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Save quantized model in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">optimized_save_dir</span><span class="p">))</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Quantized INT8 model metric_results: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">metric_results_i8</span><span class="p">))</span>
+logger.info(&quot;Save quantized model in {}&quot;.format(optimized_save_dir))
+logger.info(&quot;Quantized INT8 model metric_results: {}&quot;.format(metric_results_i8))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">the</span> <span class="n">POT</span><span class="o">.</span> <span class="n">This</span> <span class="n">will</span> <span class="n">take</span> <span class="n">few</span> <span class="n">minutes</span><span class="o">...</span>
@@ -1154,28 +1154,28 @@ of INT8 model before running on next cell.</p>
 </div>
 <p>Compare Average Precision of quantized INT8 model with FP32 original
 model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-deep&#39;</span><span class="p">)</span>
-<span class="n">fp32_acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">metric_results_fp32</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-<span class="n">int8_acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">metric_results_i8</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;AP@0.5&quot;</span><span class="p">,</span><span class="s2">&quot;AP@0.5:0.95&quot;</span><span class="p">)</span>
-<span class="n">x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">))</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_axis</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">fp32_acc</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;FP32&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_axis</span><span class="p">)):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fp32_acc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">fp32_acc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">3</span><span class="p">)),</span><span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_axis</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">int8_acc</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;INT8&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_axis</span><span class="p">)):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">int8_acc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">int8_acc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">3</span><span class="p">)),</span><span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">x_data</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Average Precision&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Compare Yolov5 FP32 and INT8 model average precision&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+plt.style.use(&#39;seaborn-deep&#39;)
+fp32_acc = np.array(list(metric_results_fp32.values()))
+int8_acc = np.array(list(metric_results_i8.values()))
+x_data = (&quot;AP@0.5&quot;,&quot;AP@0.5:0.95&quot;)
+x_axis = np.arange(len(x_data))
+fig = plt.figure()
+fig.patch.set_facecolor(&#39;#FFFFFF&#39;)
+fig.patch.set_alpha(0.7)
+ax = fig.add_subplot(111)
+plt.bar(x_axis - 0.2, fp32_acc, 0.3, label=&#39;FP32&#39;)
+for i in range(0, len(x_axis)):
+    plt.text(i - 0.3, round(fp32_acc[i],3) + 0.01, str(round(fp32_acc[i],3)),fontweight=&quot;bold&quot;)
+plt.bar(x_axis + 0.2, int8_acc, 0.3, label=&#39;INT8&#39;)
+for i in range(0, len(x_axis)):
+    plt.text(i + 0.1, round(int8_acc[i],3) + 0.01, str(round(int8_acc[i],3)),fontweight=&quot;bold&quot;)
+plt.xticks(x_axis, x_data)
+plt.xlabel(&quot;Average Precision&quot;)
+plt.title(&quot;Compare Yolov5 FP32 and INT8 model average precision&quot;)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.legend()
+plt.show()
 </pre></div>
 </div>
 <img alt="../_images/220-yolov5-accuracy-check-and-quantization-with-output_16_0.png" src="../_images/220-yolov5-accuracy-check-and-quantization-with-output_16_0.png" />
@@ -1186,9 +1186,9 @@ model.</p>
 <p>This part shows how to use the Ultralytics model detection code
 <a class="reference external" href="https://github.com/ultralytics/yolov5/blob/master/detect.py">“detect.py”</a>
 to run synchronous inference using the OpenVINO Python API on 2 images.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">command_detect</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;cd yolov5 &amp;&amp; python detect.py --weights ./yolov5m/yolov5m_openvino_model/optimized/yolov5m.xml &quot;</span><span class="si">}</span><span class="s1">&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">command_detect</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="o">%</span><span class="k">sx</span> <span class="nv">$command_detect</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>command_detect = f&#39;{&quot;cd yolov5 &amp;&amp; python detect.py --weights ./yolov5m/yolov5m_openvino_model/optimized/yolov5m.xml &quot;}&#39;
+display(Markdown(f&quot;`{command_detect}`&quot;))
+%sx $command_detect
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">yolov5</span> <span class="pre">&amp;&amp;</span> <span class="pre">python</span> <span class="pre">detect.py</span> <span class="pre">--weights</span> <span class="pre">./yolov5m/yolov5m_openvino_model/optimized/yolov5m.xml</span></code></p>
@@ -1200,17 +1200,17 @@ to run synchronous inference using the OpenVINO Python API on 2 images.</p>
  'image 2/2 /opt/home/k8sworker/cibuilds/ov-notebook/OVNotebookOps-231/.workspace/scm/ov-notebook/notebooks/220-yolov5-accuracy-check-and-quantization/yolov5/data/images/zidane.jpg: 640x640 3 persons, 2 ties, Done. (0.043s)',
  'Speed: 1.0ms pre-process, 43.1ms inference, 2.0ms NMS per image at shape (1, 3, 640, 640)',
  'Results saved to x1b[1mruns/detect/expx1b[0m']</pre>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="k">as</span> <span class="nn">mpimg</span>
-<span class="n">fig2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
-<span class="n">fig2</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">)</span>
-<span class="n">fig2</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
-<span class="n">axarr1</span> <span class="o">=</span> <span class="n">fig2</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
-<span class="n">axarr2</span> <span class="o">=</span> <span class="n">fig2</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
-<span class="n">ori</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;./yolov5/data/images/bus.jpg&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;./yolov5/runs/detect/exp/bus.jpg&#39;</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">axarr1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">ori</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">axarr2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
+import matplotlib.image as mpimg
+fig2 = plt.figure(figsize=(12, 9))
+fig2.patch.set_facecolor(&#39;#FFFFFF&#39;)
+fig2.patch.set_alpha(0.7)
+axarr1 = fig2.add_subplot(121)
+axarr2 = fig2.add_subplot(122)
+ori = mpimg.imread(&#39;./yolov5/data/images/bus.jpg&#39;)
+result = mpimg.imread(&#39;./yolov5/runs/detect/exp/bus.jpg&#39;)
+_ = axarr1.imshow(ori)
+_ = axarr2.imshow(result)
 </pre></div>
 </div>
 <img alt="../_images/220-yolov5-accuracy-check-and-quantization-with-output_19_0.png" src="../_images/220-yolov5-accuracy-check-and-quantization-with-output_19_0.png" />

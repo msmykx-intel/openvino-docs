@@ -633,43 +633,43 @@ documentation</a></p>
 </figure>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import time
+import os
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import HTML, display
+from openvino.runtime import Core
 
-<span class="c1"># PaddlePaddle requires a C++ compiler. If importing the paddle packages fails,</span>
-<span class="c1"># install C++.</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">paddle</span>
-    <span class="kn">from</span> <span class="nn">paddle.static</span> <span class="kn">import</span> <span class="n">InputSpec</span>
-    <span class="kn">from</span> <span class="nn">ppgan.apps</span> <span class="kn">import</span> <span class="n">AnimeGANPredictor</span>
-<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">:</span>
-        <span class="n">install_message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;To use this notebook, please install the free Microsoft &quot;</span>
-            <span class="s2">&quot;Visual C++ redistributable from &lt;a href=&#39;https://aka.ms/vs/16/release/vc_redist.x64.exe&#39;&gt;&quot;</span>
-            <span class="s2">&quot;https://aka.ms/vs/16/release/vc_redist.x64.exe&lt;/a&gt;&quot;</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">install_message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;To use this notebook, please install a C++ compiler. On macOS, &quot;</span>
-            <span class="s2">&quot;`xcode-select --install` installs many developer tools, including C++. On Linux, &quot;</span>
-            <span class="s2">&quot;install gcc with your distribution&#39;s package manager.&quot;</span>
-        <span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span>
-        <span class="n">HTML</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;div class=&quot;alert alert-danger&quot; &gt;&lt;i&gt;</span>
-<span class="s2">    &lt;b&gt;Error: &lt;/b&gt;PaddlePaddle requires installation of C++. </span><span class="si">{</span><span class="n">install_message</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="k">raise</span>
+# PaddlePaddle requires a C++ compiler. If importing the paddle packages fails,
+# install C++.
+try:
+    import paddle
+    from paddle.static import InputSpec
+    from ppgan.apps import AnimeGANPredictor
+except NameError:
+    if sys.platform == &quot;win32&quot;:
+        install_message = (
+            &quot;To use this notebook, please install the free Microsoft &quot;
+            &quot;Visual C++ redistributable from &lt;a href=&#39;https://aka.ms/vs/16/release/vc_redist.x64.exe&#39;&gt;&quot;
+            &quot;https://aka.ms/vs/16/release/vc_redist.x64.exe&lt;/a&gt;&quot;
+        )
+    else:
+        install_message = (
+            &quot;To use this notebook, please install a C++ compiler. On macOS, &quot;
+            &quot;`xcode-select --install` installs many developer tools, including C++. On Linux, &quot;
+            &quot;install gcc with your distribution&#39;s package manager.&quot;
+        )
+    display(
+        HTML(
+            f&quot;&quot;&quot;&lt;div class=&quot;alert alert-danger&quot; &gt;&lt;i&gt;
+    &lt;b&gt;Error: &lt;/b&gt;PaddlePaddle requires installation of C++. {install_message}&quot;&quot;&quot;
+        )
+    )
+    raise
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">vision</span><span class="o">/</span><span class="n">transforms</span><span class="o">/</span><span class="n">functional_pil</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">NEAREST</span> <span class="ow">is</span> <span class="n">deprecated</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">removed</span> <span class="ow">in</span> <span class="n">Pillow</span> <span class="mi">10</span> <span class="p">(</span><span class="mi">2023</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">01</span><span class="p">)</span><span class="o">.</span> <span class="n">Use</span> <span class="n">Resampling</span><span class="o">.</span><span class="n">NEAREST</span> <span class="ow">or</span> <span class="n">Dither</span><span class="o">.</span><span class="n">NONE</span> <span class="n">instead</span><span class="o">.</span>
@@ -689,29 +689,29 @@ documentation</a></p>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
-<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;paddlegan_anime&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>MODEL_DIR = &quot;model&quot;
+MODEL_NAME = &quot;paddlegan_anime&quot;
 
-<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">MODEL_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+os.makedirs(MODEL_DIR, exist_ok=True)
 
-<span class="c1"># Create filenames of the models that will be converted in this notebook.</span>
-<span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MODEL_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">ir_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
-<span class="n">onnx_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
+# Create filenames of the models that will be converted in this notebook.
+model_path = Path(f&quot;{MODEL_DIR}/{MODEL_NAME}&quot;)
+ir_path = model_path.with_suffix(&quot;.xml&quot;)
+onnx_path = model_path.with_suffix(&quot;.onnx&quot;)
 </pre></div>
 </div>
 </section>
 <section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">resize_to_max_width</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">max_width</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Resize `image` to `max_width`, preserving the aspect ratio of the image.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_width</span><span class="p">:</span>
-        <span class="n">hw_ratio</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">new_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_width</span> <span class="o">*</span> <span class="n">hw_ratio</span><span class="p">)</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">max_width</span><span class="p">,</span> <span class="n">new_height</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">image</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def resize_to_max_width(image, max_width):
+    &quot;&quot;&quot;
+    Resize `image` to `max_width`, preserving the aspect ratio of the image.
+    &quot;&quot;&quot;
+    if image.shape[1] &gt; max_width:
+        hw_ratio = image.shape[0] / image.shape[1]
+        new_height = int(max_width * hw_ratio)
+        image = cv2.resize(image, (max_width, new_height))
+    return image
 </pre></div>
 </div>
 <section id="inference-on-paddlegan-model">
@@ -721,16 +721,16 @@ documentation</a></p>
 explains how to run the model with <code class="docutils literal notranslate"><span class="pre">.run()</span></code> method. Find out what that
 function does with Jupyter’s <code class="docutils literal notranslate"><span class="pre">??</span></code> shortcut to show the docstring and
 source of the function.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell will initialize the AnimeGANPredictor() and download the weights from PaddlePaddle.</span>
-<span class="c1"># This may take a while. The weights are stored in a cache and are downloaded once.</span>
-<span class="n">predictor</span> <span class="o">=</span> <span class="n">AnimeGANPredictor</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># This cell will initialize the AnimeGANPredictor() and download the weights from PaddlePaddle.
+# This may take a while. The weights are stored in a cache and are downloaded once.
+predictor = AnimeGANPredictor()
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">09</span><span class="o">/</span><span class="mi">13</span> <span class="mi">22</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">26</span><span class="p">]</span> <span class="n">ppgan</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Found</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/.</span><span class="n">cache</span><span class="o">/</span><span class="n">ppgan</span><span class="o">/</span><span class="n">animeganv2_hayao</span><span class="o">.</span><span class="n">pdparams</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a Jupyter Notebook, ?? shows the source and docstring</span>
-predictor.run<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># In a Jupyter Notebook, ?? shows the source and docstring
+predictor.run??
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">AnimeGANPredictor.run()</span></code> method works as follow:</p>
@@ -750,43 +750,43 @@ propagating them through the network. The inference step in the next
 cell will still take some time to execute. If you want to skip this
 step, set <code class="docutils literal notranslate"><span class="pre">PADDLEGAN_INFERENCE</span> <span class="pre">=</span> <span class="pre">False</span></code> in the first line of the next
 cell.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PADDLEGAN_INFERENCE</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">OUTPUT_DIR</span> <span class="o">=</span> <span class="s2">&quot;output&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>PADDLEGAN_INFERENCE = True
+OUTPUT_DIR = &quot;output&quot;
 
-<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># Step 1. Load the image and convert to RGB.</span>
-<span class="n">image_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/coco_bricks.png&quot;</span><span class="p">)</span>
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+# Step 1. Load the image and convert to RGB.
+image_path = Path(&quot;data/coco_bricks.png&quot;)
 
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span> <span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+image = cv2.cvtColor(cv2.imread(str(image_path), flags=cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
 
-<span class="c1">## Inference takes a long time on large images. Resize to a max width of 600.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">resize_to_max_width</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+## Inference takes a long time on large images. Resize to a max width of 600.
+image = resize_to_max_width(image, 600)
 
-<span class="c1"># Step 2. Transform the image.</span>
-<span class="n">transformed_image</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-<span class="n">input_tensor</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">(</span><span class="n">transformed_image</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">::])</span>
+# Step 2. Transform the image.
+transformed_image = predictor.transform(image)
+input_tensor = paddle.to_tensor(transformed_image[None, ::])
 
-<span class="k">if</span> <span class="n">PADDLEGAN_INFERENCE</span><span class="p">:</span>
-    <span class="c1"># Step 3. Do inference.</span>
-    <span class="n">predictor</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">paddle</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">generator</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">)</span>
+if PADDLEGAN_INFERENCE:
+    # Step 3. Do inference.
+    predictor.generator.eval()
+    with paddle.no_grad():
+        result = predictor.generator(input_tensor)
 
-    <span class="c1"># Step 4. Convert the inference result to an image, following the same steps as</span>
-    <span class="c1"># PaddleGAN&#39;s predictor.run() function.</span>
-    <span class="n">result_image_pg</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">*</span> <span class="mi">255</span>
-    <span class="n">result_image_pg</span> <span class="o">=</span> <span class="n">result_image_pg</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    # Step 4. Convert the inference result to an image, following the same steps as
+    # PaddleGAN&#39;s predictor.run() function.
+    result_image_pg = (result * 0.5 + 0.5)[0].numpy() * 255
+    result_image_pg = result_image_pg.transpose((1, 2, 0))
 
-    <span class="c1"># Step 5. Resize the result image.</span>
-    <span class="n">result_image_pg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">result_image_pg</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    # Step 5. Resize the result image.
+    result_image_pg = cv2.resize(result_image_pg, image.shape[:2][::-1])
 
-    <span class="c1"># Step 6. Adjust the brightness.</span>
-    <span class="n">result_image_pg</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">adjust_brightness</span><span class="p">(</span><span class="n">result_image_pg</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+    # Step 6. Adjust the brightness.
+    result_image_pg = predictor.adjust_brightness(result_image_pg, image)
 
-    <span class="c1"># Step 7. Save the result image.</span>
-    <span class="n">anime_image_path_pg</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">image_path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">_anime_pg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">anime_image_path_pg</span><span class="p">),</span> <span class="n">result_image_pg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The anime image was saved to </span><span class="si">{</span><span class="n">anime_image_path_pg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    # Step 7. Save the result image.
+    anime_image_path_pg = Path(f&quot;{OUTPUT_DIR}/{image_path.stem}_anime_pg&quot;).with_suffix(&quot;.jpg&quot;)
+    if cv2.imwrite(str(anime_image_path_pg), result_image_pg[:, :, (2, 1, 0)]):
+        print(f&quot;The anime image was saved to {anime_image_path_pg}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">anime</span> <span class="n">image</span> <span class="n">was</span> <span class="n">saved</span> <span class="n">to</span> <span class="n">output</span><span class="o">/</span><span class="n">coco_bricks_anime_pg</span><span class="o">.</span><span class="n">jpg</span>
@@ -796,12 +796,12 @@ cell.</p>
 </section>
 <section id="show-inference-results-on-paddlegan-model">
 <h2>Show Inference Results on PaddleGAN model<a class="headerlink" href="#show-inference-results-on-paddlegan-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">PADDLEGAN_INFERENCE</span><span class="p">:</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
-    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result_image_pg</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PADDLEGAN_INFERENCE is not enabled. Set PADDLEGAN_INFERENCE = True in the previous cell and run that cell to show inference results.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if PADDLEGAN_INFERENCE:
+    fig, ax = plt.subplots(1, 2, figsize=(25, 15))
+    ax[0].imshow(image)
+    ax[1].imshow(result_image_pg)
+else:
+    print(&quot;PADDLEGAN_INFERENCE is not enabled. Set PADDLEGAN_INFERENCE = True in the previous cell and run that cell to show inference results.&quot;)
 </pre></div>
 </div>
 <img alt="../_images/206-vision-paddlegan-anime-with-output_13_0.png" src="../_images/206-vision-paddlegan-anime-with-output_13_0.png" />
@@ -820,16 +820,16 @@ shape of the transformed image and use that as the input shape for the
 ONNX model. Exporting to ONNX should not take long. If the export
 succeeds, the output of the next cell will include
 <code class="docutils literal notranslate"><span class="pre">ONNX</span> <span class="pre">model</span> <span class="pre">saved</span> <span class="pre">in</span> <span class="pre">paddlegan_anime.onnx</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_height</span><span class="p">,</span> <span class="n">target_width</span> <span class="o">=</span> <span class="n">transformed_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="n">target_height</span><span class="p">,</span> <span class="n">target_width</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>target_height, target_width = transformed_image.shape[1:]
+target_height, target_width
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">448</span><span class="p">,</span> <span class="mi">576</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-<span class="n">x_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">target_height</span><span class="p">,</span> <span class="n">target_width</span><span class="p">],</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">paddle</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">predictor</span><span class="o">.</span><span class="n">generator</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">),</span> <span class="n">input_spec</span><span class="o">=</span><span class="p">[</span><span class="n">x_spec</span><span class="p">],</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.generator.eval()
+x_spec = InputSpec([None, 3, target_height, target_width], &quot;float32&quot;, &quot;x&quot;)
+paddle.onnx.export(predictor.generator, str(model_path), input_spec=[x_spec], opset_version=11)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">layers</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">77</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">Using</span> <span class="ow">or</span> <span class="n">importing</span> <span class="n">the</span> <span class="n">ABCs</span> <span class="kn">from</span> <span class="s1">&#39;collections&#39;</span> <span class="n">instead</span> <span class="n">of</span> <span class="kn">from</span> <span class="s1">&#39;collections.abc&#39;</span> <span class="ow">is</span> <span class="n">deprecated</span> <span class="n">since</span> <span class="n">Python</span> <span class="mf">3.3</span><span class="p">,</span> <span class="ow">and</span> <span class="ow">in</span> <span class="mf">3.10</span> <span class="n">it</span> <span class="n">will</span> <span class="n">stop</span> <span class="n">working</span>
@@ -845,18 +845,18 @@ succeeds, the output of the next cell will include
 <p>The OpenVINO IR format allows storing the preprocessing normalization in
 the model file. It is then no longer necessary to normalize input images
 manually. See the transforms that the <code class="docutils literal notranslate"><span class="pre">.run()</span></code> method used:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.__init__<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.__init__??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">predictor</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">t</span><span class="o">.</span><span class="n">params</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>t = predictor.transform.transforms[0]
+t.params
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;taget_size&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">448</span><span class="p">,</span> <span class="mi">576</span><span class="p">)}</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Uncomment the line below to see the documentation and code of the ResizeToScale transformation</span>
-<span class="c1"># t??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Uncomment the line below to see the documentation and code of the ResizeToScale transformation
+# t??
 </pre></div>
 </div>
 <p>There are three transformations: resize, transpose, and normalize, where
@@ -874,9 +874,9 @@ For information about setting the parameters, see the <a class="reference extern
 Documentation</a>
 .</p>
 <p><strong>Convert Model to OpenVINO IR with Model Optimizer</strong></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onnx_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exporting ONNX model to OpenVINO IR... This may take a few minutes.&quot;</span><span class="p">)</span>
-<span class="o">!</span>mo --input_model <span class="nv">$onnx_path</span> --output_dir <span class="nv">$MODEL_DIR</span> --input_shape <span class="o">[</span><span class="m">1</span>,3,<span class="nv">$target_height</span>,<span class="nv">$target_width</span><span class="o">]</span> --model_name <span class="nv">$MODEL_NAME</span> --data_type <span class="s2">&quot;FP16&quot;</span> --mean_values<span class="o">=</span><span class="s2">&quot;[127.5,127.5,127.5]&quot;</span> --scale_values<span class="o">=</span><span class="s2">&quot;[127.5,127.5,127.5]&quot;</span> --log_level <span class="s2">&quot;CRITICAL&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>onnx_path = model_path.with_suffix(&quot;.onnx&quot;)
+print(&quot;Exporting ONNX model to OpenVINO IR... This may take a few minutes.&quot;)
+!mo --input_model $onnx_path --output_dir $MODEL_DIR --input_shape [1,3,$target_height,$target_width] --model_name $MODEL_NAME --data_type &quot;FP16&quot; --mean_values=&quot;[127.5,127.5,127.5]&quot; --scale_values=&quot;[127.5,127.5,127.5]&quot; --log_level &quot;CRITICAL&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Exporting</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">to</span> <span class="n">OpenVINO</span> <span class="n">IR</span><span class="o">...</span> <span class="n">This</span> <span class="n">may</span> <span class="n">take</span> <span class="n">a</span> <span class="n">few</span> <span class="n">minutes</span><span class="o">.</span>
@@ -930,10 +930,10 @@ do and extract them.</p>
 </section>
 <section id="create-postprocessing-functions">
 <h2>Create Postprocessing Functions<a class="headerlink" href="#create-postprocessing-functions" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.adjust_brightness<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.adjust_brightness??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.calc_avg_brightness<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictor.calc_avg_brightness??
 </pre></div>
 </div>
 <p>The average brightness is computed by a <a class="reference external" href="https://www.w3.org/TR/AERT/#color-contrast">standard
@@ -944,26 +944,26 @@ destination image is adjusted based on that. Then, the image is
 converted to an 8-bit image.</p>
 <p>Copy these functions to the next cell, use them for inference on the
 OpenVINO IR model</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) 2020 PaddlePaddle Authors. Licensed under the Apache License, Version 2.0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Copyright (c) 2020 PaddlePaddle Authors. Licensed under the Apache License, Version 2.0
 
 
-<span class="k">def</span> <span class="nf">calc_avg_brightness</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">G</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+def calc_avg_brightness(img):
+    R = img[..., 0].mean()
+    G = img[..., 1].mean()
+    B = img[..., 2].mean()
 
-    <span class="n">brightness</span> <span class="o">=</span> <span class="mf">0.299</span> <span class="o">*</span> <span class="n">R</span> <span class="o">+</span> <span class="mf">0.587</span> <span class="o">*</span> <span class="n">G</span> <span class="o">+</span> <span class="mf">0.114</span> <span class="o">*</span> <span class="n">B</span>
-    <span class="k">return</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">R</span>
+    brightness = 0.299 * R + 0.587 * G + 0.114 * B
+    return brightness, B, G, R
 
 
-<span class="k">def</span> <span class="nf">adjust_brightness</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
-    <span class="n">brightness1</span><span class="p">,</span> <span class="n">B1</span><span class="p">,</span> <span class="n">G1</span><span class="p">,</span> <span class="n">R1</span> <span class="o">=</span> <span class="n">AnimeGANPredictor</span><span class="o">.</span><span class="n">calc_avg_brightness</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
-    <span class="n">brightness2</span><span class="p">,</span> <span class="n">B2</span><span class="p">,</span> <span class="n">G2</span><span class="p">,</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">AnimeGANPredictor</span><span class="o">.</span><span class="n">calc_avg_brightness</span><span class="p">(</span><span class="n">dst</span><span class="p">)</span>
-    <span class="n">brightness_difference</span> <span class="o">=</span> <span class="n">brightness1</span> <span class="o">/</span> <span class="n">brightness2</span>
-    <span class="n">dstf</span> <span class="o">=</span> <span class="n">dst</span> <span class="o">*</span> <span class="n">brightness_difference</span>
-    <span class="n">dstf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">dstf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-    <span class="n">dstf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">dstf</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dstf</span>
+def adjust_brightness(dst, src):
+    brightness1, B1, G1, R1 = AnimeGANPredictor.calc_avg_brightness(src)
+    brightness2, B2, G2, R2 = AnimeGANPredictor.calc_avg_brightness(dst)
+    brightness_difference = brightness1 / brightness2
+    dstf = dst * brightness_difference
+    dstf = np.clip(dstf, 0, 255)
+    dstf = np.uint8(dstf)
+    return dstf
 </pre></div>
 </div>
 </section>
@@ -976,51 +976,51 @@ notebook</a>.</p>
 <p>The OpenVINO IR model is generated with an input shape that is computed
 based on the input image. If you do inference on images with different
 input shapes, results may differ from the PaddleGAN results.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load and prepare the IR model.</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">input_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load and prepare the IR model.
+ie = Core()
+model = ie.read_model(model=ir_path)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
+input_key = compiled_model.input(0)
+output_key = compiled_model.output(0)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1. Load an image and convert it to RGB.</span>
-<span class="n">image_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/coco_bricks.png&quot;</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span> <span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Step 1. Load an image and convert it to RGB.
+image_path = Path(&quot;data/coco_bricks.png&quot;)
+image = cv2.cvtColor(cv2.imread(str(image_path), flags=cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
 
-<span class="c1"># Step 2. Transform the image (only resize and transpose are still required).</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">target_width</span><span class="p">,</span> <span class="n">target_height</span><span class="p">))</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">resized_image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span>
+# Step 2. Transform the image (only resize and transpose are still required).
+resized_image = cv2.resize(image, (target_width, target_height))
+input_image = resized_image.transpose(2, 0, 1)[None, :, :, :]
 
-<span class="c1"># Step 3. Do inference.</span>
-<span class="n">result_ir</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_key</span><span class="p">]</span>
+# Step 3. Do inference.
+result_ir = compiled_model([input_image])[output_key]
 
-<span class="c1"># Step 4. Convert the inference result to an image, following the same steps as</span>
-<span class="c1"># PaddleGAN&#39;s predictor.run() function.</span>
-<span class="n">result_image_ir</span> <span class="o">=</span> <span class="p">(</span><span class="n">result_ir</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">255</span>
-<span class="n">result_image_ir</span> <span class="o">=</span> <span class="n">result_image_ir</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+# Step 4. Convert the inference result to an image, following the same steps as
+# PaddleGAN&#39;s predictor.run() function.
+result_image_ir = (result_ir * 0.5 + 0.5)[0] * 255
+result_image_ir = result_image_ir.transpose((1, 2, 0))
 
-<span class="c1"># Step 5. Resize the result image.</span>
-<span class="n">result_image_ir</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">result_image_ir</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+# Step 5. Resize the result image.
+result_image_ir = cv2.resize(result_image_ir, image.shape[:2][::-1])
 
-<span class="c1"># Step 6. Adjust the brightness.</span>
-<span class="n">result_image_ir</span> <span class="o">=</span> <span class="n">adjust_brightness</span><span class="p">(</span><span class="n">result_image_ir</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+# Step 6. Adjust the brightness.
+result_image_ir = adjust_brightness(result_image_ir, image)
 
-<span class="c1"># Step 7. Save the result image.</span>
-<span class="n">anime_fn_ir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">image_path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">_anime_ir&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">anime_fn_ir</span><span class="p">),</span> <span class="n">result_image_ir</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The anime image was saved to </span><span class="si">{</span><span class="n">anime_fn_ir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Step 7. Save the result image.
+anime_fn_ir = Path(f&quot;{OUTPUT_DIR}/{image_path.stem}_anime_ir&quot;).with_suffix(&quot;.jpg&quot;)
+if cv2.imwrite(str(anime_fn_ir), result_image_ir[:, :, (2, 1, 0)]):
+    print(f&quot;The anime image was saved to {anime_fn_ir}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">anime</span> <span class="n">image</span> <span class="n">was</span> <span class="n">saved</span> <span class="n">to</span> <span class="n">output</span><span class="o">/</span><span class="n">coco_bricks_anime_ir</span><span class="o">.</span><span class="n">jpg</span>
 </pre></div>
 </div>
 <p><strong>Show Inference Results</strong></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result_image_ir</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Image&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;OpenVINO IR result&quot;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots(1, 2, figsize=(25, 15))
+ax[0].imshow(image)
+ax[1].imshow(result_image_ir)
+ax[0].set_title(&quot;Image&quot;)
+ax[1].set_title(&quot;OpenVINO IR result&quot;);
 </pre></div>
 </div>
 <img alt="../_images/206-vision-paddlegan-anime-with-output_34_0.png" src="../_images/206-vision-paddlegan-anime-with-output_34_0.png" />
@@ -1031,52 +1031,52 @@ indication of performance. It is not a perfect measure. Since the
 PaddleGAN model requires quite a bit of memory for inference, only
 measure inference on one image. For more accurate benchmarking, use
 <a class="reference external" href="104-model-tools-with-output.html">Benchmark Tool</a>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NUM_IMAGES</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_IMAGES</span><span class="p">):</span>
-    <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
-<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">time_ir</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;OpenVINO IR model in OpenVINO Runtime/CPU: </span><span class="si">{</span><span class="n">time_ir</span><span class="o">/</span><span class="n">NUM_IMAGES</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">NUM_IMAGES</span><span class="o">/</span><span class="n">time_ir</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NUM_IMAGES = 1
+start = time.perf_counter()
+for _ in range(NUM_IMAGES):
+    compiled_model([input_image])
+end = time.perf_counter()
+time_ir = end - start
+print(
+    f&quot;OpenVINO IR model in OpenVINO Runtime/CPU: {time_ir/NUM_IMAGES:.3f} &quot;
+    f&quot;seconds per image, FPS: {NUM_IMAGES/time_ir:.2f}&quot;
+)
 
-<span class="c1">## Uncomment the lines below to measure inference time on an Intel iGPU.</span>
-<span class="c1">## Note that it will take some time to load the model to GPU.</span>
+## Uncomment the lines below to measure inference time on an Intel iGPU.
+## Note that it will take some time to load the model to GPU.
 
-<span class="c1"># If &quot;GPU&quot; in ie.available_devices:</span>
-<span class="c1">#     # Loading the IR model on GPU takes some time.</span>
-<span class="c1">#     compiled_model = ie.compile_model(model=model, device_name=&quot;GPU&quot;)</span>
-<span class="c1">#     start = time.perf_counter()</span>
-<span class="c1">#     for _ in range(NUM_IMAGES):</span>
-<span class="c1">#         exec_net_multi([input_image])</span>
-<span class="c1">#     end = time.perf_counter()</span>
-<span class="c1">#     time_ir = end - start</span>
-<span class="c1">#     print(</span>
-<span class="c1">#         f&quot;OpenVINO IR model in OpenVINO Runtime/GPU: {time_ir/NUM_IMAGES:.3f} &quot;</span>
-<span class="c1">#         f&quot;seconds per image, FPS: {NUM_IMAGES/time_ir:.2f}&quot;</span>
-<span class="c1">#     )</span>
-<span class="c1"># else:</span>
-<span class="c1">#     print(&quot;A supported iGPU device is not available on this system.&quot;)</span>
+# If &quot;GPU&quot; in ie.available_devices:
+#     # Loading the IR model on GPU takes some time.
+#     compiled_model = ie.compile_model(model=model, device_name=&quot;GPU&quot;)
+#     start = time.perf_counter()
+#     for _ in range(NUM_IMAGES):
+#         exec_net_multi([input_image])
+#     end = time.perf_counter()
+#     time_ir = end - start
+#     print(
+#         f&quot;OpenVINO IR model in OpenVINO Runtime/GPU: {time_ir/NUM_IMAGES:.3f} &quot;
+#         f&quot;seconds per image, FPS: {NUM_IMAGES/time_ir:.2f}&quot;
+#     )
+# else:
+#     print(&quot;A supported iGPU device is not available on this system.&quot;)
 
-<span class="c1">## `PADDLEGAN_INFERENCE` is defined in the &quot;Inference on PaddleGAN model&quot; section above.</span>
-<span class="c1">## Uncomment the next line to enable a performance comparison with the PaddleGAN model</span>
-<span class="c1">## if you disabled it earlier.</span>
+## `PADDLEGAN_INFERENCE` is defined in the &quot;Inference on PaddleGAN model&quot; section above.
+## Uncomment the next line to enable a performance comparison with the PaddleGAN model
+## if you disabled it earlier.
 
-<span class="c1"># PADDLEGAN_INFERENCE = True</span>
+# PADDLEGAN_INFERENCE = True
 
-<span class="k">if</span> <span class="n">PADDLEGAN_INFERENCE</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">paddle</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_IMAGES</span><span class="p">):</span>
-            <span class="n">predictor</span><span class="o">.</span><span class="n">generator</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">)</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-        <span class="n">time_paddle</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;PaddleGAN model on CPU: </span><span class="si">{</span><span class="n">time_paddle</span><span class="o">/</span><span class="n">NUM_IMAGES</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds per image, &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;FPS: </span><span class="si">{</span><span class="n">NUM_IMAGES</span><span class="o">/</span><span class="n">time_paddle</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
+if PADDLEGAN_INFERENCE:
+    with paddle.no_grad():
+        start = time.perf_counter()
+        for _ in range(NUM_IMAGES):
+            predictor.generator(input_tensor)
+        end = time.perf_counter()
+        time_paddle = end - start
+    print(
+        f&quot;PaddleGAN model on CPU: {time_paddle/NUM_IMAGES:.3f} seconds per image, &quot;
+        f&quot;FPS: {NUM_IMAGES/time_paddle:.2f}&quot;
+    )
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OpenVINO</span> <span class="n">IR</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">OpenVINO</span> <span class="n">Runtime</span><span class="o">/</span><span class="n">CPU</span><span class="p">:</span> <span class="mf">0.456</span> <span class="n">seconds</span> <span class="n">per</span> <span class="n">image</span><span class="p">,</span> <span class="n">FPS</span><span class="p">:</span> <span class="mf">2.19</span>

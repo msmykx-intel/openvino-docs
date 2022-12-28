@@ -628,31 +628,31 @@ Zoo</a>, which we
 will use to download and convert the model to OpenVINO IR.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import numpy as np
+from openvino.runtime import Core
+from IPython.display import Markdown, display
+import json
+from pathlib import Path
 
-<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2Tokenizer</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
+from transformers import GPT2Tokenizer
+sys.path.append(&quot;../utils&quot;)
 </pre></div>
 </div>
 </section>
 <section id="the-model">
 <h2>The model<a class="headerlink" href="#the-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># directory where the model will be downloaded.</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># directory where the model will be downloaded.
+base_model_dir = &quot;model&quot;
 
-<span class="c1"># name of the model</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;gpt-2&#39;</span>
+# name of the model
+model_name = &#39;gpt-2&#39;
 
-<span class="c1"># desired precision</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16&quot;</span>
+# desired precision
+precision = &quot;FP16&quot;
 
-<span class="n">model_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;model/public/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span>
-<span class="n">model_weights_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;model/public/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.bin&quot;</span>
+model_path = f&quot;model/public/{model_name}/{precision}/{model_name}.xml&quot;
+model_weights_path = f&quot;model/public/{model_name}/{precision}/{model_name}.bin&quot;
 </pre></div>
 </div>
 <section id="download-gpt-2-from-open-model-zoo">
@@ -662,15 +662,15 @@ will use to download and convert the model to OpenVINO IR.</p>
 directory structure and downloads the selected model. Skip this step if
 the model is already downloaded. For this demo, we have to download and
 use <code class="docutils literal notranslate"><span class="pre">gpt-2</span></code> model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--cache_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>download_command = f&quot;omz_downloader &quot; \
+                   f&quot;--name {model_name} &quot; \
+                   f&quot;--output_dir {base_model_dir} &quot; \
+                   f&quot;--cache_dir {base_model_dir}&quot;
 
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download command: `</span><span class="si">{</span><span class="n">download_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">... (This may take a few minutes depending on your connection.)&quot;</span><span class="p">))</span>
+display(Markdown(f&quot;Download command: `{download_command}`&quot;))
+display(Markdown(f&quot;Downloading {model_name}... (This may take a few minutes depending on your connection.)&quot;))
 
-<span class="o">!</span> <span class="nv">$download_command</span>
+! $download_command
 </pre></div>
 </div>
 <p>Download command:
@@ -718,15 +718,15 @@ connection.)</p>
 <h2>Convert GPT-2 to OpenVINO IR<a class="headerlink" href="#convert-gpt-2-to-openvino-ir" title="Permalink to this headline">¶</a></h2>
 <p>Since the downloaded GPT-2 model is not yet in OpenVINO IR format, we to
 perform an additional step to convert it. Use following command:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">convert_command</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;omz_converter --name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> --precisions </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot; --download_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convert command: `</span><span class="si">{</span><span class="n">convert_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if not Path(model_path).exists():
+    convert_command = (
+        f&quot;omz_converter --name {model_name} --precisions {precision}&quot;
+        f&quot; --download_dir {base_model_dir} --output_dir {base_model_dir}&quot;
+    )
+    display(Markdown(f&quot;Convert command: `{convert_command}`&quot;))
+    display(Markdown(f&quot;Converting {model_name}&quot;))
 
-    <span class="o">!</span> <span class="nv">$convert_command</span>
+    ! $convert_command
 </pre></div>
 </div>
 <p>Convert command:
@@ -794,25 +794,25 @@ directly switch device to <code class="docutils literal notranslate"><span class
 discrete Intel GPUs. In order to run inference on iGPU or dGPU with this
 model, you will need to resize the inputs to this model to use a fixed
 size and then try running the inference on <code class="docutils literal notranslate"><span class="pre">GPU</span></code> device.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize inference engine</span>
-<span class="n">ie_core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># initialize inference engine
+ie_core = Core()
 
-<span class="c1"># read the model and corresponding weights from file</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">model_weights_path</span><span class="p">)</span>
+# read the model and corresponding weights from file
+model = ie_core.read_model(model=model_path, weights=model_weights_path)
 
-<span class="c1"># assign dynamic shapes to every input layer</span>
-<span class="k">for</span> <span class="n">input_layer</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
-    <span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_layer</span><span class="o">.</span><span class="n">partial_shape</span>
-    <span class="n">input_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">input_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">reshape</span><span class="p">({</span><span class="n">input_layer</span><span class="p">:</span> <span class="n">input_shape</span><span class="p">})</span>
+# assign dynamic shapes to every input layer
+for input_layer in model.inputs:
+    input_shape = input_layer.partial_shape
+    input_shape[0] = -1
+    input_shape[1] = -1
+    model.reshape({input_layer: input_shape})
 
-<span class="c1"># compile the model for CPU devices</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+# compile the model for CPU devices
+compiled_model = ie_core.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="c1"># get input and output names of nodes</span>
-<span class="n">input_keys</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">compiled_model</span><span class="o">.</span><span class="n">inputs</span><span class="p">))</span>
-<span class="n">output_keys</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">compiled_model</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
+# get input and output names of nodes
+input_keys = next(iter(compiled_model.inputs))
+output_keys = next(iter(compiled_model.outputs))
 </pre></div>
 </div>
 <p>Input keys are the names of the input nodes and output keys contain
@@ -827,33 +827,33 @@ names of the output nodes of the network. In the case of GPT-2, we have
 single word mapped to an integer. To provide the proper input, we use a
 vocabulary file to handle the mapping. So first let’s load the
 vocabulary file.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_vocab_file</span><span class="p">(</span><span class="n">vocab_file_path</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">vocab_file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">content</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def load_vocab_file(vocab_file_path):
+    with open(vocab_file_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as content:
+        return json.load(content)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vocal_file_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;model/public/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/gpt2/vocab.json&quot;</span>
-<span class="n">vocab</span> <span class="o">=</span> <span class="n">load_vocab_file</span><span class="p">(</span><span class="n">vocal_file_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>vocal_file_path = f&quot;model/public/{model_name}/gpt2/vocab.json&quot;
+vocab = load_vocab_file(vocal_file_path)
 </pre></div>
 </div>
 </section>
 <section id="define-tokenizer">
 <h2>Define tokenizer<a class="headerlink" href="#define-tokenizer" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tokenizer = GPT2Tokenizer.from_pretrained(&quot;gpt2&quot;)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this function converts text to tokens</span>
-<span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">]</span>
-    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">input_ids</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># this function converts text to tokens
+def tokenize(text):
+    input_ids = tokenizer(text)[&#39;input_ids&#39;]
+    input_ids = np.array(input_ids).reshape(1, -1)
+    return input_ids
 </pre></div>
 </div>
 <p>The last token in the vocabulary list is an <code class="docutils literal notranslate"><span class="pre">endoftext</span></code> token. We
 store the index of this token in order to use this index as padding at
 later stage.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos_token_id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<span class="n">tokenizer</span><span class="o">.</span><span class="n">_convert_id_to_token</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos_token_id = len(vocab) - 1
+tokenizer._convert_id_to_token(len(vocab) - 1)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;&lt;|endoftext|&gt;&#39;</span>
@@ -863,10 +863,10 @@ later stage.</p>
 <h3>Define Softmax layer<a class="headerlink" href="#define-softmax-layer" title="Permalink to this headline">¶</a></h3>
 <p>A softmax function is used to convert top-k logits into a probability
 distribution.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="n">summation</span> <span class="o">=</span> <span class="n">e_x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">summation</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def softmax(x):
+    e_x = np.exp(x - np.max(x, axis=-1, keepdims=True))
+    summation = e_x.sum(axis=-1, keepdims=True)
+    return e_x / summation
 </pre></div>
 </div>
 </section>
@@ -875,11 +875,11 @@ distribution.</p>
 <p>If the minimum sequence length is not reached, the following code will
 reduce the probability of the <code class="docutils literal notranslate"><span class="pre">eos</span></code> token occurring. This continues
 the process of generating the next words.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_logits</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">eos_token_id</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">cur_length</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">cur_length</span> <span class="o">&lt;</span> <span class="n">min_length</span><span class="p">:</span>
-        <span class="n">scores</span><span class="p">[:,</span> <span class="n">eos_token_id</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">scores</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def process_logits(input_ids, scores, eos_token_id, min_length=0):
+    cur_length = input_ids.shape[-1]
+    if cur_length &lt; min_length:
+        scores[:, eos_token_id] = -float(&quot;inf&quot;)
+    return scores
 </pre></div>
 </div>
 </section>
@@ -887,45 +887,45 @@ the process of generating the next words.</p>
 <h3>Top-K sampling<a class="headerlink" href="#top-k-sampling" title="Permalink to this headline">¶</a></h3>
 <p>In Top-K sampling, we filter the K most likely next words and
 redistribute the probability mass among only those K next words.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_top_k_logits</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">top_k</span><span class="p">):</span>
-    <span class="n">filter_value</span> <span class="o">=</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
-    <span class="n">top_k</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">top_k</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">top_k_scores</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="o">-</span><span class="n">scores</span><span class="p">)[:,</span> <span class="p">:</span><span class="n">top_k</span><span class="p">]</span>
-    <span class="n">indices_to_remove</span> <span class="o">=</span> <span class="n">scores</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">top_k_scores</span><span class="p">)</span>
-    <span class="n">filtred_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">indices_to_remove</span><span class="p">,</span>
-                                 <span class="n">fill_value</span><span class="o">=</span><span class="n">filter_value</span><span class="p">)</span><span class="o">.</span><span class="n">filled</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">filtred_scores</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_top_k_logits(scores, top_k):
+    filter_value = -float(&quot;inf&quot;)
+    top_k = min(max(top_k, 1), scores.shape[-1])
+    top_k_scores = -np.sort(-scores)[:, :top_k]
+    indices_to_remove = scores &lt; np.min(top_k_scores)
+    filtred_scores = np.ma.array(scores, mask=indices_to_remove,
+                                 fill_value=filter_value).filled()
+    return filtred_scores
 </pre></div>
 </div>
 </section>
 <section id="main-processing-function">
 <h3>Main Processing Function<a class="headerlink" href="#main-processing-function" title="Permalink to this headline">¶</a></h3>
 <p>Generating the predicted sequence.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_sequence</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">max_sequence_length</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
-                      <span class="n">eos_token_id</span><span class="o">=</span><span class="n">eos_token_id</span><span class="p">):</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">cur_input_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">pad_len</span> <span class="o">=</span> <span class="n">max_sequence_length</span> <span class="o">-</span> <span class="n">cur_input_len</span>
-        <span class="n">model_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">input_ids</span><span class="p">,</span>
-                                      <span class="p">[[</span><span class="n">eos_token_id</span><span class="p">]</span> <span class="o">*</span> <span class="n">pad_len</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="c1"># passing the padded sequnce into the model</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">model_input</span><span class="p">])[</span><span class="n">output_keys</span><span class="p">]</span>
-        <span class="n">next_token_logits</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[:,</span> <span class="n">cur_input_len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="c1"># pre-process distribution</span>
-        <span class="n">next_token_scores</span> <span class="o">=</span> <span class="n">process_logits</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span>
-                                           <span class="n">next_token_logits</span><span class="p">,</span> <span class="n">eos_token_id</span><span class="p">)</span>
-        <span class="n">top_k</span> <span class="o">=</span> <span class="mi">20</span>
-        <span class="n">next_token_scores</span> <span class="o">=</span> <span class="n">get_top_k_logits</span><span class="p">(</span><span class="n">next_token_scores</span><span class="p">,</span> <span class="n">top_k</span><span class="p">)</span>
-        <span class="c1"># get next token id</span>
-        <span class="n">probs</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">next_token_scores</span><span class="p">)</span>
-        <span class="n">next_tokens</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span>
-                                       <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># break the loop if max length or end of text token is reached</span>
-        <span class="k">if</span> <span class="n">cur_input_len</span> <span class="o">==</span> <span class="n">max_sequence_length</span> <span class="ow">or</span> <span class="n">next_tokens</span> <span class="o">==</span> <span class="n">eos_token_id</span><span class="p">:</span>
-            <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">input_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">input_ids</span><span class="p">,</span> <span class="p">[</span><span class="n">next_tokens</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">input_ids</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def generate_sequence(input_ids, max_sequence_length=128,
+                      eos_token_id=eos_token_id):
+    while True:
+        cur_input_len = len(input_ids[0])
+        pad_len = max_sequence_length - cur_input_len
+        model_input = np.concatenate((input_ids,
+                                      [[eos_token_id] * pad_len]), axis=-1)
+        # passing the padded sequnce into the model
+        outputs = compiled_model(inputs=[model_input])[output_keys]
+        next_token_logits = outputs[:, cur_input_len - 1, :]
+        # pre-process distribution
+        next_token_scores = process_logits(input_ids,
+                                           next_token_logits, eos_token_id)
+        top_k = 20
+        next_token_scores = get_top_k_logits(next_token_scores, top_k)
+        # get next token id
+        probs = softmax(next_token_scores)
+        next_tokens = np.random.choice(probs.shape[-1], 1,
+                                       p=probs[0], replace=True)
+        # break the loop if max length or end of text token is reached
+        if cur_input_len == max_sequence_length or next_tokens == eos_token_id:
+            break
+        else:
+            input_ids = np.concatenate((input_ids, [next_tokens]), axis=-1)
+    return input_ids
 </pre></div>
 </div>
 </section>
@@ -935,16 +935,16 @@ redistribute the probability mass among only those K next words.</p>
 <h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">text</span></code> variable below is the input used to generate a predicted
 sequence.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Deep learning is a type of machine learning that uses neural networks&quot;</span>
-<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="n">output_ids</span> <span class="o">=</span> <span class="n">generate_sequence</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
-<span class="n">S</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
-<span class="c1"># Convert IDs to words and make the sentence from it</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">output_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-    <span class="n">S</span> <span class="o">+=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_tokens_to_string</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">_convert_id_to_token</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input Text: &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Predicted Sequence:</span><span class="si">{</span><span class="n">S</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>text = &quot;Deep learning is a type of machine learning that uses neural networks&quot;
+input_ids = tokenize(text)
+output_ids = generate_sequence(input_ids)
+S = &quot; &quot;
+# Convert IDs to words and make the sentence from it
+for i in output_ids[0]:
+    S += tokenizer.convert_tokens_to_string(tokenizer._convert_id_to_token(i))
+print(&quot;Input Text: &quot;, text)
+print()
+print(f&quot;Predicted Sequence:{S}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Input</span> <span class="n">Text</span><span class="p">:</span>  <span class="n">Deep</span> <span class="n">learning</span> <span class="ow">is</span> <span class="n">a</span> <span class="nb">type</span> <span class="n">of</span> <span class="n">machine</span> <span class="n">learning</span> <span class="n">that</span> <span class="n">uses</span> <span class="n">neural</span> <span class="n">networks</span>

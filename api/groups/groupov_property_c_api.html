@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Property &#8212; OpenVINO™  documentation</title>
+    
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/doxyrest-pygments.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <link href="../../_static/css/media/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="../../_static/css/openvino_sphinx_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/button.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/input.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/textfield.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/tabs.css" type="text/css" />
+    <script src="../../_static/js/openvino_sphinx_theme.js"></script>
+    <link rel="stylesheet" href="../../_static/css/viewer.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-barchart-background@1.3.0/build/Plugin.Barchart.Background.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js"></script>
+    <script src="../../_static/js/viewer.min.js"></script>
+    <script src="/assets/versions_raw.js"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/custom.js"></script>
+    <script src="../../_static/js/graphs.js"></script>
+    <script src="../../_static/js/graphs_ov_tf.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/target-highlight.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/groupov_property_c_api.html" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+      <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/get-started-guide.html">
+  Get Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/documentation.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api_reference.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../model_zoo.html">
+  Model Zoo
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/resources.html">
+  Resources
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/openvinotoolkit/openvino" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="sst-github"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+</ul>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="version-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+  <div class="dropdown-menu" aria-labelledby="version-selector">
+  </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">English</button>
+  <div class="dropdown-menu" aria-labelledby="language-selector">
+    
+      
+        <a class="dropdown-item font-weight-bold" href="/openvino-docs/index.html">English</a>
+      
+    
+      
+        <a  class="dropdown-item" href="/cn/openvino-docs/index.html">Chinese</a>
+      
+    
+  </div>
+</div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+        <div id="collapse-nav-wrapper" class="container-xl">
+          <button id="collapse-nav" class="button bttn-prm button-size-m" type="button" data-toggle="collapse" data-target="#nav-tree" aria-expanded="false" aria-controls="nav-tree">
+            Documentation navigation <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </nav>
+      <div class="transition-banner container-fluid alert alert-info alert-dismissible fade show" role="alert">
+        <p>OpenVINO 2022.1 introduces a new version of OpenVINO API (API 2.0). For more information on the changes and transition steps, see the <a href="https://docs.openvino.ai/latest/openvino_2_0_transition_guide.html">transition guide</a></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar" id="nav-tree"><form class="searchForm bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="icon fas fa-search"></i>
+    <input type="search" class="form-control" name="query" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#detailed-documentation">
+   Detailed Documentation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#global-variables">
+     Global Variables
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                <div class="tocsection download-docs">
+  <div class="dropdown sst-dropdown">
+    <button class="button bttn-prm button-size-m" data-display="static" type="button" id="download-options"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Download Docs
+    </button>
+    <div class="dropdown-menu" aria-labelledby="download-options">
+      <a class="dropdown-item" href="#" onclick="window.print()">.pdf</a>
+      <a id="download-zip-btn" class="dropdown-item" href="#">.zip</a>
+    </div>
+  </div>
+</div>
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+              
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+<div class="tocsection editthispage">
+    <a href="None">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+            
+                <div>
+                  
+  <section id="property">
+<span id="doxid-group-ov-property-c-api"></span><span id="index-0"></span><h1>Property<a class="headerlink" href="#property" title="Permalink to this headline">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The definitions &amp; operations about property. <a class="reference internal" href="#details-group-ov-property-c-api"><span class="std std-ref">More…</span></a></p>
+<div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="c1">// global variables</span>
+
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gaf45b9c390a60c1af6338a578352f7148"><span class="std std-ref">ov_property_key_supported_properties</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga53dc24de048b243a2efbda05e06e94e2"><span class="std std-ref">ov_property_key_available_devices</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gadfe87bb17fcfeb269b9724139a50a8ed"><span class="std std-ref">ov_property_key_optimal_number_of_infer_requests</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga94a2e663744e02a86c7a24cd3bce0950"><span class="std std-ref">ov_property_key_range_for_async_infer_requests</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gaea6281c7ddaed29d2548331eff29732f"><span class="std std-ref">ov_property_key_range_for_streams</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gaa7adf8ccbbb5040a67e87186e237e243"><span class="std std-ref">ov_property_key_device_full_name</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gaa83e558a2f4384381d0fce7f2af59ef9"><span class="std std-ref">ov_property_key_device_capabilities</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gacfe4ed2d429390e3d81305a37df7f68b"><span class="std std-ref">ov_property_key_model_name</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga17d6f528135a782af1eb5de71b158367"><span class="std std-ref">ov_property_key_optimal_batch_size</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga41dd33bb3bf035db0fe1e3595f825ad5"><span class="std std-ref">ov_property_key_max_batch_size</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gac86727c811239c3e83c76e8fae53ab5e"><span class="std std-ref">ov_property_key_cache_dir</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga0a86925c77f461abf19a34a6ef3c5ea9"><span class="std std-ref">ov_property_key_num_streams</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga013835af450c3729bd81ebd4782d479c"><span class="std std-ref">ov_property_key_affinity</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gae45eb05d8bb008c7e646064ed1c1dc53"><span class="std std-ref">ov_property_key_inference_num_threads</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga2938f437e0fcb98be7584dca126672ac"><span class="std std-ref">ov_property_key_hint_performance_mode</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga3685fe8dec949c61a102f48b46408eae"><span class="std std-ref">ov_property_key_hint_inference_precision</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga6a0e974272ecd9a10f3a9255c39f4877"><span class="std std-ref">ov_property_key_log_level</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga07eabcf9708e089620291208449b9309"><span class="std std-ref">ov_property_key_hint_model_priority</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1gacbeca962da699c9fcdb3e3b86a784ba6"><span class="std std-ref">ov_property_key_enable_profiling</span></a><span></span><span class="p">;</span>
+ <a class="reference internal" href="#doxid-group-ov-property-c-api-1ga78dafc466a3796d097327555771a7312"><span class="std std-ref">ov_property_key_device_priorities</span></a><span></span><span class="p">;</span></pre></div></div></section>
+<section id="detailed-documentation">
+<span id="details-group-ov-property-c-api"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The definitions &amp; operations about property.</p>
+<section id="global-variables">
+<h3>Global Variables<a class="headerlink" href="#global-variables" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="doxid-group-ov-property-c-api-1gaf45b9c390a60c1af6338a578352f7148"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_supported_properties</span></pre></div></div><p>Read-only property&lt;string&gt; to get a string list of supported read-only properties.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga53dc24de048b243a2efbda05e06e94e2"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_available_devices</span></pre></div></div><p>Read-only property&lt;string&gt; to get a list of available device IDs.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gadfe87bb17fcfeb269b9724139a50a8ed"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_optimal_number_of_infer_requests</span></pre></div></div><p>Read-only property&lt;uint32_t string&gt; to get an unsigned integer value of optimaln number of compiled model infer requests.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga94a2e663744e02a86c7a24cd3bce0950"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_range_for_async_infer_requests</span></pre></div></div><p>Read-only property&lt;string(unsigned int, unsigned int, unsigned int)&gt; to provide a hint for a range for number of async infer requests. If device supports streams, the metric provides range for number of IRs per stream.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gaea6281c7ddaed29d2548331eff29732f"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_range_for_streams</span></pre></div></div><p>Read-only property&lt;string(unsigned int, unsigned int)&gt; to provide information about a range for streams on platforms where streams are supported.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gaa7adf8ccbbb5040a67e87186e237e243"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_device_full_name</span></pre></div></div><p>Read-only property&lt;string&gt; to get a string value representing a full device name.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gaa83e558a2f4384381d0fce7f2af59ef9"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_device_capabilities</span></pre></div></div><p>Read-only property&lt;string&gt; to get a string list of capabilities options per device.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gacfe4ed2d429390e3d81305a37df7f68b"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_model_name</span></pre></div></div><p>Read-only property&lt;string&gt; to get a name of name of a model.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga17d6f528135a782af1eb5de71b158367"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_optimal_batch_size</span></pre></div></div><p>Read-only property&lt;uint32_t string&gt; to query information optimal batch size for the given device and the network.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga41dd33bb3bf035db0fe1e3595f825ad5"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_max_batch_size</span></pre></div></div><p>Read-only property to get maximum batch size which does not cause performance degradation due to memory swap impact.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gac86727c811239c3e83c76e8fae53ab5e"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_cache_dir</span></pre></div></div><p>Read-write property&lt;string&gt; to set/get the directory which will be used to store any data cached by plugins.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga0a86925c77f461abf19a34a6ef3c5ea9"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_num_streams</span></pre></div></div><p>Read-write property&lt;uint32_t string&gt; to set/get the number of executor logical partitions.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga013835af450c3729bd81ebd4782d479c"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_affinity</span></pre></div></div><p>Read-write property to set/get the name for setting CPU affinity per thread option.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gae45eb05d8bb008c7e646064ed1c1dc53"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_inference_num_threads</span></pre></div></div><p>Read-write property&lt;int32_t string&gt; to set/get the maximum number of threads that can be used for inference tasks.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga2938f437e0fcb98be7584dca126672ac"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_hint_performance_mode</span></pre></div></div><p>Read-write property, it is high-level OpenVINO Performance Hints.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga3685fe8dec949c61a102f48b46408eae"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_hint_inference_precision</span></pre></div></div><p>Read-write property&lt;ov_element_type_e&gt; to set the hint for device to use specified precision for inference.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga6a0e974272ecd9a10f3a9255c39f4877"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_log_level</span></pre></div></div><p>Read-write property&lt;string&gt; for setting desirable log level.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga07eabcf9708e089620291208449b9309"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_hint_model_priority</span></pre></div></div><p>Read-write property, high-level OpenVINO model priority hint.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1gacbeca962da699c9fcdb3e3b86a784ba6"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_enable_profiling</span></pre></div></div><p>Read-write property&lt;string&gt; for setting performance counters option.</p>
+<span class="target" id="doxid-group-ov-property-c-api-1ga78dafc466a3796d097327555771a7312"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span> <span class="n">ov_property_key_device_priorities</span></pre></div></div><p>Read-write property&lt;std::pair&lt;std::string, Any&gt;&gt;, device Priorities config option, with comma-separated devices listed in the desired priority.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+            
+            
+                <div class='prev-next-bottom'>
+                  
+
+                </div>
+            
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Intel®.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

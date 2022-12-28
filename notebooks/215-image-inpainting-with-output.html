@@ -603,16 +603,16 @@ Zoo</a>. This model,
 given a tampered image, is able to create something very similar to the
 original image. The Following pipeline will be used in this notebook.
 <img alt="pipeline" src="https://user-images.githubusercontent.com/4547501/165792473-ba784c0d-0a37-409f-a5f6-bb1849c1d140.png" /></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">notebook_utils</span> <span class="k">as</span> <span class="nn">utils</span>
+sys.path.append(&quot;../utils&quot;)
+import notebook_utils as utils
 </pre></div>
 </div>
 <section id="download-the-model">
@@ -627,19 +627,19 @@ and
 The selected model comes from the public directory, which means it must
 be converted into Intermediate Representation (IR). This step is skipped
 if the model is already downloaded.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A directory where the model will be downloaded.</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
-<span class="c1"># The name of the model from Open Model Zoo.</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;gmcnn-places2-tf&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># A directory where the model will be downloaded.
+base_model_dir = &quot;model&quot;
+# The name of the model from Open Model Zoo.
+model_name = &quot;gmcnn-places2-tf&quot;
 
-<span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">/public/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/frozen_model.pb&quot;</span><span class="p">)</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">model_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="o">!</span> <span class="nv">$download_command</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Already downloaded&quot;</span><span class="p">)</span>
+model_path = Path(f&quot;{base_model_dir}/public/{model_name}/{model_name}/frozen_model.pb&quot;)
+if not model_path.exists():
+    download_command = f&quot;omz_downloader &quot; \
+                       f&quot;--name {model_name} &quot; \
+                       f&quot;--output_dir {base_model_dir}&quot;
+    ! $download_command
+else:
+    print(&quot;Already downloaded&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################|| Downloading gmcnn-places2-tf ||################</span>
@@ -658,19 +658,19 @@ convert it to OpenVINO IR format. To do this, use Model Converter
 (<code class="docutils literal notranslate"><span class="pre">omz_converter</span></code>), which is another command-line tool. Then, specify
 the precision for <code class="docutils literal notranslate"><span class="pre">FP32</span></code> but it can be <code class="docutils literal notranslate"><span class="pre">FP16</span></code> as well. This step is
 also skipped if the model is already converted.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP32&quot;</span>
-<span class="n">ir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">/public/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>precision = &quot;FP32&quot;
+ir_path = Path(f&quot;{base_model_dir}/public/{model_name}/{precision}/{model_name}.xml&quot;)
 
-<span class="c1"># Run Model Optimizer if the OpenVINO IR model file does not exist.</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exporting TensorFlow model to IR... This may take a few minutes.&quot;</span><span class="p">)</span>
-    <span class="n">convert_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_converter &quot;</span> \
-                      <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                      <span class="sa">f</span><span class="s2">&quot;--download_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                      <span class="sa">f</span><span class="s2">&quot;--precisions </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="o">!</span> <span class="nv">$convert_command</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IR model already exists.&quot;</span><span class="p">)</span>
+# Run Model Optimizer if the OpenVINO IR model file does not exist.
+if not ir_path.exists():
+    print(&quot;Exporting TensorFlow model to IR... This may take a few minutes.&quot;)
+    convert_command = f&quot;omz_converter &quot; \
+                      f&quot;--name {model_name} &quot; \
+                      f&quot;--download_dir {base_model_dir} &quot; \
+                      f&quot;--precisions {precision}&quot;
+    ! $convert_command
+else:
+    print(&quot;IR model already exists.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Exporting</span> <span class="n">TensorFlow</span> <span class="n">model</span> <span class="n">to</span> <span class="n">IR</span><span class="o">...</span> <span class="n">This</span> <span class="n">may</span> <span class="n">take</span> <span class="n">a</span> <span class="n">few</span> <span class="n">minutes</span><span class="o">.</span>
@@ -734,15 +734,15 @@ architecture)</p></li>
 <li><p>Get input and output nodes.</p></li>
 </ol>
 <p>Only a few lines of code are required to run the model:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>core = Core()
 
-<span class="c1"># Read the model.xml and weights file</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">)</span>
-<span class="c1"># Load the model on to the CPU</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="c1"># Store the input and output nodes</span>
-<span class="n">input_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# Read the model.xml and weights file
+model = core.read_model(model=ir_path)
+# Load the model on to the CPU
+compiled_model = core.compile_model(model=model, device_name=&quot;CPU&quot;)
+# Store the input and output nodes
+input_layer = compiled_model.input(0)
+output_layer = compiled_model.output(0)
 </pre></div>
 </div>
 </section>
@@ -750,7 +750,7 @@ architecture)</p></li>
 <h2>Determine the input shapes of the model<a class="headerlink" href="#determine-the-input-shapes-of-the-model" title="Permalink to this headline">¶</a></h2>
 <p>Note that both input shapes are the same. However, the second input has
 1 channel (monotone).</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">input_layer</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>N, H, W, C = input_layer.shape
 </pre></div>
 </div>
 </section>
@@ -758,34 +758,34 @@ architecture)</p></li>
 <h2>Create a square mask<a class="headerlink" href="#create-a-square-mask" title="Permalink to this headline">¶</a></h2>
 <p>Next, create a single channeled mask that will be laid on top of the
 original image.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_mask</span><span class="p">(</span><span class="n">image_width</span><span class="p">,</span> <span class="n">image_height</span><span class="p">,</span> <span class="n">size_x</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">size_y</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a square mask of defined size on a random location.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def create_mask(image_width, image_height, size_x=30, size_y=30, number=1):
+    &quot;&quot;&quot;
+    Create a square mask of defined size on a random location.
 
-<span class="sd">    :param: image_width: width of the image</span>
-<span class="sd">    :param: image_height: height of the image</span>
-<span class="sd">    :param: size: size in pixels of one side</span>
-<span class="sd">    :returns:</span>
-<span class="sd">            mask: grayscale float32 mask of size shaped [image_height, image_width, 1]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    :param: image_width: width of the image
+    :param: image_height: height of the image
+    :param: size: size in pixels of one side
+    :returns:
+            mask: grayscale float32 mask of size shaped [image_height, image_width, 1]
+    &quot;&quot;&quot;
 
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">image_height</span><span class="p">,</span> <span class="n">image_width</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-        <span class="n">start_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">image_width</span> <span class="o">-</span> <span class="n">size_x</span><span class="p">)</span>
-        <span class="n">start_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">image_height</span> <span class="o">-</span> <span class="n">size_y</span><span class="p">)</span>
-        <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
-                      <span class="n">pt1</span><span class="o">=</span><span class="p">(</span><span class="n">start_x</span><span class="p">,</span> <span class="n">start_y</span><span class="p">),</span>
-                      <span class="n">pt2</span><span class="o">=</span><span class="p">(</span><span class="n">start_x</span> <span class="o">+</span> <span class="n">size_x</span><span class="p">,</span> <span class="n">start_y</span> <span class="o">+</span> <span class="n">size_y</span><span class="p">),</span>
-                      <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                      <span class="n">thickness</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">FILLED</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">mask</span>
+    mask = np.zeros((image_height, image_width, 1), dtype=np.float32)
+    for _ in range(number):
+        start_x = np.random.randint(image_width - size_x)
+        start_y = np.random.randint(image_height - size_y)
+        cv2.rectangle(img=mask,
+                      pt1=(start_x, start_y),
+                      pt2=(start_x + size_x, start_y + size_y),
+                      color=(1, 1, 1),
+                      thickness=cv2.FILLED)
+    return mask
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate a square mask of size WxH with number of &quot;holes&quot;.</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="n">create_mask</span><span class="p">(</span><span class="n">image_width</span><span class="o">=</span><span class="n">W</span><span class="p">,</span> <span class="n">image_height</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">size_x</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">size_y</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="c1"># This mask will be laid over the input image as noise.</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Generate a square mask of size WxH with number of &quot;holes&quot;.
+mask = create_mask(image_width=W, image_height=H, size_x=50, size_y=50, number=15)
+# This mask will be laid over the input image as noise.
+plt.figure(figsize=(16, 12))
+plt.imshow(cv2.cvtColor(mask, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <img alt="../_images/215-image-inpainting-with-output_12_0.png" src="../_images/215-image-inpainting-with-output_12_0.png" />
@@ -794,19 +794,19 @@ original image.</p>
 <h2>Load and Resize the Image<a class="headerlink" href="#load-and-resize-the-image" title="Permalink to this headline">¶</a></h2>
 <p>This image will be altered by using the mask. You can process any image
 you like. Just change the URL below.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download an image.</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.intel.com/content/dam/www/central-libraries/us/en/images/arc-home-hero-128.png.rendition.intel.web.480.360.png&quot;</span>
-<span class="n">image_file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span>
-    <span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;laptop.png&quot;</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
-<span class="p">)</span>
-<span class="k">assert</span> <span class="n">Path</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Download an image.
+url = &quot;https://www.intel.com/content/dam/www/central-libraries/us/en/images/arc-home-hero-128.png.rendition.intel.web.480.360.png&quot;
+image_file = utils.download_file(
+    url, filename=&quot;laptop.png&quot;, directory=&quot;data&quot;, show_progress=False, silent=True, timeout=30
+)
+assert Path(image_file).exists()
 
-<span class="c1"># Read the image.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;data/laptop.png&quot;</span><span class="p">)</span>
-<span class="c1"># Resize the image to meet network expected input sizes.</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+# Read the image.
+image = cv2.imread(&quot;data/laptop.png&quot;)
+# Resize the image to meet network expected input sizes.
+resized_image = cv2.resize(src=image, dsize=(W, H), interpolation=cv2.INTER_AREA)
+plt.figure(figsize=(16, 12))
+plt.imshow(cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <img alt="../_images/215-image-inpainting-with-output_14_0.png" src="../_images/215-image-inpainting-with-output_14_0.png" />
@@ -816,10 +816,10 @@ you like. Just change the URL below.</p>
 <p>This multiplication of the image and the mask gives the result of the
 masked image layered on top of the original image. The <code class="docutils literal notranslate"><span class="pre">masked_image</span></code>
 will be the first input to the GMCNN model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generating a masked image.</span>
-<span class="n">masked_image</span> <span class="o">=</span> <span class="p">(</span><span class="n">resized_image</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mask</span><span class="p">)</span> <span class="o">+</span> <span class="mi">255</span> <span class="o">*</span> <span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">masked_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Generating a masked image.
+masked_image = (resized_image * (1 - mask) + 255 * mask).astype(np.uint8)
+plt.figure(figsize=(16, 12))
+plt.imshow(cv2.cvtColor(masked_image, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <img alt="../_images/215-image-inpainting-with-output_16_0.png" src="../_images/215-image-inpainting-with-output_16_0.png" />
@@ -831,8 +831,8 @@ will be the first input to the GMCNN model.</p>
 <li><p>masked_image.shape = (512,680,3) —–&gt; model expects = (1,512,680,3)</p></li>
 <li><p>resized_mask.shape = (512,680,1) —–&gt; model expects = (1,512,680,1)</p></li>
 </ul>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">masked_image</span> <span class="o">=</span> <span class="n">masked_image</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>masked_image = masked_image[None, ...]
+mask = mask[None, ...]
 </pre></div>
 </div>
 </section>
@@ -840,10 +840,10 @@ will be the first input to the GMCNN model.</p>
 <h2>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">¶</a></h2>
 <p>Do inference with the given masked image and the mask. Then, show the
 restored image.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">masked_image</span><span class="p">,</span> <span class="n">mask</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">]</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result = compiled_model([masked_image, mask])[output_layer]
+result = result.squeeze().astype(np.uint8)
+plt.figure(figsize=(16, 12))
+plt.imshow(cv2.cvtColor(result, cv2.COLOR_BGR2RGB))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7f48929dfb80</span><span class="o">&gt;</span>
@@ -854,7 +854,7 @@ restored image.</p>
 <section id="save-the-restored-image">
 <h2>Save the Restored Image<a class="headerlink" href="#save-the-restored-image" title="Permalink to this headline">¶</a></h2>
 <p>Save the restored image to the data directory to download it.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;data/laptop_restored.png&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cv2.imwrite(&quot;data/laptop_restored.png&quot;, result)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span>

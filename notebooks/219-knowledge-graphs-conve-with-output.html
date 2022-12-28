@@ -631,94 +631,94 @@ sample dataset was downloaded from:
 </section>
 <section id="windows-specific-settings">
 <h1>Windows specific settings<a class="headerlink" href="#windows-specific-settings" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On Windows, add the directory that contains cl.exe to the PATH</span>
-<span class="c1"># to enable PyTorch to find the required C++ tools.</span>
-<span class="c1"># This code assumes that Visual Studio 2019 is installed in the default directory.</span>
-<span class="c1"># If you have a different C++ compiler, please add the correct path</span>
-<span class="c1"># to os.environ[&quot;PATH&quot;] directly.</span>
-<span class="c1"># Note that the C++ Redistributable is not enough to run this notebook.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On Windows, add the directory that contains cl.exe to the PATH
+# to enable PyTorch to find the required C++ tools.
+# This code assumes that Visual Studio 2019 is installed in the default directory.
+# If you have a different C++ compiler, please add the correct path
+# to os.environ[&quot;PATH&quot;] directly.
+# Note that the C++ Redistributable is not enough to run this notebook.
 
-<span class="c1"># Adding the path to os.environ[&quot;LIB&quot;] is not always required</span>
-<span class="c1"># - it depends on the system&#39;s configuration</span>
+# Adding the path to os.environ[&quot;LIB&quot;] is not always required
+# - it depends on the system&#39;s configuration
 
-<span class="kn">import</span> <span class="nn">sys</span>
+import sys
 
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">distutils.command.build_ext</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+if sys.platform == &quot;win32&quot;:
+    import distutils.command.build_ext
+    import os
+    from pathlib import Path
 
-    <span class="n">VS_INSTALL_DIR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:/Program Files (x86)/Microsoft Visual Studio&quot;</span>
-    <span class="n">cl_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">VS_INSTALL_DIR</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;**/Hostx86/x64/cl.exe&quot;</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cl_paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Cannot find Visual Studio. This notebook requires a C++ compiler. If you installed &quot;</span>
-            <span class="s2">&quot;a C++ compiler, please add the directory that contains&quot;</span>
-            <span class="s2">&quot;cl.exe to `os.environ[&#39;PATH&#39;]`.&quot;</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># If multiple versions of MSVC are installed, get the most recent version</span>
-        <span class="n">cl_path</span> <span class="o">=</span> <span class="n">cl_paths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">vs_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cl_path</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="si">}{</span><span class="n">vs_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="c1"># Code for finding the library dirs from</span>
-        <span class="c1"># https://stackoverflow.com/questions/47423246/get-pythons-lib-path</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Distribution</span><span class="p">()</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">build_ext</span><span class="o">.</span><span class="n">build_ext</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-        <span class="n">b</span><span class="o">.</span><span class="n">finalize_options</span><span class="p">()</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LIB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">library_dirs</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="n">vs_dir</span><span class="si">}</span><span class="s2"> to PATH&quot;</span><span class="p">)</span>
+    VS_INSTALL_DIR = r&quot;C:/Program Files (x86)/Microsoft Visual Studio&quot;
+    cl_paths = sorted(list(Path(VS_INSTALL_DIR).glob(&quot;**/Hostx86/x64/cl.exe&quot;)))
+    if len(cl_paths) == 0:
+        raise ValueError(
+            &quot;Cannot find Visual Studio. This notebook requires a C++ compiler. If you installed &quot;
+            &quot;a C++ compiler, please add the directory that contains&quot;
+            &quot;cl.exe to `os.environ[&#39;PATH&#39;]`.&quot;
+        )
+    else:
+        # If multiple versions of MSVC are installed, get the most recent version
+        cl_path = cl_paths[-1]
+        vs_dir = str(cl_path.parent)
+        os.environ[&quot;PATH&quot;] += f&quot;{os.pathsep}{vs_dir}&quot;
+        # Code for finding the library dirs from
+        # https://stackoverflow.com/questions/47423246/get-pythons-lib-path
+        d = distutils.core.Distribution()
+        b = distutils.command.build_ext.build_ext(d)
+        b.finalize_options()
+        os.environ[&quot;LIB&quot;] = os.pathsep.join(b.library_dirs)
+        print(f&quot;Added {vs_dir} to PATH&quot;)
 </pre></div>
 </div>
 </section>
 <section id="import-the-packages-needed-for-successful-execution">
 <h1>Import the packages needed for successful execution<a class="headerlink" href="#import-the-packages-needed-for-successful-execution" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">json</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import time
+import json
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span><span class="p">,</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">torch.nn.init</span> <span class="kn">import</span> <span class="n">xavier_normal_</span>
+import torch
+from torch.nn import functional as F, Parameter
+from torch.nn.init import xavier_normal_
 
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+from pathlib import Path
 
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+from sklearn.metrics import accuracy_score
 
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+from openvino.runtime import Core
 </pre></div>
 </div>
 <section id="settings-including-path-to-the-serialized-model-files-and-input-data-files">
 <h2>Settings: Including path to the serialized model files and input data files<a class="headerlink" href="#settings-including-path-to-the-serialized-model-files-and-input-data-files" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2"> device&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+print(f&quot;Using {device} device&quot;)
 
-<span class="c1"># Path to the trained model</span>
-<span class="n">modelpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;models/conve.pt&#39;</span><span class="p">)</span>
+# Path to the trained model
+modelpath = Path(&#39;models/conve.pt&#39;)
 
-<span class="c1"># Path to the file containing the entities and entity IDs</span>
-<span class="n">entdatapath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;data/countries_S1/kg_training_entids.txt&#39;</span><span class="p">)</span>
+# Path to the file containing the entities and entity IDs
+entdatapath = Path(&#39;data/countries_S1/kg_training_entids.txt&#39;)
 
-<span class="c1"># Path to the file containing the relations and relation IDs</span>
-<span class="n">reldatapath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;data/countries_S1/kg_training_relids.txt&#39;</span><span class="p">)</span>
+# Path to the file containing the relations and relation IDs
+reldatapath = Path(&#39;data/countries_S1/kg_training_relids.txt&#39;)
 
-<span class="c1"># Path to the test data file</span>
-<span class="n">testdatapath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;data/countries_S1/e1rel_to_e2_ranking_test.json&#39;</span><span class="p">)</span>
+# Path to the test data file
+testdatapath = Path(&#39;data/countries_S1/e1rel_to_e2_ranking_test.json&#39;)
 
-<span class="c1"># Entity and relation embedding dimensions</span>
-<span class="n">EMB_DIM</span> <span class="o">=</span> <span class="mi">300</span>
+# Entity and relation embedding dimensions
+EMB_DIM = 300
 
-<span class="c1"># Top K vals to consider from the predictions</span>
-<span class="n">TOP_K</span> <span class="o">=</span> <span class="mi">2</span>
+# Top K vals to consider from the predictions
+TOP_K = 2
 
-<span class="c1"># Required for OpenVINO conversion</span>
-<span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;models&quot;</span><span class="p">)</span>
-<span class="n">base_model_name</span> <span class="o">=</span> <span class="s2">&quot;conve&quot;</span>
+# Required for OpenVINO conversion
+output_dir = Path(&quot;models&quot;)
+base_model_name = &quot;conve&quot;
 
-<span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+output_dir.mkdir(exist_ok=True)
 
-<span class="c1"># Paths where PyTorch, ONNX and OpenVINO IR models will be stored</span>
-<span class="n">fp32_onnx_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="p">(</span><span class="n">base_model_name</span> <span class="o">+</span> <span class="s2">&quot;_fp32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
+# Paths where PyTorch, ONNX and OpenVINO IR models will be stored
+fp32_onnx_path = Path(output_dir / (base_model_name + &quot;_fp32&quot;)).with_suffix(&quot;.onnx&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Using</span> <span class="n">cpu</span> <span class="n">device</span>
@@ -727,106 +727,106 @@ sample dataset was downloaded from:
 </section>
 <section id="defining-the-conve-model-class">
 <h2>Defining the ConvE model class<a class="headerlink" href="#defining-the-conve-model-class" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model implementation reference: https://github.com/TimDettmers/ConvE</span>
-<span class="k">class</span> <span class="nc">ConvE</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_entities</span><span class="p">,</span> <span class="n">num_relations</span><span class="p">,</span> <span class="n">emb_dim</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ConvE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="c1"># Embedding tables for entity and relations with num_uniq_ent in y-dim, emb_dim in x-dim</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emb_e</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_entities</span><span class="p">,</span> <span class="n">emb_dim</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ent_weights_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">num_entities</span><span class="p">,</span> <span class="n">emb_dim</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emb_rel</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_relations</span><span class="p">,</span> <span class="n">emb_dim</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ne</span> <span class="o">=</span> <span class="n">num_entities</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nr</span> <span class="o">=</span> <span class="n">num_relations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inp_drop</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_drop</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">feature_map_drop</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout2d</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bn0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ln0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">emb_dim</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_entities</span><span class="p">)))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16128</span><span class="p">,</span> <span class="n">emb_dim</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Model implementation reference: https://github.com/TimDettmers/ConvE
+class ConvE(torch.nn.Module):
+    def __init__(self, num_entities, num_relations, emb_dim):
+        super(ConvE, self).__init__()
+        # Embedding tables for entity and relations with num_uniq_ent in y-dim, emb_dim in x-dim
+        self.emb_e = torch.nn.Embedding(num_entities, emb_dim, padding_idx=0)
+        self.ent_weights_matrix = torch.ones([num_entities, emb_dim], dtype=torch.float64)
+        self.emb_rel = torch.nn.Embedding(num_relations, emb_dim, padding_idx=0)
+        self.ne = num_entities
+        self.nr = num_relations
+        self.inp_drop = torch.nn.Dropout(0.2)
+        self.hidden_drop = torch.nn.Dropout(0.3)
+        self.feature_map_drop = torch.nn.Dropout2d(0.2)
+        self.loss = torch.nn.BCELoss()
+        self.conv1 = torch.nn.Conv2d(1, 32, (3, 3), 1, 0, bias=True)
+        self.bn0 = torch.nn.BatchNorm2d(1)
+        self.bn1 = torch.nn.BatchNorm2d(32)
+        self.ln0 = torch.nn.LayerNorm(emb_dim)
+        self.register_parameter(&#39;b&#39;, Parameter(torch.zeros(num_entities)))
+        self.fc = torch.nn.Linear(16128, emb_dim)
 
-    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initializes the model &quot;&quot;&quot;</span>
-        <span class="c1"># Xavier initialization</span>
-        <span class="n">xavier_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emb_e</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">xavier_normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emb_rel</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    def init(self):
+        &quot;&quot;&quot; Initializes the model &quot;&quot;&quot;
+        # Xavier initialization
+        xavier_normal_(self.emb_e.weight.data)
+        xavier_normal_(self.emb_rel.weight.data)
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">rel</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Forward pass on the model.</span>
-<span class="sd">        :param e1: source entity</span>
-<span class="sd">        :param rel: relation between the source and target entities</span>
-<span class="sd">        Returns the model predictions for the target entities</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">e1_embedded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emb_e</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-        <span class="n">rel_embedded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emb_rel</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-        <span class="n">stacked_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">e1_embedded</span><span class="p">,</span> <span class="n">rel_embedded</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">stacked_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn0</span><span class="p">(</span><span class="n">stacked_inputs</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inp_drop</span><span class="p">(</span><span class="n">stacked_inputs</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_map_drop</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_drop</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln0</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">emb_e</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_drop</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pred</span>
+    def forward(self, e1, rel):
+        &quot;&quot;&quot; Forward pass on the model.
+        :param e1: source entity
+        :param rel: relation between the source and target entities
+        Returns the model predictions for the target entities
+        &quot;&quot;&quot;
+        e1_embedded = self.emb_e(e1).view(-1, 1, 10, 30)
+        rel_embedded = self.emb_rel(rel).view(-1, 1, 10, 30)
+        stacked_inputs = torch.cat([e1_embedded, rel_embedded], 2)
+        stacked_inputs = self.bn0(stacked_inputs)
+        x = self.inp_drop(stacked_inputs)
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = F.relu(x)
+        x = self.feature_map_drop(x)
+        x = x.view(1, -1)
+        x = self.fc(x)
+        x = self.hidden_drop(x)
+        x = self.ln0(x)
+        x = F.relu(x)
+        x = torch.mm(x, self.emb_e.weight.transpose(1, 0))
+        x = self.hidden_drop(x)
+        x += self.b.expand_as(x)
+        pred = torch.nn.functional.softmax(x, dim=1)
+        return pred
 </pre></div>
 </div>
 </section>
 <section id="defining-the-dataloader">
 <h2>Defining the dataloader<a class="headerlink" href="#defining-the-dataloader" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DataLoader</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class DataLoader():
+    def __init__(self):
+        super(DataLoader, self).__init__()
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ent_path</span> <span class="o">=</span> <span class="n">entdatapath</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rel_path</span> <span class="o">=</span> <span class="n">reldatapath</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_file</span> <span class="o">=</span> <span class="n">testdatapath</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids2entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ent_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rel_ids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids2rel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rel_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_triples_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_triples</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_file</span><span class="p">)</span>
+        self.ent_path = entdatapath
+        self.rel_path = reldatapath
+        self.test_file = testdatapath
+        self.entity_ids, self.ids2entities = self.load_data(data_path=self.ent_path)
+        self.rel_ids, self.ids2rel = self.load_data(data_path=self.rel_path)
+        self.test_triples_list = self.convert_triples(data_path=self.test_file)
 
-    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Creates a dictionary of data items with corresponding ids &quot;&quot;&quot;</span>
-        <span class="n">item_dict</span><span class="p">,</span> <span class="n">ids_dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
-        <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-            <span class="n">name</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">item_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-            <span class="n">ids_dict</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">)]</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">item_dict</span><span class="p">,</span> <span class="n">ids_dict</span>
+    def load_data(self, data_path):
+        &quot;&quot;&quot; Creates a dictionary of data items with corresponding ids &quot;&quot;&quot;
+        item_dict, ids_dict = {}, {}
+        fp = open(data_path, &quot;r&quot;)
+        lines = fp.readlines()
+        for line in lines:
+            name, id = line.strip().split(&#39;\t&#39;)
+            item_dict[name] = int(id)
+            ids_dict[int(id)] = name
+        fp.close()
+        return item_dict, ids_dict
 
-    <span class="k">def</span> <span class="nf">convert_triples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Creates a triple of source entity, relation and target entities&quot;&quot;&quot;</span>
-        <span class="n">triples_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">dp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-            <span class="n">item_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="n">item_dict</span><span class="p">[</span><span class="s1">&#39;e1&#39;</span><span class="p">]</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">item_dict</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">item_dict</span><span class="p">[</span><span class="s1">&#39;e2_multi1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">hrt_list</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">hrt_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
-            <span class="n">hrt_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rel_ids</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
-            <span class="n">t_ents</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">t_idx</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
-                <span class="n">t_ents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">[</span><span class="n">t_idx</span><span class="p">])</span>
-            <span class="n">hrt_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t_ents</span><span class="p">)</span>
-            <span class="n">triples_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hrt_list</span><span class="p">)</span>
-        <span class="n">dp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">triples_list</span>
+    def convert_triples(self, data_path):
+        &quot;&quot;&quot; Creates a triple of source entity, relation and target entities&quot;&quot;&quot;
+        triples_list = []
+        dp = open(data_path, &quot;r&quot;)
+        lines = dp.readlines()
+        for line in lines:
+            item_dict = json.loads(line.strip())
+            h = item_dict[&#39;e1&#39;]
+            r = item_dict[&#39;rel&#39;]
+            t = item_dict[&#39;e2_multi1&#39;].split(&#39;\t&#39;)
+            hrt_list = []
+            hrt_list.append(self.entity_ids[h])
+            hrt_list.append(self.rel_ids[r])
+            t_ents = []
+            for t_idx in t:
+                t_ents.append(self.entity_ids[t_idx])
+            hrt_list.append(t_ents)
+            triples_list.append(hrt_list)
+        dp.close()
+        return triples_list
 </pre></div>
 </div>
 </section>
@@ -838,35 +838,35 @@ model inference and the model converted to OpenVINO intermediate
 representation inference results. Here, we use a simple accuracy metric
 to evaluate the model performance on a test dataset. However, it is
 typical to use metrics such as Mean Reciprocal Rank, <a class="reference external" href="mailto:Hits&#37;&#52;&#48;10">Hits<span>&#64;</span>10</a> etc.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">()</span>
-<span class="n">num_entities</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">)</span>
-<span class="n">num_relations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">rel_ids</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = DataLoader()
+num_entities = len(data.entity_ids)
+num_relations = len(data.rel_ids)
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">ConvE</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="n">num_entities</span><span class="p">,</span> <span class="n">num_relations</span><span class="o">=</span><span class="n">num_relations</span><span class="p">,</span> <span class="n">emb_dim</span><span class="o">=</span><span class="n">EMB_DIM</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">modelpath</span><span class="p">))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+model = ConvE(num_entities=num_entities, num_relations=num_relations, emb_dim=EMB_DIM)
+model.load_state_dict(torch.load(modelpath))
+model.eval()
 
-<span class="n">pt_inf_times</span> <span class="o">=</span> <span class="p">[]</span>
+pt_inf_times = []
 
-<span class="n">triples_list</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">test_triples_list</span>
-<span class="n">num_test_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">triples_list</span><span class="p">)</span>
-<span class="n">pt_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_test_samples</span><span class="p">):</span>
-    <span class="n">test_sample</span> <span class="o">=</span> <span class="n">triples_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">h</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test_sample</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">e1</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="n">rel</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">pt_inf_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-    <span class="n">score</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">TOP_K</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+triples_list = data.test_triples_list
+num_test_samples = len(triples_list)
+pt_acc = 0.0
+for i in range(num_test_samples):
+    test_sample = triples_list[i]
+    h, r, t = test_sample
+    start_time = time.time()
+    logits = model.forward(e1=torch.tensor(h), rel=torch.tensor(r))
+    end_time = time.time()
+    pt_inf_times.append(end_time - start_time)
+    score, pred = torch.topk(logits, TOP_K, 1)
 
-    <span class="n">gt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()))</span>
-    <span class="n">pt_acc</span> <span class="o">+=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+    gt = np.array(sorted(t))
+    pred = np.array(sorted(pred[0].cpu().detach()))
+    pt_acc += accuracy_score(gt, pred)
 
-<span class="n">avg_pt_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pt_inf_times</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average time taken for inference: </span><span class="si">{</span><span class="n">avg_pt_time</span><span class="si">}</span><span class="s1"> ms&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean accuracy of the model on the test dataset: </span><span class="si">{</span><span class="n">pt_acc</span><span class="o">/</span><span class="n">num_test_samples</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+avg_pt_time = np.mean(pt_inf_times) * 1000
+print(f&#39;Average time taken for inference: {avg_pt_time} ms&#39;)
+print(f&#39;Mean accuracy of the model on the test dataset: {pt_acc/num_test_samples}&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Average</span> <span class="n">time</span> <span class="n">taken</span> <span class="k">for</span> <span class="n">inference</span><span class="p">:</span> <span class="mf">0.6341437498728434</span> <span class="n">ms</span>
@@ -882,20 +882,20 @@ knowledge graph. We pass the source entity ‘san_marino’ and relation
 predictions. We expect to see as predictions, target entities that form
 a factual triple with the entity and relation passed as inputs to the
 knowledge graph.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">entitynames_dict</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ids2entities</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>entitynames_dict = data.ids2entities
 
-<span class="n">ent</span> <span class="o">=</span> <span class="s1">&#39;san_marino&#39;</span>
-<span class="n">rel</span> <span class="o">=</span> <span class="s1">&#39;locatedin&#39;</span>
+ent = &#39;san_marino&#39;
+rel = &#39;locatedin&#39;
 
-<span class="n">h_idx</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">[</span><span class="n">ent</span><span class="p">]</span>
-<span class="n">r_idx</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rel_ids</span><span class="p">[</span><span class="n">rel</span><span class="p">]</span>
+h_idx = data.entity_ids[ent]
+r_idx = data.rel_ids[rel]
 
-<span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">h_idx</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">r_idx</span><span class="p">))</span>
-<span class="n">score</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">TOP_K</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+logits = model.forward(torch.tensor(h_idx), torch.tensor(r_idx))
+score, pred = torch.topk(logits, TOP_K, 1)
 
-<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()):</span>
-    <span class="n">pred_entity</span> <span class="o">=</span> <span class="n">entitynames_dict</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source Entity: </span><span class="si">{</span><span class="n">ent</span><span class="si">}</span><span class="s1">, Relation: </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1">, Target entity prediction: </span><span class="si">{</span><span class="n">pred_entity</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+for j, id in enumerate(pred[0].cpu().detach().numpy()):
+    pred_entity = entitynames_dict[id]
+    print(f&#39;Source Entity: {ent}, Relation: {rel}, Target entity prediction: {pred_entity}&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Source</span> <span class="n">Entity</span><span class="p">:</span> <span class="n">san_marino</span><span class="p">,</span> <span class="n">Relation</span><span class="p">:</span> <span class="n">locatedin</span><span class="p">,</span> <span class="n">Target</span> <span class="n">entity</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">southern_europe</span>
@@ -910,9 +910,9 @@ PyTorch model to an intermediate representation (IR) format or to an
 ONNX representation. In this notebook, we use the ONNX format. For more
 details on model optimization, refer to:
 <a class="reference external" href="https://docs.openvino.ai/latest/openvino_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html">https://docs.openvino.ai/latest/openvino_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html</a></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converting the trained conve model to ONNX format&#39;</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
-                  <span class="n">fp32_onnx_path</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&#39;Converting the trained conve model to ONNX format&#39;)
+torch.onnx.export(model, (torch.tensor(1), torch.tensor(1)),
+                  fp32_onnx_path, verbose=False, opset_version=11, training=False)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Converting</span> <span class="n">the</span> <span class="n">trained</span> <span class="n">conve</span> <span class="n">model</span> <span class="n">to</span> <span class="n">ONNX</span> <span class="nb">format</span>
@@ -931,32 +931,32 @@ Inference engine with Core() 2. Load the model with read_model() 3.
 Compile the model with compile_model()</p>
 <p>The model can then be inferred on using by using the
 create_infer_request() API call.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">ir_net</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">fp32_onnx_path</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_net</span><span class="p">)</span>
-<span class="n">input_layer_source</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="s1">&#39;input.1&#39;</span><span class="p">)</span>
-<span class="n">input_layer_relation</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="s1">&#39;input.2&#39;</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+ir_net = ie.read_model(model=fp32_onnx_path)
+compiled_model = ie.compile_model(model=ir_net)
+input_layer_source = compiled_model.input(&#39;input.1&#39;)
+input_layer_relation = compiled_model.input(&#39;input.2&#39;)
+output_layer = compiled_model.output(0)
 
-<span class="n">ov_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">ov_inf_times</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_test_samples</span><span class="p">):</span>
-    <span class="n">test_sample</span> <span class="o">=</span> <span class="n">triples_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">source</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">test_sample</span>
-    <span class="n">model_inputs</span> <span class="o">=</span> <span class="p">{</span><span class="n">input_layer_source</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span> <span class="n">input_layer_relation</span><span class="p">:</span> <span class="n">relation</span><span class="p">}</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">(</span><span class="n">model_inputs</span><span class="p">)[</span><span class="n">output_layer</span><span class="p">]</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">ov_inf_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-    <span class="n">top_k_idxs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argpartition</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">TOP_K</span><span class="p">)[</span><span class="o">-</span><span class="n">TOP_K</span><span class="p">:])</span>
+ov_acc = 0.0
+ov_inf_times = []
+for i in range(num_test_samples):
+    test_sample = triples_list[i]
+    source, relation, target = test_sample
+    model_inputs = {input_layer_source: source, input_layer_relation: relation}
+    start_time = time.time()
+    result = compiled_model(model_inputs)[output_layer]
+    end_time = time.time()
+    ov_inf_times.append(end_time - start_time)
+    top_k_idxs = list(np.argpartition(result[0], -TOP_K)[-TOP_K:])
 
-    <span class="n">gt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">top_k_idxs</span><span class="p">))</span>
-    <span class="n">ov_acc</span> <span class="o">+=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+    gt = np.array(sorted(t))
+    pred = np.array(sorted(top_k_idxs))
+    ov_acc += accuracy_score(gt, pred)
 
-<span class="n">avg_ov_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ov_inf_times</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average time taken for inference: </span><span class="si">{</span><span class="n">avg_ov_time</span><span class="si">}</span><span class="s1"> ms&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean accuracy of the model on the test dataset: </span><span class="si">{</span><span class="n">ov_acc</span><span class="o">/</span><span class="n">num_test_samples</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+avg_ov_time = np.mean(ov_inf_times) * 1000
+print(f&#39;Average time taken for inference: {avg_ov_time} ms&#39;)
+print(f&#39;Mean accuracy of the model on the test dataset: {ov_acc/num_test_samples}&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Average</span> <span class="n">time</span> <span class="n">taken</span> <span class="k">for</span> <span class="n">inference</span><span class="p">:</span> <span class="mf">1.7911593119303386</span> <span class="n">ms</span>
@@ -966,7 +966,7 @@ create_infer_request() API call.</p>
 </section>
 <section id="determine-the-platform-specific-speedup-obtained-through-openvino-graph-optimizations">
 <h2>Determine the platform specific speedup obtained through OpenVINO graph optimizations<a class="headerlink" href="#determine-the-platform-specific-speedup-obtained-through-openvino-graph-optimizations" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Speedup with OpenVINO optimizations: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">avg_pt_time</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">avg_ov_time</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1"> X&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&#39;Speedup with OpenVINO optimizations: {round(float(avg_pt_time)/float(avg_ov_time),2)} X&#39;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Speedup</span> <span class="k">with</span> <span class="n">OpenVINO</span> <span class="n">optimizations</span><span class="p">:</span> <span class="mf">0.35</span> <span class="n">X</span>
@@ -986,8 +986,8 @@ as well as the throughput performance (in samples/s) observed while
 running the benchmark application. The platform specific optimal
 configuration parameters determined by the benchmarking app for OpenVINO
 inference can also be obtained by looking at the benchmark app results.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Benchmark OpenVINO model using the benchmark app&#39;</span><span class="p">)</span>
-<span class="o">!</span> benchmark_app -m <span class="s2">&quot;</span><span class="nv">$fp32_onnx_path</span><span class="s2">&quot;</span> -d CPU -api async -t <span class="m">10</span> -shape <span class="s2">&quot;input.1[1],input.2[1]&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&#39;Benchmark OpenVINO model using the benchmark app&#39;)
+! benchmark_app -m &quot;$fp32_onnx_path&quot; -d CPU -api async -t 10 -shape &quot;input.1[1],input.2[1]&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Benchmark OpenVINO model using the benchmark app

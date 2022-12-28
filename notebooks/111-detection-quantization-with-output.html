@@ -637,28 +637,28 @@ model.</p>
 <h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
 <section id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import json
+import sys
+import time
+from pathlib import Path
+from typing import Sequence, Tuple
 
-<span class="kn">import</span> <span class="nn">addict</span>
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torchmetrics</span>
-<span class="kn">from</span> <span class="nn">compression.api</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Metric</span>
-<span class="kn">from</span> <span class="nn">compression.engines.ie_engine</span> <span class="kn">import</span> <span class="n">IEEngine</span>
-<span class="kn">from</span> <span class="nn">compression.graph</span> <span class="kn">import</span> <span class="n">load_model</span><span class="p">,</span> <span class="n">save_model</span>
-<span class="kn">from</span> <span class="nn">compression.graph.model_utils</span> <span class="kn">import</span> <span class="n">compress_model_weights</span>
-<span class="kn">from</span> <span class="nn">compression.pipeline.initializer</span> <span class="kn">import</span> <span class="n">create_pipeline</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">yaspin</span> <span class="kn">import</span> <span class="n">yaspin</span>
+import addict
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+import torchmetrics
+from compression.api import DataLoader, Metric
+from compression.engines.ie_engine import IEEngine
+from compression.graph import load_model, save_model
+from compression.graph.model_utils import compress_model_weights
+from compression.pipeline.initializer import create_pipeline
+from openvino.runtime import Core
+from yaspin import yaspin
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">benchmark_model</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import benchmark_model
 </pre></div>
 </div>
 </section>
@@ -666,10 +666,10 @@ model.</p>
 <h3>Download Model<a class="headerlink" href="#download-model" title="Permalink to this headline">¶</a></h3>
 <p>Download the model from Open Model Zoo if it is not already in the
 system.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ir_path = Path(&quot;intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml&quot;)
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="o">!</span> omz_downloader --name <span class="s2">&quot;person-detection-retail-0013&quot;</span> --precisions FP32
+if not ir_path.exists():
+    ! omz_downloader --name &quot;person-detection-retail-0013&quot; --precisions FP32
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################|| Downloading person-detection-retail-0013 ||################</span>
@@ -685,13 +685,13 @@ system.</p>
 <h3>Load Model<a class="headerlink" href="#load-model" title="Permalink to this headline">¶</a></h3>
 <p>Load the OpenVINO IR model, and get information about network inputs and
 outputs.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">input_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">input_size</span> <span class="o">=</span> <span class="n">input_layer</span><span class="o">.</span><span class="n">shape</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">input_height</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">=</span> <span class="n">input_size</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+model = ie.read_model(model=ir_path)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
+input_layer = compiled_model.input(0)
+output_layer = compiled_model.output(0)
+input_size = input_layer.shape
+_, _, input_height, input_width = input_size
 </pre></div>
 </div>
 </section>
@@ -725,93 +725,93 @@ interface in POT, which should implement <code class="docutils literal notransla
 and <code class="docutils literal notranslate"><span class="pre">__len__</span></code>, where <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> should return data as
 <code class="docutils literal notranslate"><span class="pre">(annotation,</span> <span class="pre">image)</span></code> or optionally <code class="docutils literal notranslate"><span class="pre">(annotation,</span> <span class="pre">image,</span> <span class="pre">metadata)</span></code>,
 with the annotation as <code class="docutils literal notranslate"><span class="pre">(index,</span> <span class="pre">label)</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DetectionDataLoader</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basedir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param basedir: Directory that contains images and annotation as &quot;annotation.json&quot;</span>
-<span class="sd">        :param target_size: Tuple of (width, height) to resize images to.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">basedir</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.jpg&quot;</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_size</span> <span class="o">=</span> <span class="n">target_size</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">basedir</span><span class="si">}</span><span class="s2">/annotation_person_train.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image_ids</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;images&quot;</span><span class="p">]</span>
-        <span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class DetectionDataLoader(DataLoader):
+    def __init__(self, basedir: str, target_size: Tuple[int, int]):
+        &quot;&quot;&quot;
+        :param basedir: Directory that contains images and annotation as &quot;annotation.json&quot;
+        :param target_size: Tuple of (width, height) to resize images to.
+        &quot;&quot;&quot;
+        self.images = sorted(Path(basedir).glob(&quot;*.jpg&quot;))
+        self.target_size = target_size
+        with open(f&quot;{basedir}/annotation_person_train.json&quot;) as f:
+            self.annotations = json.load(f)
+        self.image_ids = {
+            Path(item[&quot;file_name&quot;]).name: item[&quot;id&quot;]
+            for item in self.annotations[&quot;images&quot;]
+        }
 
-        <span class="k">for</span> <span class="n">image_filename</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">:</span>
-            <span class="n">annotations</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">item</span>
-                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;image_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_ids</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">image_filename</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-            <span class="p">]</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="nb">len</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;No annotations found for image id </span><span class="si">{</span><span class="n">image_filename</span><span class="si">}</span><span class="s2">&quot;</span>
+        for image_filename in self.images:
+            annotations = [
+                item
+                for item in self.annotations[&quot;annotations&quot;]
+                if item[&quot;image_id&quot;] == self.image_ids[Path(image_filename).name]
+            ]
+            assert (
+                len(annotations) != 0
+            ), f&quot;No annotations found for image id {image_filename}&quot;
 
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Created dataset with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">)</span><span class="si">}</span><span class="s2"> items. Data directory: </span><span class="si">{</span><span class="n">basedir</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        print(
+            f&quot;Created dataset with {len(self.images)} items. Data directory: {basedir}&quot;
+        )
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get an item from the dataset at the specified index.</span>
-<span class="sd">        Detection boxes are converted from absolute coordinates to relative coordinates</span>
-<span class="sd">        between 0 and 1 by dividing xmin, xmax by image width and ymin, ymax by image height.</span>
+    def __getitem__(self, index):
+        &quot;&quot;&quot;
+        Get an item from the dataset at the specified index.
+        Detection boxes are converted from absolute coordinates to relative coordinates
+        between 0 and 1 by dividing xmin, xmax by image width and ymin, ymax by image height.
 
-<span class="sd">        :return: (annotation, input_image, metadata) where annotation is (index, target_annotation)</span>
-<span class="sd">                 with target_annotation as a dictionary with keys category_id, image_width, image_height</span>
-<span class="sd">                 and bbox, containing the relative bounding box coordinates [xmin, ymin, xmax, ymax]</span>
-<span class="sd">                 (with values between 0 and 1) and metadata a dictionary: {&quot;filename&quot;: path_to_image}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">image_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">))</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_size</span><span class="p">)</span>
-        <span class="n">image_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_ids</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        :return: (annotation, input_image, metadata) where annotation is (index, target_annotation)
+                 with target_annotation as a dictionary with keys category_id, image_width, image_height
+                 and bbox, containing the relative bounding box coordinates [xmin, ymin, xmax, ymax]
+                 (with values between 0 and 1) and metadata a dictionary: {&quot;filename&quot;: path_to_image}
+        &quot;&quot;&quot;
+        image_path = self.images[index]
+        image = cv2.imread(str(image_path))
+        image = cv2.resize(image, self.target_size)
+        image_id = self.image_ids[Path(image_path).name]
 
-        <span class="c1"># The `image_info` key contains height and width of the annotated image.</span>
-        <span class="n">image_info</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">image</span> <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;images&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">image</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">image_id</span>
-        <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># The `image_annotations` key contains the boxes and labels for the image.</span>
-        <span class="n">image_annotations</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">item</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;image_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">image_id</span>
-        <span class="p">]</span>
+        # The `image_info` key contains height and width of the annotated image.
+        image_info = [
+            image for image in self.annotations[&quot;images&quot;] if image[&quot;id&quot;] == image_id
+        ][0]
+        # The `image_annotations` key contains the boxes and labels for the image.
+        image_annotations = [
+            item
+            for item in self.annotations[&quot;annotations&quot;]
+            if item[&quot;image_id&quot;] == image_id
+        ]
 
-        <span class="c1"># The annotations are in xmin, ymin, width, height format. Convert to</span>
-        <span class="c1"># xmin, ymin, xmax, ymax and normalize to image width and height as</span>
-        <span class="c1"># stored in the annotation.</span>
-        <span class="n">target_annotations</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">image_annotations</span><span class="p">:</span>
-            <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="s2">&quot;bbox&quot;</span><span class="p">]</span>
-            <span class="n">xmax</span> <span class="o">=</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">width</span>
-            <span class="n">ymax</span> <span class="o">=</span> <span class="n">ymin</span> <span class="o">+</span> <span class="n">height</span>
-            <span class="n">xmin</span> <span class="o">/=</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
-            <span class="n">ymin</span> <span class="o">/=</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span>
-            <span class="n">xmax</span> <span class="o">/=</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
-            <span class="n">ymax</span> <span class="o">/=</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span>
-            <span class="n">target_annotation</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">target_annotation</span><span class="p">[</span><span class="s2">&quot;category_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="s2">&quot;category_id&quot;</span><span class="p">]</span>
-            <span class="n">target_annotation</span><span class="p">[</span><span class="s2">&quot;image_width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
-            <span class="n">target_annotation</span><span class="p">[</span><span class="s2">&quot;image_height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span>
-            <span class="n">target_annotation</span><span class="p">[</span><span class="s2">&quot;bbox&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">]</span>
-            <span class="n">target_annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_annotation</span><span class="p">)</span>
+        # The annotations are in xmin, ymin, width, height format. Convert to
+        # xmin, ymin, xmax, ymax and normalize to image width and height as
+        # stored in the annotation.
+        target_annotations = []
+        for annotation in image_annotations:
+            xmin, ymin, width, height = annotation[&quot;bbox&quot;]
+            xmax = xmin + width
+            ymax = ymin + height
+            xmin /= image_info[&quot;width&quot;]
+            ymin /= image_info[&quot;height&quot;]
+            xmax /= image_info[&quot;width&quot;]
+            ymax /= image_info[&quot;height&quot;]
+            target_annotation = {}
+            target_annotation[&quot;category_id&quot;] = annotation[&quot;category_id&quot;]
+            target_annotation[&quot;image_width&quot;] = image_info[&quot;width&quot;]
+            target_annotation[&quot;image_height&quot;] = image_info[&quot;height&quot;]
+            target_annotation[&quot;bbox&quot;] = [xmin, ymin, xmax, ymax]
+            target_annotations.append(target_annotation)
 
-        <span class="n">item_annotation</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">target_annotations</span><span class="p">)</span>
-        <span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">item_annotation</span><span class="p">,</span>
-            <span class="n">input_image</span><span class="p">,</span>
-            <span class="p">{</span><span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">},</span>
-        <span class="p">)</span>
+        item_annotation = (index, target_annotations)
+        input_image = np.expand_dims(image.transpose(2, 0, 1), axis=0).astype(
+            np.float32
+        )
+        return (
+            item_annotation,
+            input_image,
+            {&quot;filename&quot;: str(image_path), &quot;shape&quot;: image.shape},
+        )
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">)</span>
+    def __len__(self):
+        return len(self.images)
 </pre></div>
 </div>
 </section>
@@ -825,114 +825,114 @@ with the original FP OpenVINO IR model.</p>
 <a class="reference external" href="https://torchmetrics.readthedocs.io/en/latest/references/modules.html#detection-metrics">TorchMetrics</a>.</p>
 <p>A metric for POT inherits from <code class="docutils literal notranslate"><span class="pre">compression.api.Metric</span></code> and should
 implement all the methods in this example.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MAPMetric</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_value</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Mean Average Precision Metric. Wraps torchmetrics implementation, see</span>
-<span class="sd">        https://torchmetrics.readthedocs.io/en/latest/references/modules.html#map</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class MAPMetric(Metric):
+    def __init__(self, map_value=&quot;map&quot;):
+        &quot;&quot;&quot;
+        Mean Average Precision Metric. Wraps torchmetrics implementation, see
+        https://torchmetrics.readthedocs.io/en/latest/references/modules.html#map
 
-<span class="sd">        :map_value: specific metric to return. Default: &quot;map&quot;</span>
-<span class="sd">                    Change `to one of the values in the list below to return a different value</span>
-<span class="sd">                    [&#39;mar_1&#39;, &#39;mar_10&#39;, &#39;mar_100&#39;, &#39;mar_small&#39;, &#39;mar_medium&#39;, &#39;mar_large&#39;,</span>
-<span class="sd">                     &#39;map&#39;, &#39;map_50&#39;, &#39;map_75&#39;, &#39;map_small&#39;, &#39;map_medium&#39;, &#39;map_large&#39;]</span>
-<span class="sd">                    See torchmetrics documentation for more details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">map_value</span>
-            <span class="ow">in</span> <span class="n">torchmetrics</span><span class="o">.</span><span class="n">detection</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">MARMetricResults</span><span class="o">.</span><span class="vm">__slots__</span>
-            <span class="o">+</span> <span class="n">torchmetrics</span><span class="o">.</span><span class="n">detection</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">MAPMetricResults</span><span class="o">.</span><span class="vm">__slots__</span>
-        <span class="p">)</span>
+        :map_value: specific metric to return. Default: &quot;map&quot;
+                    Change `to one of the values in the list below to return a different value
+                    [&#39;mar_1&#39;, &#39;mar_10&#39;, &#39;mar_100&#39;, &#39;mar_small&#39;, &#39;mar_medium&#39;, &#39;mar_large&#39;,
+                     &#39;map&#39;, &#39;map_50&#39;, &#39;map_75&#39;, &#39;map_small&#39;, &#39;map_medium&#39;, &#39;map_large&#39;]
+                    See torchmetrics documentation for more details.
+        &quot;&quot;&quot;
+        assert (
+            map_value
+            in torchmetrics.detection.map.MARMetricResults.__slots__
+            + torchmetrics.detection.map.MAPMetricResults.__slots__
+        )
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">map_value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">torchmetrics</span><span class="o">.</span><span class="n">detection</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">MAP</span><span class="p">()</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        self._name = map_value
+        self.metric = torchmetrics.detection.map.MAP()
+        super().__init__()
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns metric value for the last model output.</span>
-<span class="sd">        Possible format: {metric_name: [metric_values_per_image]}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+    @property
+    def value(self):
+        &quot;&quot;&quot;
+        Returns metric value for the last model output.
+        Possible format: {metric_name: [metric_values_per_image]}
+        &quot;&quot;&quot;
+        return {self._name: [0]}
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">avg_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns average metric value for all model outputs.</span>
-<span class="sd">        Possible format: {metric_name: metric_value}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">compute</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()}</span>
+    @property
+    def avg_value(self):
+        &quot;&quot;&quot;
+        Returns average metric value for all model outputs.
+        Possible format: {metric_name: metric_value}
+        &quot;&quot;&quot;
+        return {self._name: self.metric.compute()[self._name].item()}
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert network output and labels to the format that torchmetrics&#39; MAP</span>
-<span class="sd">        implementation expects, and call `metric.update()`.</span>
+    def update(self, output, target):
+        &quot;&quot;&quot;
+        Convert network output and labels to the format that torchmetrics&#39; MAP
+        implementation expects, and call `metric.update()`.
 
-<span class="sd">        :param output: model output</span>
-<span class="sd">        :param target: annotations for model output</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">targetboxes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">targetlabels</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">predboxes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">predlabels</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        :param output: model output
+        :param target: annotations for model output
+        &quot;&quot;&quot;
+        targetboxes = []
+        targetlabels = []
+        predboxes = []
+        predlabels = []
+        scores = []
 
-        <span class="n">image_width</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;image_width&quot;</span><span class="p">]</span>
-        <span class="n">image_height</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;image_height&quot;</span><span class="p">]</span>
+        image_width = target[0][0][&quot;image_width&quot;]
+        image_height = target[0][0][&quot;image_height&quot;]
 
-        <span class="k">for</span> <span class="n">single_target</span> <span class="ow">in</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="n">txmin</span><span class="p">,</span> <span class="n">tymin</span><span class="p">,</span> <span class="n">txmax</span><span class="p">,</span> <span class="n">tymax</span> <span class="o">=</span> <span class="n">single_target</span><span class="p">[</span><span class="s2">&quot;bbox&quot;</span><span class="p">]</span>
-            <span class="n">category</span> <span class="o">=</span> <span class="n">single_target</span><span class="p">[</span><span class="s2">&quot;category_id&quot;</span><span class="p">]</span>
-            <span class="n">txmin</span> <span class="o">*=</span> <span class="n">image_width</span>
-            <span class="n">txmax</span> <span class="o">*=</span> <span class="n">image_width</span>
-            <span class="n">tymin</span> <span class="o">*=</span> <span class="n">image_height</span>
-            <span class="n">tymax</span> <span class="o">*=</span> <span class="n">image_height</span>
+        for single_target in target[0]:
+            txmin, tymin, txmax, tymax = single_target[&quot;bbox&quot;]
+            category = single_target[&quot;category_id&quot;]
+            txmin *= image_width
+            txmax *= image_width
+            tymin *= image_height
+            tymax *= image_height
 
-            <span class="n">targetbox</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">txmin</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">tymin</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">txmax</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">tymax</span><span class="p">)]</span>
-            <span class="n">targetboxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">targetbox</span><span class="p">)</span>
-            <span class="n">targetlabels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+            targetbox = [round(txmin), round(tymin), round(txmax), round(tymax)]
+            targetboxes.append(targetbox)
+            targetlabels.append(category)
 
-        <span class="k">for</span> <span class="n">single_output</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">single_output</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">::]:</span>
-                <span class="n">image_id</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">pred</span>
-                <span class="n">xmin</span> <span class="o">*=</span> <span class="n">image_width</span>
-                <span class="n">xmax</span> <span class="o">*=</span> <span class="n">image_width</span>
-                <span class="n">ymin</span> <span class="o">*=</span> <span class="n">image_height</span>
-                <span class="n">ymax</span> <span class="o">*=</span> <span class="n">image_height</span>
+        for single_output in output:
+            for pred in single_output[0, 0, ::]:
+                image_id, label, conf, xmin, ymin, xmax, ymax = pred
+                xmin *= image_width
+                xmax *= image_width
+                ymin *= image_height
+                ymax *= image_height
 
-                <span class="n">predbox</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">ymin</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">xmax</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">ymax</span><span class="p">)]</span>
-                <span class="n">predboxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predbox</span><span class="p">)</span>
-                <span class="n">predlabels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
-                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+                predbox = [round(xmin), round(ymin), round(xmax), round(ymax)]
+                predboxes.append(predbox)
+                predlabels.append(label)
+                scores.append(conf)
 
-        <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="nb">dict</span><span class="p">(</span>
-                <span class="n">boxes</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">predboxes</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span>
-                <span class="n">labels</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">predlabels</span><span class="p">)</span><span class="o">.</span><span class="n">short</span><span class="p">(),</span>
-                <span class="n">scores</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="p">]</span>
-        <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="nb">dict</span><span class="p">(</span>
-                <span class="n">boxes</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">targetboxes</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span>
-                <span class="n">labels</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">targetlabels</span><span class="p">)</span><span class="o">.</span><span class="n">short</span><span class="p">(),</span>
-            <span class="p">)</span>
-        <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        preds = [
+            dict(
+                boxes=torch.Tensor(predboxes).float(),
+                labels=torch.Tensor(predlabels).short(),
+                scores=torch.Tensor(scores),
+            )
+        ]
+        targets = [
+            dict(
+                boxes=torch.Tensor(targetboxes).float(),
+                labels=torch.Tensor(targetlabels).short(),
+            )
+        ]
+        self.metric.update(preds, targets)
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Resets metric</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    def reset(self):
+        &quot;&quot;&quot;
+        Resets metric
+        &quot;&quot;&quot;
+        self.metric.reset()
 
-    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a dictionary of metric attributes {metric_name: {attribute_name: value}}.</span>
-<span class="sd">        Required attributes: &#39;direction&#39;: &#39;higher-better&#39; or &#39;higher-worse&#39;</span>
-<span class="sd">                             &#39;type&#39;: metric type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;higher-better&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mAP&quot;</span><span class="p">}}</span>
+    def get_attributes(self):
+        &quot;&quot;&quot;
+        Returns a dictionary of metric attributes {metric_name: {attribute_name: value}}.
+        Required attributes: &#39;direction&#39;: &#39;higher-better&#39; or &#39;higher-worse&#39;
+                             &#39;type&#39;: metric type
+        &quot;&quot;&quot;
+        return {self._name: {&quot;direction&quot;: &quot;higher-better&quot;, &quot;type&quot;: &quot;mAP&quot;}}
 </pre></div>
 </div>
 </section>
@@ -947,32 +947,32 @@ notebook. This tutorial uses the <code class="docutils literal notranslate"><spa
 Practices</a>
 and the main <a class="reference external" href="https://docs.openvino.ai/2021.4/pot_README.html">POT
 documentation</a>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model config specifies the name of the model and paths to `.xml` and `.bin` files of the model.</span>
-<span class="n">model_config</span> <span class="o">=</span> <span class="n">addict</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span>
-        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ir_path</span><span class="p">,</span>
-        <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">),</span>
-    <span class="p">}</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Model config specifies the name of the model and paths to `.xml` and `.bin` files of the model.
+model_config = addict.Dict(
+    {
+        &quot;model_name&quot;: ir_path.stem,
+        &quot;model&quot;: ir_path,
+        &quot;weights&quot;: ir_path.with_suffix(&quot;.bin&quot;),
+    }
+)
 
-<span class="c1"># Engine config</span>
-<span class="n">engine_config</span> <span class="o">=</span> <span class="n">addict</span><span class="o">.</span><span class="n">Dict</span><span class="p">({</span><span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;CPU&quot;</span><span class="p">})</span>
+# Engine config
+engine_config = addict.Dict({&quot;device&quot;: &quot;CPU&quot;})
 
-<span class="c1"># Standard DefaultQuantization config. For this tutorial, stat_subset_size is ignored</span>
-<span class="c1"># because there are fewer than 300 images. For production use, 300 is recommended.</span>
-<span class="n">default_algorithms</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DefaultQuantization&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;stat_subset_size&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;target_device&quot;</span><span class="p">:</span> <span class="s2">&quot;ANY&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;preset&quot;</span><span class="p">:</span> <span class="s2">&quot;mixed&quot;</span><span class="p">,</span>  <span class="c1"># Choose between &quot;mixed&quot; and &quot;performance&quot;.</span>
-        <span class="p">},</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+# Standard DefaultQuantization config. For this tutorial, stat_subset_size is ignored
+# because there are fewer than 300 images. For production use, 300 is recommended.
+default_algorithms = [
+    {
+        &quot;name&quot;: &quot;DefaultQuantization&quot;,
+        &quot;stat_subset_size&quot;: 300,
+        &quot;params&quot;: {
+            &quot;target_device&quot;: &quot;ANY&quot;,
+            &quot;preset&quot;: &quot;mixed&quot;,  # Choose between &quot;mixed&quot; and &quot;performance&quot;.
+        },
+    }
+]
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;model_config: </span><span class="si">{</span><span class="n">model_config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;model_config: {model_config}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_config</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;person-detection-retail-0013&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml&#39;</span><span class="p">),</span> <span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;intel/person-detection-retail-0013/FP32/person-detection-retail-0013.bin&#39;</span><span class="p">)}</span>
@@ -995,52 +995,52 @@ of code. First, create the pipeline with the <code class="docutils literal notra
 function, and then run that pipeline with <code class="docutils literal notranslate"><span class="pre">pipeline.run()</span></code>. To reuse
 the quantized model later, compress the model weights and save the
 compressed model to a disk.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Create the data loader.</span>
-<span class="n">data_loader</span> <span class="o">=</span> <span class="n">DetectionDataLoader</span><span class="p">(</span>
-    <span class="n">basedir</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="n">input_width</span><span class="p">,</span> <span class="n">input_height</span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Step 1: Create the data loader.
+data_loader = DetectionDataLoader(
+    basedir=&quot;data&quot;, target_size=(input_width, input_height)
+)
 
-<span class="c1"># Step 2: Load the model.</span>
-<span class="n">ir_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_config</span><span class="o">=</span><span class="n">model_config</span><span class="p">)</span>
+# Step 2: Load the model.
+ir_model = load_model(model_config=model_config)
 
-<span class="c1"># Step 3: Initialize the metric.</span>
-<span class="c1"># For DefaultQuantization, specifying a metric is optional: metric can be set to None.</span>
-<span class="n">metric</span> <span class="o">=</span> <span class="n">MAPMetric</span><span class="p">(</span><span class="n">map_value</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">)</span>
+# Step 3: Initialize the metric.
+# For DefaultQuantization, specifying a metric is optional: metric can be set to None.
+metric = MAPMetric(map_value=&quot;map&quot;)
 
-<span class="c1"># Step 4: Initialize the engine for metric calculation and statistics collection.</span>
-<span class="n">engine</span> <span class="o">=</span> <span class="n">IEEngine</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">engine_config</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">=</span><span class="n">data_loader</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+# Step 4: Initialize the engine for metric calculation and statistics collection.
+engine = IEEngine(config=engine_config, data_loader=data_loader, metric=metric)
 
-<span class="c1"># Step 5: Create a pipeline of compression algorithms.</span>
-<span class="c1"># The `default_algorithms` parameter is defined in the Config cell above this cell.</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">default_algorithms</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+# Step 5: Create a pipeline of compression algorithms.
+# The `default_algorithms` parameter is defined in the Config cell above this cell.
+pipeline = create_pipeline(default_algorithms, engine)
 
-<span class="c1"># Step 6: Execute the pipeline to quantize the model.</span>
-<span class="n">algorithm_name</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">algo_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="k">with</span> <span class="n">yaspin</span><span class="p">(</span>
-    <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Executing POT pipeline on </span><span class="si">{</span><span class="n">model_config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">algorithm_name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span> <span class="k">as</span> <span class="n">sp</span><span class="p">:</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">compressed_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ir_model</span><span class="p">)</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">sp</span><span class="o">.</span><span class="n">ok</span><span class="p">(</span><span class="s2">&quot;✔&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Quantization finished in </span><span class="si">{</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+# Step 6: Execute the pipeline to quantize the model.
+algorithm_name = pipeline.algo_seq[0].name
+with yaspin(
+    text=f&quot;Executing POT pipeline on {model_config[&#39;model&#39;]} with {algorithm_name}&quot;
+) as sp:
+    start_time = time.perf_counter()
+    compressed_model = pipeline.run(ir_model)
+    end_time = time.perf_counter()
+    sp.ok(&quot;✔&quot;)
+print(f&quot;Quantization finished in {end_time - start_time:.2f} seconds&quot;)
 
-<span class="c1"># Step 7 (Optional): Compress model weights to quantized precision</span>
-<span class="c1">#                    in order to reduce the size of the final `.bin` file.</span>
-<span class="n">compress_model_weights</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">)</span>
+# Step 7 (Optional): Compress model weights to quantized precision
+#                    in order to reduce the size of the final `.bin` file.
+compress_model_weights(compressed_model)
 
-<span class="c1"># Step 8: Save the compressed model to the desired path.</span>
-<span class="c1"># Set `save_path` to the directory where the compressed model should be stored.</span>
-<span class="n">preset</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">_algo_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;preset&quot;</span><span class="p">]</span>
-<span class="n">algorithm_name</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">algo_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="n">compressed_model_paths</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">compressed_model</span><span class="p">,</span>
-    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;optimized_model&quot;</span><span class="p">,</span>
-    <span class="n">model_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ir_model</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">preset</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">algorithm_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+# Step 8: Save the compressed model to the desired path.
+# Set `save_path` to the directory where the compressed model should be stored.
+preset = pipeline._algo_seq[0].config[&quot;preset&quot;]
+algorithm_name = pipeline.algo_seq[0].name
+compressed_model_paths = save_model(
+    model=compressed_model,
+    save_path=&quot;optimized_model&quot;,
+    model_name=f&quot;{ir_model.name}_{preset}_{algorithm_name}&quot;,
+)
 
-<span class="n">compressed_model_path</span> <span class="o">=</span> <span class="n">compressed_model_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The quantized model is stored at&quot;</span><span class="p">,</span> <span class="n">compressed_model_path</span><span class="p">)</span>
+compressed_model_path = compressed_model_paths[0][&quot;model&quot;]
+print(&quot;The quantized model is stored at&quot;, compressed_model_path)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Created dataset with 10 items. Data directory: data
@@ -1053,23 +1053,23 @@ The quantized model is stored at optimized_model/person-detection-retail-0013_mi
 </section>
 <section id="compare-metric-of-floating-point-and-quantized-model">
 <h2>Compare Metric of Floating Point and Quantized Model<a class="headerlink" href="#compare-metric-of-floating-point-and-quantized-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the mAP on the quantized model and compare with the mAP on the FP16 OpenVINO IR model.</span>
-<span class="n">ir_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_config</span><span class="o">=</span><span class="n">model_config</span><span class="p">)</span>
-<span class="n">evaluation_pipeline</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">algo_config</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute the mAP on the quantized model and compare with the mAP on the FP16 OpenVINO IR model.
+ir_model = load_model(model_config=model_config)
+evaluation_pipeline = create_pipeline(algo_config=dict(), engine=engine)
 
-<span class="k">with</span> <span class="n">yaspin</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Evaluating original IR model&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sp</span><span class="p">:</span>
-    <span class="n">original_metric</span> <span class="o">=</span> <span class="n">evaluation_pipeline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">ir_model</span><span class="p">)</span>
+with yaspin(text=&quot;Evaluating original IR model&quot;) as sp:
+    original_metric = evaluation_pipeline.evaluate(ir_model)
 
-<span class="k">with</span> <span class="n">yaspin</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Evaluating quantized IR model&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sp</span><span class="p">:</span>
-    <span class="n">quantized_metric</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">)</span>
+with yaspin(text=&quot;Evaluating quantized IR model&quot;) as sp:
+    quantized_metric = pipeline.evaluate(compressed_model)
 
-<span class="k">if</span> <span class="n">original_metric</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original_metric</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> score of the original FP16 model is </span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+if original_metric:
+    for key, value in original_metric.items():
+        print(f&quot;The {key} score of the original FP16 model is {value:.5f}&quot;)
 
-<span class="k">if</span> <span class="n">quantized_metric</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">quantized_metric</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> score of the quantized INT8 model is </span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+if quantized_metric:
+    for key, value in quantized_metric.items():
+        print(f&quot;The {key} score of the quantized INT8 model is {value:.5f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="nb">map</span> <span class="n">score</span> <span class="n">of</span> <span class="n">the</span> <span class="n">original</span> <span class="n">FP16</span> <span class="n">model</span> <span class="ow">is</span> <span class="mf">0.67329</span>
@@ -1089,123 +1089,123 @@ floating point model prediction separately, and the image to the right
 shows the quantized model prediction. The mAP score of the prediction is
 shown with each prediction. Predicted boxes with a confidence value of
 at least 0.5 will be shown.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">draw_boxes_on_image</span><span class="p">(</span>
-    <span class="n">box</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Draw a `box` on an `image` with a `color`, optionally scaling the box from normalized</span>
-<span class="sd">    coordinates (between 0 and 1) to image coordinates.</span>
-<span class="sd">    This is a utility function for binary detection where all boxes belong to one category.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def draw_boxes_on_image(
+    box: Sequence[float], image: np.ndarray, color: str, scale: bool = True
+):
+    &quot;&quot;&quot;
+    Draw a `box` on an `image` with a `color`, optionally scaling the box from normalized
+    coordinates (between 0 and 1) to image coordinates.
+    This is a utility function for binary detection where all boxes belong to one category.
 
-<span class="sd">    :param box: Box coordinates as [xmin, ymin, xmax, ymax]</span>
-<span class="sd">    :param image: numpy array of RGB image</span>
-<span class="sd">    :param color: Box color, &quot;red&quot;, &quot;green&quot; or &quot;blue&quot;</span>
-<span class="sd">    &quot;param scale: If True, scale normalized box coordinates to absolute coordinates based</span>
-<span class="sd">                  on the image size.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;yellow&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">128</span><span class="p">)}</span>
-    <span class="k">assert</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2"> is not defined yet. Defined colors are: </span><span class="si">{</span><span class="n">colors</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">image_height</span><span class="p">,</span> <span class="n">image_width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">box</span>
-    <span class="k">if</span> <span class="n">scale</span><span class="p">:</span>
-        <span class="n">x_min</span> <span class="o">*=</span> <span class="n">image_width</span>
-        <span class="n">x_max</span> <span class="o">*=</span> <span class="n">image_width</span>
-        <span class="n">y_min</span> <span class="o">*=</span> <span class="n">image_height</span>
-        <span class="n">y_max</span> <span class="o">*=</span> <span class="n">image_height</span>
+    :param box: Box coordinates as [xmin, ymin, xmax, ymax]
+    :param image: numpy array of RGB image
+    :param color: Box color, &quot;red&quot;, &quot;green&quot; or &quot;blue&quot;
+    &quot;param scale: If True, scale normalized box coordinates to absolute coordinates based
+                  on the image size.
+    &quot;&quot;&quot;
+    colors = {&quot;red&quot;: (255, 0, 64), &quot;green&quot;: (0, 255, 0), &quot;yellow&quot;: (255, 255, 128)}
+    assert color in colors, f&quot;{color} is not defined yet. Defined colors are: {colors}&quot;
+    image_height, image_width, _ = image.shape
+    x_min, y_min, x_max, y_max = box
+    if scale:
+        x_min *= image_width
+        x_max *= image_width
+        y_min *= image_height
+        y_max *= image_height
 
-    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span>
-        <span class="n">img</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>
-        <span class="n">pt1</span><span class="o">=</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x_min</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">y_min</span><span class="p">)),</span>
-        <span class="n">pt2</span><span class="o">=</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x_max</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">y_max</span><span class="p">)),</span>
-        <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">color</span><span class="p">],</span>
-        <span class="n">thickness</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">image</span>
+    image = cv2.rectangle(
+        img=image,
+        pt1=(round(x_min), round(y_min)),
+        pt2=(round(x_max), round(y_max)),
+        color=colors[color],
+        thickness=2,
+    )
+    return image
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change `map_value` to one of the values in the list below to show a different metric.</span>
-<span class="c1"># See https://torchmetrics.readthedocs.io/en/latest/references/modules.html#map</span>
-<span class="c1"># (&#39;map&#39;, &#39;map_50&#39;, &#39;map_75&#39;, &#39;map_small&#39;, &#39;map_medium&#39;, &#39;map_large&#39;</span>
-<span class="c1">#  &#39;mar_1&#39;, &#39;mar_10&#39;, &#39;mar_100&#39;, &#39;mar_small&#39;, &#39;mar_medium&#39;, &#39;mar_large&#39;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Change `map_value` to one of the values in the list below to show a different metric.
+# See https://torchmetrics.readthedocs.io/en/latest/references/modules.html#map
+# (&#39;map&#39;, &#39;map_50&#39;, &#39;map_75&#39;, &#39;map_small&#39;, &#39;map_medium&#39;, &#39;map_large&#39;
+#  &#39;mar_1&#39;, &#39;mar_10&#39;, &#39;mar_100&#39;, &#39;mar_small&#39;, &#39;mar_medium&#39;, &#39;mar_large&#39;)
 
-<span class="n">map_value</span> <span class="o">=</span> <span class="s2">&quot;map&quot;</span>
-<span class="n">confidence_threshold</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">num_images</span> <span class="o">=</span> <span class="mi">4</span>
+map_value = &quot;map&quot;
+confidence_threshold = 0.5
+num_images = 4
 
-<span class="c1"># FP prediction</span>
-<span class="n">fp_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">)</span>
-<span class="n">fp_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">fp_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">input_layer_fp</span> <span class="o">=</span> <span class="n">fp_compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer_fp</span> <span class="o">=</span> <span class="n">fp_compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# FP prediction
+fp_model = ie.read_model(model=ir_path)
+fp_compiled_model = ie.compile_model(model=fp_model, device_name=&quot;CPU&quot;)
+input_layer_fp = fp_compiled_model.input(0)
+output_layer_fp = fp_compiled_model.output(0)
 
-<span class="c1"># INT8 prediction</span>
-<span class="n">int8_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">compressed_model_path</span><span class="p">)</span>
-<span class="n">int8_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">int8_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">input_layer_int8</span> <span class="o">=</span> <span class="n">int8_compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer_int8</span> <span class="o">=</span> <span class="n">int8_compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# INT8 prediction
+int8_model = ie.read_model(model=compressed_model_path)
+int8_compiled_model = ie.compile_model(model=int8_model, device_name=&quot;CPU&quot;)
+input_layer_int8 = int8_compiled_model.input(0)
+output_layer_int8 = int8_compiled_model.output(0)
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">num_images</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-    <span class="n">annotation</span><span class="p">,</span> <span class="n">input_image</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">data_loader</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span>
-        <span class="n">src</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]),</span> <span class="n">code</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span>
-    <span class="p">)</span>
-    <span class="n">orig_image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">input_width</span><span class="p">,</span> <span class="n">input_height</span><span class="p">))</span>
-    <span class="n">target_annotation</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+fig, axs = plt.subplots(nrows=num_images, ncols=3, figsize=(16, 14), squeeze=False)
+for i in range(num_images):
+    annotation, input_image, metadata = data_loader[i]
+    image = cv2.cvtColor(
+        src=cv2.imread(filename=metadata[&quot;filename&quot;]), code=cv2.COLOR_BGR2RGB
+    )
+    orig_image = image.copy()
+    resized_image = cv2.resize(image, (input_width, input_height))
+    target_annotation = annotation[1]
 
-    <span class="n">fp_res</span> <span class="o">=</span> <span class="n">fp_compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer_fp</span><span class="p">]</span>
+    fp_res = fp_compiled_model([input_image])[output_layer_fp]
 
-    <span class="n">fp_metric</span> <span class="o">=</span> <span class="n">MAPMetric</span><span class="p">(</span><span class="n">map_value</span><span class="o">=</span><span class="n">map_value</span><span class="p">)</span>
-    <span class="n">fp_metric</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="p">[</span><span class="n">fp_res</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="p">[</span><span class="n">target_annotation</span><span class="p">])</span>
+    fp_metric = MAPMetric(map_value=map_value)
+    fp_metric.update(output=[fp_res], target=[target_annotation])
 
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fp_res</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">::]:</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">item</span>
-        <span class="k">if</span> <span class="n">conf</span> <span class="o">&gt;</span> <span class="n">confidence_threshold</span><span class="p">:</span>
-            <span class="n">total_image</span> <span class="o">=</span> <span class="n">draw_boxes_on_image</span><span class="p">([</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">],</span> <span class="n">image</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    for item in fp_res[0, 0, ::]:
+        _, _, conf, xmin, xmax, ymin, ymax = item
+        if conf &gt; confidence_threshold:
+            total_image = draw_boxes_on_image([xmin, xmax, ymin, ymax], image, &quot;red&quot;)
 
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">total_image</span><span class="p">)</span>
+    axs[i, 1].imshow(total_image)
 
-    <span class="n">int8_res</span> <span class="o">=</span> <span class="n">int8_compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer_int8</span><span class="p">]</span>
-    <span class="n">int8_metric</span> <span class="o">=</span> <span class="n">MAPMetric</span><span class="p">(</span><span class="n">map_value</span><span class="o">=</span><span class="n">map_value</span><span class="p">)</span>
-    <span class="n">int8_metric</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="p">[</span><span class="n">int8_res</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="p">[</span><span class="n">target_annotation</span><span class="p">])</span>
+    int8_res = int8_compiled_model([input_image])[output_layer_int8]
+    int8_metric = MAPMetric(map_value=map_value)
+    int8_metric.update(output=[int8_res], target=[target_annotation])
 
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">int8_res</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">::]:</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">item</span>
-        <span class="k">if</span> <span class="n">conf</span> <span class="o">&gt;</span> <span class="n">confidence_threshold</span><span class="p">:</span>
-            <span class="n">total_image</span> <span class="o">=</span> <span class="n">draw_boxes_on_image</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">],</span> <span class="n">total_image</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span>
-            <span class="p">)</span>
-            <span class="n">int8_image</span> <span class="o">=</span> <span class="n">draw_boxes_on_image</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">],</span> <span class="n">orig_image</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span>
-            <span class="p">)</span>
+    for item in int8_res[0, 0, ::]:
+        _, _, conf, xmin, xmax, ymin, ymax = item
+        if conf &gt; confidence_threshold:
+            total_image = draw_boxes_on_image(
+                [xmin, xmax, ymin, ymax], total_image, &quot;yellow&quot;
+            )
+            int8_image = draw_boxes_on_image(
+                [xmin, xmax, ymin, ymax], orig_image, &quot;yellow&quot;
+            )
 
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">int8_image</span><span class="p">)</span>
+    axs[i, 2].imshow(int8_image)
 
-    <span class="c1"># Annotation</span>
-    <span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">target_annotation</span><span class="p">:</span>
-        <span class="n">total_image</span> <span class="o">=</span> <span class="n">draw_boxes_on_image</span><span class="p">(</span><span class="n">annotation</span><span class="p">[</span><span class="s2">&quot;bbox&quot;</span><span class="p">],</span> <span class="n">total_image</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    # Annotation
+    for annotation in target_annotation:
+        total_image = draw_boxes_on_image(annotation[&quot;bbox&quot;], total_image, &quot;green&quot;)
 
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FP32 mAP: </span><span class="si">{</span><span class="n">fp_metric</span><span class="o">.</span><span class="n">avg_value</span><span class="p">[</span><span class="n">map_value</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INT8 mAP: </span><span class="si">{</span><span class="n">int8_metric</span><span class="o">.</span><span class="n">avg_value</span><span class="p">[</span><span class="n">map_value</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-        <span class="s2">&quot;Annotated (green) and detected boxes on FP (red) and INT8 (yellow) model&quot;</span>
-    <span class="p">)</span>
+    axs[i, 0].imshow(image)
+    axs[i, 0].set_title(Path(metadata[&quot;filename&quot;]).stem)
+    axs[i, 1].set_title(f&quot;FP32 mAP: {fp_metric.avg_value[map_value]:.3f}&quot;)
+    axs[i, 2].set_title(f&quot;INT8 mAP: {int8_metric.avg_value[map_value]:.3f}&quot;)
+    fig.suptitle(
+        &quot;Annotated (green) and detected boxes on FP (red) and INT8 (yellow) model&quot;
+    )
 </pre></div>
 </div>
 <img alt="../_images/111-detection-quantization-with-output_19_0.png" src="../_images/111-detection-quantization-with-output_19_0.png" />
 </section>
 <section id="compare-the-size-of-the-original-and-quantized-models">
 <h2>Compare the Size of the Original and Quantized Models<a class="headerlink" href="#compare-the-size-of-the-original-and-quantized-models" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">original_model_size</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">ir_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">1024</span>
-<span class="n">quantized_model_size</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Path</span><span class="p">(</span><span class="n">compressed_model_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">1024</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_model_size = Path(ir_path).with_suffix(&quot;.bin&quot;).stat().st_size / 1024
+quantized_model_size = (
+    Path(compressed_model_path).with_suffix(&quot;.bin&quot;).stat().st_size / 1024
+)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FP32 model size: </span><span class="si">{</span><span class="n">original_model_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> KB&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INT8 model size: </span><span class="si">{</span><span class="n">quantized_model_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> KB&quot;</span><span class="p">)</span>
+print(f&quot;FP32 model size: {original_model_size:.2f} KB&quot;)
+print(f&quot;INT8 model size: {quantized_model_size:.2f} KB&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FP32</span> <span class="n">model</span> <span class="n">size</span><span class="p">:</span> <span class="mf">2823.60</span> <span class="n">KB</span>
@@ -1229,14 +1229,14 @@ recommended to run <code class="docutils literal notranslate"><span class="pre">
 after closing other applications. Run <code class="docutils literal notranslate"><span class="pre">benchmark_app</span> <span class="pre">--help</span></code> to see
 all command-line options.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ! benchmark_app --help</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># ! benchmark_app --help
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># benchmark_model??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># benchmark_model??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark FP16 model</span>
-<span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">ir_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark FP16 model
+benchmark_model(model_path=ir_path, device=&quot;CPU&quot;, seconds=15, api=&quot;async&quot;)
 </pre></div>
 </div>
 <p><strong>Benchmark person-detection-retail-0013.xml with CPU for 15 seconds
@@ -1255,8 +1255,8 @@ with async inference</strong></p>
 <span class="n">Device</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark INT8 model</span>
-<span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">compressed_model_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark INT8 model
+benchmark_model(model_path=compressed_model_path, device=&quot;CPU&quot;, seconds=15, api=&quot;async&quot;)
 </pre></div>
 </div>
 <p><strong>Benchmark person-detection-retail-0013_mixed_DefaultQuantization.xml
@@ -1275,16 +1275,16 @@ with CPU for 15 seconds with async inference</strong></p>
 <span class="n">Device</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark INT8 model on MULTI:CPU,GPU device (requires an Intel integrated GPU)</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="k">if</span> <span class="s2">&quot;GPU&quot;</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span><span class="p">:</span>
-    <span class="n">benchmark_model</span><span class="p">(</span>
-        <span class="n">model_path</span><span class="o">=</span><span class="n">compressed_model_path</span><span class="p">,</span>
-        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;MULTI:CPU,GPU&quot;</span><span class="p">,</span>
-        <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-        <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">,</span>
-        <span class="n">batch</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark INT8 model on MULTI:CPU,GPU device (requires an Intel integrated GPU)
+ie = Core()
+if &quot;GPU&quot; in ie.available_devices:
+    benchmark_model(
+        model_path=compressed_model_path,
+        device=&quot;MULTI:CPU,GPU&quot;,
+        seconds=15,
+        api=&quot;async&quot;,
+        batch=4,
+    )
 </pre></div>
 </div>
 </section>

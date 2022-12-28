@@ -1,0 +1,941 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Model &#8212; OpenVINO™  documentation</title>
+    
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/doxyrest-pygments.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <link href="../../_static/css/media/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="../../_static/css/openvino_sphinx_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/button.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/input.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/textfield.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/tabs.css" type="text/css" />
+    <script src="../../_static/js/openvino_sphinx_theme.js"></script>
+    <link rel="stylesheet" href="../../_static/css/viewer.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-barchart-background@1.3.0/build/Plugin.Barchart.Background.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js"></script>
+    <script src="../../_static/js/viewer.min.js"></script>
+    <script src="/assets/versions_raw.js"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/custom.js"></script>
+    <script src="../../_static/js/graphs.js"></script>
+    <script src="../../_static/js/graphs_ov_tf.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/target-highlight.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/groupov_model_c_api.html" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+      <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/get-started-guide.html">
+  Get Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/documentation.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api_reference.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../model_zoo.html">
+  Model Zoo
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/resources.html">
+  Resources
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/openvinotoolkit/openvino" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="sst-github"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+</ul>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="version-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+  <div class="dropdown-menu" aria-labelledby="version-selector">
+  </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">English</button>
+  <div class="dropdown-menu" aria-labelledby="language-selector">
+    
+      
+        <a class="dropdown-item font-weight-bold" href="/openvino-docs/index.html">English</a>
+      
+    
+      
+        <a  class="dropdown-item" href="/cn/openvino-docs/index.html">Chinese</a>
+      
+    
+  </div>
+</div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+        <div id="collapse-nav-wrapper" class="container-xl">
+          <button id="collapse-nav" class="button bttn-prm button-size-m" type="button" data-toggle="collapse" data-target="#nav-tree" aria-expanded="false" aria-controls="nav-tree">
+            Documentation navigation <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </nav>
+      <div class="transition-banner container-fluid alert alert-info alert-dismissible fade show" role="alert">
+        <p>OpenVINO 2022.1 introduces a new version of OpenVINO API (API 2.0). For more information on the changes and transition steps, see the <a href="https://docs.openvino.ai/latest/openvino_2_0_transition_guide.html">transition guide</a></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar" id="nav-tree"><form class="searchForm bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="icon fas fa-search"></i>
+    <input type="search" class="form-control" name="query" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_model_t.html">
+   ov_model_t
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#detailed-documentation">
+   Detailed Documentation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#global-functions">
+     Global Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                <div class="tocsection download-docs">
+  <div class="dropdown sst-dropdown">
+    <button class="button bttn-prm button-size-m" data-display="static" type="button" id="download-options"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Download Docs
+    </button>
+    <div class="dropdown-menu" aria-labelledby="download-options">
+      <a class="dropdown-item" href="#" onclick="window.print()">.pdf</a>
+      <a id="download-zip-btn" class="dropdown-item" href="#">.zip</a>
+    </div>
+  </div>
+</div>
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+              
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+<div class="tocsection editthispage">
+    <a href="None">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+            
+                <div>
+                  
+  <section id="model">
+<span id="doxid-group-ov-model-c-api"></span><span id="index-0"></span><h1>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The definitions &amp; operations about model. <a class="reference internal" href="#details-group-ov-model-c-api"><span class="std std-ref">More…</span></a></p>
+<div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="c1">// structs</span>
+
+<span class="k">struct</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span><span class="p">;</span>
+
+<span class="c1">// global functions</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga788345c296ec29f6ad472176e9c3ab03"><span class="std std-ref">ov_model_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga10622e2632153de29ff1a13463a0d174"><span class="std std-ref">ov_model_const_input</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga2b2746bcc1a50494736c75ff6fd5b79c"><span class="std std-ref">ov_model_const_input_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga9f91049ef0af88c5ec8093a83420cb32"><span class="std std-ref">ov_model_const_input_by_index</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gaf54e6ffb60009db2f9d2c6f8e850b4c4"><span class="std std-ref">ov_model_input</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga1912482c26e0cf9aba63a46ea6bc93b8"><span class="std std-ref">ov_model_input_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gac9afbaa534ea0bedfe4f38b90fe0c634"><span class="std std-ref">ov_model_input_by_index</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga4d78ce914c666572f3f85ab3010ec4f0"><span class="std std-ref">ov_model_const_output</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga86a2e689b7d57c42b71dc69f6713ed7c"><span class="std std-ref">ov_model_const_output_by_index</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga283743abd5efea5d7ea82c822fc68511"><span class="std std-ref">ov_model_const_output_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga95b4717b08c86e74e5efeff362bed991"><span class="std std-ref">ov_model_output</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga18949d640158002b4b1dbced164e9711"><span class="std std-ref">ov_model_output_by_index</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gaae4ce4983964caad58997d55eef6c5a3"><span class="std std-ref">ov_model_output_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gad6e3733fe6afc9b16ec53c45df191686"><span class="std std-ref">ov_model_inputs_size</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <span class="kt">size_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">input_size</span><span class="p">);</span>
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga7e0211e8b6d01959e63bde72a20e9703"><span class="std std-ref">ov_model_outputs_size</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <span class="kt">size_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">output_size</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gae44f85dbc37b30fbeb8196ca8adbea06"><span class="std std-ref">ov_model_reshape</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">tensor_names</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="err">\</span><span class="o">*</span> <span class="n">partial_shapes</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">size</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gaf6885370df43e73c1d1cbd64a5e00325"><span class="std std-ref">ov_model_reshape_input_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="n">partial_shape</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga1bc53c639340030405f1caba7c67197d"><span class="std std-ref">ov_model_reshape_single_input</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="n">partial_shape</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gaaf08c8575a232a6363ff6d7db1116a08"><span class="std std-ref">ov_model_reshape_by_port_indexes</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">port_indexes</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="err">\</span><span class="o">*</span> <span class="n">partial_shape</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">size</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1ga38e535205549047d031d376fb276911c"><span class="std std-ref">ov_model_reshape_by_ports</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_ports</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="err">\</span><span class="o">*</span> <span class="n">partial_shapes</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">size</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-model-c-api-1gac43f7218ade4b1572d08cc46e5d42c3d"><span class="std std-ref">ov_model_get_friendly_name</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">friendly_name</span><span class="p">);</span></pre></div></div></section>
+<section id="detailed-documentation">
+<span id="details-group-ov-model-c-api"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The definitions &amp; operations about model.</p>
+<section id="global-functions">
+<h3>Global Functions<a class="headerlink" href="#global-functions" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="doxid-group-ov-model-c-api-1ga788345c296ec29f6ad472176e9c3ab03"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_free</span><span class="p">(</span><a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-model-c-api-1ga10622e2632153de29ff1a13463a0d174"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_const_input</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">)</span></pre></div></div><p>Get a const input port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>,which only support single input model.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>input_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga2b2746bcc1a50494736c75ff6fd5b79c"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_const_input_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">)</span></pre></div></div><p>Get a const input port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by name.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>The name of input tensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>input_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga9f91049ef0af88c5ec8093a83420cb32"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_const_input_by_index</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">)</span></pre></div></div><p>Get a const input port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by port index.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>index</p></td>
+<td><p>input tensor index.</p></td>
+</tr>
+<tr class="row-odd"><td><p>input_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gaf54e6ffb60009db2f9d2c6f8e850b4c4"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_input</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span><span class="p">)</span></pre></div></div><p>Get single input port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>, which only support single input model.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>input_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga1912482c26e0cf9aba63a46ea6bc93b8"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_input_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">)</span></pre></div></div><p>Get an input port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by name.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>input tensor name (char *).</p></td>
+</tr>
+<tr class="row-odd"><td><p>input_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gac9afbaa534ea0bedfe4f38b90fe0c634"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_input_by_index</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">input_port</span>
+    <span class="p">)</span></pre></div></div><p>Get an input port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by port index.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>index</p></td>
+<td><p>input tensor index.</p></td>
+</tr>
+<tr class="row-odd"><td><p>input_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga4d78ce914c666572f3f85ab3010ec4f0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_const_output</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">)</span></pre></div></div><p>Get a single const output port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>, which only support single output model..</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>output_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga86a2e689b7d57c42b71dc69f6713ed7c"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_const_output_by_index</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">)</span></pre></div></div><p>Get a const output port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by port index.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>index</p></td>
+<td><p>input tensor index.</p></td>
+</tr>
+<tr class="row-odd"><td><p>output_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga283743abd5efea5d7ea82c822fc68511"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_const_output_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">)</span></pre></div></div><p>Get a const output port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by name.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>input tensor name (char *).</p></td>
+</tr>
+<tr class="row-odd"><td><p>output_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga95b4717b08c86e74e5efeff362bed991"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_output</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span><span class="p">)</span></pre></div></div><p>Get an single output port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>, which only support single output model.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>output_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_const_port_t.html#doxid-structov-output-const-port-t"><span class="std std-ref">ov_output_const_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga18949d640158002b4b1dbced164e9711"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_output_by_index</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">)</span></pre></div></div><p>Get an output port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by port index.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>index</p></td>
+<td><p>input tensor index.</p></td>
+</tr>
+<tr class="row-odd"><td><p>output_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gaae4ce4983964caad58997d55eef6c5a3"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_output_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_port</span>
+    <span class="p">)</span></pre></div></div><p>Get an output port of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a> by name.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>output tensor name (char *).</p></td>
+</tr>
+<tr class="row-odd"><td><p>output_port</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gad6e3733fe6afc9b16ec53c45df191686"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_inputs_size</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <span class="kt">size_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">input_size</span><span class="p">)</span></pre></div></div><p>Get the input size of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>input_size</p></td>
+<td><p>the model’s input size.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga7e0211e8b6d01959e63bde72a20e9703"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_outputs_size</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <span class="kt">size_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">output_size</span><span class="p">)</span></pre></div></div><p>Get the output size of <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>output_size</p></td>
+<td><p>the model’s output size.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gae44f85dbc37b30fbeb8196ca8adbea06"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_reshape</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">tensor_names</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="err">\</span><span class="o">*</span> <span class="n">partial_shapes</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">size</span>
+    <span class="p">)</span></pre></div></div><p>Do reshape in model with a list of &lt;name, partial shape&gt;.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_names</p></td>
+<td><p>The list of input tensor names.</p></td>
+</tr>
+<tr class="row-odd"><td><p>partialShape</p></td>
+<td><p>A PartialShape list.</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>The item count in the list.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gaf6885370df43e73c1d1cbd64a5e00325"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_reshape_input_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="n">partial_shape</span>
+    <span class="p">)</span></pre></div></div><p>Do reshape in model with partial shape for a specified name.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>The tensor name of input tensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>partialShape</p></td>
+<td><p>A PartialShape.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga1bc53c639340030405f1caba7c67197d"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_reshape_single_input</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="n">partial_shape</span>
+    <span class="p">)</span></pre></div></div><p>Do reshape in model for one node(port 0).</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>partialShape</p></td>
+<td><p>A PartialShape.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gaaf08c8575a232a6363ff6d7db1116a08"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_reshape_by_port_indexes</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">port_indexes</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="err">\</span><span class="o">*</span> <span class="n">partial_shape</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">size</span>
+    <span class="p">)</span></pre></div></div><p>Do reshape in model with a list of &lt;port id, partial shape&gt;.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>port_indexes</p></td>
+<td><p>The array of port indexes.</p></td>
+</tr>
+<tr class="row-odd"><td><p>partialShape</p></td>
+<td><p>A PartialShape list.</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>The item count in the list.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1ga38e535205549047d031d376fb276911c"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_reshape_by_ports</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">output_ports</span><span class="p">,</span>
+    <span class="k">const</span> ov_partial_shape_t<span></span> <span class="err">\</span><span class="o">*</span> <span class="n">partial_shapes</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">size</span>
+    <span class="p">)</span></pre></div></div><p>Do reshape in model with a list of &lt;<a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a>, partial shape&gt;.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>output_ports</p></td>
+<td><p>The <a class="reference internal" href="structov_output_port_t.html#doxid-structov-output-port-t"><span class="std std-ref">ov_output_port_t</span></a> list.</p></td>
+</tr>
+<tr class="row-odd"><td><p>partialShape</p></td>
+<td><p>A PartialShape list.</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>The item count in the list.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-model-c-api-1gac43f7218ade4b1572d08cc46e5d42c3d"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_model_get_friendly_name</span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">friendly_name</span><span class="p">)</span></pre></div></div><p>Gets the friendly name for a model.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>friendly_name</p></td>
+<td><p>the model’s friendly name.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+            
+            
+                <div class='prev-next-bottom'>
+                  
+
+                </div>
+            
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Intel®.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

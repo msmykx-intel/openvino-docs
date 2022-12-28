@@ -229,18 +229,28 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1DequantizationNode.html">
+   DequantizationNode
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classov_1_1DisableFP16Compression.html">
    DisableFP16Compression
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="classngraph_1_1FusedNames.html">
+  <a class="reference internal" href="classov_1_1FusedNames.html">
    FusedNames
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1Mask.html">
    Mask
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1NoTransposeSinkingAttr.html">
+   NoTransposeSinkingAttr
   </a>
  </li>
  <li class="toctree-l1">
@@ -344,24 +354,26 @@
 <div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="c1">// classes</span>
 
 <span class="k">class</span> <a class="reference internal" href="classov_1_1Decompression.html#doxid-classov-1-1-decompression"><span class="std std-ref">ov::Decompression</span></a><span></span><span class="p">;</span>
+<span class="k">class</span> <a class="reference internal" href="classov_1_1DequantizationNode.html#doxid-classov-1-1-dequantization-node"><span class="std std-ref">ov::DequantizationNode</span></a><span></span><span class="p">;</span>
 <span class="k">class</span> <a class="reference internal" href="classov_1_1DisableFP16Compression.html#doxid-classov-1-1-disable-f-p16-compression"><span class="std std-ref">ov::DisableFP16Compression</span></a><span></span><span class="p">;</span>
-<span class="k">class</span> <a class="reference internal" href="classngraph_1_1FusedNames.html#doxid-classngraph-1-1-fused-names"><span class="std std-ref">ngraph::FusedNames</span></a><span></span><span class="p">;</span>
+<span class="k">class</span> <a class="reference internal" href="classov_1_1FusedNames.html#doxid-classov-1-1-fused-names"><span class="std std-ref">ov::FusedNames</span></a><span></span><span class="p">;</span>
 <span class="k">class</span> <a class="reference internal" href="classngraph_1_1Mask.html#doxid-classngraph-1-1-mask"><span class="std std-ref">ngraph::Mask</span></a><span></span><span class="p">;</span>
+<span class="k">class</span> <a class="reference internal" href="classov_1_1NoTransposeSinkingAttr.html#doxid-classov-1-1-no-transpose-sinking-attr"><span class="std std-ref">ov::NoTransposeSinkingAttr</span></a><span></span><span class="p">;</span>
 <span class="k">class</span> <a class="reference internal" href="classov_1_1NonconvertibleDivide.html#doxid-classov-1-1-nonconvertible-divide"><span class="std std-ref">ov::NonconvertibleDivide</span></a><span></span><span class="p">;</span>
 <span class="k">class</span> <a class="reference internal" href="classov_1_1OldApiMapElementType.html#doxid-classov-1-1-old-api-map-element-type"><span class="std std-ref">ov::OldApiMapElementType</span></a><span></span><span class="p">;</span>
 <span class="k">class</span> <a class="reference internal" href="classov_1_1OldApiMapOrder.html#doxid-classov-1-1-old-api-map-order"><span class="std std-ref">ov::OldApiMapOrder</span></a><span></span><span class="p">;</span>
 
 <span class="c1">// global functions</span>
 
-NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <a class="reference internal" href="#doxid-group-ie-runtime-attr-api-1ga6e1dc6900c46d5648f89f51e62654768"><span class="std std-ref">ngraph::getFusedNames</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ngraph::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">);</span>
-NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <a class="reference internal" href="#doxid-group-ie-runtime-attr-api-1gad13529e55f67f2d316178f1dd0080d76"><span class="std std-ref">ngraph::getFusedNamesVector</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ngraph::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">);</span>
-NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <a class="reference internal" href="#doxid-group-ie-runtime-attr-api-1ga2ff82c72f78777411e625a407823098d"><span class="std std-ref">ov::getPrimitivesPriority</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ngraph::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">);</span></pre></div></div></section>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <a class="reference internal" href="#doxid-group-ie-runtime-attr-api-1ga70325464a0cda57fb81031ea8d87cd33"><span class="std std-ref">ov::getFusedNames</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ov::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <a class="reference internal" href="#doxid-group-ie-runtime-attr-api-1gafd3a20eba61f29cd7c94069d7d592d2f"><span class="std std-ref">ov::getFusedNamesVector</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ov::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <a class="reference internal" href="#doxid-group-ie-runtime-attr-api-1ga98a574259a0fb4145696964837e3bda6"><span class="std std-ref">ov::getPrimitivesPriority</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">);</span></pre></div></div></section>
 <section id="detailed-documentation">
 <span id="details-group-ie-runtime-attr-api"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
 <p>A mechanism of runtime information extension.</p>
 <section id="global-functions">
 <h3>Global Functions<a class="headerlink" href="#global-functions" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="doxid-group-ie-runtime-attr-api-1ga6e1dc6900c46d5648f89f51e62654768"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre>NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ngraph</span><span class="o">::</span><span class="n">getFusedNames</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ngraph::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span></pre></div></div><p>getFusedNames return string with operation names separated by coma in alphabetical order</p>
+<span class="target" id="doxid-group-ie-runtime-attr-api-1ga70325464a0cda57fb81031ea8d87cd33"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ov</span><span class="o">::</span><span class="n">getFusedNames</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ov::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span></pre></div></div><p>getFusedNames return string with operation names separated by coma in alphabetical order</p>
 <p class="rubric">Parameters:</p>
 <table class="colwidths-given table">
 <colgroup>
@@ -370,11 +382,11 @@ NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p>node</p></td>
-<td><p>The node will be used to get <a class="reference internal" href="classngraph_1_1FusedNames.html#doxid-classngraph-1-1-fused-names"><span class="std std-ref">FusedNames</span></a> attribute</p></td>
+<td><p>The node will be used to get <a class="reference internal" href="classov_1_1FusedNames.html#doxid-classov-1-1-fused-names"><span class="std std-ref">FusedNames</span></a> attribute</p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="doxid-group-ie-runtime-attr-api-1gad13529e55f67f2d316178f1dd0080d76"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre>NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">ngraph</span><span class="o">::</span><span class="n">getFusedNamesVector</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ngraph::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span></pre></div></div><p>getFusedNamesVector return vector of fused names sorted in alphabetical order</p>
+<span class="target" id="doxid-group-ie-runtime-attr-api-1gafd3a20eba61f29cd7c94069d7d592d2f"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">ov</span><span class="o">::</span><span class="n">getFusedNamesVector</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ov::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span></pre></div></div><p>getFusedNamesVector return vector of fused names sorted in alphabetical order</p>
 <p class="rubric">Parameters:</p>
 <table class="colwidths-given table">
 <colgroup>
@@ -383,13 +395,13 @@ NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p>node</p></td>
-<td><p>The node will be used to get <a class="reference internal" href="classngraph_1_1FusedNames.html#doxid-classngraph-1-1-fused-names"><span class="std std-ref">FusedNames</span></a> attribute</p></td>
+<td><p>The node will be used to get <a class="reference internal" href="classov_1_1FusedNames.html#doxid-classov-1-1-fused-names"><span class="std std-ref">FusedNames</span></a> attribute</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Returns:</p>
 <p>vector of strings</p>
-<span class="target" id="doxid-group-ie-runtime-attr-api-1ga2ff82c72f78777411e625a407823098d"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre>NGRAPH_API<span></span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ov</span><span class="o">::</span><span class="n">getPrimitivesPriority</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">ngraph::Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span></pre></div></div><p>getPrimitivesPriority return string with primitive priorities value</p>
+<span class="target" id="doxid-group-ie-runtime-attr-api-1ga98a574259a0fb4145696964837e3bda6"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ov</span><span class="o">::</span><span class="n">getPrimitivesPriority</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span></pre></div></div><p>getPrimitivesPriority return string with primitive priorities value</p>
 <p class="rubric">Parameters:</p>
 <table class="colwidths-given table">
 <colgroup>

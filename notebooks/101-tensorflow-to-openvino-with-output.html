@@ -611,22 +611,22 @@ Runtime</a>
 and do inference with a sample image.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import time
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import Markdown
+from openvino.runtime import Core
 </pre></div>
 </div>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The paths of the source and converted models.</span>
-<span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model/v3-small_224_1.0_float.pb&quot;</span><span class="p">)</span>
-<span class="n">ir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The paths of the source and converted models.
+model_path = Path(&quot;model/v3-small_224_1.0_float.pb&quot;)
+ir_path = Path(model_path).with_suffix(&quot;.xml&quot;)
 </pre></div>
 </div>
 </section>
@@ -654,30 +654,30 @@ command in the notebook by prepending the command with an <code class="docutils 
 may be some errors or warnings in the output. When model optimization is
 successful, the last lines of the output will include
 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model.</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct the command for Model Optimizer.</span>
-<span class="n">mo_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;mo</span>
-<span class="s2">                 --input_model &quot;</span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="s2">                 --input_shape &quot;[1,224,224,3]&quot;</span>
-<span class="s2">                 --mean_values=&quot;[127.5,127.5,127.5]&quot;</span>
-<span class="s2">                 --scale_values=&quot;[127.5]&quot;</span>
-<span class="s2">                 --data_type FP16</span>
-<span class="s2">                 --output_dir &quot;</span><span class="si">{</span><span class="n">model_path</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="s2">                 &quot;&quot;&quot;</span>
-<span class="n">mo_command</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mo_command</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model Optimizer command to convert TensorFlow to OpenVINO:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">mo_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Construct the command for Model Optimizer.
+mo_command = f&quot;&quot;&quot;mo
+                 --input_model &quot;{model_path}&quot;
+                 --input_shape &quot;[1,224,224,3]&quot;
+                 --mean_values=&quot;[127.5,127.5,127.5]&quot;
+                 --scale_values=&quot;[127.5]&quot;
+                 --data_type FP16
+                 --output_dir &quot;{model_path.parent}&quot;
+                 &quot;&quot;&quot;
+mo_command = &quot; &quot;.join(mo_command.split())
+print(&quot;Model Optimizer command to convert TensorFlow to OpenVINO:&quot;)
+display(Markdown(f&quot;`{mo_command}`&quot;))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">Optimizer</span> <span class="n">command</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">TensorFlow</span> <span class="n">to</span> <span class="n">OpenVINO</span><span class="p">:</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">mo</span> <span class="pre">--input_model</span> <span class="pre">&quot;model/v3-small_224_1.0_float.pb&quot;</span> <span class="pre">--input_shape</span> <span class="pre">&quot;[1,224,224,3]&quot;</span> <span class="pre">--mean_values=&quot;[127.5,127.5,127.5]&quot;</span> <span class="pre">--scale_values=&quot;[127.5]&quot;</span> <span class="pre">--data_type</span> <span class="pre">FP16</span> <span class="pre">--output_dir</span> <span class="pre">&quot;model&quot;</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run Model Optimizer if the IR model file does not exist</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exporting TensorFlow model to IR... This may take a few minutes.&quot;</span><span class="p">)</span>
-    <span class="o">!</span> <span class="nv">$mo_command</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IR model </span><span class="si">{</span><span class="n">ir_path</span><span class="si">}</span><span class="s2"> already exists.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Run Model Optimizer if the IR model file does not exist
+if not ir_path.exists():
+    print(&quot;Exporting TensorFlow model to IR... This may take a few minutes.&quot;)
+    ! $mo_command
+else:
+    print(f&quot;IR model {ir_path} already exists.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Exporting</span> <span class="n">TensorFlow</span> <span class="n">model</span> <span class="n">to</span> <span class="n">IR</span><span class="o">...</span> <span class="n">This</span> <span class="n">may</span> <span class="n">take</span> <span class="n">a</span> <span class="n">few</span> <span class="n">minutes</span><span class="o">.</span>
@@ -734,17 +734,17 @@ successful, the last lines of the output will include
 <h2>Test Inference on the Converted Model<a class="headerlink" href="#test-inference-on-the-converted-model" title="Permalink to this headline">¶</a></h2>
 <section id="load-the-model">
 <h3>Load the Model<a class="headerlink" href="#load-the-model" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">ir_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">))</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+model = ie.read_model(model=ir_path, weights=ir_path.with_suffix(&quot;.bin&quot;))
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
 </pre></div>
 </div>
 </section>
 <section id="get-model-information">
 <h3>Get Model Information<a class="headerlink" href="#get-model-information" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">network_input_shape</span> <span class="o">=</span> <span class="n">input_key</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_key = compiled_model.input(0)
+output_key = compiled_model.output(0)
+network_input_shape = input_key.shape
 </pre></div>
 </div>
 </section>
@@ -752,35 +752,35 @@ successful, the last lines of the output will include
 <h3>Load an Image<a class="headerlink" href="#load-an-image" title="Permalink to this headline">¶</a></h3>
 <p>Load an image, resize it, and convert it to the input shape of the
 network.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The MobileNet network expects images in RGB format.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;data/coco.jpg&quot;</span><span class="p">),</span> <span class="n">code</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The MobileNet network expects images in RGB format.
+image = cv2.cvtColor(cv2.imread(filename=&quot;data/coco.jpg&quot;), code=cv2.COLOR_BGR2RGB)
 
-<span class="c1"># Resize the image to the network input shape.</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+# Resize the image to the network input shape.
+resized_image = cv2.resize(src=image, dsize=(224, 224))
 
-<span class="c1"># Transpose the image to the network input shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+# Transpose the image to the network input shape.
+input_image = np.expand_dims(resized_image, 0)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+plt.imshow(image);
 </pre></div>
 </div>
 <img alt="../_images/101-tensorflow-to-openvino-with-output_14_0.png" src="../_images/101-tensorflow-to-openvino-with-output_14_0.png" />
 </section>
 <section id="do-inference">
 <h3>Do Inference<a class="headerlink" href="#do-inference" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_key</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result = compiled_model([input_image])[output_key]
 
-<span class="n">result_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+result_index = np.argmax(result)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the inference result to a class name.</span>
-<span class="n">imagenet_classes</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;utils/imagenet_2012.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the inference result to a class name.
+imagenet_classes = open(&quot;utils/imagenet_2012.txt&quot;).read().splitlines()
 
-<span class="c1"># The model description states that for this model, class 0 is background.</span>
-<span class="c1"># Therefore, add background at the beginning of imagenet_classes</span>
-<span class="n">imagenet_classes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">imagenet_classes</span>
+# The model description states that for this model, class 0 is background.
+# Therefore, add background at the beginning of imagenet_classes
+imagenet_classes = [&#39;background&#39;] + imagenet_classes
 
-<span class="n">imagenet_classes</span><span class="p">[</span><span class="n">result_index</span><span class="p">]</span>
+imagenet_classes[result_index]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;n02099267 flat-coated retriever&#39;</span>
@@ -796,20 +796,20 @@ an indication of performance. For more accurate benchmarking, use the
 Tool</a>
 in OpenVINO. Note that many optimizations are possible to improve the
 performance.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_images</span> <span class="o">=</span> <span class="mi">1000</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>num_images = 1000
 
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+start = time.perf_counter()
 
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-    <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
+for _ in range(num_images):
+    compiled_model([input_image])
 
-<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">time_ir</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+end = time.perf_counter()
+time_ir = end - start
 
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;IR model in OpenVINO Runtime/CPU: </span><span class="si">{</span><span class="n">time_ir</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_ir</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+print(
+    f&quot;IR model in OpenVINO Runtime/CPU: {time_ir/num_images:.4f} &quot;
+    f&quot;seconds per image, FPS: {num_images/time_ir:.2f}&quot;
+)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IR</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">OpenVINO</span> <span class="n">Runtime</span><span class="o">/</span><span class="n">CPU</span><span class="p">:</span> <span class="mf">0.0011</span> <span class="n">seconds</span> <span class="n">per</span> <span class="n">image</span><span class="p">,</span> <span class="n">FPS</span><span class="p">:</span> <span class="mf">949.36</span>

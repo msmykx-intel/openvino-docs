@@ -1,0 +1,1233 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Pre Post Process &#8212; OpenVINO™  documentation</title>
+    
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/doxyrest-pygments.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <link href="../../_static/css/media/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="../../_static/css/openvino_sphinx_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/button.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/input.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/textfield.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/tabs.css" type="text/css" />
+    <script src="../../_static/js/openvino_sphinx_theme.js"></script>
+    <link rel="stylesheet" href="../../_static/css/viewer.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-barchart-background@1.3.0/build/Plugin.Barchart.Background.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js"></script>
+    <script src="../../_static/js/viewer.min.js"></script>
+    <script src="/assets/versions_raw.js"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/custom.js"></script>
+    <script src="../../_static/js/graphs.js"></script>
+    <script src="../../_static/js/graphs_ov_tf.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/target-highlight.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/groupov_prepostprocess_c_api.html" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+      <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/get-started-guide.html">
+  Get Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/documentation.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api_reference.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../model_zoo.html">
+  Model Zoo
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/resources.html">
+  Resources
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/openvinotoolkit/openvino" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="sst-github"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+</ul>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="version-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+  <div class="dropdown-menu" aria-labelledby="version-selector">
+  </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">English</button>
+  <div class="dropdown-menu" aria-labelledby="language-selector">
+    
+      
+        <a class="dropdown-item font-weight-bold" href="/openvino-docs/index.html">English</a>
+      
+    
+      
+        <a  class="dropdown-item" href="/cn/openvino-docs/index.html">Chinese</a>
+      
+    
+  </div>
+</div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+        <div id="collapse-nav-wrapper" class="container-xl">
+          <button id="collapse-nav" class="button bttn-prm button-size-m" type="button" data-toggle="collapse" data-target="#nav-tree" aria-expanded="false" aria-controls="nav-tree">
+            Documentation navigation <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </nav>
+      <div class="transition-banner container-fluid alert alert-info alert-dismissible fade show" role="alert">
+        <p>OpenVINO 2022.1 introduces a new version of OpenVINO API (API 2.0). For more information on the changes and transition steps, see the <a href="https://docs.openvino.ai/latest/openvino_2_0_transition_guide.html">transition guide</a></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar" id="nav-tree"><form class="searchForm bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="icon fas fa-search"></i>
+    <input type="search" class="form-control" name="query" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="enumov_color_format_e.html">
+   ov_color_format_e
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="enumov_preprocess_resize_algorithm_e.html">
+   ov_preprocess_resize_algorithm_e
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_input_info_t.html">
+   ov_preprocess_input_info_t
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_input_model_info_t.html">
+   ov_preprocess_input_model_info_t
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html">
+   ov_preprocess_input_tensor_info_t
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_output_info_t.html">
+   ov_preprocess_output_info_t
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html">
+   ov_preprocess_output_tensor_info_t
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html">
+   ov_preprocess_prepostprocessor_t
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html">
+   ov_preprocess_preprocess_steps_t
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#detailed-documentation">
+   Detailed Documentation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#global-functions">
+     Global Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                <div class="tocsection download-docs">
+  <div class="dropdown sst-dropdown">
+    <button class="button bttn-prm button-size-m" data-display="static" type="button" id="download-options"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Download Docs
+    </button>
+    <div class="dropdown-menu" aria-labelledby="download-options">
+      <a class="dropdown-item" href="#" onclick="window.print()">.pdf</a>
+      <a id="download-zip-btn" class="dropdown-item" href="#">.zip</a>
+    </div>
+  </div>
+</div>
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+              
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+<div class="tocsection editthispage">
+    <a href="None">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+            
+                <div>
+                  
+  <section id="pre-post-process">
+<span id="doxid-group-ov-prepostprocess-c-api"></span><span id="index-0"></span><h1>Pre Post Process<a class="headerlink" href="#pre-post-process" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The definitions &amp; operations about prepostprocess. <a class="reference internal" href="#details-group-ov-prepostprocess-c-api"><span class="std std-ref">More…</span></a></p>
+<div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="c1">// enums</span>
+
+<span class="k">enum</span> <a class="reference internal" href="enumov_color_format_e.html#doxid-group-ov-prepostprocess-c-api-1ga3b8e30775394e1fe1f7f5aeca8abe6d3"><span class="std std-ref">ov_color_format_e</span></a><span></span><span class="p">;</span>
+<span class="k">enum</span> <a class="reference internal" href="enumov_preprocess_resize_algorithm_e.html#doxid-group-ov-prepostprocess-c-api-1gaae9c0bf6968f892b64f862b2fc1d4740"><span class="std std-ref">ov_preprocess_resize_algorithm_e</span></a><span></span><span class="p">;</span>
+
+<span class="c1">// structs</span>
+
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span><span class="p">;</span>
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span><span class="p">;</span>
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span><span class="p">;</span>
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span><span class="p">;</span>
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span><span class="p">;</span>
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span><span class="p">;</span>
+<span class="k">struct</span> <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span><span class="p">;</span>
+
+<span class="c1">// global functions</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gad8f5e6fdec9398432f49b3ef4afa0b3a"><span class="std std-ref">ov_preprocess_prepostprocessor_create</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga3eb31676c576e93f95df5721ca941dc9"><span class="std std-ref">ov_preprocess_prepostprocessor_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga77228c2c3de1bf6027b6597f92a39dea"><span class="std std-ref">ov_preprocess_prepostprocessor_get_input_info</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga79348fc06463cfe7caf9df3979ceee37"><span class="std std-ref">ov_preprocess_prepostprocessor_get_input_info_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga40c0b7b77950a77f625083089cb559f7"><span class="std std-ref">ov_preprocess_prepostprocessor_get_input_info_by_index</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">tensor_index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga22c2c7c2a9ec9bd91710189ddade9ebc"><span class="std std-ref">ov_preprocess_input_info_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gaccd030e50d14e610b0b280b4236a23f2"><span class="std std-ref">ov_preprocess_input_info_get_tensor_info</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gaa8c8450ef624c3633603a5737fedc67a"><span class="std std-ref">ov_preprocess_input_tensor_info_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gaa261efc7491f710e708762b71b20df9d"><span class="std std-ref">ov_preprocess_input_info_get_preprocess_steps</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_steps</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga25f5c739689c482fe6b4ab45c60cab3f"><span class="std std-ref">ov_preprocess_preprocess_steps_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gab7d6c00027f814b0147fceaf46b75a09"><span class="std std-ref">ov_preprocess_preprocess_steps_resize</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_preprocess_resize_algorithm_e.html#doxid-group-ov-prepostprocess-c-api-1gaae9c0bf6968f892b64f862b2fc1d4740"><span class="std std-ref">ov_preprocess_resize_algorithm_e</span></a><span></span> <span class="n">resize_algorithm</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga11d4993bb36ef194f791f3e0aae1bd41"><span class="std std-ref">ov_preprocess_preprocess_steps_scale</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">value</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga755d36dafad6e3357ac14c16c285cef0"><span class="std std-ref">ov_preprocess_preprocess_steps_mean</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">value</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gaccf4250372e87d1d6fb7c7c608c5666f"><span class="std std-ref">ov_preprocess_preprocess_steps_crop</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">begin</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="n">begin_size</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">end</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="n">end_size</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga6c762b82a67233662588416358f11716"><span class="std std-ref">ov_preprocess_preprocess_steps_convert_layout</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">layout</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga2622e8e8a0dd385bd8587dd3670bb893"><span class="std std-ref">ov_preprocess_preprocess_steps_reverse_channels</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga56278fb8c932419be17b7f9deb9449c7"><span class="std std-ref">ov_preprocess_input_tensor_info_set_element_type</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_element_type_e.html#doxid-group-ov-base-c-api-1gafe289f68fb4694047c82e1722a3ee4dd"><span class="std std-ref">ov_element_type_e</span></a><span></span> <span class="n">element_type</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga3e3507afdef493b3138cfd4bda1d0e80"><span class="std std-ref">ov_preprocess_input_tensor_info_set_color_format</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_color_format_e.html#doxid-group-ov-prepostprocess-c-api-1ga3b8e30775394e1fe1f7f5aeca8abe6d3"><span class="std std-ref">ov_color_format_e</span></a><span></span> <span class="n">colorFormat</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga658bd5e92d614199fa3ee542b6643b77"><span class="std std-ref">ov_preprocess_input_tensor_info_set_spatial_static_shape</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">input_height</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">input_width</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga094abcbfa495ee4477a6d8cd296859ea"><span class="std std-ref">ov_preprocess_preprocess_steps_convert_element_type</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_element_type_e.html#doxid-group-ov-base-c-api-1gafe289f68fb4694047c82e1722a3ee4dd"><span class="std std-ref">ov_element_type_e</span></a><span></span> <span class="n">element_type</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga58fc6c47d0dd65434e777332cbc17fe1"><span class="std std-ref">ov_preprocess_preprocess_steps_convert_color</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_color_format_e.html#doxid-group-ov-prepostprocess-c-api-1ga3b8e30775394e1fe1f7f5aeca8abe6d3"><span class="std std-ref">ov_color_format_e</span></a><span></span> <span class="n">colorFormat</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga32b357835ee35da03d9d44c0594d1017"><span class="std std-ref">ov_preprocess_input_tensor_info_set_from</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_tensor_t.html#doxid-structov-tensor-t"><span class="std std-ref">ov_tensor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga0fccd0f160cdc0f43468ba9ae5402cc1"><span class="std std-ref">ov_preprocess_input_tensor_info_set_layout</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">layout</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gac3c54d7202ebbfd25a467b6d23f7a906"><span class="std std-ref">ov_preprocess_prepostprocessor_get_output_info</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga50a709346770ea115cc379cbb1c6232b"><span class="std std-ref">ov_preprocess_prepostprocessor_get_output_info_by_index</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">tensor_index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga77ece1cd27d16245d48ea7fdb94e63d6"><span class="std std-ref">ov_preprocess_prepostprocessor_get_output_info_by_name</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gab05b9d04def252ef6e230bba4d7c9bc0"><span class="std std-ref">ov_preprocess_output_info_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gaec4b131e310b8406e97557920a59d25e"><span class="std std-ref">ov_preprocess_output_info_get_tensor_info</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_tensor_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga3142d583cdb0b6ceaaa2d6fc20f5fbae"><span class="std std-ref">ov_preprocess_output_tensor_info_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_tensor_info</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga70e2832274fe31818495c6b4811630f0"><span class="std std-ref">ov_preprocess_output_set_element_type</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_element_type_e.html#doxid-group-ov-base-c-api-1gafe289f68fb4694047c82e1722a3ee4dd"><span class="std std-ref">ov_element_type_e</span></a><span></span> <span class="n">element_type</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga7f7057f8ae25b40276fc407b73a5b96a"><span class="std std-ref">ov_preprocess_input_info_get_model_info</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_model_info</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1gafea9cf5b7d0d339e49c225b43df90391"><span class="std std-ref">ov_preprocess_input_model_info_free</span></a><span></span><span class="p">(</span><a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_model_info</span><span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga4220f1cfff286d2413f42f5d48f5c950"><span class="std std-ref">ov_preprocess_input_model_info_set_layout</span></a><span></span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_model_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">layout</span>
+    <span class="p">);</span>
+
+<a class="reference internal" href="#doxid-group-ov-prepostprocess-c-api-1ga6070fa6df458cca6f3309ded38f478a6"><span class="std std-ref">ov_preprocess_prepostprocessor_build</span></a><span></span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">model</span>
+    <span class="p">);</span></pre></div></div></section>
+<section id="detailed-documentation">
+<span id="details-group-ov-prepostprocess-c-api"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The definitions &amp; operations about prepostprocess.</p>
+<section id="global-functions">
+<h3>Global Functions<a class="headerlink" href="#global-functions" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gad8f5e6fdec9398432f49b3ef4afa0b3a"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_create</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">model</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span>
+    <span class="p">)</span></pre></div></div><p>Create a <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a> instance.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga3eb31676c576e93f95df5721ca941dc9"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga77228c2c3de1bf6027b6597f92a39dea"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_get_input_info</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span>
+    <span class="p">)</span></pre></div></div><p>Get the input info of <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a> instance.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess_input_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga79348fc06463cfe7caf9df3979ceee37"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_get_input_info_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span>
+    <span class="p">)</span></pre></div></div><p>Get the input info of <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a> instance by tensor name.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>The name of input.</p></td>
+</tr>
+<tr class="row-odd"><td><p>preprocess_input_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga40c0b7b77950a77f625083089cb559f7"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_get_input_info_by_index</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">tensor_index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span>
+    <span class="p">)</span></pre></div></div><p>Get the input info of <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a> instance by tensor order.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_index</p></td>
+<td><p>The order of input.</p></td>
+</tr>
+<tr class="row-odd"><td><p>preprocess_input_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga22c2c7c2a9ec9bd91710189ddade9ebc"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_info_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gaccd030e50d14e610b0b280b4236a23f2"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_info_get_tensor_info</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span>
+    <span class="p">)</span></pre></div></div><p>Get a <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gaa8c8450ef624c3633603a5737fedc67a"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_tensor_info_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gaa261efc7491f710e708762b71b20df9d"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_info_get_preprocess_steps</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_steps</span>
+    <span class="p">)</span></pre></div></div><p>Get a <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a></p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess_input_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga25f5c739689c482fe6b4ab45c60cab3f"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_steps</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gab7d6c00027f814b0147fceaf46b75a09"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_resize</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_preprocess_resize_algorithm_e.html#doxid-group-ov-prepostprocess-c-api-1gaae9c0bf6968f892b64f862b2fc1d4740"><span class="std std-ref">ov_preprocess_resize_algorithm_e</span></a><span></span> <span class="n">resize_algorithm</span>
+    <span class="p">)</span></pre></div></div><p>Add resize operation to model’s dimensions.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_process_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>resize_algorithm</p></td>
+<td><p>A ov_preprocess_resizeAlgorithm instance</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga11d4993bb36ef194f791f3e0aae1bd41"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_scale</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">value</span>
+    <span class="p">)</span></pre></div></div><p>Add scale preprocess operation. Divide each element of input by specified value.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_process_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>value</p></td>
+<td><p>Scaling value</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga755d36dafad6e3357ac14c16c285cef0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_mean</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">value</span>
+    <span class="p">)</span></pre></div></div><p>Add mean preprocess operation. Subtract specified value from each element of input.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_process_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>value</p></td>
+<td><p>Value to subtract from each element.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gaccf4250372e87d1d6fb7c7c608c5666f"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_crop</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">begin</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="n">begin_size</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="err">\</span><span class="o">*</span> <span class="n">end</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="n">end_size</span>
+    <span class="p">)</span></pre></div></div><p>Crop input tensor between begin and end coordinates.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_process_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>begin</p></td>
+<td><p>Pointer to begin indexes for input tensor cropping. Negative values represent counting elements from the end of input tensor</p></td>
+</tr>
+<tr class="row-odd"><td><p>begin_size</p></td>
+<td><p>The size of begin array</p></td>
+</tr>
+<tr class="row-even"><td><p>end</p></td>
+<td><p>Pointer to end indexes for input tensor cropping. End indexes are exclusive, which means values including end edge are not included in the output slice. Negative values represent counting elements from the end of input tensor</p></td>
+</tr>
+<tr class="row-odd"><td><p>end_size</p></td>
+<td><p>The size of end array</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga6c762b82a67233662588416358f11716"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_convert_layout</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">layout</span>
+    <span class="p">)</span></pre></div></div><p>Add ‘convert layout’ operation to specified layout.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_process_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>layout</p></td>
+<td><p>A point to <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga2622e8e8a0dd385bd8587dd3670bb893"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_reverse_channels</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">)</span></pre></div></div><p>Reverse channels operation.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_process_steps</p></td>
+<td><p>A pointer to <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga56278fb8c932419be17b7f9deb9449c7"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_tensor_info_set_element_type</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_element_type_e.html#doxid-group-ov-base-c-api-1gafe289f68fb4694047c82e1722a3ee4dd"><span class="std std-ref">ov_element_type_e</span></a><span></span> <span class="n">element_type</span>
+    <span class="p">)</span></pre></div></div><p>Set <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a> precesion.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>element_type</p></td>
+<td><p>A point to element_type</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga3e3507afdef493b3138cfd4bda1d0e80"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_tensor_info_set_color_format</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_color_format_e.html#doxid-group-ov-prepostprocess-c-api-1ga3b8e30775394e1fe1f7f5aeca8abe6d3"><span class="std std-ref">ov_color_format_e</span></a><span></span> <span class="n">colorFormat</span>
+    <span class="p">)</span></pre></div></div><p>Set <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a> color format.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>colorFormat</p></td>
+<td><p>The enumerate of colorFormat</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga658bd5e92d614199fa3ee542b6643b77"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_tensor_info_set_spatial_static_shape</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">input_height</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">input_width</span>
+    <span class="p">)</span></pre></div></div><p>Set <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a> spatial_static_shape.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>input_height</p></td>
+<td><p>The height of input</p></td>
+</tr>
+<tr class="row-odd"><td><p>input_width</p></td>
+<td><p>The width of input</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga094abcbfa495ee4477a6d8cd296859ea"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_convert_element_type</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_element_type_e.html#doxid-group-ov-base-c-api-1gafe289f68fb4694047c82e1722a3ee4dd"><span class="std std-ref">ov_element_type_e</span></a><span></span> <span class="n">element_type</span>
+    <span class="p">)</span></pre></div></div><p>Convert <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a> element type.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_steps</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>element_type</p></td>
+<td><p>preprocess input element type.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga58fc6c47d0dd65434e777332cbc17fe1"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_preprocess_steps_convert_color</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_process_steps</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_color_format_e.html#doxid-group-ov-prepostprocess-c-api-1ga3b8e30775394e1fe1f7f5aeca8abe6d3"><span class="std std-ref">ov_color_format_e</span></a><span></span> <span class="n">colorFormat</span>
+    <span class="p">)</span></pre></div></div><p>Convert <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a> color.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_steps</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_preprocess_steps_t.html#doxid-structov-preprocess-preprocess-steps-t"><span class="std std-ref">ov_preprocess_preprocess_steps_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>colorFormat</p></td>
+<td><p>The enumerate of colorFormat.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga32b357835ee35da03d9d44c0594d1017"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_tensor_info_set_from</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_tensor_t.html#doxid-structov-tensor-t"><span class="std std-ref">ov_tensor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor</span>
+    <span class="p">)</span></pre></div></div><p>Helper function to reuse element type and shape from user’s created tensor.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor</p></td>
+<td><p>A point to <a class="reference internal" href="structov_tensor_t.html#doxid-structov-tensor-t"><span class="std std-ref">ov_tensor_t</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga0fccd0f160cdc0f43468ba9ae5402cc1"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_tensor_info_set_layout</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_tensor_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">layout</span>
+    <span class="p">)</span></pre></div></div><p>Set <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a> layout.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>layout</p></td>
+<td><p>A point to <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gac3c54d7202ebbfd25a467b6d23f7a906"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_get_output_info</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span>
+    <span class="p">)</span></pre></div></div><p>Get the output info of <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a> instance.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess_output_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga50a709346770ea115cc379cbb1c6232b"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_get_output_info_by_index</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">tensor_index</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span>
+    <span class="p">)</span></pre></div></div><p>Get the output info of <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a> instance.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_index</p></td>
+<td><p>The tensor index</p></td>
+</tr>
+<tr class="row-odd"><td><p>preprocess_output_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga77ece1cd27d16245d48ea7fdb94e63d6"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_get_output_info_by_name</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="err">\</span><span class="o">*</span> <span class="n">tensor_name</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span>
+    <span class="p">)</span></pre></div></div><p>Get the output info of <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a> instance.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tensor_name</p></td>
+<td><p>The name of input.</p></td>
+</tr>
+<tr class="row-odd"><td><p>preprocess_output_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gab05b9d04def252ef6e230bba4d7c9bc0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_output_info_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_output_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gaec4b131e310b8406e97557920a59d25e"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_output_info_get_tensor_info</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_tensor_info</span>
+    <span class="p">)</span></pre></div></div><p>Get a <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_output_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_info_t.html#doxid-structov-preprocess-output-info-t"><span class="std std-ref">ov_preprocess_output_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess_output_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga3142d583cdb0b6ceaaa2d6fc20f5fbae"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_output_tensor_info_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_tensor_info</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_output_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga70e2832274fe31818495c6b4811630f0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_output_set_element_type</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_output_tensor_info</span><span class="p">,</span>
+    <span class="k">const</span> <a class="reference internal" href="enumov_element_type_e.html#doxid-group-ov-base-c-api-1gafe289f68fb4694047c82e1722a3ee4dd"><span class="std std-ref">ov_element_type_e</span></a><span></span> <span class="n">element_type</span>
+    <span class="p">)</span></pre></div></div><p>Set <a class="reference internal" href="structov_preprocess_input_tensor_info_t.html#doxid-structov-preprocess-input-tensor-info-t"><span class="std std-ref">ov_preprocess_input_tensor_info_t</span></a> precesion.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_output_tensor_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_output_tensor_info_t.html#doxid-structov-preprocess-output-tensor-info-t"><span class="std std-ref">ov_preprocess_output_tensor_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>element_type</p></td>
+<td><p>A point to element_type</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga7f7057f8ae25b40276fc407b73a5b96a"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_info_get_model_info</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_model_info</span>
+    <span class="p">)</span></pre></div></div><p>Get current input model information.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_info_t.html#doxid-structov-preprocess-input-info-t"><span class="std std-ref">ov_preprocess_input_info_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>preprocess_input_model_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1gafea9cf5b7d0d339e49c225b43df90391"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_model_info_free</span><span class="p">(</span><a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_model_info</span><span class="p">)</span></pre></div></div><p>Release the memory allocated by <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a>.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_model_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a> to free memory.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga4220f1cfff286d2413f42f5d48f5c950"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_input_model_info_set_layout</span><span class="p">(</span>
+    <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess_input_model_info</span><span class="p">,</span>
+    <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">layout</span>
+    <span class="p">)</span></pre></div></div><p>Set layout for model’s input tensor.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess_input_model_info</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_input_model_info_t.html#doxid-structov-preprocess-input-model-info-t"><span class="std std-ref">ov_preprocess_input_model_info_t</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>layout</p></td>
+<td><p>A point to <a class="reference internal" href="structov_layout_t.html#doxid-structov-layout-t"><span class="std std-ref">ov_layout_t</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="doxid-group-ov-prepostprocess-c-api-1ga6070fa6df458cca6f3309ded38f478a6"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">ov_preprocess_prepostprocessor_build</span><span class="p">(</span>
+    <span class="k">const</span> <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a><span></span> <span class="err">\</span><span class="o">*</span> <span class="n">preprocess</span><span class="p">,</span>
+    <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a><span></span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">model</span>
+    <span class="p">)</span></pre></div></div><p>Adds pre/post-processing operations to function passed in constructor.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>preprocess</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_preprocess_prepostprocessor_t.html#doxid-structov-preprocess-prepostprocessor-t"><span class="std std-ref">ov_preprocess_prepostprocessor_t</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>model</p></td>
+<td><p>A pointer to the <a class="reference internal" href="structov_model_t.html#doxid-structov-model-t"><span class="std std-ref">ov_model_t</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Returns:</p>
+<p>Status code of the operation: OK(0) for success.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+            
+            
+                <div class='prev-next-bottom'>
+                  
+
+                </div>
+            
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Intel®.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

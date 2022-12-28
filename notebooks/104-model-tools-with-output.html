@@ -661,22 +661,22 @@ and
 <a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo/blob/master/models/intel/index.md">Intel</a>
 pre-trained models for a full list of models that can be used. Set
 <code class="docutils literal notranslate"><span class="pre">model_name</span></code> to the model you want to use.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># model_name = &quot;resnet-50-pytorch&quot;</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;mobilenet-v2-pytorch&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># model_name = &quot;resnet-50-pytorch&quot;
+model_name = &quot;mobilenet-v2-pytorch&quot;
 </pre></div>
 </div>
 </section>
 <section id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import json
+import sys
+from pathlib import Path
 
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+from IPython.display import Markdown, display
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">DeviceNotFoundAlert</span><span class="p">,</span> <span class="n">NotebookAlert</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import DeviceNotFoundAlert, NotebookAlert
 </pre></div>
 </div>
 </section>
@@ -697,17 +697,17 @@ Converter, but it speeds up subsequent downloads.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">precision</span></code>: If specified, only models with this precision will be
 downloaded and converted.</p></li>
 </ul>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;~/open_model_zoo_models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
-<span class="n">omz_cache_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;~/open_model_zoo_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>base_model_dir = Path(&quot;~/open_model_zoo_models&quot;).expanduser()
+omz_cache_dir = Path(&quot;~/open_model_zoo_cache&quot;).expanduser()
+precision = &quot;FP16&quot;
 
-<span class="c1"># Check if an iGPU is available on this system to use with Benchmark App.</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">gpu_available</span> <span class="o">=</span> <span class="s2">&quot;GPU&quot;</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span>
+# Check if an iGPU is available on this system to use with Benchmark App.
+ie = Core()
+gpu_available = &quot;GPU&quot; in ie.available_devices
 
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;base_model_dir: </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">, omz_cache_dir: </span><span class="si">{</span><span class="n">omz_cache_dir</span><span class="si">}</span><span class="s2">, gpu_availble: </span><span class="si">{</span><span class="n">gpu_available</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+print(
+    f&quot;base_model_dir: {base_model_dir}, omz_cache_dir: {omz_cache_dir}, gpu_availble: {gpu_available}&quot;
+)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">base_model_dir</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">open_model_zoo_models</span><span class="p">,</span> <span class="n">omz_cache_dir</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">open_model_zoo_cache</span><span class="p">,</span> <span class="n">gpu_availble</span><span class="p">:</span> <span class="kc">False</span>
@@ -719,17 +719,17 @@ downloaded and converted.</p></li>
 <h2>Download a Model from Open Model Zoo<a class="headerlink" href="#download-a-model-from-open-model-zoo" title="Permalink to this headline">¶</a></h2>
 <p>Specify, display and run the Model Downloader command to download the
 model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Uncomment the next line to show help in omz_downloader which explains the command-line options.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Uncomment the next line to show help in omz_downloader which explains the command-line options.
 
-<span class="c1"># !omz_downloader --help</span>
+# !omz_downloader --help
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download_command</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;omz_downloader --name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> --output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --cache_dir </span><span class="si">{</span><span class="n">omz_cache_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download command: `</span><span class="si">{</span><span class="n">download_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">))</span>
-<span class="o">!</span> <span class="nv">$download_command</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>download_command = (
+    f&quot;omz_downloader --name {model_name} --output_dir {base_model_dir} --cache_dir {omz_cache_dir}&quot;
+)
+display(Markdown(f&quot;Download command: `{download_command}`&quot;))
+display(Markdown(f&quot;Downloading {model_name}...&quot;))
+! $download_command
 </pre></div>
 </div>
 <p>Download command:
@@ -749,16 +749,16 @@ output of the Model Converter command will be displayed. When the
 conversion is successful, the last lines of the output will include:
 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model.</span></code> For downloaded models
 that are already in OpenVINO IR format, conversion will be skipped.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Uncomment the next line to show Help in omz_converter which explains the command-line options.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Uncomment the next line to show Help in omz_converter which explains the command-line options.
 
-<span class="c1"># !omz_converter --help</span>
+# !omz_converter --help
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">convert_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_converter --name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> --precisions </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> --download_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convert command: `</span><span class="si">{</span><span class="n">convert_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>convert_command = f&quot;omz_converter --name {model_name} --precisions {precision} --download_dir {base_model_dir} --output_dir {base_model_dir}&quot;
+display(Markdown(f&quot;Convert command: `{convert_command}`&quot;))
+display(Markdown(f&quot;Converting {model_name}...&quot;))
 
-<span class="o">!</span> <span class="nv">$convert_command</span>
+! $convert_command
 </pre></div>
 </div>
 <p>Convert command:
@@ -829,18 +829,18 @@ models:</p>
 also be parsed and used in scripts.</p>
 <p>In the next cell, run Info Dumper and use <code class="docutils literal notranslate"><span class="pre">json</span></code> to load the
 information in a dictionary.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_info_output</span> <span class="o">=</span> <span class="o">%</span><span class="k">sx</span> omz_info_dumper --name <span class="nv">$model_name</span>
-<span class="n">model_info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model_info_output</span><span class="o">.</span><span class="n">get_nlstr</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_info_output = %sx omz_info_dumper --name $model_name
+model_info = json.loads(model_info_output.get_nlstr())
 
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_info</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">NotebookAlert</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;There are multiple IR files for the </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> model. The first model in the &quot;</span>
-        <span class="s2">&quot;omz_info_dumper output will be used for benchmarking. Change &quot;</span>
-        <span class="s2">&quot;`selected_model_info` in the cell below to select a different model from the list.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+if len(model_info) &gt; 1:
+    NotebookAlert(
+        f&quot;There are multiple IR files for the {model_name} model. The first model in the &quot;
+        &quot;omz_info_dumper output will be used for benchmarking. Change &quot;
+        &quot;`selected_model_info` in the cell below to select a different model from the list.&quot;,
+        &quot;warning&quot;,
+    )
 
-<span class="n">model_info</span>
+model_info
 </pre></div>
 </div>
 <pre class="literal-block">[{'name': 'mobilenet-v2-pytorch',
@@ -861,13 +861,13 @@ information in a dictionary.</p>
 <p>Having information of the model in a JSON file allows extracting the
 path to the model directory, and building the path to the OpenVINO IR
 file.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_model_info</span> <span class="o">=</span> <span class="n">model_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">model_path</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">base_model_dir</span>
-    <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">selected_model_info</span><span class="p">[</span><span class="s2">&quot;subdirectory&quot;</span><span class="p">])</span>
-    <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">selected_model_info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="s2">&quot;exists:&quot;</span><span class="p">,</span> <span class="n">model_path</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>selected_model_info = model_info[0]
+model_path = (
+    base_model_dir
+    / Path(selected_model_info[&quot;subdirectory&quot;])
+    / Path(f&quot;{precision}/{selected_model_info[&#39;name&#39;]}.xml&quot;)
+)
+print(model_path, &quot;exists:&quot;, model_path.exists())
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">open_model_zoo_models</span><span class="o">/</span><span class="n">public</span><span class="o">/</span><span class="n">mobilenet</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">pytorch</span><span class="o">/</span><span class="n">FP16</span><span class="o">/</span><span class="n">mobilenet</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">pytorch</span><span class="o">.</span><span class="n">xml</span> <span class="n">exists</span><span class="p">:</span> <span class="kc">True</span>
@@ -879,16 +879,16 @@ file.</p>
 <p>By default, Benchmark Tool runs inference for 60 seconds in asynchronous
 mode on CPU. It returns inference speed as latency (milliseconds per
 image) and throughput values (frames per second).</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Uncomment the next line to show Help in benchmark_app which explains the command-line options.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Uncomment the next line to show Help in benchmark_app which explains the command-line options.
 
-<span class="c1"># !benchmark_app --help</span>
+# !benchmark_app --help
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;benchmark_app -m </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2"> -t 15&quot;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Benchmark command: `</span><span class="si">{</span><span class="n">benchmark_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Benchmarking </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> on CPU with async inference for 15 seconds...&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark_command = f&quot;benchmark_app -m {model_path} -t 15&quot;
+display(Markdown(f&quot;Benchmark command: `{benchmark_command}`&quot;))
+display(Markdown(f&quot;Benchmarking {model_name} on CPU with async inference for 15 seconds...&quot;))
 
-<span class="o">!</span> <span class="nv">$benchmark_command</span>
+! $benchmark_command
 </pre></div>
 </div>
 <p>Benchmark command:
@@ -978,35 +978,35 @@ applications. Copy the <strong>benchmark command</strong> and paste it in a
 command prompt where you have activated the <code class="docutils literal notranslate"><span class="pre">openvino_env</span></code>
 environment.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">benchmark_model</span><span class="p">(</span><span class="n">model_xml</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-    <span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_xml</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;GPU&quot;</span> <span class="ow">in</span> <span class="n">device</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;GPU&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span><span class="p">):</span>
-        <span class="n">DeviceNotFoundAlert</span><span class="p">(</span><span class="s2">&quot;GPU&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">benchmark_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;benchmark_app -m </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2"> -d </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2"> -t </span><span class="si">{</span><span class="n">seconds</span><span class="si">}</span><span class="s2"> -api </span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2"> -b </span><span class="si">{</span><span class="n">batch</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Benchmark </span><span class="si">{</span><span class="n">model_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">seconds</span><span class="si">}</span><span class="s2"> seconds with </span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2"> inference**&quot;</span><span class="p">))</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Benchmark command: `</span><span class="si">{</span><span class="n">benchmark_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def benchmark_model(model_xml, device=&quot;CPU&quot;, seconds=60, api=&quot;async&quot;, batch=1):
+    ie = Core()
+    model_path = Path(model_xml)
+    if (&quot;GPU&quot; in device) and (&quot;GPU&quot; not in ie.available_devices):
+        DeviceNotFoundAlert(&quot;GPU&quot;)
+    else:
+        benchmark_command = f&quot;benchmark_app -m {model_path} -d {device} -t {seconds} -api {api} -b {batch}&quot;
+        display(Markdown(f&quot;**Benchmark {model_path.name} with {device} for {seconds} seconds with {api} inference**&quot;))
+        display(Markdown(f&quot;Benchmark command: `{benchmark_command}`&quot;))
 
-        <span class="n">benchmark_output</span> <span class="o">=</span> <span class="o">%</span><span class="k">sx</span> <span class="nv">$benchmark_command</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;command ended&quot;</span><span class="p">)</span>
-        <span class="n">benchmark_result</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">benchmark_output</span>
-                            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;      &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">benchmark_result</span><span class="p">))</span>
+        benchmark_output = %sx $benchmark_command
+        print(&quot;command ended&quot;)
+        benchmark_result = [line for line in benchmark_output
+                            if not (line.startswith(r&quot;[&quot;) or line.startswith(&quot;      &quot;) or line == &quot;&quot;)]
+        print(&quot;\n&quot;.join(benchmark_result))
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
 
-<span class="c1"># Show devices available for OpenVINO Runtime</span>
-<span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span><span class="p">:</span>
-    <span class="n">device_name</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">&quot;FULL_DEVICE_NAME&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">device_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Show devices available for OpenVINO Runtime
+for device in ie.available_devices:
+    device_name = ie.get_property(device, &quot;FULL_DEVICE_NAME&quot;)
+    print(f&quot;{device}: {device_name}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPU</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark_model(model_path, device=&quot;CPU&quot;, seconds=15, api=&quot;async&quot;)
 </pre></div>
 </div>
 <p><strong>Benchmark mobilenet-v2-pytorch.xml with CPU for 15 seconds with async
@@ -1024,7 +1024,7 @@ inference</strong></p>
 <span class="n">Throughput</span><span class="p">:</span> <span class="mf">1311.16</span> <span class="n">FPS</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;AUTO&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark_model(model_path, device=&quot;AUTO&quot;, seconds=15, api=&quot;async&quot;)
 </pre></div>
 </div>
 <p><strong>Benchmark mobilenet-v2-pytorch.xml with AUTO for 15 seconds with async
@@ -1042,10 +1042,10 @@ inference</strong></p>
 <span class="n">Throughput</span><span class="p">:</span> <span class="mf">1321.35</span> <span class="n">FPS</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;GPU&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark_model(model_path, device=&quot;GPU&quot;, seconds=15, api=&quot;async&quot;)
 </pre></div>
 </div>
-<div class="alert alert-warning">Running this cell requires a GPU device, which is not available on this system. The following device is available: CPU<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;MULTI:CPU,GPU&quot;</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+<div class="alert alert-warning">Running this cell requires a GPU device, which is not available on this system. The following device is available: CPU<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark_model(model_path, device=&quot;MULTI:CPU,GPU&quot;, seconds=15, api=&quot;async&quot;)
 </pre></div>
 </div>
 <div class="alert alert-warning">Running this cell requires a GPU device, which is not available on this system. The following device is available: CPU</section>

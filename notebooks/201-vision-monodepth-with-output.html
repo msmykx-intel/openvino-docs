@@ -657,67 +657,67 @@ Transactions on Pattern Analysis and Machine Intelligence, doi:
 </section>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import time
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.cm</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">HTML</span><span class="p">,</span>
-    <span class="n">FileLink</span><span class="p">,</span>
-    <span class="n">Pretty</span><span class="p">,</span>
-    <span class="n">ProgressBar</span><span class="p">,</span>
-    <span class="n">Video</span><span class="p">,</span>
-    <span class="n">clear_output</span><span class="p">,</span>
-    <span class="n">display</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import matplotlib.cm
+import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import (
+    HTML,
+    FileLink,
+    Pretty,
+    ProgressBar,
+    Video,
+    clear_output,
+    display,
+)
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">load_image</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import load_image
 </pre></div>
 </div>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DEVICE</span> <span class="o">=</span> <span class="s2">&quot;CPU&quot;</span>
-<span class="n">MODEL_FILE</span> <span class="o">=</span> <span class="s2">&quot;model/MiDaS_small.xml&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DEVICE = &quot;CPU&quot;
+MODEL_FILE = &quot;model/MiDaS_small.xml&quot;
 
-<span class="n">model_xml_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">MODEL_FILE</span><span class="p">)</span>
+model_xml_path = Path(MODEL_FILE)
 </pre></div>
 </div>
 <section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">normalize_minmax</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Normalizes the values in `data` between 0 and 1&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def normalize_minmax(data):
+    &quot;&quot;&quot;Normalizes the values in `data` between 0 and 1&quot;&quot;&quot;
+    return (data - data.min()) / (data.max() - data.min())
 
 
-<span class="k">def</span> <span class="nf">convert_result_to_image</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert network result of floating point numbers to an RGB image with</span>
-<span class="sd">    integer values from 0-255 by applying a colormap.</span>
+def convert_result_to_image(result, colormap=&quot;viridis&quot;):
+    &quot;&quot;&quot;
+    Convert network result of floating point numbers to an RGB image with
+    integer values from 0-255 by applying a colormap.
 
-<span class="sd">    `result` is expected to be a single network result in 1,H,W shape</span>
-<span class="sd">    `colormap` is a matplotlib colormap.</span>
-<span class="sd">    See https://matplotlib.org/stable/tutorials/colors/colormaps.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">colormap</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">normalize_minmax</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">result</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">255</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span>
+    `result` is expected to be a single network result in 1,H,W shape
+    `colormap` is a matplotlib colormap.
+    See https://matplotlib.org/stable/tutorials/colors/colormaps.html
+    &quot;&quot;&quot;
+    cmap = matplotlib.cm.get_cmap(colormap)
+    result = result.squeeze(0)
+    result = normalize_minmax(result)
+    result = cmap(result)[:, :, :3] * 255
+    result = result.astype(np.uint8)
+    return result
 
 
-<span class="k">def</span> <span class="nf">to_rgb</span><span class="p">(</span><span class="n">image_data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert image_data from BGR to RGB</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+def to_rgb(image_data) -&gt; np.ndarray:
+    &quot;&quot;&quot;
+    Convert image_data from BGR to RGB
+    &quot;&quot;&quot;
+    return cv2.cvtColor(image_data, cv2.COLOR_BGR2RGB)
 </pre></div>
 </div>
 </section>
@@ -726,15 +726,15 @@ Transactions on Pattern Analysis and Machine Intelligence, doi:
 <p>Load the model in OpenVINO Runtime with <code class="docutils literal notranslate"><span class="pre">ie.read_model</span></code> and compile it
 for the specified device with <code class="docutils literal notranslate"><span class="pre">ie.compile_model</span></code>. Get input and output
 keys and the expected input shape for the model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_xml_path</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">model_xml_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">))</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+model = ie.read_model(model=model_xml_path, weights=model_xml_path.with_suffix(&quot;.bin&quot;))
+compiled_model = ie.compile_model(model=model, device_name=DEVICE)
 
-<span class="n">input_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+input_key = compiled_model.input(0)
+output_key = compiled_model.output(0)
 
-<span class="n">network_input_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_key</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">network_image_height</span><span class="p">,</span> <span class="n">network_image_width</span> <span class="o">=</span> <span class="n">network_input_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+network_input_shape = list(input_key.shape)
+network_image_height, network_image_width = network_input_shape[2:]
 </pre></div>
 </div>
 </section>
@@ -747,14 +747,14 @@ keys and the expected input shape for the model.</p>
 <p>The input image is read with OpenCV, resized to network input size, and
 reshaped to (N,C,H,W) (N=number of images, C=number of channels,
 H=height, W=width).</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_FILE</span> <span class="o">=</span> <span class="s2">&quot;data/coco_bike.jpg&quot;</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">IMAGE_FILE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>IMAGE_FILE = &quot;data/coco_bike.jpg&quot;
+image = load_image(path=IMAGE_FILE)
 
-<span class="c1"># Resize to input shape for network.</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">network_image_height</span><span class="p">,</span> <span class="n">network_image_width</span><span class="p">))</span>
+# Resize to input shape for network.
+resized_image = cv2.resize(src=image, dsize=(network_image_height, network_image_width))
 
-<span class="c1"># Reshape the image to network input shape NCHW.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
+# Reshape the image to network input shape NCHW.
+input_image = np.expand_dims(np.transpose(resized_image, (2, 0, 1)), 0)
 </pre></div>
 </div>
 </section>
@@ -762,23 +762,23 @@ H=height, W=width).</p>
 <h2>Do inference on the image<a class="headerlink" href="#do-inference-on-the-image" title="Permalink to this headline">¶</a></h2>
 <p>Do inference, convert the result to an image, and resize it to the
 original image shape.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_key</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result = compiled_model([input_image])[output_key]
 
-<span class="c1"># Convert the network result of disparity map to an image that shows</span>
-<span class="c1"># distance as colors.</span>
-<span class="n">result_image</span> <span class="o">=</span> <span class="n">convert_result_to_image</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+# Convert the network result of disparity map to an image that shows
+# distance as colors.
+result_image = convert_result_to_image(result=result)
 
-<span class="c1"># Resize back to original image shape. The `cv2.resize` function expects shape</span>
-<span class="c1"># in (width, height), [::-1] reverses the (height, width) shape to match this.</span>
-<span class="n">result_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">result_image</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+# Resize back to original image shape. The `cv2.resize` function expects shape
+# in (width, height), [::-1] reverses the (height, width) shape to match this.
+result_image = cv2.resize(result_image, image.shape[:2][::-1])
 </pre></div>
 </div>
 </section>
 <section id="display-monodepth-image">
 <h2>Display monodepth image<a class="headerlink" href="#display-monodepth-image" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">to_rgb</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result_image</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots(1, 2, figsize=(20, 15))
+ax[0].imshow(to_rgb(image))
+ax[1].imshow(result_image);
 </pre></div>
 </div>
 <img alt="../_images/201-vision-monodepth-with-output_14_0.png" src="../_images/201-vision-monodepth-with-output_14_0.png" />
@@ -791,29 +791,29 @@ modify this. Set <code class="docutils literal notranslate"><span class="pre">NU
 </section>
 <section id="video-settings">
 <h2>Video Settings<a class="headerlink" href="#video-settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Video source: https://www.youtube.com/watch?v=fu1xcQdJRws (Public Domain)</span>
-<span class="n">VIDEO_FILE</span> <span class="o">=</span> <span class="s2">&quot;data/Coco Walking in Berkeley.mp4&quot;</span>
-<span class="c1"># Number of seconds of input video to process. Set `NUM_SECONDS` to 0 to process</span>
-<span class="c1"># the full video.</span>
-<span class="n">NUM_SECONDS</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="c1"># Set `ADVANCE_FRAMES` to 1 to process every frame from the input video</span>
-<span class="c1"># Set `ADVANCE_FRAMES` to 2 to process every second frame. This reduces</span>
-<span class="c1"># the time it takes to process the video.</span>
-<span class="n">ADVANCE_FRAMES</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="c1"># Set `SCALE_OUTPUT` to reduce the size of the result video</span>
-<span class="c1"># If `SCALE_OUTPUT` is 0.5, the width and height of the result video</span>
-<span class="c1"># will be half the width and height of the input video.</span>
-<span class="n">SCALE_OUTPUT</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="c1"># The format to use for video encoding. The &#39;vp09` is slow,</span>
-<span class="c1"># but it works on most systems.</span>
-<span class="c1"># Try the `THEO` encoding if you have FFMPEG installed.</span>
-<span class="c1"># FOURCC = cv2.VideoWriter_fourcc(*&quot;THEO&quot;)</span>
-<span class="n">FOURCC</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter_fourcc</span><span class="p">(</span><span class="o">*</span><span class="s2">&quot;vp09&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Video source: https://www.youtube.com/watch?v=fu1xcQdJRws (Public Domain)
+VIDEO_FILE = &quot;data/Coco Walking in Berkeley.mp4&quot;
+# Number of seconds of input video to process. Set `NUM_SECONDS` to 0 to process
+# the full video.
+NUM_SECONDS = 4
+# Set `ADVANCE_FRAMES` to 1 to process every frame from the input video
+# Set `ADVANCE_FRAMES` to 2 to process every second frame. This reduces
+# the time it takes to process the video.
+ADVANCE_FRAMES = 2
+# Set `SCALE_OUTPUT` to reduce the size of the result video
+# If `SCALE_OUTPUT` is 0.5, the width and height of the result video
+# will be half the width and height of the input video.
+SCALE_OUTPUT = 0.5
+# The format to use for video encoding. The &#39;vp09` is slow,
+# but it works on most systems.
+# Try the `THEO` encoding if you have FFMPEG installed.
+# FOURCC = cv2.VideoWriter_fourcc(*&quot;THEO&quot;)
+FOURCC = cv2.VideoWriter_fourcc(*&quot;vp09&quot;)
 
-<span class="c1"># Create Path objects for the input video and the result video.</span>
-<span class="n">output_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
-<span class="n">output_directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">result_video_path</span> <span class="o">=</span> <span class="n">output_directory</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">VIDEO_FILE</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">_monodepth.mp4&quot;</span>
+# Create Path objects for the input video and the result video.
+output_directory = Path(&quot;output&quot;)
+output_directory.mkdir(exist_ok=True)
+result_video_path = output_directory / f&quot;{Path(VIDEO_FILE).stem}_monodepth.mp4&quot;
 </pre></div>
 </div>
 </section>
@@ -822,27 +822,27 @@ modify this. Set <code class="docutils literal notranslate"><span class="pre">NU
 <p>Load the video from a <code class="docutils literal notranslate"><span class="pre">VIDEO_FILE</span></code>, set in the <em>Video Settings</em> cell
 above. Open the video to read the frame width and height and fps, and
 compute values for these properties for the monodepth video.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">VIDEO_FILE</span><span class="p">))</span>
-<span class="n">ret</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The video at </span><span class="si">{</span><span class="n">VIDEO_FILE</span><span class="si">}</span><span class="s2"> cannot be read.&quot;</span><span class="p">)</span>
-<span class="n">input_fps</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span>
-<span class="n">input_video_frame_height</span><span class="p">,</span> <span class="n">input_video_frame_width</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cap = cv2.VideoCapture(str(VIDEO_FILE))
+ret, image = cap.read()
+if not ret:
+    raise ValueError(f&quot;The video at {VIDEO_FILE} cannot be read.&quot;)
+input_fps = cap.get(cv2.CAP_PROP_FPS)
+input_video_frame_height, input_video_frame_width = image.shape[:2]
 
-<span class="n">target_fps</span> <span class="o">=</span> <span class="n">input_fps</span> <span class="o">/</span> <span class="n">ADVANCE_FRAMES</span>
-<span class="n">target_frame_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_video_frame_height</span> <span class="o">*</span> <span class="n">SCALE_OUTPUT</span><span class="p">)</span>
-<span class="n">target_frame_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_video_frame_width</span> <span class="o">*</span> <span class="n">SCALE_OUTPUT</span><span class="p">)</span>
+target_fps = input_fps / ADVANCE_FRAMES
+target_frame_height = int(input_video_frame_height * SCALE_OUTPUT)
+target_frame_width = int(input_video_frame_width * SCALE_OUTPUT)
 
-<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;The input video has a frame width of </span><span class="si">{</span><span class="n">input_video_frame_width</span><span class="si">}</span><span class="s2">, &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;frame height of </span><span class="si">{</span><span class="n">input_video_frame_height</span><span class="si">}</span><span class="s2"> and runs at </span><span class="si">{</span><span class="n">input_fps</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> fps&quot;</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;The monodepth video will be scaled with a factor &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SCALE_OUTPUT</span><span class="si">}</span><span class="s2">, have width </span><span class="si">{</span><span class="n">target_frame_width</span><span class="si">}</span><span class="s2">, &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot; height </span><span class="si">{</span><span class="n">target_frame_height</span><span class="si">}</span><span class="s2">, and run at </span><span class="si">{</span><span class="n">target_fps</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> fps&quot;</span>
-<span class="p">)</span>
+cap.release()
+print(
+    f&quot;The input video has a frame width of {input_video_frame_width}, &quot;
+    f&quot;frame height of {input_video_frame_height} and runs at {input_fps:.2f} fps&quot;
+)
+print(
+    &quot;The monodepth video will be scaled with a factor &quot;
+    f&quot;{SCALE_OUTPUT}, have width {target_frame_width}, &quot;
+    f&quot; height {target_frame_height}, and run at {target_fps:.2f} fps&quot;
+)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="nb">input</span> <span class="n">video</span> <span class="n">has</span> <span class="n">a</span> <span class="n">frame</span> <span class="n">width</span> <span class="n">of</span> <span class="mi">640</span><span class="p">,</span> <span class="n">frame</span> <span class="n">height</span> <span class="n">of</span> <span class="mi">360</span> <span class="ow">and</span> <span class="n">runs</span> <span class="n">at</span> <span class="mf">30.00</span> <span class="n">fps</span>
@@ -852,97 +852,97 @@ compute values for these properties for the monodepth video.</p>
 </section>
 <section id="do-inference-on-a-video-and-create-monodepth-video">
 <h2>Do Inference on a Video and Create Monodepth Video<a class="headerlink" href="#do-inference-on-a-video-and-create-monodepth-video" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize variables.</span>
-<span class="n">input_video_frame_nr</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">total_inference_duration</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Initialize variables.
+input_video_frame_nr = 0
+start_time = time.perf_counter()
+total_inference_duration = 0
 
-<span class="c1"># Open the input video</span>
-<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">VIDEO_FILE</span><span class="p">))</span>
+# Open the input video
+cap = cv2.VideoCapture(str(VIDEO_FILE))
 
-<span class="c1"># Create a result video.</span>
-<span class="n">out_video</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter</span><span class="p">(</span>
-    <span class="nb">str</span><span class="p">(</span><span class="n">result_video_path</span><span class="p">),</span>
-    <span class="n">FOURCC</span><span class="p">,</span>
-    <span class="n">target_fps</span><span class="p">,</span>
-    <span class="p">(</span><span class="n">target_frame_width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">target_frame_height</span><span class="p">),</span>
-<span class="p">)</span>
+# Create a result video.
+out_video = cv2.VideoWriter(
+    str(result_video_path),
+    FOURCC,
+    target_fps,
+    (target_frame_width * 2, target_frame_height),
+)
 
-<span class="n">num_frames</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">NUM_SECONDS</span> <span class="o">*</span> <span class="n">input_fps</span><span class="p">)</span>
-<span class="n">total_frames</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_COUNT</span><span class="p">)</span> <span class="k">if</span> <span class="n">num_frames</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">num_frames</span>
-<span class="n">progress_bar</span> <span class="o">=</span> <span class="n">ProgressBar</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">total_frames</span><span class="p">)</span>
-<span class="n">progress_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+num_frames = int(NUM_SECONDS * input_fps)
+total_frames = cap.get(cv2.CAP_PROP_FRAME_COUNT) if num_frames == 0 else num_frames
+progress_bar = ProgressBar(total=total_frames)
+progress_bar.display()
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
-        <span class="n">ret</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
-            <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-            <span class="k">break</span>
+try:
+    while cap.isOpened():
+        ret, image = cap.read()
+        if not ret:
+            cap.release()
+            break
 
-        <span class="k">if</span> <span class="n">input_video_frame_nr</span> <span class="o">&gt;=</span> <span class="n">total_frames</span><span class="p">:</span>
-            <span class="k">break</span>
+        if input_video_frame_nr &gt;= total_frames:
+            break
 
-        <span class="c1"># Only process every second frame.</span>
-        <span class="c1"># Prepare a frame for inference.</span>
-        <span class="c1"># Resize to the input shape for network.</span>
-        <span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">network_image_height</span><span class="p">,</span> <span class="n">network_image_width</span><span class="p">))</span>
-        <span class="c1"># Reshape the image to network input shape NCHW.</span>
-        <span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
+        # Only process every second frame.
+        # Prepare a frame for inference.
+        # Resize to the input shape for network.
+        resized_image = cv2.resize(src=image, dsize=(network_image_height, network_image_width))
+        # Reshape the image to network input shape NCHW.
+        input_image = np.expand_dims(np.transpose(resized_image, (2, 0, 1)), 0)
 
-        <span class="c1"># Do inference.</span>
-        <span class="n">inference_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_key</span><span class="p">]</span>
-        <span class="n">inference_stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-        <span class="n">inference_duration</span> <span class="o">=</span> <span class="n">inference_stop_time</span> <span class="o">-</span> <span class="n">inference_start_time</span>
-        <span class="n">total_inference_duration</span> <span class="o">+=</span> <span class="n">inference_duration</span>
+        # Do inference.
+        inference_start_time = time.perf_counter()
+        result = compiled_model([input_image])[output_key]
+        inference_stop_time = time.perf_counter()
+        inference_duration = inference_stop_time - inference_start_time
+        total_inference_duration += inference_duration
 
-        <span class="k">if</span> <span class="n">input_video_frame_nr</span> <span class="o">%</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">ADVANCE_FRAMES</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">progress_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
-            <span class="c1"># input_video_frame_nr // ADVANCE_FRAMES gives the number of</span>
-            <span class="c1"># Frames that have been processed by the network.</span>
-            <span class="n">display</span><span class="p">(</span>
-                <span class="n">Pretty</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Processed frame </span><span class="si">{</span><span class="n">input_video_frame_nr</span> <span class="o">//</span> <span class="n">ADVANCE_FRAMES</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">total_frames</span> <span class="o">//</span> <span class="n">ADVANCE_FRAMES</span><span class="si">}</span><span class="s2">. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Inference time per frame: </span><span class="si">{</span><span class="n">inference_duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">inference_duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> FPS)&quot;</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+        if input_video_frame_nr % (10 * ADVANCE_FRAMES) == 0:
+            clear_output(wait=True)
+            progress_bar.display()
+            # input_video_frame_nr // ADVANCE_FRAMES gives the number of
+            # Frames that have been processed by the network.
+            display(
+                Pretty(
+                    f&quot;Processed frame {input_video_frame_nr // ADVANCE_FRAMES}&quot;
+                    f&quot;/{total_frames // ADVANCE_FRAMES}. &quot;
+                    f&quot;Inference time per frame: {inference_duration:.2f} seconds &quot;
+                    f&quot;({1/inference_duration:.2f} FPS)&quot;
+                )
+            )
 
-        <span class="c1"># Transform the network result to a RGB image.</span>
-        <span class="n">result_frame</span> <span class="o">=</span> <span class="n">to_rgb</span><span class="p">(</span><span class="n">convert_result_to_image</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
-        <span class="c1"># Resize the image and the result to a target frame shape.</span>
-        <span class="n">result_frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">result_frame</span><span class="p">,</span> <span class="p">(</span><span class="n">target_frame_width</span><span class="p">,</span> <span class="n">target_frame_height</span><span class="p">))</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">target_frame_width</span><span class="p">,</span> <span class="n">target_frame_height</span><span class="p">))</span>
-        <span class="c1"># Put the image and the result side by side.</span>
-        <span class="n">stacked_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">image</span><span class="p">,</span> <span class="n">result_frame</span><span class="p">))</span>
-        <span class="c1"># Save a frame to the video.</span>
-        <span class="n">out_video</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stacked_frame</span><span class="p">)</span>
+        # Transform the network result to a RGB image.
+        result_frame = to_rgb(convert_result_to_image(result))
+        # Resize the image and the result to a target frame shape.
+        result_frame = cv2.resize(result_frame, (target_frame_width, target_frame_height))
+        image = cv2.resize(image, (target_frame_width, target_frame_height))
+        # Put the image and the result side by side.
+        stacked_frame = np.hstack((image, result_frame))
+        # Save a frame to the video.
+        out_video.write(stacked_frame)
 
-        <span class="n">input_video_frame_nr</span> <span class="o">=</span> <span class="n">input_video_frame_nr</span> <span class="o">+</span> <span class="n">ADVANCE_FRAMES</span>
-        <span class="n">cap</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_video_frame_nr</span><span class="p">)</span>
+        input_video_frame_nr = input_video_frame_nr + ADVANCE_FRAMES
+        cap.set(1, input_video_frame_nr)
 
-        <span class="n">progress_bar</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">input_video_frame_nr</span>
-        <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        progress_bar.progress = input_video_frame_nr
+        progress_bar.update()
 
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Processing interrupted.&quot;</span><span class="p">)</span>
-<span class="k">finally</span><span class="p">:</span>
-    <span class="n">clear_output</span><span class="p">()</span>
-    <span class="n">processed_frames</span> <span class="o">=</span> <span class="n">num_frames</span> <span class="o">//</span> <span class="n">ADVANCE_FRAMES</span>
-    <span class="n">out_video</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-    <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">duration</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+except KeyboardInterrupt:
+    print(&quot;Processing interrupted.&quot;)
+finally:
+    clear_output()
+    processed_frames = num_frames // ADVANCE_FRAMES
+    out_video.release()
+    cap.release()
+    end_time = time.perf_counter()
+    duration = end_time - start_time
 
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Processed </span><span class="si">{</span><span class="n">processed_frames</span><span class="si">}</span><span class="s2"> frames in </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds. &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;Total FPS (including video processing): </span><span class="si">{</span><span class="n">processed_frames</span><span class="o">/</span><span class="n">duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">.&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;Inference FPS: </span><span class="si">{</span><span class="n">processed_frames</span><span class="o">/</span><span class="n">total_inference_duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Monodepth Video saved to &#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">result_video_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+    print(
+        f&quot;Processed {processed_frames} frames in {duration:.2f} seconds. &quot;
+        f&quot;Total FPS (including video processing): {processed_frames/duration:.2f}.&quot;
+        f&quot;Inference FPS: {processed_frames/total_inference_duration:.2f} &quot;
+    )
+    print(f&quot;Monodepth Video saved to &#39;{str(result_video_path)}&#39;.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Processed</span> <span class="mi">60</span> <span class="n">frames</span> <span class="ow">in</span> <span class="mf">9.20</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Total</span> <span class="n">FPS</span> <span class="p">(</span><span class="n">including</span> <span class="n">video</span> <span class="n">processing</span><span class="p">):</span> <span class="mf">6.52</span><span class="o">.</span><span class="n">Inference</span> <span class="n">FPS</span><span class="p">:</span> <span class="mf">52.18</span>
@@ -952,20 +952,20 @@ compute values for these properties for the monodepth video.</p>
 </section>
 <section id="display-monodepth-video">
 <h2>Display Monodepth Video<a class="headerlink" href="#display-monodepth-video" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">video</span> <span class="o">=</span> <span class="n">Video</span><span class="p">(</span><span class="n">result_video_path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">result_video_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">stacked_frame</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;OpenCV was unable to write the video file. Showing one video frame.&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Showing monodepth video saved at</span><span class="se">\n</span><span class="si">{</span><span class="n">result_video_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;If you cannot see the video in your browser, please click on the &quot;</span>
-        <span class="s2">&quot;following link to download the video &quot;</span>
-    <span class="p">)</span>
-    <span class="n">video_link</span> <span class="o">=</span> <span class="n">FileLink</span><span class="p">(</span><span class="n">result_video_path</span><span class="p">)</span>
-    <span class="n">video_link</span><span class="o">.</span><span class="n">html_link_str</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&#39;</span><span class="si">%s</span><span class="s2">&#39; download&gt;</span><span class="si">%s</span><span class="s2">&lt;/a&gt;&quot;</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">video_link</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()))</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>video = Video(result_video_path, width=800, embed=True)
+if not result_video_path.exists():
+    plt.imshow(stacked_frame)
+    raise ValueError(&quot;OpenCV was unable to write the video file. Showing one video frame.&quot;)
+else:
+    print(f&quot;Showing monodepth video saved at\n{result_video_path.resolve()}&quot;)
+    print(
+        &quot;If you cannot see the video in your browser, please click on the &quot;
+        &quot;following link to download the video &quot;
+    )
+    video_link = FileLink(result_video_path)
+    video_link.html_link_str = &quot;&lt;a href=&#39;%s&#39; download&gt;%s&lt;/a&gt;&quot;
+    display(HTML(video_link._repr_html_()))
+    display(video)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Showing</span> <span class="n">monodepth</span> <span class="n">video</span> <span class="n">saved</span> <span class="n">at</span>

@@ -620,16 +620,16 @@ in parallel (e.g. populating inputs or scheduling other requests) rather
 than wait for the current inference to complete first.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">import</span> <span class="nn">openvino.runtime</span> <span class="k">as</span> <span class="nn">ov</span>
-<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">notebook_utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import cv2
+import time
+import numpy as np
+from openvino.runtime import Core
+import openvino.runtime as ov
+from IPython import display
+import matplotlib.pyplot as plt
+sys.path.append(&quot;../utils&quot;)
+import notebook_utils as utils
 </pre></div>
 </div>
 </section>
@@ -641,21 +641,21 @@ than wait for the current inference to complete first.</p>
 Zoo</a> to start our
 test. In this case, the model will be excuted to detect the person in
 each frame of the video.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># directory where model will be downloaded</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># directory where model will be downloaded
+base_model_dir = &quot;model&quot;
 
-<span class="c1"># model name as named in Open Model Zoo</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;person-detection-0202&quot;</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16&quot;</span>
-<span class="n">model_path</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;model/intel/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span>
-<span class="p">)</span>
-<span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--precision </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--cache_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="o">!</span> <span class="nv">$download_command</span>
+# model name as named in Open Model Zoo
+model_name = &quot;person-detection-0202&quot;
+precision = &quot;FP16&quot;
+model_path = (
+    f&quot;model/intel/{model_name}/{precision}/{model_name}.xml&quot;
+)
+download_command = f&quot;omz_downloader &quot; \
+                   f&quot;--name {model_name} &quot; \
+                   f&quot;--precision {precision} &quot; \
+                   f&quot;--output_dir {base_model_dir} &quot; \
+                   f&quot;--cache_dir {base_model_dir}&quot;
+! $download_command
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################|| Downloading person-detection-0202 ||################</span>
@@ -669,67 +669,67 @@ each frame of the video.</p>
 </section>
 <section id="load-the-model">
 <h3>Load the model<a class="headerlink" href="#load-the-model" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize OpenVINO runtime</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># initialize OpenVINO runtime
+ie = Core()
 
-<span class="c1"># read the network and corresponding weights from file</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_path</span><span class="p">)</span>
+# read the network and corresponding weights from file
+model = ie.read_model(model=model_path)
 
-<span class="c1"># compile the model for the CPU (you can choose manually CPU, GPU, MYRIAD etc.)</span>
-<span class="c1"># or let the engine choose the best available device (AUTO)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+# compile the model for the CPU (you can choose manually CPU, GPU, MYRIAD etc.)
+# or let the engine choose the best available device (AUTO)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="c1"># get input node</span>
-<span class="n">input_layer_ir</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">input_layer_ir</span><span class="o">.</span><span class="n">shape</span>
-<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+# get input node
+input_layer_ir = model.input(0)
+N, C, H, W = input_layer_ir.shape
+shape = (H, W)
 </pre></div>
 </div>
 </section>
 <section id="create-functions-for-data-processing">
 <h3>Create functions for data processing<a class="headerlink" href="#create-functions-for-data-processing" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Define the preprocess function for input data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def preprocess(image):
+    &quot;&quot;&quot;
+    Define the preprocess function for input data
 
-<span class="sd">    :param: image: the orignal input frame</span>
-<span class="sd">    :returns:</span>
-<span class="sd">            resized_image: the image processed</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
-    <span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">resized_image</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
-    <span class="n">resized_image</span> <span class="o">=</span> <span class="n">resized_image</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">resized_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">resized_image</span>
+    :param: image: the orignal input frame
+    :returns:
+            resized_image: the image processed
+    &quot;&quot;&quot;
+    resized_image = cv2.resize(image, shape)
+    resized_image = cv2.cvtColor(np.array(resized_image), cv2.COLOR_BGR2RGB)
+    resized_image = resized_image.transpose((2, 0, 1))
+    resized_image = np.expand_dims(resized_image, axis=0).astype(np.float32)
+    return resized_image
 
 
-<span class="k">def</span> <span class="nf">postprocess</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">fps</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Define the postprocess function for output data</span>
+def postprocess(result, image, fps):
+    &quot;&quot;&quot;
+    Define the postprocess function for output data
 
-<span class="sd">    :param: result: the inference results</span>
-<span class="sd">            image: the orignal input frame</span>
-<span class="sd">            fps: average throughput calculated for each frame</span>
-<span class="sd">    :returns:</span>
-<span class="sd">            image: the image with bounding box and fps message</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">detections</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">detection</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">detections</span><span class="p">):</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">image_id</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">detection</span>
-        <span class="k">if</span> <span class="n">confidence</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-            <span class="n">xmin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">((</span><span class="n">xmin</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">10</span><span class="p">))</span>
-            <span class="n">ymin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">((</span><span class="n">ymin</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">10</span><span class="p">))</span>
-            <span class="n">xmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">((</span><span class="n">xmax</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">))</span>
-            <span class="n">ymax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">((</span><span class="n">ymax</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">))</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; fps&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">image</span>
+    :param: result: the inference results
+            image: the orignal input frame
+            fps: average throughput calculated for each frame
+    :returns:
+            image: the image with bounding box and fps message
+    &quot;&quot;&quot;
+    detections = result.reshape(-1, 7)
+    for i, detection in enumerate(detections):
+        _, image_id, confidence, xmin, ymin, xmax, ymax = detection
+        if confidence &gt; 0.5:
+            xmin = int(max((xmin * image.shape[1]), 10))
+            ymin = int(max((ymin * image.shape[0]), 10))
+            xmax = int(min((xmax * image.shape[1]), image.shape[1] - 10))
+            ymax = int(min((ymax * image.shape[0]), image.shape[0] - 10))
+            cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
+            cv2.putText(image, str(round(fps, 2)) + &quot; fps&quot;, (5, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 3)
+    return image
 </pre></div>
 </div>
 </section>
 <section id="get-the-test-video">
 <h3>Get the test video<a class="headerlink" href="#get-the-test-video" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">video_path</span> <span class="o">=</span> <span class="s2">&quot;../202-vision-superresolution/data/CEO Pat Gelsinger on Leading Intel.mp4&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>video_path = &quot;../202-vision-superresolution/data/CEO Pat Gelsinger on Leading Intel.mp4&quot;
 </pre></div>
 </div>
 </section>
@@ -748,76 +748,76 @@ immediately processed:</p>
  // Infer CURRENT InferRequest //this call is synchronous  // display
 CURRENT result* }</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sync_api</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">flip</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">use_popup</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Define the main function for video processing in sync mode</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def sync_api(source, flip, fps, use_popup, skip_first_frames):
+    &quot;&quot;&quot;
+    Define the main function for video processing in sync mode
 
-<span class="sd">    :param: source: the video path or the ID of your webcam</span>
-<span class="sd">    :returns:</span>
-<span class="sd">            sync_fps: the inference throughput in sync mode</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">frame_number</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">infer_request</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">create_infer_request</span><span class="p">()</span>
-    <span class="n">player</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Create a video player</span>
-        <span class="n">player</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">VideoPlayer</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="n">flip</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="n">skip_first_frames</span><span class="p">)</span>
-        <span class="c1"># Start capturing</span>
-        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">player</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Press ESC to Exit&quot;</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_GUI_NORMAL</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_AUTOSIZE</span><span class="p">)</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source ended&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="n">resized_frame</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
-            <span class="n">infer_request</span><span class="o">.</span><span class="n">set_tensor</span><span class="p">(</span><span class="n">input_layer_ir</span><span class="p">,</span> <span class="n">ov</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">resized_frame</span><span class="p">))</span>
-            <span class="c1"># Start the inference request in synchronous mode</span>
-            <span class="n">infer_request</span><span class="o">.</span><span class="n">infer</span><span class="p">()</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">infer_request</span><span class="o">.</span><span class="n">get_output_tensor</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-            <span class="n">stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-            <span class="n">total_time</span> <span class="o">=</span> <span class="n">stop_time</span> <span class="o">-</span> <span class="n">start_time</span>
-            <span class="n">frame_number</span> <span class="o">=</span> <span class="n">frame_number</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">sync_fps</span> <span class="o">=</span> <span class="n">frame_number</span> <span class="o">/</span> <span class="n">total_time</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">postprocess</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">sync_fps</span><span class="p">)</span>
-            <span class="c1"># Display the results</span>
-            <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
-                <span class="n">key</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="c1"># escape = 27</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>
-                    <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Encode numpy array to jpg</span>
-                <span class="n">_</span><span class="p">,</span> <span class="n">encoded_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMWRITE_JPEG_QUALITY</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
-                <span class="c1"># Create IPython image</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">encoded_img</span><span class="p">)</span>
-                <span class="c1"># Display the image in this notebook</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="c1"># ctrl-c</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interrupted&quot;</span><span class="p">)</span>
-    <span class="c1"># Any different error</span>
-    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">player</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># stop capturing</span>
-            <span class="n">player</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">sync_fps</span>
+    :param: source: the video path or the ID of your webcam
+    :returns:
+            sync_fps: the inference throughput in sync mode
+    &quot;&quot;&quot;
+    frame_number = 0
+    infer_request = compiled_model.create_infer_request()
+    player = None
+    try:
+        # Create a video player
+        player = utils.VideoPlayer(source, flip=flip, fps=fps, skip_first_frames=skip_first_frames)
+        # Start capturing
+        start_time = time.time()
+        player.start()
+        if use_popup:
+            title = &quot;Press ESC to Exit&quot;
+            cv2.namedWindow(title, cv2.WINDOW_GUI_NORMAL | cv2.WINDOW_AUTOSIZE)
+        while True:
+            frame = player.next()
+            if frame is None:
+                print(&quot;Source ended&quot;)
+                break
+            resized_frame = preprocess(frame)
+            infer_request.set_tensor(input_layer_ir, ov.Tensor(resized_frame))
+            # Start the inference request in synchronous mode
+            infer_request.infer()
+            res = infer_request.get_output_tensor(0).data
+            stop_time = time.time()
+            total_time = stop_time - start_time
+            frame_number = frame_number + 1
+            sync_fps = frame_number / total_time
+            frame = postprocess(res, frame, sync_fps)
+            # Display the results
+            if use_popup:
+                cv2.imshow(title, frame)
+                key = cv2.waitKey(1)
+                # escape = 27
+                if key == 27:
+                    break
+            else:
+                # Encode numpy array to jpg
+                _, encoded_img = cv2.imencode(&quot;.jpg&quot;, frame, params=[cv2.IMWRITE_JPEG_QUALITY, 90])
+                # Create IPython image
+                i = display.Image(data=encoded_img)
+                # Display the image in this notebook
+                display.clear_output(wait=True)
+                display.display(i)
+    # ctrl-c
+    except KeyboardInterrupt:
+        print(&quot;Interrupted&quot;)
+    # Any different error
+    except RuntimeError as e:
+        print(e)
+    finally:
+        if use_popup:
+            cv2.destroyAllWindows()
+        if player is not None:
+            # stop capturing
+            player.stop()
+            return sync_fps
 </pre></div>
 </div>
 </section>
 <section id="test-performance-in-sync-mode">
 <h3>Test performance in Sync Mode<a class="headerlink" href="#test-performance-in-sync-mode" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sync_fps</span> <span class="o">=</span> <span class="n">sync_api</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">video_path</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;average throuput in sync mode: </span><span class="si">{</span><span class="n">sync_fps</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> fps&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sync_fps = sync_api(source=video_path, flip=False, fps=30, use_popup=False, skip_first_frames=800)
+print(f&quot;average throuput in sync mode: {sync_fps:.2f} fps&quot;)
 </pre></div>
 </div>
 <img alt="../_images/115-async-api-with-output_14_0.png" src="../_images/115-async-api-with-output_14_0.png" />
@@ -845,91 +845,91 @@ start NEXT InferRequest //this call is async and returns immediately
  // wait for the CURRENT InferRequest  // display CURRENT result  //
 swap CURRENT and NEXT InferRequests* }</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">async_api</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">flip</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">use_popup</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Define the main function for video processing in async mode</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def async_api(source, flip, fps, use_popup, skip_first_frames):
+    &quot;&quot;&quot;
+    Define the main function for video processing in async mode
 
-<span class="sd">    :param: source: the video path or the ID of your webcam</span>
-<span class="sd">    :returns:</span>
-<span class="sd">            async_fps: the inference throughput in async mode</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">frame_number</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c1"># Create 2 infer requests</span>
-    <span class="n">curr_request</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">create_infer_request</span><span class="p">()</span>
-    <span class="n">next_request</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">create_infer_request</span><span class="p">()</span>
-    <span class="n">player</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Create a video player</span>
-        <span class="n">player</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">VideoPlayer</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="n">flip</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="n">skip_first_frames</span><span class="p">)</span>
-        <span class="c1"># Start capturing</span>
-        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">player</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Press ESC to Exit&quot;</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_GUI_NORMAL</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_AUTOSIZE</span><span class="p">)</span>
-        <span class="c1"># Capture CURRENT frame</span>
-        <span class="n">frame</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-        <span class="n">resized_frame</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
-        <span class="n">curr_request</span><span class="o">.</span><span class="n">set_tensor</span><span class="p">(</span><span class="n">input_layer_ir</span><span class="p">,</span> <span class="n">ov</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">resized_frame</span><span class="p">))</span>
-        <span class="c1"># Start the CURRENT inference request</span>
-        <span class="n">curr_request</span><span class="o">.</span><span class="n">start_async</span><span class="p">()</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Capture NEXT frame</span>
-            <span class="n">next_frame</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">next_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source ended&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="n">resized_frame</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">next_frame</span><span class="p">)</span>
-            <span class="n">next_request</span><span class="o">.</span><span class="n">set_tensor</span><span class="p">(</span><span class="n">input_layer_ir</span><span class="p">,</span> <span class="n">ov</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">resized_frame</span><span class="p">))</span>
-            <span class="c1"># Start the NEXT inference request</span>
-            <span class="n">next_request</span><span class="o">.</span><span class="n">start_async</span><span class="p">()</span>
-            <span class="c1"># Waiting for CURRENT inference result</span>
-            <span class="k">if</span> <span class="n">curr_request</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">curr_request</span><span class="o">.</span><span class="n">get_output_tensor</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-                <span class="n">stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-                <span class="n">total_time</span> <span class="o">=</span> <span class="n">stop_time</span> <span class="o">-</span> <span class="n">start_time</span>
-                <span class="n">frame_number</span> <span class="o">=</span> <span class="n">frame_number</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">async_fps</span> <span class="o">=</span> <span class="n">frame_number</span> <span class="o">/</span> <span class="n">total_time</span>
-                <span class="n">frame</span> <span class="o">=</span> <span class="n">postprocess</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">async_fps</span><span class="p">)</span>
-                <span class="c1"># Display the results</span>
-                <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
-                    <span class="n">key</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                    <span class="c1"># escape = 27</span>
-                    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>
-                        <span class="k">break</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># Encode numpy array to jpg</span>
-                    <span class="n">_</span><span class="p">,</span> <span class="n">encoded_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMWRITE_JPEG_QUALITY</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
-                    <span class="c1"># Create IPython image</span>
-                    <span class="n">i</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">encoded_img</span><span class="p">)</span>
-                    <span class="c1"># Display the image in this notebook</span>
-                    <span class="n">display</span><span class="o">.</span><span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="c1"># Swap CURRENT and NEXT frames</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">next_frame</span>
-            <span class="c1"># Swap CURRENT and NEXT infer requests</span>
-            <span class="n">curr_request</span><span class="p">,</span> <span class="n">next_request</span> <span class="o">=</span> <span class="n">next_request</span><span class="p">,</span> <span class="n">curr_request</span>
-    <span class="c1"># ctrl-c</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interrupted&quot;</span><span class="p">)</span>
-    <span class="c1"># Any different error</span>
-    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">player</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># stop capturing</span>
-            <span class="n">player</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">async_fps</span>
+    :param: source: the video path or the ID of your webcam
+    :returns:
+            async_fps: the inference throughput in async mode
+    &quot;&quot;&quot;
+    frame_number = 0
+    # Create 2 infer requests
+    curr_request = compiled_model.create_infer_request()
+    next_request = compiled_model.create_infer_request()
+    player = None
+    try:
+        # Create a video player
+        player = utils.VideoPlayer(source, flip=flip, fps=fps, skip_first_frames=skip_first_frames)
+        # Start capturing
+        start_time = time.time()
+        player.start()
+        if use_popup:
+            title = &quot;Press ESC to Exit&quot;
+            cv2.namedWindow(title, cv2.WINDOW_GUI_NORMAL | cv2.WINDOW_AUTOSIZE)
+        # Capture CURRENT frame
+        frame = player.next()
+        resized_frame = preprocess(frame)
+        curr_request.set_tensor(input_layer_ir, ov.Tensor(resized_frame))
+        # Start the CURRENT inference request
+        curr_request.start_async()
+        while True:
+            # Capture NEXT frame
+            next_frame = player.next()
+            if next_frame is None:
+                print(&quot;Source ended&quot;)
+                break
+            resized_frame = preprocess(next_frame)
+            next_request.set_tensor(input_layer_ir, ov.Tensor(resized_frame))
+            # Start the NEXT inference request
+            next_request.start_async()
+            # Waiting for CURRENT inference result
+            if curr_request.wait_for(-1) == 1:
+                res = curr_request.get_output_tensor(0).data
+                stop_time = time.time()
+                total_time = stop_time - start_time
+                frame_number = frame_number + 1
+                async_fps = frame_number / total_time
+                frame = postprocess(res, frame, async_fps)
+                # Display the results
+                if use_popup:
+                    cv2.imshow(title, frame)
+                    key = cv2.waitKey(1)
+                    # escape = 27
+                    if key == 27:
+                        break
+                else:
+                    # Encode numpy array to jpg
+                    _, encoded_img = cv2.imencode(&quot;.jpg&quot;, frame, params=[cv2.IMWRITE_JPEG_QUALITY, 90])
+                    # Create IPython image
+                    i = display.Image(data=encoded_img)
+                    # Display the image in this notebook
+                    display.clear_output(wait=True)
+                    display.display(i)
+            # Swap CURRENT and NEXT frames
+            frame = next_frame
+            # Swap CURRENT and NEXT infer requests
+            curr_request, next_request = next_request, curr_request
+    # ctrl-c
+    except KeyboardInterrupt:
+        print(&quot;Interrupted&quot;)
+    # Any different error
+    except RuntimeError as e:
+        print(e)
+    finally:
+        if use_popup:
+            cv2.destroyAllWindows()
+        if player is not None:
+            # stop capturing
+            player.stop()
+            return async_fps
 </pre></div>
 </div>
 </section>
 <section id="test-the-perfromance-in-async-mode">
 <h3>Test the perfromance in Async Mode<a class="headerlink" href="#test-the-perfromance-in-async-mode" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">async_fps</span> <span class="o">=</span> <span class="n">async_api</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">video_path</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;average throuput in async mode: </span><span class="si">{</span><span class="n">async_fps</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> fps&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>async_fps = async_api(source=video_path, flip=False, fps=30, use_popup=False, skip_first_frames=800)
+print(f&quot;average throuput in async mode: {async_fps:.2f} fps&quot;)
 </pre></div>
 </div>
 <img alt="../_images/115-async-api-with-output_18_0.png" src="../_images/115-async-api-with-output_18_0.png" />
@@ -940,23 +940,23 @@ swap CURRENT and NEXT InferRequests* }</p>
 </section>
 <section id="compare-the-performance">
 <h3>Compare the performance<a class="headerlink" href="#compare-the-performance" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.4</span>
-<span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>width = 0.4
+fontsize = 14
 
-<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+plt.rc(&#39;font&#39;, size=fontsize)
+fig, ax = plt.subplots(1, 1, figsize=(10, 8))
 
-<span class="n">rects1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">sync_fps</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#557f2d&#39;</span><span class="p">)</span>
-<span class="n">rects2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="n">width</span><span class="p">],</span> <span class="n">async_fps</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;frames per second&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s2">&quot;Sync mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Async mode&quot;</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Higher is better&quot;</span><span class="p">)</span>
+rects1 = ax.bar([0], sync_fps, width, color=&#39;#557f2d&#39;)
+rects2 = ax.bar([width], async_fps, width)
+ax.set_ylabel(&quot;frames per second&quot;)
+ax.set_xticks([0, width])
+ax.set_xticklabels([&quot;Sync mode&quot;, &quot;Async mode&quot;])
+ax.set_xlabel(&quot;Higher is better&quot;)
 
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Sync mode VS Async mode&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+fig.suptitle(&#39;Sync mode VS Async mode&#39;)
+fig.tight_layout()
 
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.show()
 </pre></div>
 </div>
 <img alt="../_images/115-async-api-with-output_20_0.png" src="../_images/115-async-api-with-output_20_0.png" />

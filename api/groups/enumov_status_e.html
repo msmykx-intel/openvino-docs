@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>enum ov_status_e &#8212; OpenVINO™  documentation</title>
+    
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/doxyrest-pygments.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <link href="../../_static/css/media/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="../../_static/css/openvino_sphinx_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/button.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/input.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/textfield.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/tabs.css" type="text/css" />
+    <script src="../../_static/js/openvino_sphinx_theme.js"></script>
+    <link rel="stylesheet" href="../../_static/css/viewer.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-barchart-background@1.3.0/build/Plugin.Barchart.Background.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js"></script>
+    <script src="../../_static/js/viewer.min.js"></script>
+    <script src="/assets/versions_raw.js"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/custom.js"></script>
+    <script src="../../_static/js/graphs.js"></script>
+    <script src="../../_static/js/graphs_ov_tf.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/target-highlight.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="canonical" href="https://docs.openvino.ai/latest/api/groups/enumov_status_e.html" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+      <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/get-started-guide.html">
+  Get Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/documentation.html">
+  Documentation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api_reference.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../model_zoo.html">
+  Model Zoo
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../pages/resources.html">
+  Resources
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/openvinotoolkit/openvino" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="sst-github"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+</ul>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="version-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+  <div class="dropdown-menu" aria-labelledby="version-selector">
+  </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        
+
+<div class="dropdown sst-dropdown sst-dropdown-navbar">
+  <button class="btn sst-btn dropdown-toggle" type="button" id="language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">English</button>
+  <div class="dropdown-menu" aria-labelledby="language-selector">
+    
+      
+        <a class="dropdown-item font-weight-bold" href="/openvino-docs/index.html">English</a>
+      
+    
+      
+        <a  class="dropdown-item" href="/cn/openvino-docs/index.html">Chinese</a>
+      
+    
+  </div>
+</div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+        <div id="collapse-nav-wrapper" class="container-xl">
+          <button id="collapse-nav" class="button bttn-prm button-size-m" type="button" data-toggle="collapse" data-target="#nav-tree" aria-expanded="false" aria-controls="nav-tree">
+            Documentation navigation <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </nav>
+      <div class="transition-banner container-fluid alert alert-info alert-dismissible fade show" role="alert">
+        <p>OpenVINO 2022.1 introduces a new version of OpenVINO API (API 2.0). For more information on the changes and transition steps, see the <a href="https://docs.openvino.ai/latest/openvino_2_0_transition_guide.html">transition guide</a></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar" id="nav-tree"><form class="searchForm bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="icon fas fa-search"></i>
+    <input type="search" class="form-control" name="query" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="enumov_element_type_e.html">
+   ov_element_type_e
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   ov_status_e
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#detailed-documentation">
+   Detailed Documentation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#enum-values">
+     Enum Values
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                <div class="tocsection download-docs">
+  <div class="dropdown sst-dropdown">
+    <button class="button bttn-prm button-size-m" data-display="static" type="button" id="download-options"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Download Docs
+    </button>
+    <div class="dropdown-menu" aria-labelledby="download-options">
+      <a class="dropdown-item" href="#" onclick="window.print()">.pdf</a>
+      <a id="download-zip-btn" class="dropdown-item" href="#">.zip</a>
+    </div>
+  </div>
+</div>
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+              
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+<div class="tocsection editthispage">
+    <a href="None">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+            
+                <div>
+                  
+  <section id="enum-ov-status-e">
+<span id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557"></span><span id="index-0"></span><h1>enum ov_status_e<a class="headerlink" href="#enum-ov-status-e" title="Permalink to this headline">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This enum contains codes for all possible return values of the interface functions. <a class="reference internal" href="#details-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557"><span class="std std-ref">More…</span></a></p>
+<div class="highlight doxyrest-overview-code-block"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ov_common.h&gt;</span><span class="cp"></span>
+
+<span class="k">enum</span> <span class="n">ov_status_e</span>
+<span class="p">{</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a2bc49ec37d6a5715dd23e85f1ff5bb59"><span class="std std-ref">OK</span></a><span></span>                     <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557acedc0258927861e447f705a00e80be5e"><span class="std std-ref">GENERAL_ERROR</span></a><span></span>          <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a12bcc9d9958a22b983e65f77f3faf90b"><span class="std std-ref">NOT_IMPLEMENTED</span></a><span></span>        <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557ae0cc10425e085b54dfbb1cbe4e958fb5"><span class="std std-ref">NETWORK_NOT_LOADED</span></a><span></span>     <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a4a6740eba08e2e288f03f8a9b90260e0"><span class="std std-ref">PARAMETER_MISMATCH</span></a><span></span>     <span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557acdaa2919bac56fe1090eb3dbb9526472"><span class="std std-ref">NOT_FOUND</span></a><span></span>              <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557aa1e81e4fe9fc3d41fffdb945abc5d4d7"><span class="std std-ref">OUT_OF_BOUNDS</span></a><span></span>          <span class="o">=</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557afb6b839a96a9da95547956098b7606ef"><span class="std std-ref">UNEXPECTED</span></a><span></span>             <span class="o">=</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a01d975e241283d8504637cbcb8d12e47"><span class="std std-ref">REQUEST_BUSY</span></a><span></span>           <span class="o">=</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a76ca95b49d2f40e64b77a31a2fb08f3a"><span class="std std-ref">RESULT_NOT_READY</span></a><span></span>       <span class="o">=</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557ac00a4acd3eec0687d536de556c139166"><span class="std std-ref">NOT_ALLOCATED</span></a><span></span>          <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a4e93a7873e04dc6c98e0511e194a68a0"><span class="std std-ref">INFER_NOT_STARTED</span></a><span></span>      <span class="o">=</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a17d7a60b2a027e975848c9baaa51c8c4"><span class="std std-ref">NETWORK_NOT_READ</span></a><span></span>       <span class="o">=</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a0147666f6ed8959ede496b2669d4d07e"><span class="std std-ref">INFER_CANCELLED</span></a><span></span>        <span class="o">=</span> <span class="o">-</span><span class="mi">13</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a220ee47be2b38392ded503d37cad8fa0"><span class="std std-ref">INVALID_C_PARAM</span></a><span></span>        <span class="o">=</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557ab95fae31ec2b6c5a29de71265244ca52"><span class="std std-ref">UNKNOWN_C_ERROR</span></a><span></span>        <span class="o">=</span> <span class="o">-</span><span class="mi">15</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a39243c741689b0e4d0bce9a78661894c"><span class="std std-ref">NOT_IMPLEMENT_C_METHOD</span></a><span></span> <span class="o">=</span> <span class="o">-</span><span class="mi">16</span><span class="p">,</span>
+    <a class="reference internal" href="#doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a4631fd1b827b553183ff7944de715883"><span class="std std-ref">UNKNOW_EXCEPTION</span></a><span></span>       <span class="o">=</span> <span class="o">-</span><span class="mi">17</span><span class="p">,</span>
+<span class="p">};</span></pre></div></div></section>
+<section id="detailed-documentation">
+<span id="details-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>This enum contains codes for all possible return values of the interface functions.</p>
+<section id="enum-values">
+<h3>Enum Values<a class="headerlink" href="#enum-values" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a2bc49ec37d6a5715dd23e85f1ff5bb59"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">OK</span></pre></div></div><p>SUCCESS.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557acedc0258927861e447f705a00e80be5e"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">GENERAL_ERROR</span></pre></div></div><p>GENERAL_ERROR.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a12bcc9d9958a22b983e65f77f3faf90b"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">NOT_IMPLEMENTED</span></pre></div></div><p>NOT_IMPLEMENTED.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557ae0cc10425e085b54dfbb1cbe4e958fb5"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">NETWORK_NOT_LOADED</span></pre></div></div><p>NETWORK_NOT_LOADED.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a4a6740eba08e2e288f03f8a9b90260e0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">PARAMETER_MISMATCH</span></pre></div></div><p>PARAMETER_MISMATCH.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557acdaa2919bac56fe1090eb3dbb9526472"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">NOT_FOUND</span></pre></div></div><p>NOT_FOUND.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557aa1e81e4fe9fc3d41fffdb945abc5d4d7"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">OUT_OF_BOUNDS</span></pre></div></div><p>OUT_OF_BOUNDS.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557afb6b839a96a9da95547956098b7606ef"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">UNEXPECTED</span></pre></div></div><p>UNEXPECTED.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a01d975e241283d8504637cbcb8d12e47"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">REQUEST_BUSY</span></pre></div></div><p>REQUEST_BUSY.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a76ca95b49d2f40e64b77a31a2fb08f3a"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">RESULT_NOT_READY</span></pre></div></div><p>RESULT_NOT_READY.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557ac00a4acd3eec0687d536de556c139166"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">NOT_ALLOCATED</span></pre></div></div><p>NOT_ALLOCATED.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a4e93a7873e04dc6c98e0511e194a68a0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">INFER_NOT_STARTED</span></pre></div></div><p>INFER_NOT_STARTED.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a17d7a60b2a027e975848c9baaa51c8c4"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">NETWORK_NOT_READ</span></pre></div></div><p>NETWORK_NOT_READ.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a0147666f6ed8959ede496b2669d4d07e"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">INFER_CANCELLED</span></pre></div></div><p>INFER_CANCELLED.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a220ee47be2b38392ded503d37cad8fa0"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">INVALID_C_PARAM</span></pre></div></div><p>INVALID_C_PARAM.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557ab95fae31ec2b6c5a29de71265244ca52"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">UNKNOWN_C_ERROR</span></pre></div></div><p>UNKNOWN_C_ERROR.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a39243c741689b0e4d0bce9a78661894c"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">NOT_IMPLEMENT_C_METHOD</span></pre></div></div><p>NOT_IMPLEMENT_C_METHOD.</p>
+<span class="target" id="doxid-group-ov-base-c-api-1gacb82ac7b446503bc56ab67d1a71b0557a4631fd1b827b553183ff7944de715883"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="n">UNKNOW_EXCEPTION</span></pre></div></div><p>UNKNOW_EXCEPTION.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+            
+            
+                <div class='prev-next-bottom'>
+                  
+
+                </div>
+            
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Intel®.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

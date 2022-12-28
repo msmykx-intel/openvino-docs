@@ -229,18 +229,28 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1DequantizationNode.html">
+   DequantizationNode
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classov_1_1DisableFP16Compression.html">
    DisableFP16Compression
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="classngraph_1_1FusedNames.html">
+  <a class="reference internal" href="classov_1_1FusedNames.html">
    FusedNames
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Mask
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1NoTransposeSinkingAttr.html">
+   NoTransposeSinkingAttr
   </a>
  </li>
  <li class="toctree-l1">
@@ -353,6 +363,13 @@
 
     <a class="reference internal" href="#doxid-classngraph-1-1-mask-1a630cd1649de5c00bdff3faf0845e15b2"><span class="std std-ref">Mask::Ptr</span></a><span></span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1-mask-1ab3038c884c1022e3d30fdee69d8be551"><span></span><span class="n">intersect_masks_reversed</span></span><span></span><span class="p">(</span><span class="n">Mask</span> <span class="err">\</span><span class="o">*</span><span class="k">const</span> <span class="n">mask</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
     <a class="reference internal" href="#doxid-classngraph-1-1-mask-1a630cd1649de5c00bdff3faf0845e15b2"><span class="std std-ref">Mask::Ptr</span></a><span></span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1-mask-1aaf5b03294bd1654f30fcde1eb325e75f"><span></span><span class="n">union_masks_reversed</span></span><span></span><span class="p">(</span><span class="n">Mask</span> <span class="err">\</span><span class="o">*</span><span class="k">const</span> <span class="n">mask</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1-mask-1aac189097298bc827a8e173f0888396ee"><span></span><span class="n">copy_and_slice_mask_from</span></span><span></span><span class="p">(</span>
+        <span class="k">const</span> <span class="n">ngraph</span><span class="o">::</span><span class="n">Mask</span> <span class="err">\</span><span class="o">*</span><span class="k">const</span> <span class="n">mask</span><span class="p">,</span>
+        <span class="kt">int64_t</span> <span class="n">axis</span><span class="p">,</span>
+        <span class="kt">uint64_t</span> <span class="n">split_start</span><span class="p">,</span>
+        <span class="kt">uint64_t</span> <span class="n">split_end</span>
+        <span class="p">);</span>
 
     <span class="kt">bool</span> <span class="doxyrest-code-target target" id="doxid-classngraph-1-1-mask-1a0ea0d0ab67a2c229adad71b35c06f49e"><span></span><span class="n">add_callback</span></span><span></span><span class="p">(</span>
         <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><a class="reference internal" href="#doxid-classngraph-1-1-mask-1a630cd1649de5c00bdff3faf0845e15b2"><span class="std std-ref">Mask::Ptr</span></a><span></span><span class="p">)</span><span class="o">&gt;&amp;</span> <span class="n">receive_callback</span><span class="p">,</span>

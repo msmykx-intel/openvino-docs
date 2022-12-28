@@ -627,18 +627,18 @@ on a video.</p>
 </div></blockquote>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import collections
+import os
+import sys
+import time
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import numpy as np
+from IPython import display
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">notebook_utils</span> <span class="k">as</span> <span class="nn">utils</span>
+sys.path.append(&quot;../utils&quot;)
+import notebook_utils as utils
 </pre></div>
 </div>
 </section>
@@ -660,17 +660,17 @@ the name of the model in the code below.</p>
 <div><p><strong>NOTE</strong>: Using a model outside the list can require different pre-
 and post-processing.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A directory where the model will be downloaded.</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># A directory where the model will be downloaded.
+base_model_dir = &quot;model&quot;
 
-<span class="c1"># The name of the model from Open Model Zoo</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;ssdlite_mobilenet_v2&quot;</span>
+# The name of the model from Open Model Zoo
+model_name = &quot;ssdlite_mobilenet_v2&quot;
 
-<span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                   <span class="sa">f</span><span class="s2">&quot;--cache_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="o">!</span> <span class="nv">$download_command</span>
+download_command = f&quot;omz_downloader &quot; \
+                   f&quot;--name {model_name} &quot; \
+                   f&quot;--output_dir {base_model_dir} &quot; \
+                   f&quot;--cache_dir {base_model_dir}&quot;
+! $download_command
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################|| Downloading ssdlite_mobilenet_v2 ||################</span>
@@ -694,17 +694,17 @@ the model has been already converted, this step is skipped.</p>
 <blockquote>
 <div><p><strong>NOTE</strong>: Each model may have different precisions available.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>precision = &quot;FP16&quot;
 
-<span class="c1"># The output path for the conversion.</span>
-<span class="n">converted_model_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;model/public/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span>
+# The output path for the conversion.
+converted_model_path = f&quot;model/public/{model_name}/{precision}/{model_name}.xml&quot;
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">converted_model_path</span><span class="p">):</span>
-    <span class="n">convert_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_converter &quot;</span> \
-                      <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                      <span class="sa">f</span><span class="s2">&quot;--download_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                      <span class="sa">f</span><span class="s2">&quot;--precisions </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="o">!</span> <span class="nv">$convert_command</span>
+if not os.path.exists(converted_model_path):
+    convert_command = f&quot;omz_converter &quot; \
+                      f&quot;--name {model_name} &quot; \
+                      f&quot;--download_dir {base_model_dir} &quot; \
+                      f&quot;--precisions {precision}&quot;
+    ! $convert_command
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">==========</span> <span class="n">Converting</span> <span class="n">ssdlite_mobilenet_v2</span> <span class="n">to</span> <span class="n">IR</span> <span class="p">(</span><span class="n">FP16</span><span class="p">)</span>
@@ -770,26 +770,26 @@ the startup time is much longer than in the case of <code class="docutils litera
 the best performance. In that case, just use <code class="docutils literal notranslate"><span class="pre">AUTO</span></code>. Remember that for
 most cases the best hardware is <code class="docutils literal notranslate"><span class="pre">GPU</span></code> (better performance, but longer
 startup time).</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize OpenVINO Runtime.</span>
-<span class="n">ie_core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="c1"># Read the network and corresponding weights from a file.</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">converted_model_path</span><span class="p">)</span>
-<span class="c1"># Compile the model for CPU (you can choose manually CPU, GPU, MYRIAD etc.)</span>
-<span class="c1"># or let the engine choose the best available device (AUTO).</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Initialize OpenVINO Runtime.
+ie_core = Core()
+# Read the network and corresponding weights from a file.
+model = ie_core.read_model(model=converted_model_path)
+# Compile the model for CPU (you can choose manually CPU, GPU, MYRIAD etc.)
+# or let the engine choose the best available device (AUTO).
+compiled_model = ie_core.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="c1"># Get the input and output nodes.</span>
-<span class="n">input_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# Get the input and output nodes.
+input_layer = compiled_model.input(0)
+output_layer = compiled_model.output(0)
 
-<span class="c1"># Get the input size.</span>
-<span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_layer</span><span class="o">.</span><span class="n">shape</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+# Get the input size.
+height, width = list(input_layer.shape)[1:3]
 </pre></div>
 </div>
 <p>Input and output layers have the names of the input node and output node
 respectively. In the case of SSDLite MobileNetV2, there is 1 input and 1
 output.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">,</span> <span class="n">output_layer</span><span class="o">.</span><span class="n">any_name</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_layer.any_name, output_layer.any_name
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;image_tensor&#39;</span><span class="p">,</span> <span class="s1">&#39;detection_boxes&#39;</span><span class="p">)</span>
@@ -808,82 +808,82 @@ Afterward, use <a class="reference external" href="https://paperswithcode.com/me
 suppression</a>
 to reject overlapping detections and those below the probability
 threshold (0.5). Finally, draw boxes and labels inside them.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://tech.amikelive.com/node-718/what-object-categories-labels-are-in-coco-dataset/</span>
-<span class="n">classes</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;background&quot;</span><span class="p">,</span> <span class="s2">&quot;person&quot;</span><span class="p">,</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">,</span> <span class="s2">&quot;car&quot;</span><span class="p">,</span> <span class="s2">&quot;motorcycle&quot;</span><span class="p">,</span> <span class="s2">&quot;airplane&quot;</span><span class="p">,</span> <span class="s2">&quot;bus&quot;</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;truck&quot;</span><span class="p">,</span> <span class="s2">&quot;boat&quot;</span><span class="p">,</span> <span class="s2">&quot;traffic light&quot;</span><span class="p">,</span> <span class="s2">&quot;fire hydrant&quot;</span><span class="p">,</span> <span class="s2">&quot;street sign&quot;</span><span class="p">,</span> <span class="s2">&quot;stop sign&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;parking meter&quot;</span><span class="p">,</span> <span class="s2">&quot;bench&quot;</span><span class="p">,</span> <span class="s2">&quot;bird&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;horse&quot;</span><span class="p">,</span> <span class="s2">&quot;sheep&quot;</span><span class="p">,</span> <span class="s2">&quot;cow&quot;</span><span class="p">,</span> <span class="s2">&quot;elephant&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bear&quot;</span><span class="p">,</span> <span class="s2">&quot;zebra&quot;</span><span class="p">,</span> <span class="s2">&quot;giraffe&quot;</span><span class="p">,</span> <span class="s2">&quot;hat&quot;</span><span class="p">,</span> <span class="s2">&quot;backpack&quot;</span><span class="p">,</span> <span class="s2">&quot;umbrella&quot;</span><span class="p">,</span> <span class="s2">&quot;shoe&quot;</span><span class="p">,</span> <span class="s2">&quot;eye glasses&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;handbag&quot;</span><span class="p">,</span> <span class="s2">&quot;tie&quot;</span><span class="p">,</span> <span class="s2">&quot;suitcase&quot;</span><span class="p">,</span> <span class="s2">&quot;frisbee&quot;</span><span class="p">,</span> <span class="s2">&quot;skis&quot;</span><span class="p">,</span> <span class="s2">&quot;snowboard&quot;</span><span class="p">,</span> <span class="s2">&quot;sports ball&quot;</span><span class="p">,</span> <span class="s2">&quot;kite&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;baseball bat&quot;</span><span class="p">,</span> <span class="s2">&quot;baseball glove&quot;</span><span class="p">,</span> <span class="s2">&quot;skateboard&quot;</span><span class="p">,</span> <span class="s2">&quot;surfboard&quot;</span><span class="p">,</span> <span class="s2">&quot;tennis racket&quot;</span><span class="p">,</span> <span class="s2">&quot;bottle&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;plate&quot;</span><span class="p">,</span> <span class="s2">&quot;wine glass&quot;</span><span class="p">,</span> <span class="s2">&quot;cup&quot;</span><span class="p">,</span> <span class="s2">&quot;fork&quot;</span><span class="p">,</span> <span class="s2">&quot;knife&quot;</span><span class="p">,</span> <span class="s2">&quot;spoon&quot;</span><span class="p">,</span> <span class="s2">&quot;bowl&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">,</span> <span class="s2">&quot;apple&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sandwich&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;broccoli&quot;</span><span class="p">,</span> <span class="s2">&quot;carrot&quot;</span><span class="p">,</span> <span class="s2">&quot;hot dog&quot;</span><span class="p">,</span> <span class="s2">&quot;pizza&quot;</span><span class="p">,</span> <span class="s2">&quot;donut&quot;</span><span class="p">,</span> <span class="s2">&quot;cake&quot;</span><span class="p">,</span> <span class="s2">&quot;chair&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;couch&quot;</span><span class="p">,</span> <span class="s2">&quot;potted plant&quot;</span><span class="p">,</span> <span class="s2">&quot;bed&quot;</span><span class="p">,</span> <span class="s2">&quot;mirror&quot;</span><span class="p">,</span> <span class="s2">&quot;dining table&quot;</span><span class="p">,</span> <span class="s2">&quot;window&quot;</span><span class="p">,</span> <span class="s2">&quot;desk&quot;</span><span class="p">,</span> <span class="s2">&quot;toilet&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;door&quot;</span><span class="p">,</span> <span class="s2">&quot;tv&quot;</span><span class="p">,</span> <span class="s2">&quot;laptop&quot;</span><span class="p">,</span> <span class="s2">&quot;mouse&quot;</span><span class="p">,</span> <span class="s2">&quot;remote&quot;</span><span class="p">,</span> <span class="s2">&quot;keyboard&quot;</span><span class="p">,</span> <span class="s2">&quot;cell phone&quot;</span><span class="p">,</span> <span class="s2">&quot;microwave&quot;</span><span class="p">,</span> <span class="s2">&quot;oven&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;toaster&quot;</span><span class="p">,</span> <span class="s2">&quot;sink&quot;</span><span class="p">,</span> <span class="s2">&quot;refrigerator&quot;</span><span class="p">,</span> <span class="s2">&quot;blender&quot;</span><span class="p">,</span> <span class="s2">&quot;book&quot;</span><span class="p">,</span> <span class="s2">&quot;clock&quot;</span><span class="p">,</span> <span class="s2">&quot;vase&quot;</span><span class="p">,</span> <span class="s2">&quot;scissors&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;teddy bear&quot;</span><span class="p">,</span> <span class="s2">&quot;hair drier&quot;</span><span class="p">,</span> <span class="s2">&quot;toothbrush&quot;</span><span class="p">,</span> <span class="s2">&quot;hair brush&quot;</span>
-<span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># https://tech.amikelive.com/node-718/what-object-categories-labels-are-in-coco-dataset/
+classes = [
+    &quot;background&quot;, &quot;person&quot;, &quot;bicycle&quot;, &quot;car&quot;, &quot;motorcycle&quot;, &quot;airplane&quot;, &quot;bus&quot;, &quot;train&quot;,
+    &quot;truck&quot;, &quot;boat&quot;, &quot;traffic light&quot;, &quot;fire hydrant&quot;, &quot;street sign&quot;, &quot;stop sign&quot;,
+    &quot;parking meter&quot;, &quot;bench&quot;, &quot;bird&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;horse&quot;, &quot;sheep&quot;, &quot;cow&quot;, &quot;elephant&quot;,
+    &quot;bear&quot;, &quot;zebra&quot;, &quot;giraffe&quot;, &quot;hat&quot;, &quot;backpack&quot;, &quot;umbrella&quot;, &quot;shoe&quot;, &quot;eye glasses&quot;,
+    &quot;handbag&quot;, &quot;tie&quot;, &quot;suitcase&quot;, &quot;frisbee&quot;, &quot;skis&quot;, &quot;snowboard&quot;, &quot;sports ball&quot;, &quot;kite&quot;,
+    &quot;baseball bat&quot;, &quot;baseball glove&quot;, &quot;skateboard&quot;, &quot;surfboard&quot;, &quot;tennis racket&quot;, &quot;bottle&quot;,
+    &quot;plate&quot;, &quot;wine glass&quot;, &quot;cup&quot;, &quot;fork&quot;, &quot;knife&quot;, &quot;spoon&quot;, &quot;bowl&quot;, &quot;banana&quot;, &quot;apple&quot;,
+    &quot;sandwich&quot;, &quot;orange&quot;, &quot;broccoli&quot;, &quot;carrot&quot;, &quot;hot dog&quot;, &quot;pizza&quot;, &quot;donut&quot;, &quot;cake&quot;, &quot;chair&quot;,
+    &quot;couch&quot;, &quot;potted plant&quot;, &quot;bed&quot;, &quot;mirror&quot;, &quot;dining table&quot;, &quot;window&quot;, &quot;desk&quot;, &quot;toilet&quot;,
+    &quot;door&quot;, &quot;tv&quot;, &quot;laptop&quot;, &quot;mouse&quot;, &quot;remote&quot;, &quot;keyboard&quot;, &quot;cell phone&quot;, &quot;microwave&quot;, &quot;oven&quot;,
+    &quot;toaster&quot;, &quot;sink&quot;, &quot;refrigerator&quot;, &quot;blender&quot;, &quot;book&quot;, &quot;clock&quot;, &quot;vase&quot;, &quot;scissors&quot;,
+    &quot;teddy bear&quot;, &quot;hair drier&quot;, &quot;toothbrush&quot;, &quot;hair brush&quot;
+]
 
-<span class="c1"># Colors for the classes above (Rainbow Color Map).</span>
-<span class="n">colors</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">applyColorMap</span><span class="p">(</span>
-    <span class="n">src</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span>
-    <span class="n">colormap</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLORMAP_RAINBOW</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-
-
-<span class="k">def</span> <span class="nf">process_results</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">0.6</span><span class="p">):</span>
-    <span class="c1"># The size of the original frame.</span>
-    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="c1"># The &#39;results&#39; variable is a [1, 1, 100, 7] tensor.</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-    <span class="n">boxes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-        <span class="c1"># Create a box with pixels coordinates from the box with normalized coordinates [0,1].</span>
-        <span class="n">boxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="p">(</span><span class="n">xmin</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span><span class="p">)))</span>
-        <span class="p">)</span>
-        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
-        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">score</span><span class="p">))</span>
-
-    <span class="c1"># Apply non-maximum suppression to get rid of many overlapping entities.</span>
-    <span class="c1"># See https://paperswithcode.com/method/non-maximum-suppression</span>
-    <span class="c1"># This algorithm returns indices of objects to keep.</span>
-    <span class="n">indices</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">NMSBoxes</span><span class="p">(</span>
-        <span class="n">bboxes</span><span class="o">=</span><span class="n">boxes</span><span class="p">,</span> <span class="n">scores</span><span class="o">=</span><span class="n">scores</span><span class="p">,</span> <span class="n">score_threshold</span><span class="o">=</span><span class="n">thresh</span><span class="p">,</span> <span class="n">nms_threshold</span><span class="o">=</span><span class="mf">0.6</span>
-    <span class="p">)</span>
-
-    <span class="c1"># If there are no boxes.</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-    <span class="c1"># Filter detected objects.</span>
-    <span class="k">return</span> <span class="p">[(</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">boxes</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+# Colors for the classes above (Rainbow Color Map).
+colors = cv2.applyColorMap(
+    src=np.arange(0, 255, 255 / len(classes), dtype=np.float32).astype(np.uint8),
+    colormap=cv2.COLORMAP_RAINBOW,
+).squeeze()
 
 
-<span class="k">def</span> <span class="nf">draw_boxes</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">boxes</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="c1"># Choose color for the label.</span>
-        <span class="n">color</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="n">label</span><span class="p">]))</span>
-        <span class="c1"># Draw a box.</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">y2</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">box</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span> <span class="n">pt1</span><span class="o">=</span><span class="n">box</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">pt2</span><span class="o">=</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+def process_results(frame, results, thresh=0.6):
+    # The size of the original frame.
+    h, w = frame.shape[:2]
+    # The &#39;results&#39; variable is a [1, 1, 100, 7] tensor.
+    results = results.squeeze()
+    boxes = []
+    labels = []
+    scores = []
+    for _, label, score, xmin, ymin, xmax, ymax in results:
+        # Create a box with pixels coordinates from the box with normalized coordinates [0,1].
+        boxes.append(
+            tuple(map(int, (xmin * w, ymin * h, (xmax - xmin) * w, (ymax - ymin) * h)))
+        )
+        labels.append(int(label))
+        scores.append(float(score))
 
-        <span class="c1"># Draw a label name inside the box.</span>
-        <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
-            <span class="n">img</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">org</span><span class="o">=</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">30</span><span class="p">),</span>
-            <span class="n">fontFace</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_COMPLEX</span><span class="p">,</span>
-            <span class="n">fontScale</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-            <span class="n">thickness</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">lineType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span><span class="p">,</span>
-        <span class="p">)</span>
+    # Apply non-maximum suppression to get rid of many overlapping entities.
+    # See https://paperswithcode.com/method/non-maximum-suppression
+    # This algorithm returns indices of objects to keep.
+    indices = cv2.dnn.NMSBoxes(
+        bboxes=boxes, scores=scores, score_threshold=thresh, nms_threshold=0.6
+    )
 
-    <span class="k">return</span> <span class="n">frame</span>
+    # If there are no boxes.
+    if len(indices) == 0:
+        return []
+
+    # Filter detected objects.
+    return [(labels[idx], scores[idx], boxes[idx]) for idx in indices.flatten()]
+
+
+def draw_boxes(frame, boxes):
+    for label, score, box in boxes:
+        # Choose color for the label.
+        color = tuple(map(int, colors[label]))
+        # Draw a box.
+        x2 = box[0] + box[2]
+        y2 = box[1] + box[3]
+        cv2.rectangle(img=frame, pt1=box[:2], pt2=(x2, y2), color=color, thickness=3)
+
+        # Draw a label name inside the box.
+        cv2.putText(
+            img=frame,
+            text=f&quot;{classes[label]} {score:.2f}&quot;,
+            org=(box[0] + 10, box[1] + 30),
+            fontFace=cv2.FONT_HERSHEY_COMPLEX,
+            fontScale=frame.shape[1] / 1000,
+            color=color,
+            thickness=1,
+            lineType=cv2.LINE_AA,
+        )
+
+    return frame
 </pre></div>
 </div>
 </section>
@@ -891,108 +891,108 @@ threshold (0.5). Finally, draw boxes and labels inside them.</p>
 <h3>Main Processing Function<a class="headerlink" href="#main-processing-function" title="Permalink to this headline">¶</a></h3>
 <p>Run object detection on the specified source. Either a webcam or a video
 file.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Main processing function to run object detection.</span>
-<span class="k">def</span> <span class="nf">run_object_detection</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">player</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Create a video player to play with target fps.</span>
-        <span class="n">player</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">VideoPlayer</span><span class="p">(</span>
-            <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="n">flip</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="n">skip_first_frames</span>
-        <span class="p">)</span>
-        <span class="c1"># Start capturing.</span>
-        <span class="n">player</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Press ESC to Exit&quot;</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span>
-                <span class="n">winname</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_GUI_NORMAL</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_AUTOSIZE</span>
-            <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Main processing function to run object detection.
+def run_object_detection(source=0, flip=False, use_popup=False, skip_first_frames=0):
+    player = None
+    try:
+        # Create a video player to play with target fps.
+        player = utils.VideoPlayer(
+            source=source, flip=flip, fps=30, skip_first_frames=skip_first_frames
+        )
+        # Start capturing.
+        player.start()
+        if use_popup:
+            title = &quot;Press ESC to Exit&quot;
+            cv2.namedWindow(
+                winname=title, flags=cv2.WINDOW_GUI_NORMAL | cv2.WINDOW_AUTOSIZE
+            )
 
-        <span class="n">processing_times</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">()</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Grab the frame.</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source ended&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="c1"># If the frame is larger than full HD, reduce size to improve the performance.</span>
-            <span class="n">scale</span> <span class="o">=</span> <span class="mi">1280</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
-                    <span class="n">src</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span>
-                    <span class="n">dsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">fx</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
-                    <span class="n">fy</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
-                    <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">,</span>
-                <span class="p">)</span>
+        processing_times = collections.deque()
+        while True:
+            # Grab the frame.
+            frame = player.next()
+            if frame is None:
+                print(&quot;Source ended&quot;)
+                break
+            # If the frame is larger than full HD, reduce size to improve the performance.
+            scale = 1280 / max(frame.shape)
+            if scale &lt; 1:
+                frame = cv2.resize(
+                    src=frame,
+                    dsize=None,
+                    fx=scale,
+                    fy=scale,
+                    interpolation=cv2.INTER_AREA,
+                )
 
-            <span class="c1"># Resize the image and change dims to fit neural network input.</span>
-            <span class="n">input_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span>
-            <span class="p">)</span>
-            <span class="c1"># Create a batch of images (size = 1).</span>
-            <span class="n">input_img</span> <span class="o">=</span> <span class="n">input_img</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+            # Resize the image and change dims to fit neural network input.
+            input_img = cv2.resize(
+                src=frame, dsize=(width, height), interpolation=cv2.INTER_AREA
+            )
+            # Create a batch of images (size = 1).
+            input_img = input_img[np.newaxis, ...]
 
-            <span class="c1"># Measure processing time.</span>
+            # Measure processing time.
 
-            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-            <span class="c1"># Get the results.</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_img</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">]</span>
-            <span class="n">stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-            <span class="c1"># Get poses from network results.</span>
-            <span class="n">boxes</span> <span class="o">=</span> <span class="n">process_results</span><span class="p">(</span><span class="n">frame</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
+            start_time = time.time()
+            # Get the results.
+            results = compiled_model([input_img])[output_layer]
+            stop_time = time.time()
+            # Get poses from network results.
+            boxes = process_results(frame=frame, results=results)
 
-            <span class="c1"># Draw boxes on a frame.</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">draw_boxes</span><span class="p">(</span><span class="n">frame</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span> <span class="n">boxes</span><span class="o">=</span><span class="n">boxes</span><span class="p">)</span>
+            # Draw boxes on a frame.
+            frame = draw_boxes(frame=frame, boxes=boxes)
 
-            <span class="n">processing_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stop_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-            <span class="c1"># Use processing times from last 200 frames.</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">processing_times</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="n">processing_times</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            processing_times.append(stop_time - start_time)
+            # Use processing times from last 200 frames.
+            if len(processing_times) &gt; 200:
+                processing_times.popleft()
 
-            <span class="n">_</span><span class="p">,</span> <span class="n">f_width</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-            <span class="c1"># Mean processing time [ms].</span>
-            <span class="n">processing_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">processing_times</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-            <span class="n">fps</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">processing_time</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
-                <span class="n">img</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span>
-                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Inference time: </span><span class="si">{</span><span class="n">processing_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">ms (</span><span class="si">{</span><span class="n">fps</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> FPS)&quot;</span><span class="p">,</span>
-                <span class="n">org</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
-                <span class="n">fontFace</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_COMPLEX</span><span class="p">,</span>
-                <span class="n">fontScale</span><span class="o">=</span><span class="n">f_width</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
-                <span class="n">thickness</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">lineType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span><span class="p">,</span>
-            <span class="p">)</span>
+            _, f_width = frame.shape[:2]
+            # Mean processing time [ms].
+            processing_time = np.mean(processing_times) * 1000
+            fps = 1000 / processing_time
+            cv2.putText(
+                img=frame,
+                text=f&quot;Inference time: {processing_time:.1f}ms ({fps:.1f} FPS)&quot;,
+                org=(20, 40),
+                fontFace=cv2.FONT_HERSHEY_COMPLEX,
+                fontScale=f_width / 1000,
+                color=(0, 0, 255),
+                thickness=1,
+                lineType=cv2.LINE_AA,
+            )
 
-            <span class="c1"># Use this workaround if there is flickering.</span>
-            <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">winname</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span>
-                <span class="n">key</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="c1"># escape = 27</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>
-                    <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Encode numpy array to jpg.</span>
-                <span class="n">_</span><span class="p">,</span> <span class="n">encoded_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span>
-                    <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMWRITE_JPEG_QUALITY</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
-                <span class="p">)</span>
-                <span class="c1"># Create an IPython image.</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">encoded_img</span><span class="p">)</span>
-                <span class="c1"># Display the image in this notebook.</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="c1"># ctrl-c</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interrupted&quot;</span><span class="p">)</span>
-    <span class="c1"># any different error</span>
-    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">player</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Stop capturing.</span>
-            <span class="n">player</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+            # Use this workaround if there is flickering.
+            if use_popup:
+                cv2.imshow(winname=title, mat=frame)
+                key = cv2.waitKey(1)
+                # escape = 27
+                if key == 27:
+                    break
+            else:
+                # Encode numpy array to jpg.
+                _, encoded_img = cv2.imencode(
+                    ext=&quot;.jpg&quot;, img=frame, params=[cv2.IMWRITE_JPEG_QUALITY, 100]
+                )
+                # Create an IPython image.
+                i = display.Image(data=encoded_img)
+                # Display the image in this notebook.
+                display.clear_output(wait=True)
+                display.display(i)
+    # ctrl-c
+    except KeyboardInterrupt:
+        print(&quot;Interrupted&quot;)
+    # any different error
+    except RuntimeError as e:
+        print(e)
+    finally:
+        if player is not None:
+            # Stop capturing.
+            player.stop()
+        if use_popup:
+            cv2.destroyAllWindows()
 </pre></div>
 </div>
 </section>
@@ -1015,7 +1015,7 @@ may not work if you run this notebook on a remote computer (for
 example, Binder).</p>
 </div></blockquote>
 <p>Run the object detection:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_object_detection</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run_object_detection(source=0, flip=True, use_popup=False)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cannot</span> <span class="nb">open</span> <span class="n">camera</span> <span class="mi">0</span>
@@ -1028,9 +1028,9 @@ example, Binder).</p>
 file. Any <a class="reference external" href="https://docs.opencv.org/4.5.1/dd/d43/tutorial_py_video_display.html">format supported by
 OpenCV</a>
 will work.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">video_file</span> <span class="o">=</span> <span class="s2">&quot;../201-vision-monodepth/data/Coco Walking in Berkeley.mp4&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>video_file = &quot;../201-vision-monodepth/data/Coco Walking in Berkeley.mp4&quot;
 
-<span class="n">run_object_detection</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">video_file</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+run_object_detection(source=video_file, flip=False, use_popup=False)
 </pre></div>
 </div>
 <img alt="../_images/401-object-detection-with-output_18_0.png" src="../_images/401-object-detection-with-output_18_0.png" />

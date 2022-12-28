@@ -587,29 +587,29 @@ quantization. - Define a data loading and an accuracy validation
 functionality. - Run optimization pipeline. - Compare accuracy of the
 original and quantized models. - Compare performance of the original and
 quantized models. - Compare results on one picture.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">addict</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.api</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Metric</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.engines.ie_engine</span> <span class="kn">import</span> <span class="n">IEEngine</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.graph</span> <span class="kn">import</span> <span class="n">load_model</span><span class="p">,</span> <span class="n">save_model</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.graph.model_utils</span> <span class="kn">import</span> <span class="n">compress_model_weights</span>
-<span class="kn">from</span> <span class="nn">openvino.tools.pot.pipeline.initializer</span> <span class="kn">import</span> <span class="n">create_pipeline</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
-<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">CIFAR10</span>
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from addict import Dict
+from openvino.tools.pot.api import DataLoader, Metric
+from openvino.tools.pot.engines.ie_engine import IEEngine
+from openvino.tools.pot.graph import load_model, save_model
+from openvino.tools.pot.graph.model_utils import compress_model_weights
+from openvino.tools.pot.pipeline.initializer import create_pipeline
+from openvino.runtime import Core
+from torchvision import transforms
+from torchvision.datasets import CIFAR10
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the data and model directories</span>
-<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
-<span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="s1">&#39;model&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the data and model directories
+DATA_DIR = &#39;data&#39;
+MODEL_DIR = &#39;model&#39;
 
-<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">MODEL_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(MODEL_DIR, exist_ok=True)
 </pre></div>
 </div>
 <section id="prepare-the-model">
@@ -618,19 +618,19 @@ quantized models. - Compare results on one picture.</p>
 model from Torchvision repository - Convert it to ONNX format - Run
 Model Optimizer to convert ONNX to OpenVINO Intermediate Representation
 (OpenVINO IR)</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;chenyaofo/pytorch-cifar-models&quot;</span><span class="p">,</span> <span class="s2">&quot;cifar10_mobilenetv2_x1_0&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = torch.hub.load(&quot;chenyaofo/pytorch-cifar-models&quot;, &quot;cifar10_mobilenetv2_x1_0&quot;, pretrained=True)
+model.eval()
 
-<span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+dummy_input = torch.randn(1, 3, 32, 32)
 
-<span class="n">onnx_model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">MODEL_DIR</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;mobilenet_v2.onnx&#39;</span>
-<span class="n">ir_model_xml</span> <span class="o">=</span> <span class="n">onnx_model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">)</span>
-<span class="n">ir_model_bin</span> <span class="o">=</span> <span class="n">onnx_model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.bin&#39;</span><span class="p">)</span>
+onnx_model_path = Path(MODEL_DIR) / &#39;mobilenet_v2.onnx&#39;
+ir_model_xml = onnx_model_path.with_suffix(&#39;.xml&#39;)
+ir_model_bin = onnx_model_path.with_suffix(&#39;.bin&#39;)
 
-<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dummy_input</span><span class="p">,</span> <span class="n">onnx_model_path</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+torch.onnx.export(model, dummy_input, onnx_model_path, verbose=True)
 
-<span class="c1"># Run Model Optimizer to convert ONNX to OpenVINO IR.</span>
-<span class="o">!</span>mo --framework<span class="o">=</span>onnx --data_type<span class="o">=</span>FP16 --input_shape<span class="o">=[</span><span class="m">1</span>,3,32,32<span class="o">]</span> -m <span class="nv">$onnx_model_path</span>  --output_dir <span class="nv">$MODEL_DIR</span>
+# Run Model Optimizer to convert ONNX to OpenVINO IR.
+!mo --framework=onnx --data_type=FP16 --input_shape=[1,3,32,32] -m $onnx_model_path  --output_dir $MODEL_DIR
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Using</span> <span class="n">cache</span> <span class="n">found</span> <span class="ow">in</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/.</span><span class="n">cache</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">hub</span><span class="o">/</span><span class="n">chenyaofo_pytorch</span><span class="o">-</span><span class="n">cifar</span><span class="o">-</span><span class="n">models_master</span>
@@ -887,8 +887,8 @@ Model Optimizer to convert ONNX to OpenVINO Intermediate Representation
 <section id="define-data-loader">
 <h2>Define Data Loader<a class="headerlink" href="#define-data-loader" title="Permalink to this headline">¶</a></h2>
 <p>In this step, the <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> interface from POT API is implemented.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.4914</span><span class="p">,</span> <span class="mf">0.4822</span><span class="p">,</span> <span class="mf">0.4465</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.247</span><span class="p">,</span> <span class="mf">0.243</span><span class="p">,</span> <span class="mf">0.261</span><span class="p">))])</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.4914, 0.4822, 0.4465), (0.247, 0.243, 0.261))])
+dataset = CIFAR10(root=DATA_DIR, train=False, transform=transform, download=True)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">cs</span><span class="o">.</span><span class="n">toronto</span><span class="o">.</span><span class="n">edu</span><span class="o">/~</span><span class="n">kriz</span><span class="o">/</span><span class="n">cifar</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">python</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">cifar</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">python</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
@@ -900,45 +900,45 @@ Model Optimizer to convert ONNX to OpenVINO Intermediate Representation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Extracting</span> <span class="n">data</span><span class="o">/</span><span class="n">cifar</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">python</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a DataLoader from a CIFAR10 dataset.</span>
-<span class="k">class</span> <span class="nc">CifarDataLoader</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a DataLoader from a CIFAR10 dataset.
+class CifarDataLoader(DataLoader):
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize config and dataset.</span>
-<span class="sd">        :param config: created config with DATA_DIR path.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictures</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    def __init__(self, config):
+        &quot;&quot;&quot;
+        Initialize config and dataset.
+        :param config: created config with DATA_DIR path.
+        &quot;&quot;&quot;
+        if not isinstance(config, Dict):
+            config = Dict(config)
+        super().__init__(config)
+        self.indexes, self.pictures, self.labels = self.load_data(dataset)
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+    def __len__(self):
+        return len(self.labels)
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return one sample of index, label and picture.</span>
-<span class="sd">        :param index: index of the taken sample.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span>
+    def __getitem__(self, index):
+        &quot;&quot;&quot;
+        Return one sample of index, label and picture.
+        :param index: index of the taken sample.
+        &quot;&quot;&quot;
+        if index &gt;= len(self):
+            raise IndexError
 
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="n">index</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictures</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        return (self.indexes[index], self.labels[index]), self.pictures[index].numpy()
 
-    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Load dataset in needed format.</span>
-<span class="sd">        :param dataset:  downloaded dataset.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pictures</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    def load_data(self, dataset):
+        &quot;&quot;&quot;
+        Load dataset in needed format.
+        :param dataset:  downloaded dataset.
+        &quot;&quot;&quot;
+        pictures, labels, indexes = [], [], []
 
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
-            <span class="n">pictures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        for idx, sample in enumerate(dataset):
+            pictures.append(sample[0])
+            labels.append(sample[1])
+            indexes.append(idx)
 
-        <span class="k">return</span> <span class="n">indexes</span><span class="p">,</span> <span class="n">pictures</span><span class="p">,</span> <span class="n">labels</span>
+        return indexes, pictures, labels
 </pre></div>
 </div>
 </section>
@@ -946,54 +946,54 @@ Model Optimizer to convert ONNX to OpenVINO Intermediate Representation
 <h2>Define Accuracy Metric Calculation<a class="headerlink" href="#define-accuracy-metric-calculation" title="Permalink to this headline">¶</a></h2>
 <p>In this step, the <code class="docutils literal notranslate"><span class="pre">Metric</span></code> interface for accuracy Top-1 metric is
 implemented. It is used for validating accuracy of quantized model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Custom implementation of classification accuracy metric.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Custom implementation of classification accuracy metric.
 
-<span class="k">class</span> <span class="nc">Accuracy</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+class Accuracy(Metric):
 
-    <span class="c1"># Required methods</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_top_k</span> <span class="o">=</span> <span class="n">top_k</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;accuracy@top</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_top_k</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_matches</span> <span class="o">=</span> <span class="p">[]</span>
+    # Required methods
+    def __init__(self, top_k=1):
+        super().__init__()
+        self._top_k = top_k
+        self._name = &#39;accuracy@top{}&#39;.format(self._top_k)
+        self._matches = []
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns accuracy metric value for the last model output. &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matches</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]}</span>
+    @property
+    def value(self):
+        &quot;&quot;&quot; Returns accuracy metric value for the last model output. &quot;&quot;&quot;
+        return {self._name: self._matches[-1]}
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">avg_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns accuracy metric value for all model outputs. &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_matches</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()}</span>
+    @property
+    def avg_value(self):
+        &quot;&quot;&quot; Returns accuracy metric value for all model outputs. &quot;&quot;&quot;
+        return {self._name: np.ravel(self._matches).mean()}
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Updates prediction matches.</span>
-<span class="sd">        :param output: model output</span>
-<span class="sd">        :param target: annotations</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;The accuracy metric cannot be calculated &#39;</span>
-                            <span class="s1">&#39;for a model with multiple outputs&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">target</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_top_k</span><span class="p">:]</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span> <span class="ow">in</span> <span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">target</span><span class="p">)]</span>
+    def update(self, output, target):
+        &quot;&quot;&quot; Updates prediction matches.
+        :param output: model output
+        :param target: annotations
+        &quot;&quot;&quot;
+        if len(output) &gt; 1:
+            raise Exception(&#39;The accuracy metric cannot be calculated &#39;
+                            &#39;for a model with multiple outputs&#39;)
+        if isinstance(target, dict):
+            target = list(target.values())
+        predictions = np.argsort(output[0], axis=1)[:, -self._top_k:]
+        match = [float(t in predictions[i]) for i, t in enumerate(target)]
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+        self._matches.append(match)
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Resets collected matches &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_matches</span> <span class="o">=</span> <span class="p">[]</span>
+    def reset(self):
+        &quot;&quot;&quot; Resets collected matches &quot;&quot;&quot;
+        self._matches = []
 
-    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a dictionary of metric attributes {metric_name: {attribute_name: value}}.</span>
-<span class="sd">        Required attributes: &#39;direction&#39;: &#39;higher-better&#39; or &#39;higher-worse&#39;</span>
-<span class="sd">                             &#39;type&#39;: metric type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="s1">&#39;higher-better&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">}}</span>
+    def get_attributes(self):
+        &quot;&quot;&quot;
+        Returns a dictionary of metric attributes {metric_name: {attribute_name: value}}.
+        Required attributes: &#39;direction&#39;: &#39;higher-better&#39; or &#39;higher-worse&#39;
+                             &#39;type&#39;: metric type
+        &quot;&quot;&quot;
+        return {self._name: {&#39;direction&#39;: &#39;higher-better&#39;,
+                             &#39;type&#39;: &#39;accuracy&#39;}}
 </pre></div>
 </div>
 </section>
@@ -1010,69 +1010,69 @@ complicated inference flow for your model/models, you should create
 your own implementation of <code class="docutils literal notranslate"><span class="pre">Engine</span></code> interface, for example, by
 inheriting from <code class="docutils literal notranslate"><span class="pre">IEEngine</span></code> and extending it.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">({</span>
-    <span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;mobilenet_v2&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">ir_model_xml</span><span class="p">,</span>
-    <span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="n">ir_model_bin</span>
-<span class="p">})</span>
-<span class="n">engine_config</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">({</span>
-    <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="s1">&#39;CPU&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;stat_requests_number&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s1">&#39;eval_requests_number&#39;</span><span class="p">:</span> <span class="mi">2</span>
-<span class="p">})</span>
-<span class="n">dataset_config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;data_source&#39;</span><span class="p">:</span> <span class="n">DATA_DIR</span>
-<span class="p">}</span>
-<span class="n">algorithms</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;DefaultQuantization&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;target_device&#39;</span><span class="p">:</span> <span class="s1">&#39;CPU&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;preset&#39;</span><span class="p">:</span> <span class="s1">&#39;performance&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;stat_subset_size&#39;</span><span class="p">:</span> <span class="mi">300</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_config = Dict({
+    &#39;model_name&#39;: &#39;mobilenet_v2&#39;,
+    &#39;model&#39;: ir_model_xml,
+    &#39;weights&#39;: ir_model_bin
+})
+engine_config = Dict({
+    &#39;device&#39;: &#39;CPU&#39;,
+    &#39;stat_requests_number&#39;: 2,
+    &#39;eval_requests_number&#39;: 2
+})
+dataset_config = {
+    &#39;data_source&#39;: DATA_DIR
+}
+algorithms = [
+    {
+        &#39;name&#39;: &#39;DefaultQuantization&#39;,
+        &#39;params&#39;: {
+            &#39;target_device&#39;: &#39;CPU&#39;,
+            &#39;preset&#39;: &#39;performance&#39;,
+            &#39;stat_subset_size&#39;: 300
+        }
+    }
+]
 
-<span class="c1"># Steps 1-7: Model optimization</span>
-<span class="c1"># Step 1: Load the model.</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_config</span><span class="p">)</span>
+# Steps 1-7: Model optimization
+# Step 1: Load the model.
+model = load_model(model_config)
 
-<span class="c1"># Step 2: Initialize the data loader.</span>
-<span class="n">data_loader</span> <span class="o">=</span> <span class="n">CifarDataLoader</span><span class="p">(</span><span class="n">dataset_config</span><span class="p">)</span>
+# Step 2: Initialize the data loader.
+data_loader = CifarDataLoader(dataset_config)
 
-<span class="c1"># Step 3 (Optional. Required for AccuracyAwareQuantization): Initialize the metric.</span>
-<span class="n">metric</span> <span class="o">=</span> <span class="n">Accuracy</span><span class="p">(</span><span class="n">top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+# Step 3 (Optional. Required for AccuracyAwareQuantization): Initialize the metric.
+metric = Accuracy(top_k=1)
 
-<span class="c1"># Step 4: Initialize the engine for metric calculation and statistics collection.</span>
-<span class="n">engine</span> <span class="o">=</span> <span class="n">IEEngine</span><span class="p">(</span><span class="n">engine_config</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span>
+# Step 4: Initialize the engine for metric calculation and statistics collection.
+engine = IEEngine(engine_config, data_loader, metric)
 
-<span class="c1"># Step 5: Create a pipeline of compression algorithms.</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">algorithms</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+# Step 5: Create a pipeline of compression algorithms.
+pipeline = create_pipeline(algorithms, engine)
 
-<span class="c1"># Step 6: Execute the pipeline.</span>
-<span class="n">compressed_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+# Step 6: Execute the pipeline.
+compressed_model = pipeline.run(model)
 
-<span class="c1"># Step 7 (Optional): Compress model weights quantized precision</span>
-<span class="c1">#                    in order to reduce the size of final .bin file.</span>
-<span class="n">compress_model_weights</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">)</span>
+# Step 7 (Optional): Compress model weights quantized precision
+#                    in order to reduce the size of final .bin file.
+compress_model_weights(compressed_model)
 
-<span class="c1"># Step 8: Save the compressed model to the desired path.</span>
-<span class="n">compressed_model_paths</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">compressed_model</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="n">MODEL_DIR</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;quantized_mobilenet_v2&quot;</span>
-<span class="p">)</span>
-<span class="n">compressed_model_xml</span> <span class="o">=</span> <span class="n">compressed_model_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
-<span class="n">compressed_model_bin</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">compressed_model_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span>
+# Step 8: Save the compressed model to the desired path.
+compressed_model_paths = save_model(model=compressed_model, save_path=MODEL_DIR, model_name=&quot;quantized_mobilenet_v2&quot;
+)
+compressed_model_xml = compressed_model_paths[0][&quot;model&quot;]
+compressed_model_bin = Path(compressed_model_paths[0][&quot;model&quot;]).with_suffix(&quot;.bin&quot;)
 
-<span class="c1"># Step 9: Compare accuracy of the original and quantized models.</span>
-<span class="n">metric_results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">metric_results</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">metric_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy of the original model: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Step 9: Compare accuracy of the original and quantized models.
+metric_results = pipeline.evaluate(model)
+if metric_results:
+    for name, value in metric_results.items():
+        print(f&quot;Accuracy of the original model: {name}: {value}&quot;)
 
-<span class="n">metric_results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">metric_results</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">metric_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy of the optimized model: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+metric_results = pipeline.evaluate(compressed_model)
+if metric_results:
+    for name, value in metric_results.items():
+        print(f&quot;Accuracy of the optimized model: {name}: {value}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Accuracy</span> <span class="n">of</span> <span class="n">the</span> <span class="n">original</span> <span class="n">model</span><span class="p">:</span> <span class="n">accuracy</span><span class="nd">@top1</span><span class="p">:</span> <span class="mf">0.9345</span>
@@ -1094,8 +1094,8 @@ async inference on CPU for one minute. Change CPU to GPU to benchmark
 on GPU. Run <code class="docutils literal notranslate"><span class="pre">benchmark_app</span> <span class="pre">--help</span></code> to see an overview of all
 command-line options.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inference FP16 model (OpenVINO IR)</span>
-<span class="o">!</span>benchmark_app -m <span class="nv">$ir_model_xml</span> -d CPU -api async
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Inference FP16 model (OpenVINO IR)
+!benchmark_app -m $ir_model_xml -d CPU -api async
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[Step 1/11] Parsing and validating input arguments
@@ -1150,8 +1150,8 @@ Latency:
 Throughput: 4091.71 FPS
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inference INT8 model (OpenVINO IR)</span>
-<span class="o">!</span>benchmark_app -m <span class="nv">$compressed_model_xml</span> -d CPU -api async
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Inference INT8 model (OpenVINO IR)
+!benchmark_app -m $compressed_model_xml -d CPU -api async
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[Step 1/11] Parsing and validating input arguments
@@ -1209,85 +1209,85 @@ Throughput: 8252.13 FPS
 </section>
 <section id="compare-results-on-four-pictures">
 <h2>Compare results on four pictures.<a class="headerlink" href="#compare-results-on-four-pictures" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
 
-<span class="c1"># Read and load a float model.</span>
-<span class="n">float_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">ir_model_xml</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">ir_model_bin</span>
-<span class="p">)</span>
-<span class="n">float_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">float_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+# Read and load a float model.
+float_model = ie.read_model(
+    model=ir_model_xml, weights=ir_model_bin
+)
+float_compiled_model = ie.compile_model(model=float_model, device_name=&quot;CPU&quot;)
 
-<span class="c1"># Read and load a quantized model.</span>
-<span class="n">quantized_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">compressed_model_xml</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">compressed_model_bin</span>
-<span class="p">)</span>
-<span class="n">quantized_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">quantized_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+# Read and load a quantized model.
+quantized_model = ie.read_model(
+    model=compressed_model_xml, weights=compressed_model_bin
+)
+quantized_compiled_model = ie.compile_model(model=quantized_model, device_name=&quot;CPU&quot;)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define all possible labels from the CIFAR10 dataset.</span>
-<span class="n">labels_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;airplane&quot;</span><span class="p">,</span> <span class="s2">&quot;automobile&quot;</span><span class="p">,</span> <span class="s2">&quot;bird&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;deer&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;frog&quot;</span><span class="p">,</span> <span class="s2">&quot;horse&quot;</span><span class="p">,</span> <span class="s2">&quot;ship&quot;</span><span class="p">,</span> <span class="s2">&quot;truck&quot;</span><span class="p">]</span>
-<span class="n">all_pictures</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">all_labels</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define all possible labels from the CIFAR10 dataset.
+labels_names = [&quot;airplane&quot;, &quot;automobile&quot;, &quot;bird&quot;, &quot;cat&quot;, &quot;deer&quot;, &quot;dog&quot;, &quot;frog&quot;, &quot;horse&quot;, &quot;ship&quot;, &quot;truck&quot;]
+all_pictures = []
+all_labels = []
 
-<span class="c1"># Get all pictures and their labels.</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
-    <span class="n">all_pictures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">all_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+# Get all pictures and their labels.
+for i, batch in enumerate(data_loader):
+    all_pictures.append(batch[1])
+    all_labels.append(batch[0][1])
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_pictures</span><span class="p">(</span><span class="n">indexes</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">all_pictures</span><span class="o">=</span><span class="n">all_pictures</span><span class="p">,</span> <span class="n">all_labels</span><span class="o">=</span><span class="n">all_labels</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot 4 pictures.</span>
-<span class="sd">    :param indexes: a list of indexes of pictures to be displayed.</span>
-<span class="sd">    :param all_batches: batches with pictures.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-    <span class="n">num_pics</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">num_pics</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;No enough indexes for pictures to be displayed, got </span><span class="si">{</span><span class="n">num_pics</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">,</span> <span class="s1">&#39;Cannot get such index, there are only 10000&#39;</span>
-        <span class="n">pic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">all_pictures</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pic</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plot_pictures(indexes: list, all_pictures=all_pictures, all_labels=all_labels):
+    &quot;&quot;&quot;Plot 4 pictures.
+    :param indexes: a list of indexes of pictures to be displayed.
+    :param all_batches: batches with pictures.
+    &quot;&quot;&quot;
+    images, labels = [], []
+    num_pics = len(indexes)
+    assert num_pics == 4, f&#39;No enough indexes for pictures to be displayed, got {num_pics}&#39;
+    for idx in indexes:
+        assert idx &lt; 10000, &#39;Cannot get such index, there are only 10000&#39;
+        pic = np.rollaxis(all_pictures[idx].squeeze(), 0, 3)
+        images.append(pic)
 
-        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels_names</span><span class="p">[</span><span class="n">all_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]])</span>
+        labels.append(labels_names[all_labels[idx]])
 
-    <span class="n">f</span><span class="p">,</span> <span class="n">axarr</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    f, axarr = plt.subplots(1, 4)
+    axarr[0].imshow(images[0])
+    axarr[0].set_title(labels[0])
 
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    axarr[1].imshow(images[1])
+    axarr[1].set_title(labels[1])
 
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    axarr[2].imshow(images[2])
+    axarr[2].set_title(labels[2])
 
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    axarr[3].imshow(images[3])
+    axarr[3].set_title(labels[3])
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">infer_on_pictures</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">indexes</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">all_pictures</span><span class="o">=</span><span class="n">all_pictures</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Inference model on a few pictures.</span>
-<span class="sd">    :param net: model on which do inference</span>
-<span class="sd">    :param indexes: list of indexes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">output_key</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">predicted_labels</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">,</span> <span class="s1">&#39;Cannot get such index, there are only 10000&#39;</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">([</span><span class="n">all_pictures</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="kc">None</span><span class="p">,]])[</span><span class="n">output_key</span><span class="p">]</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">labels_names</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-        <span class="n">predicted_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">predicted_labels</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def infer_on_pictures(model, indexes: list, all_pictures=all_pictures):
+    &quot;&quot;&quot; Inference model on a few pictures.
+    :param net: model on which do inference
+    :param indexes: list of indexes
+    &quot;&quot;&quot;
+    output_key = model.output(0)
+    predicted_labels = []
+    for idx in indexes:
+        assert idx &lt; 10000, &#39;Cannot get such index, there are only 10000&#39;
+        result = model([all_pictures[idx][None,]])[output_key]
+        result = labels_names[np.argmax(result[0])]
+        predicted_labels.append(result)
+    return predicted_labels
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indexes_to_infer</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>  <span class="c1"># To plot, specify 4 indexes.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>indexes_to_infer = [7, 12, 15, 20]  # To plot, specify 4 indexes.
 
-<span class="n">plot_pictures</span><span class="p">(</span><span class="n">indexes_to_infer</span><span class="p">)</span>
+plot_pictures(indexes_to_infer)
 
-<span class="n">results_float</span> <span class="o">=</span> <span class="n">infer_on_pictures</span><span class="p">(</span><span class="n">float_compiled_model</span><span class="p">,</span> <span class="n">indexes_to_infer</span><span class="p">)</span>
-<span class="n">results_quanized</span> <span class="o">=</span> <span class="n">infer_on_pictures</span><span class="p">(</span><span class="n">quantized_compiled_model</span><span class="p">,</span> <span class="n">indexes_to_infer</span><span class="p">)</span>
+results_float = infer_on_pictures(float_compiled_model, indexes_to_infer)
+results_quanized = infer_on_pictures(quantized_compiled_model, indexes_to_infer)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Labels for picture from float model : </span><span class="si">{</span><span class="n">results_float</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Labels for picture from quantized model : </span><span class="si">{</span><span class="n">results_quanized</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+print(f&quot;Labels for picture from float model : {results_float}.&quot;)
+print(f&quot;Labels for picture from quantized model : {results_quanized}.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Labels</span> <span class="k">for</span> <span class="n">picture</span> <span class="kn">from</span> <span class="nn">float</span> <span class="n">model</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;frog&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;ship&#39;</span><span class="p">,</span> <span class="s1">&#39;horse&#39;</span><span class="p">]</span><span class="o">.</span>

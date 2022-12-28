@@ -648,9 +648,9 @@ same.</p>
 <section id="loading-openvino-runtime-and-showing-info">
 <h2>Loading OpenVINO Runtime and Showing Info<a class="headerlink" href="#loading-openvino-runtime-and-showing-info" title="Permalink to this headline">¶</a></h2>
 <p>Initialize OpenVINO Runtime with Core()</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+ie = Core()
 </pre></div>
 </div>
 <p>OpenVINO Runtime can load a network on a device. A device in this
@@ -662,11 +662,11 @@ name of the device.</p>
 <code class="docutils literal notranslate"><span class="pre">device_name=&quot;GPU&quot;</span></code> instead. Be aware that loading a network on GPU
 will be slower than loading a network on CPU, but inference will likely
 be faster.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">devices</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>devices = ie.available_devices
 
-<span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
-    <span class="n">device_name</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">&quot;FULL_DEVICE_NAME&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">device_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+for device in devices:
+    device_name = ie.get_property(device, &quot;FULL_DEVICE_NAME&quot;)
+    print(f&quot;{device}: {device_name}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPU</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>
@@ -696,13 +696,13 @@ and
 <a class="reference external" href="102-pytorch-onnx-to-openvino-with-output.html">pytorch-onnx-to-openvino</a>
 notebooks. For exporting ONNX models to OpenVINO IR with default
 settings, the <code class="docutils literal notranslate"><span class="pre">.serialize()</span></code> method can also be used.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">classification_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/classification.xml&quot;</span>
+ie = Core()
+classification_model_xml = &quot;model/classification.xml&quot;
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">classification_model_xml</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+model = ie.read_model(model=classification_model_xml)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
 </pre></div>
 </div>
 </section>
@@ -711,18 +711,18 @@ settings, the <code class="docutils literal notranslate"><span class="pre">.seri
 <p>Reading and loading an ONNX model, which is a single file, works the
 same way as with an OpenVINO IR model. The <code class="docutils literal notranslate"><span class="pre">model</span></code> argument points to
 the filename of an ONNX model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">onnx_model_path</span> <span class="o">=</span> <span class="s2">&quot;model/segmentation.onnx&quot;</span>
-<span class="n">model_onnx</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">onnx_model_path</span><span class="p">)</span>
-<span class="n">compiled_model_onnx</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_onnx</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+ie = Core()
+onnx_model_path = &quot;model/segmentation.onnx&quot;
+model_onnx = ie.read_model(model=onnx_model_path)
+compiled_model_onnx = ie.compile_model(model=model_onnx, device_name=&quot;CPU&quot;)
 </pre></div>
 </div>
 <p>The ONNX model can be exported to OpenVINO IR with <code class="docutils literal notranslate"><span class="pre">.serialize()</span></code>:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.offline_transformations</span> <span class="kn">import</span> <span class="n">serialize</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.offline_transformations import serialize
 
-<span class="n">serialize</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_onnx</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="s2">&quot;model/exported_onnx_model.xml&quot;</span><span class="p">,</span> <span class="n">weights_path</span><span class="o">=</span><span class="s2">&quot;model/exported_onnx_model.bin&quot;</span><span class="p">)</span>
+serialize(model=model_onnx, model_path=&quot;model/exported_onnx_model.xml&quot;, weights_path=&quot;model/exported_onnx_model.bin&quot;)
 </pre></div>
 </div>
 </section>
@@ -737,12 +737,12 @@ ExecutableNetwork instance. While using <code class="docutils literal notranslat
 <code class="docutils literal notranslate"><span class="pre">compiled_model.inputs</span></code> and <code class="docutils literal notranslate"><span class="pre">compiled_model.outputs</span></code>.</p>
 <section id="model-inputs">
 <h3>Model Inputs<a class="headerlink" href="#model-inputs" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">classification_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/classification.xml&quot;</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">classification_model_xml</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any_name</span>
+ie = Core()
+classification_model_xml = &quot;model/classification.xml&quot;
+model = ie.read_model(model=classification_model_xml)
+model.input(0).any_name
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;input&#39;</span>
@@ -753,13 +753,13 @@ name <em>input</em>. If you loaded a different model, you may see a different
 input layer name, and you may see more inputs.</p>
 <p>It is often useful to have a reference to the name of the first input
 layer. For a model with one input, <code class="docutils literal notranslate"><span class="pre">model.input(0)</span></code> gets this name.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_layer = model.input(0)
 </pre></div>
 </div>
 <p>Information for this input layer is stored in <code class="docutils literal notranslate"><span class="pre">inputs</span></code>. The next cell
 prints the input layout, precision and a shape.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input precision: </span><span class="si">{</span><span class="n">input_layer</span><span class="o">.</span><span class="n">element_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input shape: </span><span class="si">{</span><span class="n">input_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;input precision: {input_layer.element_type}&quot;)
+print(f&quot;input shape: {input_layer.shape}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="n">precision</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Type</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="o">&gt;</span>
@@ -775,12 +775,12 @@ point) precision.</p>
 </section>
 <section id="model-outputs">
 <h3>Model Outputs<a class="headerlink" href="#model-outputs" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">classification_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/classification.xml&quot;</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">classification_model_xml</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any_name</span>
+ie = Core()
+classification_model_xml = &quot;model/classification.xml&quot;
+model = ie.read_model(model=classification_model_xml)
+model.output(0).any_name
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;MobilenetV3/Predictions/Softmax&#39;</span>
@@ -793,8 +793,8 @@ result in different output layer name, and more outputs might be
 returned.</p>
 <p>Since this model has one output, follow the same method as for the input
 layer to get its name.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>output_layer = model.output(0)
+output_layer
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Output</span><span class="p">:</span> <span class="n">names</span><span class="p">[</span><span class="n">MobilenetV3</span><span class="o">/</span><span class="n">Predictions</span><span class="o">/</span><span class="n">Softmax</span><span class="p">]</span> <span class="n">shape</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1001</span><span class="p">}</span> <span class="nb">type</span><span class="p">:</span> <span class="n">f32</span><span class="o">&gt;</span>
@@ -802,8 +802,8 @@ layer to get its name.</p>
 </div>
 <p>Getting the output precision and shape is similar to getting the input
 precision and shape.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;output precision: </span><span class="si">{</span><span class="n">output_layer</span><span class="o">.</span><span class="n">element_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;output shape: </span><span class="si">{</span><span class="n">output_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;output precision: {output_layer.element_type}&quot;)
+print(f&quot;output shape: {output_layer.shape}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="n">precision</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Type</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="o">&gt;</span>
@@ -824,25 +824,25 @@ the <code class="docutils literal notranslate"><span class="pre">create_infer_re
 <code class="docutils literal notranslate"><span class="pre">inputs</span></code>. This is a dictionary that maps input layer names to input
 data.</p>
 <p><strong>Load the network</strong></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">classification_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/classification.xml&quot;</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">classification_model_xml</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">input_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+ie = Core()
+classification_model_xml = &quot;model/classification.xml&quot;
+model = ie.read_model(model=classification_model_xml)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
+input_layer = compiled_model.input(0)
+output_layer = compiled_model.output(0)
 </pre></div>
 </div>
 <p><strong>Load an image and convert to the input shape</strong></p>
 <p>To propagate an image through the network, it needs to be loaded into an
 array, resized to the shape that the network expects, and converted to
 the input layout of the network.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import cv2
 
-<span class="n">image_filename</span> <span class="o">=</span> <span class="s2">&quot;data/coco_hollywood.jpg&quot;</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_filename</span><span class="p">)</span>
-<span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+image_filename = &quot;data/coco_hollywood.jpg&quot;
+image = cv2.imread(image_filename)
+image.shape
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">663</span><span class="p">,</span> <span class="mi">994</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -852,11 +852,11 @@ the input layout of the network.</p>
 pixels in width, and has 3 color channels. A reference to the height and
 width expected by the network is obtained and the image is resized to
 these dimensions.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># N,C,H,W = batch size, number of channels, height, width.</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">input_layer</span><span class="o">.</span><span class="n">shape</span>
-<span class="c1"># OpenCV resize expects the destination size as (width, height).</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
-<span class="n">resized_image</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># N,C,H,W = batch size, number of channels, height, width.
+N, C, H, W = input_layer.shape
+# OpenCV resize expects the destination size as (width, height).
+resized_image = cv2.resize(src=image, dsize=(W, H))
+resized_image.shape
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -868,10 +868,10 @@ First, call the <code class="docutils literal notranslate"><span class="pre">np.
 add the <code class="docutils literal notranslate"><span class="pre">N</span></code> dimension (where <code class="docutils literal notranslate"><span class="pre">N</span></code>= 1) by calling the
 <code class="docutils literal notranslate"><span class="pre">np.expand_dims()</span></code> method. Next, convert the data to <code class="docutils literal notranslate"><span class="pre">FP32</span></code> with
 <code class="docutils literal notranslate"><span class="pre">np.astype()</span></code> method.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
 
-<span class="n">input_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-<span class="n">input_data</span><span class="o">.</span><span class="n">shape</span>
+input_data = np.expand_dims(np.transpose(resized_image, (2, 0, 1)), 0).astype(np.float32)
+input_data.shape
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
@@ -879,14 +879,14 @@ add the <code class="docutils literal notranslate"><span class="pre">N</span></c
 </div>
 <p><strong>Do inference</strong></p>
 <p>Now that the input data is in the right shape, do the inference.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_data</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result = compiled_model([input_data])[output_layer]
 </pre></div>
 </div>
 <p>You can also create <code class="docutils literal notranslate"><span class="pre">InferRequest</span></code> and run <code class="docutils literal notranslate"><span class="pre">infer</span></code> method on
 request.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">create_infer_request</span><span class="p">()</span>
-<span class="n">request</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="n">input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">:</span> <span class="n">input_data</span><span class="p">})</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_output_tensor</span><span class="p">(</span><span class="n">output_layer</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>request = compiled_model.create_infer_request()
+request.infer(inputs={input_layer.any_name: input_data})
+result = request.get_output_tensor(output_layer.index).data
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">.infer()</span></code> function sets output tensor, that can be reached, using
@@ -895,7 +895,7 @@ reference to the output layer is in the <code class="docutils literal notranslat
 parameter, you can get the data with
 <code class="docutils literal notranslate"><span class="pre">request.get_output_tensor(output_layer.index)</span></code>. To get a numpy array
 from the output, use the <code class="docutils literal notranslate"><span class="pre">.data</span></code> parameter.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result.shape
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
@@ -916,29 +916,29 @@ reshaping, and models that do, may not support all input shapes. The
 model accuracy may also suffer if you reshape the model input shape.</p>
 <p>First check the input shape of the model, then reshape it to the new
 input shape.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span><span class="p">,</span> <span class="n">PartialShape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core, PartialShape
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">segmentation_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/segmentation.xml&quot;</span>
-<span class="n">segmentation_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">segmentation_model_xml</span><span class="p">)</span>
-<span class="n">segmentation_input_layer</span> <span class="o">=</span> <span class="n">segmentation_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">segmentation_output_layer</span> <span class="o">=</span> <span class="n">segmentation_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+ie = Core()
+segmentation_model_xml = &quot;model/segmentation.xml&quot;
+segmentation_model = ie.read_model(model=segmentation_model_xml)
+segmentation_input_layer = segmentation_model.input(0)
+segmentation_output_layer = segmentation_model.output(0)
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;~~~~ ORIGINAL MODEL ~~~~&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input shape: </span><span class="si">{</span><span class="n">segmentation_input_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;output shape: </span><span class="si">{</span><span class="n">segmentation_output_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(&quot;~~~~ ORIGINAL MODEL ~~~~&quot;)
+print(f&quot;input shape: {segmentation_input_layer.shape}&quot;)
+print(f&quot;output shape: {segmentation_output_layer.shape}&quot;)
 
-<span class="n">new_shape</span> <span class="o">=</span> <span class="n">PartialShape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">544</span><span class="p">])</span>
-<span class="n">segmentation_model</span><span class="o">.</span><span class="n">reshape</span><span class="p">({</span><span class="n">segmentation_input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">:</span> <span class="n">new_shape</span><span class="p">})</span>
-<span class="n">segmentation_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">segmentation_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="c1"># help(segmentation_compiled_model)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;~~~~ RESHAPED MODEL ~~~~&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;model input shape: </span><span class="si">{</span><span class="n">segmentation_input_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;compiled_model input shape: &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">segmentation_compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;compiled_model output shape: </span><span class="si">{</span><span class="n">segmentation_output_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+new_shape = PartialShape([1, 3, 544, 544])
+segmentation_model.reshape({segmentation_input_layer.any_name: new_shape})
+segmentation_compiled_model = ie.compile_model(model=segmentation_model, device_name=&quot;CPU&quot;)
+# help(segmentation_compiled_model)
+print(&quot;~~~~ RESHAPED MODEL ~~~~&quot;)
+print(f&quot;model input shape: {segmentation_input_layer.shape}&quot;)
+print(
+    f&quot;compiled_model input shape: &quot;
+    f&quot;{segmentation_compiled_model.input(index=0).shape}&quot;
+)
+print(f&quot;compiled_model output shape: {segmentation_output_layer.shape}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~~~~</span> <span class="n">ORIGINAL</span> <span class="n">MODEL</span> <span class="o">~~~~</span>
@@ -964,19 +964,19 @@ dimensions. After reshaping, compile the network once again.</p>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> method to set the batch size, by increasing the
 first element of <code class="docutils literal notranslate"><span class="pre">new_shape</span></code>. For example, to set a batch size of two,
 set <code class="docutils literal notranslate"><span class="pre">new_shape</span> <span class="pre">=</span> <span class="pre">(2,3,544,544)</span></code> in the cell above.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span><span class="p">,</span> <span class="n">PartialShape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from openvino.runtime import Core, PartialShape
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">segmentation_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/segmentation.xml&quot;</span>
-<span class="n">segmentation_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">segmentation_model_xml</span><span class="p">)</span>
-<span class="n">segmentation_input_layer</span> <span class="o">=</span> <span class="n">segmentation_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">segmentation_output_layer</span> <span class="o">=</span> <span class="n">segmentation_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">new_shape</span> <span class="o">=</span> <span class="n">PartialShape</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">544</span><span class="p">])</span>
-<span class="n">segmentation_model</span><span class="o">.</span><span class="n">reshape</span><span class="p">({</span><span class="n">segmentation_input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">:</span> <span class="n">new_shape</span><span class="p">})</span>
-<span class="n">segmentation_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">segmentation_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+ie = Core()
+segmentation_model_xml = &quot;model/segmentation.xml&quot;
+segmentation_model = ie.read_model(model=segmentation_model_xml)
+segmentation_input_layer = segmentation_model.input(0)
+segmentation_output_layer = segmentation_model.output(0)
+new_shape = PartialShape([2, 3, 544, 544])
+segmentation_model.reshape({segmentation_input_layer.any_name: new_shape})
+segmentation_compiled_model = ie.compile_model(model=segmentation_model, device_name=&quot;CPU&quot;)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input shape: </span><span class="si">{</span><span class="n">segmentation_input_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;output shape: </span><span class="si">{</span><span class="n">segmentation_output_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;input shape: {segmentation_input_layer.shape}&quot;)
+print(f&quot;output shape: {segmentation_output_layer.shape}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="n">shape</span><span class="p">:</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">544</span><span class="p">}</span>
@@ -986,23 +986,23 @@ set <code class="docutils literal notranslate"><span class="pre">new_shape</span
 <p>The output shows that by setting the batch size to 2, the first element
 (<code class="docutils literal notranslate"><span class="pre">N</span></code>) of the input and output shape has a value of 2. Propagate the
 input image through the network to see the result:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span><span class="p">,</span> <span class="n">PartialShape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from openvino.runtime import Core, PartialShape
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">segmentation_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/segmentation.xml&quot;</span>
-<span class="n">segmentation_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">segmentation_model_xml</span><span class="p">)</span>
-<span class="n">segmentation_input_layer</span> <span class="o">=</span> <span class="n">segmentation_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">segmentation_output_layer</span> <span class="o">=</span> <span class="n">segmentation_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">new_shape</span> <span class="o">=</span> <span class="n">PartialShape</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">544</span><span class="p">])</span>
-<span class="n">segmentation_model</span><span class="o">.</span><span class="n">reshape</span><span class="p">({</span><span class="n">segmentation_input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">:</span> <span class="n">new_shape</span><span class="p">})</span>
-<span class="n">segmentation_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">segmentation_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">input_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">544</span><span class="p">)</span>
+ie = Core()
+segmentation_model_xml = &quot;model/segmentation.xml&quot;
+segmentation_model = ie.read_model(model=segmentation_model_xml)
+segmentation_input_layer = segmentation_model.input(0)
+segmentation_output_layer = segmentation_model.output(0)
+new_shape = PartialShape([2, 3, 544, 544])
+segmentation_model.reshape({segmentation_input_layer.any_name: new_shape})
+segmentation_compiled_model = ie.compile_model(model=segmentation_model, device_name=&quot;CPU&quot;)
+input_data = np.random.rand(2, 3, 544, 544)
 
-<span class="n">output</span> <span class="o">=</span> <span class="n">segmentation_compiled_model</span><span class="p">([</span><span class="n">input_data</span><span class="p">])</span>
+output = segmentation_compiled_model([input_data])
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input data shape: </span><span class="si">{</span><span class="n">input_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;result data data shape: </span><span class="si">{</span><span class="n">segmentation_output_layer</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;input data shape: {input_data.shape}&quot;)
+print(f&quot;result data data shape: {segmentation_output_layer.shape}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="n">data</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">544</span><span class="p">,</span> <span class="mi">544</span><span class="p">)</span>
@@ -1027,31 +1027,31 @@ model will be loaded to the GPU. After running this cell once, the model
 will be cached, so subsequent runs of this cell will load the model from
 the cache.</p>
 <p><em>Note: Model Caching is not available on CPU devices</em></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import time
+from pathlib import Path
 
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span><span class="p">,</span> <span class="n">PartialShape</span>
+from openvino.runtime import Core, PartialShape
 
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+ie = Core()
 
-<span class="n">device_name</span> <span class="o">=</span> <span class="s2">&quot;GPU&quot;</span>  <span class="c1"># Model Caching is not available for CPU</span>
+device_name = &quot;GPU&quot;  # Model Caching is not available for CPU
 
-<span class="k">if</span> <span class="n">device_name</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span> <span class="ow">and</span> <span class="n">device_name</span> <span class="o">!=</span> <span class="s2">&quot;CPU&quot;</span><span class="p">:</span>
-    <span class="n">cache_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model/model_cache&quot;</span><span class="p">)</span>
-    <span class="n">cache_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1"># Enable caching for OpenVINO Runtime. To disable caching set enable_caching = False</span>
-    <span class="n">enable_caching</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;CACHE_DIR&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">cache_path</span><span class="p">)}</span> <span class="k">if</span> <span class="n">enable_caching</span> <span class="k">else</span> <span class="p">{}</span>
+if device_name in ie.available_devices and device_name != &quot;CPU&quot;:
+    cache_path = Path(&quot;model/model_cache&quot;)
+    cache_path.mkdir(exist_ok=True)
+    # Enable caching for OpenVINO Runtime. To disable caching set enable_caching = False
+    enable_caching = True
+    config_dict = {&quot;CACHE_DIR&quot;: str(cache_path)} if enable_caching else {}
 
-    <span class="n">classification_model_xml</span> <span class="o">=</span> <span class="s2">&quot;model/classification.xml&quot;</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">classification_model_xml</span><span class="p">)</span>
+    classification_model_xml = &quot;model/classification.xml&quot;
+    model = ie.read_model(model=classification_model_xml)
 
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="n">device_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config_dict</span><span class="p">)</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading the network to the </span><span class="si">{</span><span class="n">device_name</span><span class="si">}</span><span class="s2"> device took </span><span class="si">{</span><span class="n">end_time</span><span class="o">-</span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model caching is not available on CPU devices.&quot;</span><span class="p">)</span>
+    start_time = time.perf_counter()
+    compiled_model = ie.compile_model(model=model, device_name=device_name, config=config_dict)
+    end_time = time.perf_counter()
+    print(f&quot;Loading the network to the {device_name} device took {end_time-start_time:.2f} seconds.&quot;)
+else:
+    print(&quot;Model caching is not available on CPU devices.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">caching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">available</span> <span class="n">on</span> <span class="n">CPU</span> <span class="n">devices</span><span class="o">.</span>
@@ -1060,12 +1060,12 @@ the cache.</p>
 <p>After running the previous cell, we know the model exists in the cache
 directory. We delete the compiled model and load it again. We measure
 the time it takes now.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">device_name</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span> <span class="ow">and</span> <span class="n">device_name</span> <span class="o">!=</span> <span class="s2">&quot;CPU&quot;</span><span class="p">:</span>
-    <span class="k">del</span> <span class="n">compiled_model</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="n">device_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config_dict</span><span class="p">)</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading the network to the </span><span class="si">{</span><span class="n">device_name</span><span class="si">}</span><span class="s2"> device took </span><span class="si">{</span><span class="n">end_time</span><span class="o">-</span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if device_name in ie.available_devices and device_name != &quot;CPU&quot;:
+    del compiled_model
+    start_time = time.perf_counter()
+    compiled_model = ie.compile_model(model=model, device_name=device_name, config=config_dict)
+    end_time = time.perf_counter()
+    print(f&quot;Loading the network to the {device_name} device took {end_time-start_time:.2f} seconds.&quot;)
 </pre></div>
 </div>
 </section>

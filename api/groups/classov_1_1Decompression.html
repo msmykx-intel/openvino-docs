@@ -229,18 +229,28 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1DequantizationNode.html">
+   DequantizationNode
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="classov_1_1DisableFP16Compression.html">
    DisableFP16Compression
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="classngraph_1_1FusedNames.html">
+  <a class="reference internal" href="classov_1_1FusedNames.html">
    FusedNames
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="classngraph_1_1Mask.html">
    Mask
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="classov_1_1NoTransposeSinkingAttr.html">
+   NoTransposeSinkingAttr
   </a>
  </li>
  <li class="toctree-l1">
@@ -348,6 +358,7 @@
     <span class="k">static</span> _OPENVINO_HIDDEN_METHOD<span></span> <span class="k">const</span> <a class="reference internal" href="structov_1_1DiscreteTypeInfo.html#doxid-structov-1-1-discrete-type-info"><span class="std std-ref">DiscreteTypeInfo</span></a><span></span><span class="o">&amp;</span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1a09d34c53822ede2b3b182c9fdb250773"><span class="std std-ref">get_type_info_static</span></a><span></span><span class="p">();</span>
     <span class="k">virtual</span> <span class="k">const</span> <a class="reference internal" href="structov_1_1DiscreteTypeInfo.html#doxid-structov-1-1-discrete-type-info"><span class="std std-ref">DiscreteTypeInfo</span></a><span></span><span class="o">&amp;</span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1a82986616273facc11b2f1dbdea1ed0e6"><span class="std std-ref">get_type_info</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
     <span class="k">virtual</span> <span class="kt">bool</span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1a0813e513d24e9fc5c7a010732c179eb5"><span class="std std-ref">is_copyable</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">bool</span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1a8c08c0661c0f86086df51f43ad7ef3c4"><span class="std std-ref">is_copyable</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">to</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
     <span class="k">virtual</span> <a class="reference internal" href="classov_1_1Any.html#doxid-classov-1-1-any"><span class="std std-ref">Any</span></a><span></span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1a85cfa598b9589c581cb1cdababf36cd6"><span class="std std-ref">init</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><a class="reference internal" href="classov_1_1Node.html#doxid-classov-1-1-node"><span class="std std-ref">Node</span></a><span></span><span class="o">&gt;&amp;</span> <span class="n">node</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
     <span class="k">virtual</span> <a class="reference internal" href="classov_1_1Any.html#doxid-classov-1-1-any"><span class="std std-ref">Any</span></a><span></span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1abbc804f43f52cd6ed54fab2b6c7b573b"><span class="std std-ref">merge</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="namespaceov.html#doxid-namespaceov-1a750141ccb27d75af03e91a5295645c7f"><span class="std std-ref">ov::NodeVector</span></a><span></span><span class="o">&amp;</span> <span class="n">nodes</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
     <span class="k">virtual</span> <a class="reference internal" href="classov_1_1Any.html#doxid-classov-1-1-any"><span class="std std-ref">Any</span></a><span></span> <a class="reference internal" href="classov_1_1RuntimeAttribute.html#doxid-classov-1-1-runtime-attribute-1a034010091b62f617c14e4576fcf56cb2"><span class="std std-ref">merge</span></a><span></span><span class="p">(</span><span class="k">const</span> <a class="reference internal" href="namespaceov.html#doxid-namespaceov-1a0a3841455b82c164b1b04b61a9c7c560"><span class="std std-ref">ov::OutputVector</span></a><span></span><span class="o">&amp;</span> <span class="n">outputs</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>

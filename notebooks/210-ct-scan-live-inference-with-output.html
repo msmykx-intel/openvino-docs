@@ -606,18 +606,18 @@ notebook.</p>
 scan to use for inference.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+import sys
+import zipfile
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">monai.transforms</span> <span class="kn">import</span> <span class="n">LoadImage</span>
-<span class="kn">from</span> <span class="nn">openvino.inference_engine</span> <span class="kn">import</span> <span class="n">IECore</span>
+import numpy as np
+from monai.transforms import LoadImage
+from openvino.inference_engine import IECore
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">models.custom_segmentation</span> <span class="kn">import</span> <span class="n">SegmentationModel</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">benchmark_model</span><span class="p">,</span> <span class="n">download_file</span><span class="p">,</span> <span class="n">show_live_inference</span>
+sys.path.append(&quot;../utils&quot;)
+from models.custom_segmentation import SegmentationModel
+from notebook_utils import benchmark_model, download_file, show_live_inference
 </pre></div>
 </div>
 </section>
@@ -627,10 +627,10 @@ scan to use for inference.</p>
 <code class="docutils literal notranslate"><span class="pre">&quot;pretrained_model/unet44.xml&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">COMPRESSED_MODEL_PATH</span></code> to
 <code class="docutils literal notranslate"><span class="pre">&quot;pretrained_model/quantized_unet44.xml&quot;</span></code>. To use a model that you
 trained or optimized yourself, adjust the model paths.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The directory that contains the IR model (xml and bin) files.</span>
-<span class="n">MODEL_PATH</span> <span class="o">=</span> <span class="s2">&quot;pretrained_model/quantized_unet_kits19.xml&quot;</span>
-<span class="c1"># Uncomment the next line to use the FP16 model instead of the quantized model.</span>
-<span class="c1"># MODEL_PATH = &quot;pretrained_model/unet_kits19.xml&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The directory that contains the IR model (xml and bin) files.
+MODEL_PATH = &quot;pretrained_model/quantized_unet_kits19.xml&quot;
+# Uncomment the next line to use the FP16 model instead of the quantized model.
+# MODEL_PATH = &quot;pretrained_model/unet_kits19.xml&quot;
 </pre></div>
 </div>
 </section>
@@ -650,17 +650,17 @@ recommended to run <code class="docutils literal notranslate"><span class="pre">
 after closing other applications. Run <code class="docutils literal notranslate"><span class="pre">benchmark_app</span> <span class="pre">--help</span></code> to see
 all command-line options.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">IECore</span><span class="p">()</span>
-<span class="c1"># By default, benchmark on MULTI:CPU,GPU if a GPU is available, otherwise on CPU.</span>
-<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;MULTI:CPU,GPU&quot;</span> <span class="k">if</span> <span class="s2">&quot;GPU&quot;</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span> <span class="k">else</span> <span class="s2">&quot;CPU&quot;</span>
-<span class="c1"># Uncomment one of the options below to benchmark on other devices.</span>
-<span class="c1"># device = &quot;GPU&quot;</span>
-<span class="c1"># device = &quot;CPU&quot;</span>
-<span class="c1"># device = &quot;AUTO&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = IECore()
+# By default, benchmark on MULTI:CPU,GPU if a GPU is available, otherwise on CPU.
+device = &quot;MULTI:CPU,GPU&quot; if &quot;GPU&quot; in ie.available_devices else &quot;CPU&quot;
+# Uncomment one of the options below to benchmark on other devices.
+# device = &quot;GPU&quot;
+# device = &quot;CPU&quot;
+# device = &quot;AUTO&quot;
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark model</span>
-<span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">MODEL_PATH</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark model
+benchmark_model(model_path=MODEL_PATH, device=device, seconds=15)
 </pre></div>
 </div>
 <p><strong>Benchmark quantized_unet_kits19.xml with CPU for 15 seconds with async
@@ -689,25 +689,25 @@ training and quantization notebook that will be released later.</p>
 contain the <code class="docutils literal notranslate"><span class="pre">case_00000</span></code> to <code class="docutils literal notranslate"><span class="pre">case_00299</span></code> subdirectories. If the data
 for the case specified above does not already exist, it will be
 downloaded and extracted in the next cell.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Directory that contains the CT scan data. This directory should contain subdirectories</span>
-<span class="c1"># case_00XXX where XXX is between 000 and 299.</span>
-<span class="n">BASEDIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;kits19_frames_1&quot;</span><span class="p">)</span>
-<span class="c1"># The CT scan case number. For example: 16 for data from the case_00016 directory.</span>
-<span class="c1"># Currently only 117 is supported.</span>
-<span class="n">CASE</span> <span class="o">=</span> <span class="mi">117</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Directory that contains the CT scan data. This directory should contain subdirectories
+# case_00XXX where XXX is between 000 and 299.
+BASEDIR = Path(&quot;kits19_frames_1&quot;)
+# The CT scan case number. For example: 16 for data from the case_00016 directory.
+# Currently only 117 is supported.
+CASE = 117
 
-<span class="n">case_path</span> <span class="o">=</span> <span class="n">BASEDIR</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">&quot;</span>
+case_path = BASEDIR / f&quot;case_{CASE:05d}&quot;
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">case_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;https://storage.openvinotoolkit.org/data/test_data/openvino_notebooks/kits19/case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">.zip&quot;</span>
-    <span class="p">)</span>
-    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
-        <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">BASEDIR</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>  <span class="c1"># remove zipfile</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloaded and extracted data for case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data for case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2"> exists&quot;</span><span class="p">)</span>
+if not case_path.exists():
+    filename = download_file(
+        f&quot;https://storage.openvinotoolkit.org/data/test_data/openvino_notebooks/kits19/case_{CASE:05d}.zip&quot;
+    )
+    with zipfile.ZipFile(filename, &quot;r&quot;) as zip_ref:
+        zip_ref.extractall(path=BASEDIR)
+    os.remove(filename)  # remove zipfile
+    print(f&quot;Downloaded and extracted data for case_{CASE:05d}&quot;)
+else:
+    print(f&quot;Data for case_{CASE:05d} exists&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>case_00117.zip:   0%|          | 0.00/5.48M [00:00&lt;?, ?B/s]
@@ -744,16 +744,16 @@ implementation includes pre and post processing for the model. For
 <code class="docutils literal notranslate"><span class="pre">SegmentationModel</span></code> this includes the code to create an overlay of the
 segmentation mask on the original image/frame. Uncomment the next cell
 to see the implementation.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SegmentationModel??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># SegmentationModel??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">IECore</span><span class="p">()</span>
-<span class="n">segmentation_model</span> <span class="o">=</span> <span class="n">SegmentationModel</span><span class="p">(</span>
-    <span class="n">ie</span><span class="o">=</span><span class="n">ie</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">MODEL_PATH</span><span class="p">),</span> <span class="n">sigmoid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotate_and_flip</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-<span class="n">image_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">case_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;imaging_frames/*jpg&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = IECore()
+segmentation_model = SegmentationModel(
+    ie=ie, model_path=Path(MODEL_PATH), sigmoid=True, rotate_and_flip=True
+)
+image_paths = sorted(case_path.glob(&quot;imaging_frames/*jpg&quot;))
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">case_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)</span><span class="si">}</span><span class="s2"> images&quot;</span><span class="p">)</span>
+print(f&quot;{case_path.name}, {len(image_paths)} images&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">case_00117</span><span class="p">,</span> <span class="mi">69</span> <span class="n">images</span>
@@ -771,13 +771,13 @@ in real-time.</p>
 way as in the
 <a class="reference external" href="110-ct-segmentation-quantize-with-output.html">training</a>
 tutorial.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Possible options for device include &quot;CPU&quot;, &quot;GPU&quot;, &quot;AUTO&quot;, &quot;MULTI&quot;.</span>
-<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;MULTI:CPU,GPU&quot;</span> <span class="k">if</span> <span class="s2">&quot;GPU&quot;</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span> <span class="k">else</span> <span class="s2">&quot;CPU&quot;</span>
-<span class="n">reader</span> <span class="o">=</span> <span class="n">LoadImage</span><span class="p">(</span><span class="n">image_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Possible options for device include &quot;CPU&quot;, &quot;GPU&quot;, &quot;AUTO&quot;, &quot;MULTI&quot;.
+device = &quot;MULTI:CPU,GPU&quot; if &quot;GPU&quot; in ie.available_devices else &quot;CPU&quot;
+reader = LoadImage(image_only=True, dtype=np.uint8)
 
-<span class="n">show_live_inference</span><span class="p">(</span>
-    <span class="n">ie</span><span class="o">=</span><span class="n">ie</span><span class="p">,</span> <span class="n">image_paths</span><span class="o">=</span><span class="n">image_paths</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">segmentation_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span>
-<span class="p">)</span>
+show_live_inference(
+    ie=ie, image_paths=image_paths, model=segmentation_model, device=device, reader=reader
+)
 </pre></div>
 </div>
 <img alt="../_images/210-ct-scan-live-inference-with-output_15_0.jpg" src="../_images/210-ct-scan-live-inference-with-output_15_0.jpg" />

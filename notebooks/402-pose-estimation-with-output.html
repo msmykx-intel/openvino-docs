@@ -627,21 +627,21 @@ step.</p>
 </div></blockquote>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import collections
+import os
+import sys
+import time
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">numpy.lib.stride_tricks</span> <span class="kn">import</span> <span class="n">as_strided</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import numpy as np
+from IPython import display
+from numpy.lib.stride_tricks import as_strided
+from openvino.runtime import Core
 
-<span class="kn">from</span> <span class="nn">decoder</span> <span class="kn">import</span> <span class="n">OpenPoseDecoder</span>
+from decoder import OpenPoseDecoder
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">notebook_utils</span> <span class="k">as</span> <span class="nn">utils</span>
+sys.path.append(&quot;../utils&quot;)
+import notebook_utils as utils
 </pre></div>
 </div>
 </section>
@@ -657,23 +657,23 @@ precision in the code below.</p>
 <blockquote>
 <div><p><strong>NOTE</strong>: This will require a different pose decoder.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A directory where the model will be downloaded.</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># A directory where the model will be downloaded.
+base_model_dir = &quot;model&quot;
 
-<span class="c1"># The name of the model from Open Model Zoo.</span>
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;human-pose-estimation-0001&quot;</span>
-<span class="c1"># Selected precision (FP32, FP16, FP16-INT8).</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16-INT8&quot;</span>
+# The name of the model from Open Model Zoo.
+model_name = &quot;human-pose-estimation-0001&quot;
+# Selected precision (FP32, FP16, FP16-INT8).
+precision = &quot;FP16-INT8&quot;
 
-<span class="n">model_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;model/intel/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span>
-<span class="n">model_weights_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;model/intel/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.bin&quot;</span>
+model_path = f&quot;model/intel/{model_name}/{precision}/{model_name}.xml&quot;
+model_weights_path = f&quot;model/intel/{model_name}/{precision}/{model_name}.bin&quot;
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
-    <span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--precision </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="o">!</span> <span class="nv">$download_command</span>
+if not os.path.exists(model_path):
+    download_command = f&quot;omz_downloader &quot; \
+                       f&quot;--name {model_name} &quot; \
+                       f&quot;--precision {precision} &quot; \
+                       f&quot;--output_dir {base_model_dir}&quot;
+    ! $download_command
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################|| Downloading human-pose-estimation-0001 ||################</span>
@@ -693,25 +693,25 @@ vendor, the name of the model and a precision.</p>
 initialize OpenVINO Runtime. Then, read the network architecture and
 model weights from the <code class="docutils literal notranslate"><span class="pre">.bin</span></code> and <code class="docutils literal notranslate"><span class="pre">.xml</span></code> files to compile it for the
 desired device.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize OpenVINO Runtime</span>
-<span class="n">ie_core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="c1"># Read the network and corresponding weights from a file.</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">model_weights_path</span><span class="p">)</span>
-<span class="c1"># Load the model on CPU (you can use GPU or MYRIAD as well).</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Initialize OpenVINO Runtime
+ie_core = Core()
+# Read the network and corresponding weights from a file.
+model = ie_core.read_model(model=model_path, weights=model_weights_path)
+# Load the model on CPU (you can use GPU or MYRIAD as well).
+compiled_model = ie_core.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="c1"># Get the input and output names of nodes.</span>
-<span class="n">input_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compiled_model</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+# Get the input and output names of nodes.
+input_layer = compiled_model.input(0)
+output_layers = list(compiled_model.outputs)
 
-<span class="c1"># Get the input size.</span>
-<span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_layer</span><span class="o">.</span><span class="n">shape</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+# Get the input size.
+height, width = list(input_layer.shape)[2:]
 </pre></div>
 </div>
 <p>Input layer has the name of the input node and output layers contain
 names of output nodes of the network. In the case of OpenPose Model,
 there is 1 input and 2 outputs: pafs and keypoints heatmap.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">,</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">any_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">output_layers</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_layer.any_name, [o.any_name for o in output_layers]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Mconv7_stage2_L1&#39;</span><span class="p">,</span> <span class="s1">&#39;Mconv7_stage2_L2&#39;</span><span class="p">])</span>
@@ -733,7 +733,7 @@ need another decoder (for example, AssociativeEmbeddingDecoder), which
 is available in the <a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo/blob/master/demos/common/python/openvino/model_zoo/model_api/models/hpe_associative_embedding.py">demos
 section</a>
 of Open Model Zoo.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">OpenPoseDecoder</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>decoder = OpenPoseDecoder()
 </pre></div>
 </div>
 </section>
@@ -746,62 +746,62 @@ suppression to get the keypoints from the heatmap. After that, decode
 poses by using the decoder. Since the input image is bigger than the
 network outputs, you need to multiply all pose coordinates by a scaling
 factor.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2D pooling in numpy (from: https://stackoverflow.com/a/54966908/1624463)</span>
-<span class="k">def</span> <span class="nf">pool2d</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">pool_mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    2D Pooling</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 2D pooling in numpy (from: https://stackoverflow.com/a/54966908/1624463)
+def pool2d(A, kernel_size, stride, padding, pool_mode=&quot;max&quot;):
+    &quot;&quot;&quot;
+    2D Pooling
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        A: input 2D array</span>
-<span class="sd">        kernel_size: int, the size of the window</span>
-<span class="sd">        stride: int, the stride of the window</span>
-<span class="sd">        padding: int, implicit zero paddings on both sides of the input</span>
-<span class="sd">        pool_mode: string, &#39;max&#39; or &#39;avg&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Padding</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">)</span>
+    Parameters:
+        A: input 2D array
+        kernel_size: int, the size of the window
+        stride: int, the stride of the window
+        padding: int, implicit zero paddings on both sides of the input
+        pool_mode: string, &#39;max&#39; or &#39;avg&#39;
+    &quot;&quot;&quot;
+    # Padding
+    A = np.pad(A, padding, mode=&quot;constant&quot;)
 
-    <span class="c1"># Window view of A</span>
-    <span class="n">output_shape</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">kernel_size</span><span class="p">)</span> <span class="o">//</span> <span class="n">stride</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">kernel_size</span><span class="p">)</span> <span class="o">//</span> <span class="n">stride</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">kernel_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">)</span>
-    <span class="n">A_w</span> <span class="o">=</span> <span class="n">as_strided</span><span class="p">(</span>
-        <span class="n">A</span><span class="p">,</span>
-        <span class="n">shape</span><span class="o">=</span><span class="n">output_shape</span> <span class="o">+</span> <span class="n">kernel_size</span><span class="p">,</span>
-        <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="n">stride</span> <span class="o">*</span> <span class="n">A</span><span class="o">.</span><span class="n">strides</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">stride</span> <span class="o">*</span> <span class="n">A</span><span class="o">.</span><span class="n">strides</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">A</span><span class="o">.</span><span class="n">strides</span>
-    <span class="p">)</span>
-    <span class="n">A_w</span> <span class="o">=</span> <span class="n">A_w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">kernel_size</span><span class="p">)</span>
+    # Window view of A
+    output_shape = (
+        (A.shape[0] - kernel_size) // stride + 1,
+        (A.shape[1] - kernel_size) // stride + 1,
+    )
+    kernel_size = (kernel_size, kernel_size)
+    A_w = as_strided(
+        A,
+        shape=output_shape + kernel_size,
+        strides=(stride * A.strides[0], stride * A.strides[1]) + A.strides
+    )
+    A_w = A_w.reshape(-1, *kernel_size)
 
-    <span class="c1"># Return the result of pooling.</span>
-    <span class="k">if</span> <span class="n">pool_mode</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">A_w</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">output_shape</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">pool_mode</span> <span class="o">==</span> <span class="s2">&quot;avg&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">A_w</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">output_shape</span><span class="p">)</span>
-
-
-<span class="c1"># non maximum suppression</span>
-<span class="k">def</span> <span class="nf">heatmap_nms</span><span class="p">(</span><span class="n">heatmaps</span><span class="p">,</span> <span class="n">pooled_heatmaps</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">heatmaps</span> <span class="o">*</span> <span class="p">(</span><span class="n">heatmaps</span> <span class="o">==</span> <span class="n">pooled_heatmaps</span><span class="p">)</span>
+    # Return the result of pooling.
+    if pool_mode == &quot;max&quot;:
+        return A_w.max(axis=(1, 2)).reshape(output_shape)
+    elif pool_mode == &quot;avg&quot;:
+        return A_w.mean(axis=(1, 2)).reshape(output_shape)
 
 
-<span class="c1"># Get poses from results.</span>
-<span class="k">def</span> <span class="nf">process_results</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pafs</span><span class="p">,</span> <span class="n">heatmaps</span><span class="p">):</span>
-    <span class="c1"># This processing comes from</span>
-    <span class="c1"># https://github.com/openvinotoolkit/open_model_zoo/blob/master/demos/common/python/models/open_pose.py</span>
-    <span class="n">pooled_heatmaps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[[</span><span class="n">pool2d</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pool_mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heatmaps</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span>
-    <span class="p">)</span>
-    <span class="n">nms_heatmaps</span> <span class="o">=</span> <span class="n">heatmap_nms</span><span class="p">(</span><span class="n">heatmaps</span><span class="p">,</span> <span class="n">pooled_heatmaps</span><span class="p">)</span>
+# non maximum suppression
+def heatmap_nms(heatmaps, pooled_heatmaps):
+    return heatmaps * (heatmaps == pooled_heatmaps)
 
-    <span class="c1"># Decode poses.</span>
-    <span class="n">poses</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">(</span><span class="n">heatmaps</span><span class="p">,</span> <span class="n">nms_heatmaps</span><span class="p">,</span> <span class="n">pafs</span><span class="p">)</span>
-    <span class="n">output_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">partial_shape</span><span class="p">)</span>
-    <span class="n">output_scale</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">output_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_length</span><span class="p">(),</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">output_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">get_length</span><span class="p">()</span>
-    <span class="c1"># Multiply coordinates by a scaling factor.</span>
-    <span class="n">poses</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="n">output_scale</span>
-    <span class="k">return</span> <span class="n">poses</span><span class="p">,</span> <span class="n">scores</span>
+
+# Get poses from results.
+def process_results(img, pafs, heatmaps):
+    # This processing comes from
+    # https://github.com/openvinotoolkit/open_model_zoo/blob/master/demos/common/python/models/open_pose.py
+    pooled_heatmaps = np.array(
+        [[pool2d(h, kernel_size=3, stride=1, padding=1, pool_mode=&quot;max&quot;) for h in heatmaps[0]]]
+    )
+    nms_heatmaps = heatmap_nms(heatmaps, pooled_heatmaps)
+
+    # Decode poses.
+    poses, scores = decoder(heatmaps, nms_heatmaps, pafs)
+    output_shape = list(compiled_model.output(index=0).partial_shape)
+    output_scale = img.shape[1] / output_shape[3].get_length(), img.shape[0] / output_shape[2].get_length()
+    # Multiply coordinates by a scaling factor.
+    poses[:, :, :2] *= output_scale
+    return poses, scores
 </pre></div>
 </div>
 </section>
@@ -812,32 +812,32 @@ drawn as circles and limbs are drawn as lines. The code is based on the
 <a class="reference external" href="https://github.com/openvinotoolkit/open_model_zoo/tree/master/demos/human_pose_estimation_demo/python">Human Pose Estimation
 Demo</a>
 from Open Model Zoo.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">170</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">85</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-          <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">85</span><span class="p">),</span> <span class="p">(</span><span class="mi">170</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
-          <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>colors = ((255, 0, 0), (255, 0, 255), (170, 0, 255), (255, 0, 85), (255, 0, 170), (85, 255, 0),
+          (255, 170, 0), (0, 255, 0), (255, 255, 0), (0, 255, 85), (170, 255, 0), (0, 85, 255),
+          (0, 255, 170), (0, 0, 255), (0, 255, 255), (85, 0, 255), (0, 170, 255))
 
-<span class="n">default_skeleton</span> <span class="o">=</span> <span class="p">((</span><span class="mi">15</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
-                    <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+default_skeleton = ((15, 13), (13, 11), (16, 14), (14, 12), (11, 12), (5, 11), (6, 12), (5, 6), (5, 7),
+                    (6, 8), (7, 9), (8, 10), (1, 2), (0, 1), (0, 2), (1, 3), (2, 4), (3, 5), (4, 6))
 
 
-<span class="k">def</span> <span class="nf">draw_poses</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">poses</span><span class="p">,</span> <span class="n">point_score_threshold</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="n">default_skeleton</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">poses</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">img</span>
+def draw_poses(img, poses, point_score_threshold, skeleton=default_skeleton):
+    if poses.size == 0:
+        return img
 
-    <span class="n">img_limbs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">pose</span> <span class="ow">in</span> <span class="n">poses</span><span class="p">:</span>
-        <span class="n">points</span> <span class="o">=</span> <span class="n">pose</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
-        <span class="n">points_scores</span> <span class="o">=</span> <span class="n">pose</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="c1"># Draw joints.</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points_scores</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">point_score_threshold</span><span class="p">:</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="c1"># Draw limbs.</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">skeleton</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">points_scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">point_score_threshold</span> <span class="ow">and</span> <span class="n">points_scores</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">point_score_threshold</span><span class="p">:</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img_limbs</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">img_limbs</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="n">img</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">img</span>
+    img_limbs = np.copy(img)
+    for pose in poses:
+        points = pose[:, :2].astype(np.int32)
+        points_scores = pose[:, 2]
+        # Draw joints.
+        for i, (p, v) in enumerate(zip(points, points_scores)):
+            if v &gt; point_score_threshold:
+                cv2.circle(img, tuple(p), 1, colors[i], 2)
+        # Draw limbs.
+        for i, j in skeleton:
+            if points_scores[i] &gt; point_score_threshold and points_scores[j] &gt; point_score_threshold:
+                cv2.line(img_limbs, tuple(points[i]), tuple(points[j]), color=colors[j], thickness=4)
+    cv2.addWeighted(img, 0.4, img_limbs, 0.6, 0, dst=img)
+    return img
 </pre></div>
 </div>
 </section>
@@ -845,92 +845,92 @@ from Open Model Zoo.</p>
 <h3>Main Processing Function<a class="headerlink" href="#main-processing-function" title="Permalink to this headline">¶</a></h3>
 <p>Run pose estimation on the specified source. Either a webcam or a video
 file.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Main processing function to run pose estimation.</span>
-<span class="k">def</span> <span class="nf">run_pose_estimation</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">pafs_output_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;Mconv7_stage2_L1&quot;</span><span class="p">)</span>
-    <span class="n">heatmaps_output_key</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;Mconv7_stage2_L2&quot;</span><span class="p">)</span>
-    <span class="n">player</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Create a video player to play with target fps.</span>
-        <span class="n">player</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">VideoPlayer</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="n">flip</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="n">skip_first_frames</span><span class="p">)</span>
-        <span class="c1"># Start capturing.</span>
-        <span class="n">player</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Press ESC to Exit&quot;</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_GUI_NORMAL</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_AUTOSIZE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Main processing function to run pose estimation.
+def run_pose_estimation(source=0, flip=False, use_popup=False, skip_first_frames=0):
+    pafs_output_key = compiled_model.output(&quot;Mconv7_stage2_L1&quot;)
+    heatmaps_output_key = compiled_model.output(&quot;Mconv7_stage2_L2&quot;)
+    player = None
+    try:
+        # Create a video player to play with target fps.
+        player = utils.VideoPlayer(source, flip=flip, fps=30, skip_first_frames=skip_first_frames)
+        # Start capturing.
+        player.start()
+        if use_popup:
+            title = &quot;Press ESC to Exit&quot;
+            cv2.namedWindow(title, cv2.WINDOW_GUI_NORMAL | cv2.WINDOW_AUTOSIZE)
 
-        <span class="n">processing_times</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">()</span>
+        processing_times = collections.deque()
 
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Grab the frame.</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source ended&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="c1"># If the frame is larger than full HD, reduce size to improve the performance.</span>
-            <span class="n">scale</span> <span class="o">=</span> <span class="mi">1280</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">)</span>
+        while True:
+            # Grab the frame.
+            frame = player.next()
+            if frame is None:
+                print(&quot;Source ended&quot;)
+                break
+            # If the frame is larger than full HD, reduce size to improve the performance.
+            scale = 1280 / max(frame.shape)
+            if scale &lt; 1:
+                frame = cv2.resize(frame, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
 
-            <span class="c1"># Resize the image and change dims to fit neural network input.</span>
-            <span class="c1"># (see https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/intel/human-pose-estimation-0001)</span>
-            <span class="n">input_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">)</span>
-            <span class="c1"># Create a batch of images (size = 1).</span>
-            <span class="n">input_img</span> <span class="o">=</span> <span class="n">input_img</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+            # Resize the image and change dims to fit neural network input.
+            # (see https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/intel/human-pose-estimation-0001)
+            input_img = cv2.resize(frame, (width, height), interpolation=cv2.INTER_AREA)
+            # Create a batch of images (size = 1).
+            input_img = input_img.transpose((2,0,1))[np.newaxis, ...]
 
-            <span class="c1"># Measure processing time.</span>
-            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-            <span class="c1"># Get results.</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_img</span><span class="p">])</span>
-            <span class="n">stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            # Measure processing time.
+            start_time = time.time()
+            # Get results.
+            results = compiled_model([input_img])
+            stop_time = time.time()
 
-            <span class="n">pafs</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">pafs_output_key</span><span class="p">]</span>
-            <span class="n">heatmaps</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">heatmaps_output_key</span><span class="p">]</span>
-            <span class="c1"># Get poses from network results.</span>
-            <span class="n">poses</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">process_results</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pafs</span><span class="p">,</span> <span class="n">heatmaps</span><span class="p">)</span>
+            pafs = results[pafs_output_key]
+            heatmaps = results[heatmaps_output_key]
+            # Get poses from network results.
+            poses, scores = process_results(frame, pafs, heatmaps)
 
-            <span class="c1"># Draw poses on a frame.</span>
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">draw_poses</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">poses</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+            # Draw poses on a frame.
+            frame = draw_poses(frame, poses, 0.1)
 
-            <span class="n">processing_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stop_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-            <span class="c1"># Use processing times from last 200 frames.</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">processing_times</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">:</span>
-                <span class="n">processing_times</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            processing_times.append(stop_time - start_time)
+            # Use processing times from last 200 frames.
+            if len(processing_times) &gt; 200:
+                processing_times.popleft()
 
-            <span class="n">_</span><span class="p">,</span> <span class="n">f_width</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-            <span class="c1"># mean processing time [ms]</span>
-            <span class="n">processing_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">processing_times</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-            <span class="n">fps</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">processing_time</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Inference time: </span><span class="si">{</span><span class="n">processing_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">ms (</span><span class="si">{</span><span class="n">fps</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> FPS)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
-                        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_COMPLEX</span><span class="p">,</span> <span class="n">f_width</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span><span class="p">)</span>
+            _, f_width = frame.shape[:2]
+            # mean processing time [ms]
+            processing_time = np.mean(processing_times) * 1000
+            fps = 1000 / processing_time
+            cv2.putText(frame, f&quot;Inference time: {processing_time:.1f}ms ({fps:.1f} FPS)&quot;, (20, 40),
+                        cv2.FONT_HERSHEY_COMPLEX, f_width / 1000, (0, 0, 255), 1, cv2.LINE_AA)
 
-            <span class="c1"># Use this workaround if there is flickering.</span>
-            <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
-                <span class="n">key</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="c1"># escape = 27</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>
-                    <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Encode numpy array to jpg.</span>
-                <span class="n">_</span><span class="p">,</span> <span class="n">encoded_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMWRITE_JPEG_QUALITY</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
-                <span class="c1"># Create an IPython image.</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">encoded_img</span><span class="p">)</span>
-                <span class="c1"># Display the image in this notebook.</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="c1"># ctrl-c</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interrupted&quot;</span><span class="p">)</span>
-    <span class="c1"># any different error</span>
-    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">player</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Stop capturing.</span>
-            <span class="n">player</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">use_popup</span><span class="p">:</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+            # Use this workaround if there is flickering.
+            if use_popup:
+                cv2.imshow(title, frame)
+                key = cv2.waitKey(1)
+                # escape = 27
+                if key == 27:
+                    break
+            else:
+                # Encode numpy array to jpg.
+                _, encoded_img = cv2.imencode(&quot;.jpg&quot;, frame, params=[cv2.IMWRITE_JPEG_QUALITY, 90])
+                # Create an IPython image.
+                i = display.Image(data=encoded_img)
+                # Display the image in this notebook.
+                display.clear_output(wait=True)
+                display.display(i)
+    # ctrl-c
+    except KeyboardInterrupt:
+        print(&quot;Interrupted&quot;)
+    # any different error
+    except RuntimeError as e:
+        print(e)
+    finally:
+        if player is not None:
+            # Stop capturing.
+            player.stop()
+        if use_popup:
+            cv2.destroyAllWindows()
 </pre></div>
 </div>
 </section>
@@ -953,7 +953,7 @@ may not work if you run this notebook on a remote computer (for
 example, Binder).</p>
 </div></blockquote>
 <p>Run the pose estimation:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_pose_estimation</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run_pose_estimation(source=0, flip=True, use_popup=False)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cannot</span> <span class="nb">open</span> <span class="n">camera</span> <span class="mi">0</span>
@@ -966,9 +966,9 @@ example, Binder).</p>
 file. Any <a class="reference external" href="https://docs.opencv.org/4.5.1/dd/d43/tutorial_py_video_display.html">format supported by
 OpenCV</a>
 will work. You can skip first <code class="docutils literal notranslate"><span class="pre">N</span></code> frames to fast forward video.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">video_file</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/intel-iot-devkit/sample-videos/blob/master/store-aisle-detection.mp4?raw=true&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>video_file = &quot;https://github.com/intel-iot-devkit/sample-videos/blob/master/store-aisle-detection.mp4?raw=true&quot;
 
-<span class="n">run_pose_estimation</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_popup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_first_frames</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+run_pose_estimation(video_file, flip=False, use_popup=False, skip_first_frames=500)
 </pre></div>
 </div>
 <img alt="../_images/402-pose-estimation-with-output_20_0.png" src="../_images/402-pose-estimation-with-output_20_0.png" />

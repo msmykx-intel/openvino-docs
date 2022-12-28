@@ -642,19 +642,19 @@ of the model is <a class="reference external" href="https://github.com/ekzhang/f
 <h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
 <section id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import time
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">fastseg</span> <span class="kn">import</span> <span class="n">MobileV3Large</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import numpy as np
+import torch
+from IPython.display import Markdown, display
+from fastseg import MobileV3Large
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">CityScapesSegmentation</span><span class="p">,</span> <span class="n">segmentation_map_to_image</span><span class="p">,</span> <span class="n">viz_result_image</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import CityScapesSegmentation, segmentation_map_to_image, viz_result_image
 </pre></div>
 </div>
 </section>
@@ -664,16 +664,16 @@ of the model is <a class="reference external" href="https://github.com/ekzhang/f
 will be used for the network. The CityScapes is pre-trained on images of
 2048x1024 resolution. Using smaller dimensions will impact model
 accuracy, but will improve inference speed.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_WIDTH</span> <span class="o">=</span> <span class="mi">1024</span>  <span class="c1"># Suggested values: 2048, 1024 or 512. The minimum width is 512.</span>
-<span class="c1"># Set IMAGE_HEIGHT manually for custom input sizes. Minimum height is 512.</span>
-<span class="n">IMAGE_HEIGHT</span> <span class="o">=</span> <span class="mi">1024</span> <span class="k">if</span> <span class="n">IMAGE_WIDTH</span> <span class="o">==</span> <span class="mi">2048</span> <span class="k">else</span> <span class="mi">512</span>
-<span class="n">DIRECTORY_NAME</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
-<span class="n">BASE_MODEL_NAME</span> <span class="o">=</span> <span class="n">DIRECTORY_NAME</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;/fastseg</span><span class="si">{</span><span class="n">IMAGE_WIDTH</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>IMAGE_WIDTH = 1024  # Suggested values: 2048, 1024 or 512. The minimum width is 512.
+# Set IMAGE_HEIGHT manually for custom input sizes. Minimum height is 512.
+IMAGE_HEIGHT = 1024 if IMAGE_WIDTH == 2048 else 512
+DIRECTORY_NAME = &quot;model&quot;
+BASE_MODEL_NAME = DIRECTORY_NAME + f&quot;/fastseg{IMAGE_WIDTH}&quot;
 
-<span class="c1"># Paths where PyTorch, ONNX and OpenVINO IR models will be stored.</span>
-<span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">BASE_MODEL_NAME</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.pth&quot;</span><span class="p">)</span>
-<span class="n">onnx_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
-<span class="n">ir_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+# Paths where PyTorch, ONNX and OpenVINO IR models will be stored.
+model_path = Path(BASE_MODEL_NAME).with_suffix(&quot;.pth&quot;)
+onnx_path = model_path.with_suffix(&quot;.onnx&quot;)
+ir_path = model_path.with_suffix(&quot;.xml&quot;)
 </pre></div>
 </div>
 </section>
@@ -681,14 +681,14 @@ accuracy, but will improve inference speed.</p>
 <h3>Download the Fastseg Model<a class="headerlink" href="#download-the-fastseg-model" title="Permalink to this headline">¶</a></h3>
 <p>Download, load and save the model with pre-trained weights. This may
 take some time if you have not downloaded the model before.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading the Fastseg model (if it has not been downloaded before)....&quot;</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">MobileV3Large</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loaded PyTorch Fastseg model&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&quot;Downloading the Fastseg model (if it has not been downloaded before)....&quot;)
+model = MobileV3Large.from_pretrained().cpu().eval()
+print(&quot;Loaded PyTorch Fastseg model&quot;)
 
-<span class="c1"># Save the model.</span>
-<span class="n">model_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model saved at </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Save the model.
+model_path.parent.mkdir(exist_ok=True)
+torch.save(model.state_dict(), str(model_path))
+print(f&quot;Model saved at {model_path}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">the</span> <span class="n">Fastseg</span> <span class="n">model</span> <span class="p">(</span><span class="k">if</span> <span class="n">it</span> <span class="n">has</span> <span class="ow">not</span> <span class="n">been</span> <span class="n">downloaded</span> <span class="n">before</span><span class="p">)</span><span class="o">....</span>
@@ -706,21 +706,21 @@ take some time if you have not downloaded the model before.</p>
 <p>The output for this cell will show some warnings. These are most likely
 harmless. When the conversion is successful, the last line of the output
 will read: <code class="docutils literal notranslate"><span class="pre">ONNX</span> <span class="pre">model</span> <span class="pre">exported</span> <span class="pre">to</span> <span class="pre">fastseg1024.onnx.</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">onnx_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">IMAGE_HEIGHT</span><span class="p">,</span> <span class="n">IMAGE_WIDTH</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if not onnx_path.exists():
+    dummy_input = torch.randn(1, 3, IMAGE_HEIGHT, IMAGE_WIDTH)
 
-    <span class="c1"># For the Fastseg model, setting do_constant_folding to False is required</span>
-    <span class="c1"># for PyTorch&gt;1.5.1</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">,</span>
-        <span class="n">dummy_input</span><span class="p">,</span>
-        <span class="n">onnx_path</span><span class="p">,</span>
-        <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
-        <span class="n">do_constant_folding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ONNX model exported to </span><span class="si">{</span><span class="n">onnx_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ONNX model </span><span class="si">{</span><span class="n">onnx_path</span><span class="si">}</span><span class="s2"> already exists.&quot;</span><span class="p">)</span>
+    # For the Fastseg model, setting do_constant_folding to False is required
+    # for PyTorch&gt;1.5.1
+    torch.onnx.export(
+        model,
+        dummy_input,
+        onnx_path,
+        opset_version=11,
+        do_constant_folding=False,
+    )
+    print(f&quot;ONNX model exported to {onnx_path}.&quot;)
+else:
+    print(f&quot;ONNX model {onnx_path} already exists.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">geffnet</span><span class="o">/</span><span class="n">conv2d_layers</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span> <span class="n">TracerWarning</span><span class="p">:</span> <span class="n">Converting</span> <span class="n">a</span> <span class="n">tensor</span> <span class="n">to</span> <span class="n">a</span> <span class="n">Python</span> <span class="nb">float</span> <span class="n">might</span> <span class="n">cause</span> <span class="n">the</span> <span class="n">trace</span> <span class="n">to</span> <span class="n">be</span> <span class="n">incorrect</span><span class="o">.</span> <span class="n">We</span> <span class="n">can</span><span class="s1">&#39;t record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!</span>
@@ -750,30 +750,30 @@ Guide</a>.</p>
 warnings in the output. When Model Optimization is successful, the last
 lines of the output will include:
 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model.</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct the command for Model Optimizer.</span>
-<span class="n">mo_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;mo</span>
-<span class="s2">                 --input_model &quot;</span><span class="si">{</span><span class="n">onnx_path</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="s2">                 --input_shape &quot;[1,3, </span><span class="si">{</span><span class="n">IMAGE_HEIGHT</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">IMAGE_WIDTH</span><span class="si">}</span><span class="s2">]&quot;</span>
-<span class="s2">                 --mean_values=&quot;[123.675, 116.28 , 103.53]&quot;</span>
-<span class="s2">                 --scale_values=&quot;[58.395, 57.12 , 57.375]&quot;</span>
-<span class="s2">                 --data_type FP16</span>
-<span class="s2">                 --output_dir &quot;</span><span class="si">{</span><span class="n">model_path</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="s2">                 &quot;&quot;&quot;</span>
-<span class="n">mo_command</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mo_command</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model Optimizer command to convert the ONNX model to OpenVINO:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">mo_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Construct the command for Model Optimizer.
+mo_command = f&quot;&quot;&quot;mo
+                 --input_model &quot;{onnx_path}&quot;
+                 --input_shape &quot;[1,3, {IMAGE_HEIGHT}, {IMAGE_WIDTH}]&quot;
+                 --mean_values=&quot;[123.675, 116.28 , 103.53]&quot;
+                 --scale_values=&quot;[58.395, 57.12 , 57.375]&quot;
+                 --data_type FP16
+                 --output_dir &quot;{model_path.parent}&quot;
+                 &quot;&quot;&quot;
+mo_command = &quot; &quot;.join(mo_command.split())
+print(&quot;Model Optimizer command to convert the ONNX model to OpenVINO:&quot;)
+display(Markdown(f&quot;`{mo_command}`&quot;))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">Optimizer</span> <span class="n">command</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">the</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">to</span> <span class="n">OpenVINO</span><span class="p">:</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">mo</span> <span class="pre">--input_model</span> <span class="pre">&quot;model/fastseg1024.onnx&quot;</span> <span class="pre">--input_shape</span> <span class="pre">&quot;[1,3,</span> <span class="pre">512,</span> <span class="pre">1024]&quot;</span> <span class="pre">--mean_values=&quot;[123.675,</span> <span class="pre">116.28</span> <span class="pre">,</span> <span class="pre">103.53]&quot;</span> <span class="pre">--scale_values=&quot;[58.395,</span> <span class="pre">57.12</span> <span class="pre">,</span> <span class="pre">57.375]&quot;</span> <span class="pre">--data_type</span> <span class="pre">FP16</span> <span class="pre">--output_dir</span> <span class="pre">&quot;model&quot;</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exporting ONNX model to IR... This may take a few minutes.&quot;</span><span class="p">)</span>
-    <span class="n">mo_result</span> <span class="o">=</span> <span class="o">%</span><span class="k">sx</span> <span class="nv">$mo_command</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mo_result</span><span class="p">))</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IR model </span><span class="si">{</span><span class="n">ir_path</span><span class="si">}</span><span class="s2"> already exists.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if not ir_path.exists():
+    print(&quot;Exporting ONNX model to IR... This may take a few minutes.&quot;)
+    mo_result = %sx $mo_command
+    print(&quot;\n&quot;.join(mo_result))
+else:
+    print(f&quot;IR model {ir_path} already exists.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Exporting</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">to</span> <span class="n">IR</span><span class="o">...</span> <span class="n">This</span> <span class="n">may</span> <span class="n">take</span> <span class="n">a</span> <span class="n">few</span> <span class="n">minutes</span><span class="o">.</span>
@@ -828,29 +828,29 @@ ONNX and PyTorch models, images need to be normalized before propagating
 through the network. A sample image from the <a class="reference external" href="https://www.mapillary.com/dataset/vistas">Mapillary
 Vistas</a> dataset is provided
 for inference.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Normalize the image to the given mean and standard deviation</span>
-<span class="sd">    for CityScapes models.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">)</span>
-    <span class="n">std</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">/=</span> <span class="mf">255.0</span>
-    <span class="n">image</span> <span class="o">-=</span> <span class="n">mean</span>
-    <span class="n">image</span> <span class="o">/=</span> <span class="n">std</span>
-    <span class="k">return</span> <span class="n">image</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def normalize(image: np.ndarray) -&gt; np.ndarray:
+    &quot;&quot;&quot;
+    Normalize the image to the given mean and standard deviation
+    for CityScapes models.
+    &quot;&quot;&quot;
+    image = image.astype(np.float32)
+    mean = (0.485, 0.456, 0.406)
+    std = (0.229, 0.224, 0.225)
+    image /= 255.0
+    image -= mean
+    image /= std
+    return image
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_filename</span> <span class="o">=</span> <span class="s2">&quot;data/street.jpg&quot;</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_filename</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>image_filename = &quot;data/street.jpg&quot;
+image = cv2.cvtColor(cv2.imread(image_filename), cv2.COLOR_BGR2RGB)
 
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">IMAGE_WIDTH</span><span class="p">,</span> <span class="n">IMAGE_HEIGHT</span><span class="p">))</span>
-<span class="n">normalized_image</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">resized_image</span><span class="p">)</span>
+resized_image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
+normalized_image = normalize(resized_image)
 
-<span class="c1"># Convert the resized images to network input shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">resized_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">normalized_input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">normalized_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
+# Convert the resized images to network input shape.
+input_image = np.expand_dims(np.transpose(resized_image, (2, 0, 1)), 0)
+normalized_input_image = np.expand_dims(np.transpose(normalized_image, (2, 0, 1)), 0)
 </pre></div>
 </div>
 </section>
@@ -864,48 +864,48 @@ an image from <a class="reference external" href="https://www.mapillary.com/data
 Vistas</a>.</p>
 <section id="onnx-model-in-openvino-runtime">
 <h4>1. ONNX Model in OpenVINO Runtime<a class="headerlink" href="#onnx-model-in-openvino-runtime" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the network to OpenVINO Runtime.</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model_onnx</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">onnx_path</span><span class="p">)</span>
-<span class="n">compiled_model_onnx</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_onnx</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the network to OpenVINO Runtime.
+ie = Core()
+model_onnx = ie.read_model(model=onnx_path)
+compiled_model_onnx = ie.compile_model(model=model_onnx, device_name=&quot;CPU&quot;)
 
-<span class="n">output_layer_onnx</span> <span class="o">=</span> <span class="n">compiled_model_onnx</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+output_layer_onnx = compiled_model_onnx.output(0)
 
-<span class="c1"># Run inference on the input image.</span>
-<span class="n">res_onnx</span> <span class="o">=</span> <span class="n">compiled_model_onnx</span><span class="p">([</span><span class="n">normalized_input_image</span><span class="p">])[</span><span class="n">output_layer_onnx</span><span class="p">]</span>
+# Run inference on the input image.
+res_onnx = compiled_model_onnx([normalized_input_image])[output_layer_onnx]
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the network result to a segmentation map and display the result.</span>
-<span class="n">result_mask_onnx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">res_onnx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">viz_result_image</span><span class="p">(</span>
-    <span class="n">image</span><span class="p">,</span>
-    <span class="n">segmentation_map_to_image</span><span class="p">(</span><span class="n">result_mask_onnx</span><span class="p">,</span> <span class="n">CityScapesSegmentation</span><span class="o">.</span><span class="n">get_colormap</span><span class="p">()),</span>
-    <span class="n">resize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the network result to a segmentation map and display the result.
+result_mask_onnx = np.squeeze(np.argmax(res_onnx, axis=1)).astype(np.uint8)
+viz_result_image(
+    image,
+    segmentation_map_to_image(result_mask_onnx, CityScapesSegmentation.get_colormap()),
+    resize=True,
+)
 </pre></div>
 </div>
 <img alt="../_images/102-pytorch-onnx-to-openvino-with-output_19_0.png" src="../_images/102-pytorch-onnx-to-openvino-with-output_19_0.png" />
 </section>
 <section id="openvino-ir-model-in-openvino-runtime">
 <h4>2. OpenVINO IR Model in OpenVINO Runtime<a class="headerlink" href="#openvino-ir-model-in-openvino-runtime" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the network in OpenVINO Runtime.</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model_ir</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">)</span>
-<span class="n">compiled_model_ir</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_ir</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the network in OpenVINO Runtime.
+ie = Core()
+model_ir = ie.read_model(model=ir_path)
+compiled_model_ir = ie.compile_model(model=model_ir, device_name=&quot;CPU&quot;)
 
-<span class="c1"># Get input and output layers.</span>
-<span class="n">output_layer_ir</span> <span class="o">=</span> <span class="n">compiled_model_ir</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# Get input and output layers.
+output_layer_ir = compiled_model_ir.output(0)
 
-<span class="c1"># Run inference on the input image.</span>
-<span class="n">res_ir</span> <span class="o">=</span> <span class="n">compiled_model_ir</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer_ir</span><span class="p">]</span>
+# Run inference on the input image.
+res_ir = compiled_model_ir([input_image])[output_layer_ir]
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_mask_ir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">res_ir</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">viz_result_image</span><span class="p">(</span>
-    <span class="n">image</span><span class="p">,</span>
-    <span class="n">segmentation_map_to_image</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result_mask_ir</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">CityScapesSegmentation</span><span class="o">.</span><span class="n">get_colormap</span><span class="p">()),</span>
-    <span class="n">resize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result_mask_ir = np.squeeze(np.argmax(res_ir, axis=1)).astype(np.uint8)
+viz_result_image(
+    image,
+    segmentation_map_to_image(result=result_mask_ir, colormap=CityScapesSegmentation.get_colormap()),
+    resize=True,
+)
 </pre></div>
 </div>
 <img alt="../_images/102-pytorch-onnx-to-openvino-with-output_22_0.png" src="../_images/102-pytorch-onnx-to-openvino-with-output_22_0.png" />
@@ -916,15 +916,15 @@ Vistas</a>.</p>
 <h2>PyTorch Comparison<a class="headerlink" href="#pytorch-comparison" title="Permalink to this headline">¶</a></h2>
 <p>Do inference on the PyTorch model to verify that the output visually
 looks the same as the output on the ONNX/OpenVINO IR models.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">result_torch</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">normalized_input_image</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with torch.no_grad():
+    result_torch = model(torch.as_tensor(normalized_input_image).float())
 
-<span class="n">result_mask_torch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">result_torch</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">viz_result_image</span><span class="p">(</span>
-    <span class="n">image</span><span class="p">,</span>
-    <span class="n">segmentation_map_to_image</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result_mask_torch</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">CityScapesSegmentation</span><span class="o">.</span><span class="n">get_colormap</span><span class="p">()),</span>
-    <span class="n">resize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
+result_mask_torch = torch.argmax(result_torch, dim=1).squeeze(0).numpy().astype(np.uint8)
+viz_result_image(
+    image,
+    segmentation_map_to_image(result=result_mask_torch, colormap=CityScapesSegmentation.get_colormap()),
+    resize=True,
+)
 </pre></div>
 </div>
 <img alt="../_images/102-pytorch-onnx-to-openvino-with-output_24_0.png" src="../_images/102-pytorch-onnx-to-openvino-with-output_24_0.png" />
@@ -937,61 +937,61 @@ an indication of performance. For more accurate benchmarking, use the
 Tool</a>.
 Keep in mind that many optimizations are possible to improve the
 performance.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_images</span> <span class="o">=</span> <span class="mi">20</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>num_images = 20
 
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-    <span class="n">compiled_model_onnx</span><span class="p">([</span><span class="n">normalized_input_image</span><span class="p">])</span>
-<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">time_onnx</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;ONNX model in OpenVINO Runtime/CPU: </span><span class="si">{</span><span class="n">time_onnx</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_onnx</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+start = time.perf_counter()
+for _ in range(num_images):
+    compiled_model_onnx([normalized_input_image])
+end = time.perf_counter()
+time_onnx = end - start
+print(
+    f&quot;ONNX model in OpenVINO Runtime/CPU: {time_onnx/num_images:.3f} &quot;
+    f&quot;seconds per image, FPS: {num_images/time_onnx:.2f}&quot;
+)
 
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-    <span class="n">compiled_model_ir</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
-<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">time_ir</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;OpenVINO IR model in OpenVINO Runtime/CPU: </span><span class="si">{</span><span class="n">time_ir</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_ir</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+start = time.perf_counter()
+for _ in range(num_images):
+    compiled_model_ir([input_image])
+end = time.perf_counter()
+time_ir = end - start
+print(
+    f&quot;OpenVINO IR model in OpenVINO Runtime/CPU: {time_ir/num_images:.3f} &quot;
+    f&quot;seconds per image, FPS: {num_images/time_ir:.2f}&quot;
+)
 
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-        <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">time_torch</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;PyTorch model on CPU: </span><span class="si">{</span><span class="n">time_torch</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds per image, &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_torch</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+with torch.no_grad():
+    start = time.perf_counter()
+    for _ in range(num_images):
+        model(torch.as_tensor(input_image).float())
+    end = time.perf_counter()
+    time_torch = end - start
+print(
+    f&quot;PyTorch model on CPU: {time_torch/num_images:.3f} seconds per image, &quot;
+    f&quot;FPS: {num_images/time_torch:.2f}&quot;
+)
 
-<span class="k">if</span> <span class="s2">&quot;GPU&quot;</span> <span class="ow">in</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span><span class="p">:</span>
-    <span class="n">compiled_model_onnx_gpu</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_onnx</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;GPU&quot;</span><span class="p">)</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-        <span class="n">compiled_model_onnx_gpu</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">time_onnx_gpu</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;ONNX model in OpenVINO/GPU: </span><span class="si">{</span><span class="n">time_onnx_gpu</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_onnx_gpu</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
+if &quot;GPU&quot; in ie.available_devices:
+    compiled_model_onnx_gpu = ie.compile_model(model=model_onnx, device_name=&quot;GPU&quot;)
+    start = time.perf_counter()
+    for _ in range(num_images):
+        compiled_model_onnx_gpu([input_image])
+    end = time.perf_counter()
+    time_onnx_gpu = end - start
+    print(
+        f&quot;ONNX model in OpenVINO/GPU: {time_onnx_gpu/num_images:.3f} &quot;
+        f&quot;seconds per image, FPS: {num_images/time_onnx_gpu:.2f}&quot;
+    )
 
-    <span class="n">compiled_model_ir_gpu</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_ir</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;GPU&quot;</span><span class="p">)</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-        <span class="n">compiled_model_ir_gpu</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">time_ir_gpu</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;IR model in OpenVINO/GPU: </span><span class="si">{</span><span class="n">time_ir_gpu</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_ir_gpu</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
+    compiled_model_ir_gpu = ie.compile_model(model=model_ir, device_name=&quot;GPU&quot;)
+    start = time.perf_counter()
+    for _ in range(num_images):
+        compiled_model_ir_gpu([input_image])
+    end = time.perf_counter()
+    time_ir_gpu = end - start
+    print(
+        f&quot;IR model in OpenVINO/GPU: {time_ir_gpu/num_images:.3f} &quot;
+        f&quot;seconds per image, FPS: {num_images/time_ir_gpu:.2f}&quot;
+    )
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ONNX</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">OpenVINO</span> <span class="n">Runtime</span><span class="o">/</span><span class="n">CPU</span><span class="p">:</span> <span class="mf">0.070</span> <span class="n">seconds</span> <span class="n">per</span> <span class="n">image</span><span class="p">,</span> <span class="n">FPS</span><span class="p">:</span> <span class="mf">14.29</span>
@@ -1000,10 +1000,10 @@ performance.</p>
 </pre></div>
 </div>
 <p><strong>Show Device Information</strong></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">devices</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">available_devices</span>
-<span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
-    <span class="n">device_name</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s2">&quot;FULL_DEVICE_NAME&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">device_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>devices = ie.available_devices
+for device in devices:
+    device_name = ie.get_property(device, &quot;FULL_DEVICE_NAME&quot;)
+    print(f&quot;{device}: {device_name}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPU</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>

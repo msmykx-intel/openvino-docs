@@ -654,35 +654,35 @@ information, refer to the
 <a class="reference external" href="104-model-tools-with-output.html">104-model-tools</a> tutorial.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import shutil
+import sys
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">yaspin</span> <span class="kn">import</span> <span class="n">yaspin</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import Markdown, display
+from PIL import Image
+from openvino.runtime import Core
+from yaspin import yaspin
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">load_image</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import load_image
 </pre></div>
 </div>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
 
-<span class="n">model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP16&quot;</span>
-<span class="n">detection_model</span> <span class="o">=</span> <span class="s2">&quot;horizontal-text-detection-0001&quot;</span>
-<span class="n">recognition_model</span> <span class="o">=</span> <span class="s2">&quot;text-recognition-resnet-fc&quot;</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;~/open_model_zoo_models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
-<span class="n">omz_cache_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;~/open_model_zoo_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+model_dir = Path(&quot;model&quot;)
+precision = &quot;FP16&quot;
+detection_model = &quot;horizontal-text-detection-0001&quot;
+recognition_model = &quot;text-recognition-resnet-fc&quot;
+base_model_dir = Path(&quot;~/open_model_zoo_models&quot;).expanduser()
+omz_cache_dir = Path(&quot;~/open_model_zoo_cache&quot;).expanduser()
 
-<span class="n">model_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+model_dir.mkdir(exist_ok=True)
 </pre></div>
 </div>
 </section>
@@ -691,13 +691,13 @@ information, refer to the
 <p>The next cells will run Model Downloader to download the detection and
 recognition models. If the models have been downloaded before, they will
 not be downloaded again.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader --name </span><span class="si">{</span><span class="n">detection_model</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">recognition_model</span><span class="si">}</span><span class="s2"> --output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --cache_dir </span><span class="si">{</span><span class="n">omz_cache_dir</span><span class="si">}</span><span class="s2"> --precision </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download command: `</span><span class="si">{</span><span class="n">download_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="k">with</span> <span class="n">yaspin</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">detection_model</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">recognition_model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sp</span><span class="p">:</span>
-    <span class="n">download_result</span> <span class="o">=</span> <span class="o">!</span><span class="nv">$download_command</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">download_result</span><span class="p">)</span>
-    <span class="n">sp</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Finished downloading </span><span class="si">{</span><span class="n">detection_model</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">recognition_model</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">sp</span><span class="o">.</span><span class="n">ok</span><span class="p">(</span><span class="s2">&quot;✔&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>download_command = f&quot;omz_downloader --name {detection_model},{recognition_model} --output_dir {base_model_dir} --cache_dir {omz_cache_dir} --precision {precision}&quot;
+display(Markdown(f&quot;Download command: `{download_command}`&quot;))
+with yaspin(text=f&quot;Downloading {detection_model}, {recognition_model}&quot;) as sp:
+    download_result = !$download_command
+    print(download_result)
+    sp.text = f&quot;Finished downloading {detection_model}, {recognition_model}&quot;
+    sp.ok(&quot;✔&quot;)
 </pre></div>
 </div>
 <p>Download command:
@@ -706,11 +706,11 @@ not be downloaded again.</p>
 ✔ Finished downloading horizontal-text-detection-0001, text-recognition-resnet-fc
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### The text-recognition-resnet-fc model consists of many files. All filenames are printed in</span>
-<span class="c1">### the output of Model Downloader. Uncomment the next two lines to show this output.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>### The text-recognition-resnet-fc model consists of many files. All filenames are printed in
+### the output of Model Downloader. Uncomment the next two lines to show this output.
 
-<span class="c1"># for line in download_result:</span>
-<span class="c1">#    print(line)</span>
+# for line in download_result:
+#    print(line)
 </pre></div>
 </div>
 </section>
@@ -724,10 +724,10 @@ Model Converter to convert the model to OpenVINO IR format.</p>
 <p>The output of Model Converter will be displayed. When the conversion is
 successful, the last lines of output will include
 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model.</span></code></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">convert_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_converter --name </span><span class="si">{</span><span class="n">recognition_model</span><span class="si">}</span><span class="s2"> --precisions </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> --download_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2"> --output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convert command: `</span><span class="si">{</span><span class="n">convert_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting </span><span class="si">{</span><span class="n">recognition_model</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">))</span>
-<span class="o">!</span> <span class="nv">$convert_command</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>convert_command = f&quot;omz_converter --name {recognition_model} --precisions {precision} --download_dir {base_model_dir} --output_dir {base_model_dir}&quot;
+display(Markdown(f&quot;Convert command: `{convert_command}`&quot;))
+display(Markdown(f&quot;Converting {recognition_model}...&quot;))
+! $convert_command
 </pre></div>
 </div>
 <p>Convert command:
@@ -786,52 +786,52 @@ successful, the last lines of output will include
 Model Zoo tree to the <em>model</em> subdirectory relative to this Jupyter
 notebook. Get the path to the model directory of Open Model Zoo from the
 <code class="docutils literal notranslate"><span class="pre">omz_info_dumper</span></code> tool.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models_info_output</span> <span class="o">=</span> <span class="o">%</span><span class="k">sx</span> omz_info_dumper --name <span class="nv">$detection_model</span>,<span class="nv">$recognition_model</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sx omz_info_dumper --name </span><span class="si">{</span><span class="n">detection_model</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">recognition_model</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">detection_model_info</span><span class="p">,</span> <span class="n">recognition_model_info</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;horizontal-text-detection-0001&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;composite_model_name&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Horizontal text detector based on FCOS with light MobileNetV2 backbone&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;framework&quot;</span><span class="p">:</span> <span class="s2">&quot;dldt&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;license_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/LICENSE&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;precisions&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;FP16&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FP16-INT8&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FP32&quot;</span>
-        <span class="p">],</span>
-        <span class="s2">&quot;quantization_output_precisions&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;subdirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;intel/horizontal-text-detection-0001&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;task_type&quot;</span><span class="p">:</span> <span class="s2">&quot;detection&quot;</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text-recognition-resnet-fc&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;composite_model_name&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">text-recognition-resnet-fc</span><span class="se">\&quot;</span><span class="s2"> is a simple and preformant scene text recognition model based on ResNet with Fully Connected text recognition head. Source implementation on a PyTorch* framework could be found here &lt;https://github.com/Media-Smart/vedastr&gt;. Model is able to recognize alphanumeric text.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;framework&quot;</span><span class="p">:</span> <span class="s2">&quot;pytorch&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;license_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://raw.githubusercontent.com/Media-Smart/vedastr/0fd2a0bd7819ae4daa2a161501e9f1c2ac67e96a/LICENSE&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;precisions&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;FP16&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FP32&quot;</span>
-        <span class="p">],</span>
-        <span class="s2">&quot;quantization_output_precisions&quot;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s2">&quot;subdirectory&quot;</span><span class="p">:</span> <span class="s2">&quot;public/text-recognition-resnet-fc&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;task_type&quot;</span><span class="p">:</span> <span class="s2">&quot;optical_character_recognition&quot;</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>models_info_output = %sx omz_info_dumper --name $detection_model,$recognition_model
+print(f&#39;sx omz_info_dumper --name {detection_model},{recognition_model}&#39;)
+detection_model_info, recognition_model_info = [
+    {
+        &quot;name&quot;: &quot;horizontal-text-detection-0001&quot;,
+        &quot;composite_model_name&quot;: None,
+        &quot;description&quot;: &quot;Horizontal text detector based on FCOS with light MobileNetV2 backbone&quot;,
+        &quot;framework&quot;: &quot;dldt&quot;,
+        &quot;license_url&quot;: &quot;https://raw.githubusercontent.com/openvinotoolkit/open_model_zoo/master/LICENSE&quot;,
+        &quot;precisions&quot;: [
+            &quot;FP16&quot;,
+            &quot;FP16-INT8&quot;,
+            &quot;FP32&quot;
+        ],
+        &quot;quantization_output_precisions&quot;: [],
+        &quot;subdirectory&quot;: &quot;intel/horizontal-text-detection-0001&quot;,
+        &quot;task_type&quot;: &quot;detection&quot;
+    },
+    {
+        &quot;name&quot;: &quot;text-recognition-resnet-fc&quot;,
+        &quot;composite_model_name&quot;: None,
+        &quot;description&quot;: &quot;\&quot;text-recognition-resnet-fc\&quot; is a simple and preformant scene text recognition model based on ResNet with Fully Connected text recognition head. Source implementation on a PyTorch* framework could be found here &lt;https://github.com/Media-Smart/vedastr&gt;. Model is able to recognize alphanumeric text.&quot;,
+        &quot;framework&quot;: &quot;pytorch&quot;,
+        &quot;license_url&quot;: &quot;https://raw.githubusercontent.com/Media-Smart/vedastr/0fd2a0bd7819ae4daa2a161501e9f1c2ac67e96a/LICENSE&quot;,
+        &quot;precisions&quot;: [
+            &quot;FP16&quot;,
+            &quot;FP32&quot;
+        ],
+        &quot;quantization_output_precisions&quot;: [],
+        &quot;subdirectory&quot;: &quot;public/text-recognition-resnet-fc&quot;,
+        &quot;task_type&quot;: &quot;optical_character_recognition&quot;
+    }
+]
 
-<span class="k">for</span> <span class="n">model_info</span> <span class="ow">in</span> <span class="p">(</span><span class="n">detection_model_info</span><span class="p">,</span> <span class="n">recognition_model_info</span><span class="p">):</span>
-    <span class="n">omz_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_info</span><span class="p">[</span><span class="s2">&quot;subdirectory&quot;</span><span class="p">])</span>
-    <span class="n">omz_model_dir</span> <span class="o">=</span> <span class="n">base_model_dir</span> <span class="o">/</span> <span class="n">omz_dir</span> <span class="o">/</span> <span class="n">precision</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">omz_model_dir</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">model_file</span> <span class="ow">in</span> <span class="n">omz_model_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="n">model_dir</span> <span class="o">/</span> <span class="n">model_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
-            <span class="k">pass</span>
+for model_info in (detection_model_info, recognition_model_info):
+    omz_dir = Path(model_info[&quot;subdirectory&quot;])
+    omz_model_dir = base_model_dir / omz_dir / precision
+    print(omz_model_dir)
+    for model_file in omz_model_dir.iterdir():
+        try:
+            shutil.copyfile(model_file, model_dir / model_file.name)
+        except FileExistsError:
+            pass
 
-<span class="n">detection_model_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_dir</span> <span class="o">/</span> <span class="n">detection_model</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
-<span class="n">recognition_model_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_dir</span> <span class="o">/</span> <span class="n">recognition_model</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+detection_model_path = (model_dir / detection_model).with_suffix(&quot;.xml&quot;)
+recognition_model_path = (model_dir / recognition_model).with_suffix(&quot;.xml&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sx</span> <span class="n">omz_info_dumper</span> <span class="o">--</span><span class="n">name</span> <span class="n">horizontal</span><span class="o">-</span><span class="n">text</span><span class="o">-</span><span class="n">detection</span><span class="o">-</span><span class="mi">0001</span><span class="p">,</span><span class="n">text</span><span class="o">-</span><span class="n">recognition</span><span class="o">-</span><span class="n">resnet</span><span class="o">-</span><span class="n">fc</span>
@@ -846,32 +846,32 @@ notebook. Get the path to the model directory of Open Model Zoo from the
 detection inference result.</p>
 <section id="load-a-detection-model">
 <h3>Load a Detection Model<a class="headerlink" href="#load-a-detection-model" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">detection_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">detection_model_path</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">detection_model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="n">detection_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">detection_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>detection_model = ie.read_model(
+    model=detection_model_path, weights=detection_model_path.with_suffix(&quot;.bin&quot;)
+)
+detection_compiled_model = ie.compile_model(model=detection_model, device_name=&quot;CPU&quot;)
 
-<span class="n">detection_input_layer</span> <span class="o">=</span> <span class="n">detection_compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+detection_input_layer = detection_compiled_model.input(0)
 </pre></div>
 </div>
 </section>
 <section id="load-an-image">
 <h3>Load an Image<a class="headerlink" href="#load-an-image" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The `image_file` variable can point to a URL or a local image.</span>
-<span class="n">image_file</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/openvinotoolkit/openvino_notebooks/raw/main/notebooks/004-hello-detection/data/intel_rnb.jpg&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The `image_file` variable can point to a URL or a local image.
+image_file = &quot;https://github.com/openvinotoolkit/openvino_notebooks/raw/main/notebooks/004-hello-detection/data/intel_rnb.jpg&quot;
 
-<span class="n">image</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span>
+image = load_image(image_file)
 
-<span class="c1"># N,C,H,W = batch size, number of channels, height, width.</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">detection_input_layer</span><span class="o">.</span><span class="n">shape</span>
+# N,C,H,W = batch size, number of channels, height, width.
+N, C, H, W = detection_input_layer.shape
 
-<span class="c1"># Resize the image to meet network expected input sizes.</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+# Resize the image to meet network expected input sizes.
+resized_image = cv2.resize(image, (W, H))
 
-<span class="c1"># Reshape to the network input shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+# Reshape to the network input shape.
+input_image = np.expand_dims(resized_image.transpose(2, 0, 1), 0)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <img alt="../_images/208-optical-character-recognition-with-output_15_0.png" src="../_images/208-optical-character-recognition-with-output_15_0.png" />
@@ -881,79 +881,79 @@ detection inference result.</p>
 <p>Text boxes are detected in the images and returned as blobs of data in
 the shape of <code class="docutils literal notranslate"><span class="pre">[100,</span> <span class="pre">5]</span></code>. Each description of detection has the
 <code class="docutils literal notranslate"><span class="pre">[x_min,</span> <span class="pre">y_min,</span> <span class="pre">x_max,</span> <span class="pre">y_max,</span> <span class="pre">conf]</span></code> format.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_key</span> <span class="o">=</span> <span class="n">detection_compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;boxes&quot;</span><span class="p">)</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">detection_compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_key</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>output_key = detection_compiled_model.output(&quot;boxes&quot;)
+boxes = detection_compiled_model([input_image])[output_key]
 
-<span class="c1"># Remove zero only boxes.</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">boxes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+# Remove zero only boxes.
+boxes = boxes[~np.all(boxes == 0, axis=1)]
 </pre></div>
 </div>
 </section>
 <section id="get-detection-results">
 <h3>Get Detection Results<a class="headerlink" href="#get-detection-results" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multiply_by_ratio</span><span class="p">(</span><span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span><span class="p">,</span> <span class="n">box</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[</span>
-        <span class="nb">max</span><span class="p">(</span><span class="n">shape</span> <span class="o">*</span> <span class="n">ratio_y</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">shape</span> <span class="o">*</span> <span class="n">ratio_x</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">shape</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">box</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def multiply_by_ratio(ratio_x, ratio_y, box):
+    return [
+        max(shape * ratio_y, 10) if idx % 2 else shape * ratio_x
+        for idx, shape in enumerate(box[:-1])
+    ]
 
 
-<span class="k">def</span> <span class="nf">run_preprocesing_on_crop</span><span class="p">(</span><span class="n">crop</span><span class="p">,</span> <span class="n">net_shape</span><span class="p">):</span>
-    <span class="n">temp_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">crop</span><span class="p">,</span> <span class="n">net_shape</span><span class="p">)</span>
-    <span class="n">temp_img</span> <span class="o">=</span> <span class="n">temp_img</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">temp_img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">temp_img</span>
+def run_preprocesing_on_crop(crop, net_shape):
+    temp_img = cv2.resize(crop, net_shape)
+    temp_img = temp_img.reshape((1,) * 2 + temp_img.shape)
+    return temp_img
 
 
-<span class="k">def</span> <span class="nf">convert_result_to_image</span><span class="p">(</span><span class="n">bgr_image</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">conf_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="c1"># Define colors for boxes and descriptions.</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)}</span>
+def convert_result_to_image(bgr_image, resized_image, boxes, threshold=0.3, conf_labels=True):
+    # Define colors for boxes and descriptions.
+    colors = {&quot;red&quot;: (255, 0, 0), &quot;green&quot;: (0, 255, 0), &quot;white&quot;: (255, 255, 255)}
 
-    <span class="c1"># Fetch image shapes to calculate a ratio.</span>
-    <span class="p">(</span><span class="n">real_y</span><span class="p">,</span> <span class="n">real_x</span><span class="p">),</span> <span class="p">(</span><span class="n">resized_y</span><span class="p">,</span> <span class="n">resized_x</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">resized_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span> <span class="o">=</span> <span class="n">real_x</span> <span class="o">/</span> <span class="n">resized_x</span><span class="p">,</span> <span class="n">real_y</span> <span class="o">/</span> <span class="n">resized_y</span>
+    # Fetch image shapes to calculate a ratio.
+    (real_y, real_x), (resized_y, resized_x) = image.shape[:2], resized_image.shape[:2]
+    ratio_x, ratio_y = real_x / resized_x, real_y / resized_y
 
-    <span class="c1"># Convert the base image from BGR to RGB format.</span>
-    <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">bgr_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+    # Convert the base image from BGR to RGB format.
+    rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
 
-    <span class="c1"># Iterate through non-zero boxes.</span>
-    <span class="k">for</span> <span class="n">box</span><span class="p">,</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="c1"># Pick a confidence factor from the last place in an array.</span>
-        <span class="n">conf</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">conf</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
-            <span class="c1"># Convert float to int and multiply position of each box by x and y ratio.</span>
-            <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">multiply_by_ratio</span><span class="p">(</span><span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span><span class="p">,</span> <span class="n">box</span><span class="p">))</span>
+    # Iterate through non-zero boxes.
+    for box, annotation in boxes:
+        # Pick a confidence factor from the last place in an array.
+        conf = box[-1]
+        if conf &gt; threshold:
+            # Convert float to int and multiply position of each box by x and y ratio.
+            (x_min, y_min, x_max, y_max) = map(int, multiply_by_ratio(ratio_x, ratio_y, box))
 
-            <span class="c1"># Draw a box based on the position. Parameters in the `rectangle` function are: image, start_point, end_point, color, thickness.</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">rgb_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">),</span> <span class="p">(</span><span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">),</span> <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;green&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+            # Draw a box based on the position. Parameters in the `rectangle` function are: image, start_point, end_point, color, thickness.
+            cv2.rectangle(rgb_image, (x_min, y_min), (x_max, y_max), colors[&quot;green&quot;], 3)
 
-            <span class="c1"># Add a text to an image based on the position and confidence. Parameters in the `putText` function are: image, text, bottomleft_corner_textfield, font, font_scale, color, thickness, line_type</span>
-            <span class="k">if</span> <span class="n">conf_labels</span><span class="p">:</span>
-                <span class="c1"># Create a background box based on annotation length.</span>
-                <span class="p">(</span><span class="n">text_w</span><span class="p">,</span> <span class="n">text_h</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getTextSize</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">annotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_TRIPLEX</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span>
-                <span class="p">)</span>
-                <span class="n">image_copy</span> <span class="o">=</span> <span class="n">rgb_image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span>
-                    <span class="n">image_copy</span><span class="p">,</span>
-                    <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">-</span> <span class="n">text_h</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-                    <span class="p">(</span><span class="n">x_min</span> <span class="o">+</span> <span class="n">text_w</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-                    <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;white&quot;</span><span class="p">],</span>
-                    <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="c1"># Add weighted image copy with white boxes under a text.</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">image_copy</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">rgb_image</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">rgb_image</span><span class="p">)</span>
-                <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
-                    <span class="n">rgb_image</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">annotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
-                    <span class="mf">0.8</span><span class="p">,</span>
-                    <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">],</span>
-                    <span class="mi">1</span><span class="p">,</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span><span class="p">,</span>
-                <span class="p">)</span>
+            # Add a text to an image based on the position and confidence. Parameters in the `putText` function are: image, text, bottomleft_corner_textfield, font, font_scale, color, thickness, line_type
+            if conf_labels:
+                # Create a background box based on annotation length.
+                (text_w, text_h), _ = cv2.getTextSize(
+                    f&quot;{annotation}&quot;, cv2.FONT_HERSHEY_TRIPLEX, 0.8, 1
+                )
+                image_copy = rgb_image.copy()
+                cv2.rectangle(
+                    image_copy,
+                    (x_min, y_min - text_h - 10),
+                    (x_min + text_w, y_min - 10),
+                    colors[&quot;white&quot;],
+                    -1,
+                )
+                # Add weighted image copy with white boxes under a text.
+                cv2.addWeighted(image_copy, 0.4, rgb_image, 0.6, 0, rgb_image)
+                cv2.putText(
+                    rgb_image,
+                    f&quot;{annotation}&quot;,
+                    (x_min, y_min - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    colors[&quot;red&quot;],
+                    1,
+                    cv2.LINE_AA,
+                )
 
-    <span class="k">return</span> <span class="n">rgb_image</span>
+    return rgb_image
 </pre></div>
 </div>
 </section>
@@ -964,62 +964,62 @@ the shape of <code class="docutils literal notranslate"><span class="pre">[100,<
 from the detection model.</p>
 <section id="load-text-recognition-model">
 <h3>Load Text Recognition Model<a class="headerlink" href="#load-text-recognition-model" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recognition_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">recognition_model_path</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">recognition_model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>recognition_model = ie.read_model(
+    model=recognition_model_path, weights=recognition_model_path.with_suffix(&quot;.bin&quot;)
+)
 
-<span class="n">recognition_compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">recognition_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+recognition_compiled_model = ie.compile_model(model=recognition_model, device_name=&quot;CPU&quot;)
 
-<span class="n">recognition_output_layer</span> <span class="o">=</span> <span class="n">recognition_compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">recognition_input_layer</span> <span class="o">=</span> <span class="n">recognition_compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+recognition_output_layer = recognition_compiled_model.output(0)
+recognition_input_layer = recognition_compiled_model.input(0)
 
-<span class="c1"># Get the height and width of the input layer.</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">recognition_input_layer</span><span class="o">.</span><span class="n">shape</span>
+# Get the height and width of the input layer.
+_, _, H, W = recognition_input_layer.shape
 </pre></div>
 </div>
 </section>
 <section id="id1">
 <h3>Do Inference<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate scale for image resizing.</span>
-<span class="p">(</span><span class="n">real_y</span><span class="p">,</span> <span class="n">real_x</span><span class="p">),</span> <span class="p">(</span><span class="n">resized_y</span><span class="p">,</span> <span class="n">resized_x</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">resized_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span> <span class="o">=</span> <span class="n">real_x</span> <span class="o">/</span> <span class="n">resized_x</span><span class="p">,</span> <span class="n">real_y</span> <span class="o">/</span> <span class="n">resized_y</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate scale for image resizing.
+(real_y, real_x), (resized_y, resized_x) = image.shape[:2], resized_image.shape[:2]
+ratio_x, ratio_y = real_x / resized_x, real_y / resized_y
 
-<span class="c1"># Convert the image to grayscale for the text recognition model.</span>
-<span class="n">grayscale_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+# Convert the image to grayscale for the text recognition model.
+grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-<span class="c1"># Get a dictionary to encode output, based on the model documentation.</span>
-<span class="n">letters</span> <span class="o">=</span> <span class="s2">&quot;~0123456789abcdefghijklmnopqrstuvwxyz&quot;</span>
+# Get a dictionary to encode output, based on the model documentation.
+letters = &quot;~0123456789abcdefghijklmnopqrstuvwxyz&quot;
 
-<span class="c1"># Prepare an empty list for annotations.</span>
-<span class="n">annotations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="n">cropped_images</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="c1"># fig, ax = plt.subplots(len(boxes), 1, figsize=(5,15), sharex=True, sharey=True)</span>
-<span class="c1"># Get annotations for each crop, based on boxes given by the detection model.</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">crop</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">boxes</span><span class="p">):</span>
-    <span class="c1"># Get coordinates on corners of a crop.</span>
-    <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">multiply_by_ratio</span><span class="p">(</span><span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span><span class="p">,</span> <span class="n">crop</span><span class="p">))</span>
-    <span class="n">image_crop</span> <span class="o">=</span> <span class="n">run_preprocesing_on_crop</span><span class="p">(</span><span class="n">grayscale_image</span><span class="p">[</span><span class="n">y_min</span><span class="p">:</span><span class="n">y_max</span><span class="p">,</span> <span class="n">x_min</span><span class="p">:</span><span class="n">x_max</span><span class="p">],</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+# Prepare an empty list for annotations.
+annotations = list()
+cropped_images = list()
+# fig, ax = plt.subplots(len(boxes), 1, figsize=(5,15), sharex=True, sharey=True)
+# Get annotations for each crop, based on boxes given by the detection model.
+for i, crop in enumerate(boxes):
+    # Get coordinates on corners of a crop.
+    (x_min, y_min, x_max, y_max) = map(int, multiply_by_ratio(ratio_x, ratio_y, crop))
+    image_crop = run_preprocesing_on_crop(grayscale_image[y_min:y_max, x_min:x_max], (W, H))
 
-    <span class="c1"># Run inference with the recognition model.</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">recognition_compiled_model</span><span class="p">([</span><span class="n">image_crop</span><span class="p">])[</span><span class="n">recognition_output_layer</span><span class="p">]</span>
+    # Run inference with the recognition model.
+    result = recognition_compiled_model([image_crop])[recognition_output_layer]
 
-    <span class="c1"># Squeeze the output to remove unnecessary dimension.</span>
-    <span class="n">recognition_results_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    # Squeeze the output to remove unnecessary dimension.
+    recognition_results_test = np.squeeze(result)
 
-    <span class="c1"># Read an annotation based on probabilities from the output layer.</span>
-    <span class="n">annotation</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">recognition_results_test</span><span class="p">:</span>
-        <span class="n">parsed_letter</span> <span class="o">=</span> <span class="n">letters</span><span class="p">[</span><span class="n">letter</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span>
+    # Read an annotation based on probabilities from the output layer.
+    annotation = list()
+    for letter in recognition_results_test:
+        parsed_letter = letters[letter.argmax()]
 
-        <span class="c1"># Returning 0 index from `argmax` signalizes an end of a string.</span>
-        <span class="k">if</span> <span class="n">parsed_letter</span> <span class="o">==</span> <span class="n">letters</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">break</span>
-        <span class="n">annotation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_letter</span><span class="p">)</span>
-    <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">annotation</span><span class="p">))</span>
-    <span class="n">cropped_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="n">y_min</span><span class="p">:</span><span class="n">y_max</span><span class="p">,</span> <span class="n">x_min</span><span class="p">:</span><span class="n">x_max</span><span class="p">])</span>
-    <span class="n">cropped_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cropped_image</span><span class="p">)</span>
+        # Returning 0 index from `argmax` signalizes an end of a string.
+        if parsed_letter == letters[0]:
+            break
+        annotation.append(parsed_letter)
+    annotations.append(&quot;&quot;.join(annotation))
+    cropped_image = Image.fromarray(image[y_min:y_max, x_min:x_max])
+    cropped_images.append(cropped_image)
 
-<span class="n">boxes_with_annotations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">annotations</span><span class="p">))</span>
+boxes_with_annotations = list(zip(boxes, annotations))
 </pre></div>
 </div>
 </section>
@@ -1030,8 +1030,8 @@ from the detection model.</p>
 <h3>Show Detected Text Boxes and OCR Results for the Image<a class="headerlink" href="#show-detected-text-boxes-and-ocr-results-for-the-image" title="Permalink to this headline">¶</a></h3>
 <p>Visualize the result by drawing boxes around recognized text and showing
 the OCR result from the text recognition model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">convert_result_to_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes_with_annotations</span><span class="p">,</span> <span class="n">conf_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure(figsize=(12, 12))
+plt.imshow(convert_result_to_image(image, resized_image, boxes_with_annotations, conf_labels=True));
 </pre></div>
 </div>
 <img alt="../_images/208-optical-character-recognition-with-output_25_0.png" src="../_images/208-optical-character-recognition-with-output_25_0.png" />
@@ -1041,8 +1041,8 @@ the OCR result from the text recognition model.</p>
 <p>Depending on the image, the OCR result may not be readable in the image
 with boxes, as displayed in the cell above. Use the code below to
 display the extracted boxes and the OCR result per box.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cropped_image</span><span class="p">,</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cropped_images</span><span class="p">,</span> <span class="n">annotations</span><span class="p">):</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">cropped_image</span><span class="p">,</span> <span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">annotation</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for cropped_image, annotation in zip(cropped_images, annotations):
+    display(cropped_image, Markdown(&quot;&quot;.join(annotation)))
 </pre></div>
 </div>
 <img alt="../_images/208-optical-character-recognition-with-output_27_0.png" src="../_images/208-optical-character-recognition-with-output_27_0.png" />
@@ -1062,10 +1062,10 @@ display the extracted boxes and the OCR result per box.</p>
 <h3>Print Annotations in Plain Text Format<a class="headerlink" href="#print-annotations-in-plain-text-format" title="Permalink to this headline">¶</a></h3>
 <p>Print annotations for detected text based on their position in the input
 image, starting from the upper left corner.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="n">annotation</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">annotations</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>[
+    annotation
+    for _, annotation in sorted(zip(boxes, annotations), key=lambda x: x[0][0] ** 2 + x[0][1] ** 2)
+]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;robert&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;noyce&#39;</span><span class="p">,</span> <span class="s1">&#39;building&#39;</span><span class="p">,</span> <span class="s1">&#39;2200&#39;</span><span class="p">,</span> <span class="s1">&#39;center&#39;</span><span class="p">]</span>

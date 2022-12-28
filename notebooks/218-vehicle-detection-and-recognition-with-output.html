@@ -631,18 +631,18 @@ from raw images and recognize attributes of detected vehicles.
 <section id="imports">
 <h1>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h1>
 <p>Import the required modules.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+import sys
+from pathlib import Path
+from typing import Tuple
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from openvino.runtime import Core
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">notebook_utils</span> <span class="k">as</span> <span class="nn">utils</span>
+sys.path.append(&quot;../utils&quot;)
+import notebook_utils as utils
 </pre></div>
 </div>
 </section>
@@ -666,36 +666,36 @@ the precision, you need to modify the precision value in <code class="docutils l
 <code class="docutils literal notranslate"><span class="pre">&quot;FP16&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;FP16-INT8&quot;</span></code>. A different type has a different
 model size and a precision value.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A directory where the model will be downloaded.</span>
-<span class="n">base_model_dir</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
-<span class="c1"># The name of the model from Open Model Zoo.</span>
-<span class="n">detection_model_name</span> <span class="o">=</span> <span class="s2">&quot;vehicle-detection-0200&quot;</span>
-<span class="n">recognition_model_name</span> <span class="o">=</span> <span class="s2">&quot;vehicle-attributes-recognition-barrier-0039&quot;</span>
-<span class="c1"># Selected precision (FP32, FP16, FP16-INT8)</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="s2">&quot;FP32&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># A directory where the model will be downloaded.
+base_model_dir = &quot;model&quot;
+# The name of the model from Open Model Zoo.
+detection_model_name = &quot;vehicle-detection-0200&quot;
+recognition_model_name = &quot;vehicle-attributes-recognition-barrier-0039&quot;
+# Selected precision (FP32, FP16, FP16-INT8)
+precision = &quot;FP32&quot;
 
-<span class="c1"># Check if the model exists.</span>
-<span class="n">detection_model_path</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;model/intel/</span><span class="si">{</span><span class="n">detection_model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">detection_model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span>
-<span class="p">)</span>
-<span class="n">recognition_model_path</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;model/intel/</span><span class="si">{</span><span class="n">recognition_model_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">recognition_model_name</span><span class="si">}</span><span class="s2">.xml&quot;</span>
-<span class="p">)</span>
+# Check if the model exists.
+detection_model_path = (
+    f&quot;model/intel/{detection_model_name}/{precision}/{detection_model_name}.xml&quot;
+)
+recognition_model_path = (
+    f&quot;model/intel/{recognition_model_name}/{precision}/{recognition_model_name}.xml&quot;
+)
 
-<span class="c1"># Download the detection model.</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">detection_model_path</span><span class="p">):</span>
-    <span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">detection_model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--precision </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="o">!</span> <span class="nv">$download_command</span>
-<span class="c1"># Download the recognition model.</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">recognition_model_path</span><span class="p">):</span>
-    <span class="n">download_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;omz_downloader &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--name </span><span class="si">{</span><span class="n">recognition_model_name</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--precision </span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2"> &quot;</span> \
-                       <span class="sa">f</span><span class="s2">&quot;--output_dir </span><span class="si">{</span><span class="n">base_model_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="o">!</span> <span class="nv">$download_command</span>
+# Download the detection model.
+if not os.path.exists(detection_model_path):
+    download_command = f&quot;omz_downloader &quot; \
+                       f&quot;--name {detection_model_name} &quot; \
+                       f&quot;--precision {precision} &quot; \
+                       f&quot;--output_dir {base_model_dir}&quot;
+    ! $download_command
+# Download the recognition model.
+if not os.path.exists(recognition_model_path):
+    download_command = f&quot;omz_downloader &quot; \
+                       f&quot;--name {recognition_model_name} &quot; \
+                       f&quot;--precision {precision} &quot; \
+                       f&quot;--output_dir {base_model_dir}&quot;
+    ! $download_command
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################|| Downloading vehicle-detection-0200 ||################</span>
@@ -722,63 +722,63 @@ downloading the models, initialize OpenVINO Runtime, and use
 <code class="docutils literal notranslate"><span class="pre">read_network</span></code> to read network architecture and weights from <code class="docutils literal notranslate"><span class="pre">*.xml</span></code>
 and <code class="docutils literal notranslate"><span class="pre">*.bin</span></code> files. Then, compile it with <code class="docutils literal notranslate"><span class="pre">compile_model()</span></code> to the
 specified device.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize OpenVINO Runtime runtime.</span>
-<span class="n">ie_core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Initialize OpenVINO Runtime runtime.
+ie_core = Core()
 
 
-<span class="k">def</span> <span class="nf">model_init</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read the network and weights from file, load the</span>
-<span class="sd">    model on the CPU and get input and output names of nodes</span>
+def model_init(model_path: str) -&gt; Tuple:
+    &quot;&quot;&quot;
+    Read the network and weights from file, load the
+    model on the CPU and get input and output names of nodes
 
-<span class="sd">    :param: model: model architecture path *.xml</span>
-<span class="sd">    :retuns:</span>
-<span class="sd">            input_key: Input node network</span>
-<span class="sd">            output_key: Output node network</span>
-<span class="sd">            exec_net: Encoder model network</span>
-<span class="sd">            net: Model network</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    :param: model: model architecture path *.xml
+    :retuns:
+            input_key: Input node network
+            output_key: Output node network
+            exec_net: Encoder model network
+            net: Model network
+    &quot;&quot;&quot;
 
-    <span class="c1"># Read the network and corresponding weights from a file.</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_path</span><span class="p">)</span>
-    <span class="c1"># Compile the model for CPU (you can use GPU or MYRIAD as well).</span>
-    <span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie_core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-    <span class="c1"># Get input and output names of nodes.</span>
-    <span class="n">input_keys</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">output_keys</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">input_keys</span><span class="p">,</span> <span class="n">output_keys</span><span class="p">,</span> <span class="n">compiled_model</span>
+    # Read the network and corresponding weights from a file.
+    model = ie_core.read_model(model=model_path)
+    # Compile the model for CPU (you can use GPU or MYRIAD as well).
+    compiled_model = ie_core.compile_model(model=model, device_name=&quot;CPU&quot;)
+    # Get input and output names of nodes.
+    input_keys = compiled_model.input(0)
+    output_keys = compiled_model.output(0)
+    return input_keys, output_keys, compiled_model
 </pre></div>
 </div>
 <section id="get-attributes-from-model">
 <h2>Get attributes from model<a class="headerlink" href="#get-attributes-from-model" title="Permalink to this headline">¶</a></h2>
 <p>Use <code class="docutils literal notranslate"><span class="pre">input_keys.shape</span></code> to get data shapes.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># de -&gt; detection</span>
-<span class="c1"># re -&gt; recognition</span>
-<span class="c1"># Detection model initialization.</span>
-<span class="n">input_key_de</span><span class="p">,</span> <span class="n">output_keys_de</span><span class="p">,</span> <span class="n">compiled_model_de</span> <span class="o">=</span> <span class="n">model_init</span><span class="p">(</span><span class="n">detection_model_path</span><span class="p">)</span>
-<span class="c1"># Recognition model initialization.</span>
-<span class="n">input_key_re</span><span class="p">,</span> <span class="n">output_keys_re</span><span class="p">,</span> <span class="n">compiled_model_re</span> <span class="o">=</span> <span class="n">model_init</span><span class="p">(</span><span class="n">recognition_model_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># de -&gt; detection
+# re -&gt; recognition
+# Detection model initialization.
+input_key_de, output_keys_de, compiled_model_de = model_init(detection_model_path)
+# Recognition model initialization.
+input_key_re, output_keys_re, compiled_model_re = model_init(recognition_model_path)
 
-<span class="c1"># Get input size - Detection.</span>
-<span class="n">height_de</span><span class="p">,</span> <span class="n">width_de</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_key_de</span><span class="o">.</span><span class="n">shape</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-<span class="c1"># Get input size - Recognition.</span>
-<span class="n">height_re</span><span class="p">,</span> <span class="n">width_re</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_key_re</span><span class="o">.</span><span class="n">shape</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+# Get input size - Detection.
+height_de, width_de = list(input_key_de.shape)[2:]
+# Get input size - Recognition.
+height_re, width_re = list(input_key_re.shape)[2:]
 </pre></div>
 </div>
 </section>
 <section id="helper-function">
 <h2>Helper function<a class="headerlink" href="#helper-function" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">plt_show()</span></code> function is used to show image.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plt_show</span><span class="p">(</span><span class="n">raw_image</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Use matplot to show image inline</span>
-<span class="sd">    raw_image: input image</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plt_show(raw_image):
+    &quot;&quot;&quot;
+    Use matplot to show image inline
+    raw_image: input image
 
-<span class="sd">    :param: raw_image:image array</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">raw_image</span><span class="p">)</span>
+    :param: raw_image:image array
+    &quot;&quot;&quot;
+    plt.figure(figsize=(10, 6))
+    plt.axis(&quot;off&quot;)
+    plt.imshow(raw_image)
 </pre></div>
 </div>
 </section>
@@ -787,23 +787,23 @@ specified device.</p>
 <p>The input shape of detection model is <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">3,</span> <span class="pre">256,</span> <span class="pre">256]</span></code>. Therefore,
 you need to resize the image to <code class="docutils literal notranslate"><span class="pre">256</span> <span class="pre">x</span> <span class="pre">256</span></code>, and expand the batch
 channel with <code class="docutils literal notranslate"><span class="pre">expand_dims</span></code> function.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load an image.</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.openvinotoolkit.org/data/test_data/images/person-bicycle-car-detection.bmp&quot;</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;cars.jpg&quot;</span>
-<span class="n">directory</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span>
-<span class="n">image_file</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span>
-    <span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
-<span class="p">)</span>
-<span class="k">assert</span> <span class="n">Path</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load an image.
+url = &quot;https://storage.openvinotoolkit.org/data/test_data/images/person-bicycle-car-detection.bmp&quot;
+filename = &quot;cars.jpg&quot;
+directory = &quot;data&quot;
+image_file = utils.download_file(
+    url, filename=filename, directory=directory, show_progress=False, silent=True,timeout=30
+)
+assert Path(image_file).exists()
 
-<span class="c1"># Read the image.</span>
-<span class="n">image_de</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;data/cars.jpg&quot;</span><span class="p">)</span>
-<span class="c1"># Resize it to [3, 256, 256].</span>
-<span class="n">resized_image_de</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image_de</span><span class="p">,</span> <span class="p">(</span><span class="n">width_de</span><span class="p">,</span> <span class="n">height_de</span><span class="p">))</span>
-<span class="c1"># Expand the batch channel to [1, 3, 256, 256].</span>
-<span class="n">input_image_de</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image_de</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
-<span class="c1"># Show the image.</span>
-<span class="n">plt_show</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image_de</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+# Read the image.
+image_de = cv2.imread(&quot;data/cars.jpg&quot;)
+# Resize it to [3, 256, 256].
+resized_image_de = cv2.resize(image_de, (width_de, height_de))
+# Expand the batch channel to [1, 3, 256, 256].
+input_image_de = np.expand_dims(resized_image_de.transpose(2, 0, 1), 0)
+# Show the image.
+plt_show(cv2.cvtColor(image_de, cv2.COLOR_BGR2RGB))
 </pre></div>
 </div>
 <img alt="../_images/218-vehicle-detection-and-recognition-with-output_12_0.png" src="../_images/218-vehicle-detection-and-recognition-with-output_12_0.png" />
@@ -829,57 +829,57 @@ y_min, x_max, y_max], where:</p>
 <li><p>(x_max, y_max) - coordinates of the bottom right bounding box corner</p></li>
 </ul>
 <p>Delete unused dims and filter out results that are not used.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run inference.</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">compiled_model_de</span><span class="p">([</span><span class="n">input_image_de</span><span class="p">])[</span><span class="n">output_keys_de</span><span class="p">]</span>
-<span class="c1"># Delete the dim of 0, 1.</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c1"># Remove zero only boxes.</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">boxes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Run inference.
+boxes = compiled_model_de([input_image_de])[output_keys_de]
+# Delete the dim of 0, 1.
+boxes = np.squeeze(boxes, (0, 1))
+# Remove zero only boxes.
+boxes = boxes[~np.all(boxes == 0, axis=1)]
 </pre></div>
 </div>
 <section id="detection-processing">
 <h2>Detection Processing<a class="headerlink" href="#detection-processing" title="Permalink to this headline">¶</a></h2>
 <p>With the function below, you change the ratio to the real position in
 the image and filter out low-confidence results.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">crop_images</span><span class="p">(</span><span class="n">bgr_image</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Use bounding boxes from detection model to find the absolute car position</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def crop_images(bgr_image, resized_image, boxes, threshold=0.6) -&gt; np.ndarray:
+    &quot;&quot;&quot;
+    Use bounding boxes from detection model to find the absolute car position
 
-<span class="sd">    :param: bgr_image: raw image</span>
-<span class="sd">    :param: resized_image: resized image</span>
-<span class="sd">    :param: boxes: detection model returns rectangle position</span>
-<span class="sd">    :param: threshold: confidence threshold</span>
-<span class="sd">    :returns: car_position: car&#39;s absolute position</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Fetch image shapes to calculate ratio</span>
-    <span class="p">(</span><span class="n">real_y</span><span class="p">,</span> <span class="n">real_x</span><span class="p">),</span> <span class="p">(</span><span class="n">resized_y</span><span class="p">,</span> <span class="n">resized_x</span><span class="p">)</span> <span class="o">=</span> <span class="n">bgr_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">resized_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span> <span class="o">=</span> <span class="n">real_x</span> <span class="o">/</span> <span class="n">resized_x</span><span class="p">,</span> <span class="n">real_y</span> <span class="o">/</span> <span class="n">resized_y</span>
+    :param: bgr_image: raw image
+    :param: resized_image: resized image
+    :param: boxes: detection model returns rectangle position
+    :param: threshold: confidence threshold
+    :returns: car_position: car&#39;s absolute position
+    &quot;&quot;&quot;
+    # Fetch image shapes to calculate ratio
+    (real_y, real_x), (resized_y, resized_x) = bgr_image.shape[:2], resized_image.shape[:2]
+    ratio_x, ratio_y = real_x / resized_x, real_y / resized_y
 
-    <span class="c1"># Find the boxes ratio</span>
-    <span class="n">boxes</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span>
-    <span class="c1"># Store the vehicle&#39;s position</span>
-    <span class="n">car_position</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># Iterate through non-zero boxes</span>
-    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="c1"># Pick confidence factor from last place in array</span>
-        <span class="n">conf</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">conf</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
-            <span class="c1"># Convert float to int and multiply corner position of each box by x and y ratio</span>
-            <span class="c1"># In case that bounding box is found at the top of the image,</span>
-            <span class="c1"># we position upper box bar little bit lower to make it visible on image</span>
-            <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">corner_position</span> <span class="o">*</span> <span class="n">ratio_y</span> <span class="o">*</span> <span class="n">resized_y</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="mi">2</span>
-                <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">corner_position</span> <span class="o">*</span> <span class="n">ratio_x</span> <span class="o">*</span> <span class="n">resized_x</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">corner_position</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-            <span class="p">]</span>
+    # Find the boxes ratio
+    boxes = boxes[:, 2:]
+    # Store the vehicle&#39;s position
+    car_position = []
+    # Iterate through non-zero boxes
+    for box in boxes:
+        # Pick confidence factor from last place in array
+        conf = box[0]
+        if conf &gt; threshold:
+            # Convert float to int and multiply corner position of each box by x and y ratio
+            # In case that bounding box is found at the top of the image,
+            # we position upper box bar little bit lower to make it visible on image
+            (x_min, y_min, x_max, y_max) = [
+                int(max(corner_position * ratio_y * resized_y, 10)) if idx % 2
+                else int(corner_position * ratio_x * resized_x)
+                for idx, corner_position in enumerate(box[1:])
+            ]
 
-            <span class="n">car_position</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">])</span>
+            car_position.append([x_min, y_min, x_max, y_max])
 
-    <span class="k">return</span> <span class="n">car_position</span>
+    return car_position
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the position of a car.</span>
-<span class="n">car_position</span> <span class="o">=</span> <span class="n">crop_images</span><span class="p">(</span><span class="n">image_de</span><span class="p">,</span> <span class="n">resized_image_de</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the position of a car.
+car_position = crop_images(image_de, resized_image_de, boxes)
 </pre></div>
 </div>
 </section>
@@ -888,14 +888,14 @@ the image and filter out low-confidence results.</p>
 <p>Select one of the detected boxes. Then, crop to an area containing a
 vehicle to test with the recognition model. Again, you need to resize
 the input image and run inference.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select a vehicle to recognize.</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="n">car_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="c1"># Crop the image with [y_min:y_max, x_min:x_max].</span>
-<span class="n">test_car</span> <span class="o">=</span> <span class="n">image_de</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">pos</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
-<span class="c1"># Resize the image to input_size.</span>
-<span class="n">resized_image_re</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">test_car</span><span class="p">,</span> <span class="p">(</span><span class="n">width_re</span><span class="p">,</span> <span class="n">height_re</span><span class="p">))</span>
-<span class="n">input_image_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image_re</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">plt_show</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">resized_image_re</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select a vehicle to recognize.
+pos = car_position[0]
+# Crop the image with [y_min:y_max, x_min:x_max].
+test_car = image_de[pos[1]:pos[3], pos[0]:pos[2]]
+# Resize the image to input_size.
+resized_image_re = cv2.resize(test_car, (width_re, height_re))
+input_image_re = np.expand_dims(resized_image_re.transpose(2, 0, 1), 0)
+plt_show(cv2.cvtColor(resized_image_re, cv2.COLOR_BGR2RGB))
 </pre></div>
 </div>
 <img alt="../_images/218-vehicle-detection-and-recognition-with-output_19_0.png" src="../_images/218-vehicle-detection-and-recognition-with-output_19_0.png" />
@@ -905,37 +905,37 @@ the input image and run inference.</p>
 green, blue, black) and types of vehicles (car, bus, truck, van). Next,
 you need to calculate the probability of each attribute. Then, you
 determine the maximum probability as the result.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vehicle_recognition</span><span class="p">(</span><span class="n">compiled_model_re</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">raw_image</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Vehicle attributes recognition, input a single vehicle, return attributes</span>
-<span class="sd">    :param: compiled_model_re: recognition net</span>
-<span class="sd">    :param: input_size: recognition input size</span>
-<span class="sd">    :param: raw_image: single vehicle image</span>
-<span class="sd">    :returns: attr_color: predicted color</span>
-<span class="sd">                       attr_type: predicted type</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># An attribute of a vehicle.</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;White&#39;</span><span class="p">,</span> <span class="s1">&#39;Gray&#39;</span><span class="p">,</span> <span class="s1">&#39;Yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Black&#39;</span><span class="p">]</span>
-    <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">,</span> <span class="s1">&#39;Bus&#39;</span><span class="p">,</span> <span class="s1">&#39;Truck&#39;</span><span class="p">,</span> <span class="s1">&#39;Van&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def vehicle_recognition(compiled_model_re, input_size, raw_image):
+    &quot;&quot;&quot;
+    Vehicle attributes recognition, input a single vehicle, return attributes
+    :param: compiled_model_re: recognition net
+    :param: input_size: recognition input size
+    :param: raw_image: single vehicle image
+    :returns: attr_color: predicted color
+                       attr_type: predicted type
+    &quot;&quot;&quot;
+    # An attribute of a vehicle.
+    colors = [&#39;White&#39;, &#39;Gray&#39;, &#39;Yellow&#39;, &#39;Red&#39;, &#39;Green&#39;, &#39;Blue&#39;, &#39;Black&#39;]
+    types = [&#39;Car&#39;, &#39;Bus&#39;, &#39;Truck&#39;, &#39;Van&#39;]
 
-    <span class="c1"># Resize the image to input size.</span>
-    <span class="n">resized_image_re</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">raw_image</span><span class="p">,</span> <span class="n">input_size</span><span class="p">)</span>
-    <span class="n">input_image_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image_re</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    # Resize the image to input size.
+    resized_image_re = cv2.resize(raw_image, input_size)
+    input_image_re = np.expand_dims(resized_image_re.transpose(2, 0, 1), 0)
 
-    <span class="c1"># Run inference.</span>
-    <span class="c1"># Predict result.</span>
-    <span class="n">predict_colors</span> <span class="o">=</span> <span class="n">compiled_model_re</span><span class="p">([</span><span class="n">input_image_re</span><span class="p">])[</span><span class="n">compiled_model_re</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
-    <span class="c1"># Delete the dim of 2, 3.</span>
-    <span class="n">predict_colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">predict_colors</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">predict_types</span> <span class="o">=</span> <span class="n">compiled_model_re</span><span class="p">([</span><span class="n">input_image_re</span><span class="p">])[</span><span class="n">compiled_model_re</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
-    <span class="n">predict_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">predict_types</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    # Run inference.
+    # Predict result.
+    predict_colors = compiled_model_re([input_image_re])[compiled_model_re.output(1)]
+    # Delete the dim of 2, 3.
+    predict_colors = np.squeeze(predict_colors, (2, 3))
+    predict_types = compiled_model_re([input_image_re])[compiled_model_re.output(0)]
+    predict_types = np.squeeze(predict_types, (2, 3))
 
-    <span class="n">attr_color</span><span class="p">,</span> <span class="n">attr_type</span> <span class="o">=</span> <span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predict_colors</span><span class="p">)],</span>
-                             <span class="n">types</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predict_types</span><span class="p">)])</span>
-    <span class="k">return</span> <span class="n">attr_color</span><span class="p">,</span> <span class="n">attr_type</span>
+    attr_color, attr_type = (colors[np.argmax(predict_colors)],
+                             types[np.argmax(predict_types)])
+    return attr_color, attr_type
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attributes:</span><span class="si">{</span><span class="n">vehicle_recognition</span><span class="p">(</span><span class="n">compiled_model_re</span><span class="p">,</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">72</span><span class="p">),</span> <span class="n">test_car</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Attributes:{vehicle_recognition(compiled_model_re, (72, 72), test_car)}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Attributes</span><span class="p">:(</span><span class="s1">&#39;Gray&#39;</span><span class="p">,</span> <span class="s1">&#39;Car&#39;</span><span class="p">)</span>
@@ -947,56 +947,56 @@ determine the maximum probability as the result.</p>
 <h2>Combine two models<a class="headerlink" href="#combine-two-models" title="Permalink to this headline">¶</a></h2>
 <p>Congratulations! You successfully used a detection model to crop an
 image with a vehicle and recognize the attributes of a vehicle.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert_result_to_image</span><span class="p">(</span><span class="n">compiled_model_re</span><span class="p">,</span> <span class="n">bgr_image</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.6</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Use Detection model boxes to draw rectangles and plot the result</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def convert_result_to_image(compiled_model_re, bgr_image, resized_image, boxes, threshold=0.6):
+    &quot;&quot;&quot;
+    Use Detection model boxes to draw rectangles and plot the result
 
-<span class="sd">    :param: compiled_model_re: recognition net</span>
-<span class="sd">    :param: input_key_re: recognition input key</span>
-<span class="sd">    :param: bgr_image: raw image</span>
-<span class="sd">    :param: resized_image: resized image</span>
-<span class="sd">    :param: boxes: detection model returns rectangle position</span>
-<span class="sd">    :param: threshold: confidence threshold</span>
-<span class="sd">    :returns: rgb_image: processed image</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Define colors for boxes and descriptions.</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+    :param: compiled_model_re: recognition net
+    :param: input_key_re: recognition input key
+    :param: bgr_image: raw image
+    :param: resized_image: resized image
+    :param: boxes: detection model returns rectangle position
+    :param: threshold: confidence threshold
+    :returns: rgb_image: processed image
+    &quot;&quot;&quot;
+    # Define colors for boxes and descriptions.
+    colors = {&quot;red&quot;: (255, 0, 0), &quot;green&quot;: (0, 255, 0)}
 
-    <span class="c1"># Convert the base image from BGR to RGB format.</span>
-    <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">bgr_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+    # Convert the base image from BGR to RGB format.
+    rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
 
-    <span class="c1"># Find positions of cars.</span>
-    <span class="n">car_position</span> <span class="o">=</span> <span class="n">crop_images</span><span class="p">(</span><span class="n">image_de</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
+    # Find positions of cars.
+    car_position = crop_images(image_de, resized_image, boxes)
 
-    <span class="k">for</span> <span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span> <span class="ow">in</span> <span class="n">car_position</span><span class="p">:</span>
-        <span class="c1"># Run vehicle recognition inference.</span>
-        <span class="n">attr_color</span><span class="p">,</span> <span class="n">attr_type</span> <span class="o">=</span> <span class="n">vehicle_recognition</span><span class="p">(</span><span class="n">compiled_model_re</span><span class="p">,</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">72</span><span class="p">),</span>
-                                                    <span class="n">image_de</span><span class="p">[</span><span class="n">y_min</span><span class="p">:</span><span class="n">y_max</span><span class="p">,</span> <span class="n">x_min</span><span class="p">:</span><span class="n">x_max</span><span class="p">])</span>
+    for x_min, y_min, x_max, y_max in car_position:
+        # Run vehicle recognition inference.
+        attr_color, attr_type = vehicle_recognition(compiled_model_re, (72, 72),
+                                                    image_de[y_min:y_max, x_min:x_max])
 
-        <span class="c1"># Close the window with a vehicle.</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        # Close the window with a vehicle.
+        plt.close()
 
-        <span class="c1"># Draw a bounding box based on position.</span>
-        <span class="c1"># Parameters in the `rectangle` function are: image, start_point, end_point, color, thickness.</span>
-        <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">rgb_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">),</span> <span class="p">(</span><span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">),</span> <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+        # Draw a bounding box based on position.
+        # Parameters in the `rectangle` function are: image, start_point, end_point, color, thickness.
+        rgb_image = cv2.rectangle(rgb_image, (x_min, y_min), (x_max, y_max), colors[&quot;red&quot;], 2)
 
-        <span class="c1"># Print the attributes of a vehicle.</span>
-        <span class="c1"># Parameters in the `putText` function are: img, text, org, fontFace, fontScale, color, thickness, lineType.</span>
-        <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
-            <span class="n">rgb_image</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr_color</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">attr_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
-            <span class="mi">2</span><span class="p">,</span>
-            <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;green&quot;</span><span class="p">],</span>
-            <span class="mi">10</span><span class="p">,</span>
-            <span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span>
-        <span class="p">)</span>
+        # Print the attributes of a vehicle.
+        # Parameters in the `putText` function are: img, text, org, fontFace, fontScale, color, thickness, lineType.
+        rgb_image = cv2.putText(
+            rgb_image,
+            f&quot;{attr_color} {attr_type}&quot;,
+            (x_min, y_min - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            2,
+            colors[&quot;green&quot;],
+            10,
+            cv2.LINE_AA
+        )
 
-    <span class="k">return</span> <span class="n">rgb_image</span>
+    return rgb_image
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt_show</span><span class="p">(</span><span class="n">convert_result_to_image</span><span class="p">(</span><span class="n">compiled_model_re</span><span class="p">,</span> <span class="n">image_de</span><span class="p">,</span> <span class="n">resized_image_de</span><span class="p">,</span> <span class="n">boxes</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt_show(convert_result_to_image(compiled_model_re, image_de, resized_image_de, boxes))
 </pre></div>
 </div>
 <img alt="../_images/218-vehicle-detection-and-recognition-with-output_25_0.png" src="../_images/218-vehicle-detection-and-recognition-with-output_25_0.png" />

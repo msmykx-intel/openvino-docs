@@ -586,106 +586,106 @@ bounding box corner and <code class="docutils literal notranslate"><span class="
 class.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from openvino.runtime import Core
 </pre></div>
 </div>
 </section>
 <section id="load-the-model">
 <h2>Load the Model<a class="headerlink" href="#load-the-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;model/horizontal-text-detection-0001.xml&quot;</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+model = ie.read_model(model=&quot;model/horizontal-text-detection-0001.xml&quot;)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="n">input_layer_ir</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer_ir</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;boxes&quot;</span><span class="p">)</span>
+input_layer_ir = compiled_model.input(0)
+output_layer_ir = compiled_model.output(&quot;boxes&quot;)
 </pre></div>
 </div>
 </section>
 <section id="load-an-image">
 <h2>Load an Image<a class="headerlink" href="#load-an-image" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Text detection models expect an image in BGR format.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;data/intel_rnb.jpg&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Text detection models expect an image in BGR format.
+image = cv2.imread(&quot;data/intel_rnb.jpg&quot;)
 
-<span class="c1"># N,C,H,W = batch size, number of channels, height, width.</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">input_layer_ir</span><span class="o">.</span><span class="n">shape</span>
+# N,C,H,W = batch size, number of channels, height, width.
+N, C, H, W = input_layer_ir.shape
 
-<span class="c1"># Resize the image to meet network expected input sizes.</span>
-<span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+# Resize the image to meet network expected input sizes.
+resized_image = cv2.resize(image, (W, H))
 
-<span class="c1"># Reshape to the network input shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">resized_image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+# Reshape to the network input shape.
+input_image = np.expand_dims(resized_image.transpose(2, 0, 1), 0)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <img alt="../_images/004-hello-detection-with-output_6_0.png" src="../_images/004-hello-detection-with-output_6_0.png" />
 </section>
 <section id="do-inference">
 <h2>Do Inference<a class="headerlink" href="#do-inference" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an inference request.</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer_ir</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create an inference request.
+boxes = compiled_model([input_image])[output_layer_ir]
 
-<span class="c1"># Remove zero only boxes.</span>
-<span class="n">boxes</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">boxes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+# Remove zero only boxes.
+boxes = boxes[~np.all(boxes == 0, axis=1)]
 </pre></div>
 </div>
 </section>
 <section id="visualize-results">
 <h2>Visualize Results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For each detection, the description is in the [x_min, y_min, x_max, y_max, conf] format:</span>
-<span class="c1"># The image passed here is in BGR format with changed width and height. To display it in colors expected by matplotlib, use cvtColor function</span>
-<span class="k">def</span> <span class="nf">convert_result_to_image</span><span class="p">(</span><span class="n">bgr_image</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">conf_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="c1"># Define colors for boxes and descriptions.</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># For each detection, the description is in the [x_min, y_min, x_max, y_max, conf] format:
+# The image passed here is in BGR format with changed width and height. To display it in colors expected by matplotlib, use cvtColor function
+def convert_result_to_image(bgr_image, resized_image, boxes, threshold=0.3, conf_labels=True):
+    # Define colors for boxes and descriptions.
+    colors = {&quot;red&quot;: (255, 0, 0), &quot;green&quot;: (0, 255, 0)}
 
-    <span class="c1"># Fetch the image shapes to calculate a ratio.</span>
-    <span class="p">(</span><span class="n">real_y</span><span class="p">,</span> <span class="n">real_x</span><span class="p">),</span> <span class="p">(</span><span class="n">resized_y</span><span class="p">,</span> <span class="n">resized_x</span><span class="p">)</span> <span class="o">=</span> <span class="n">bgr_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">resized_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span> <span class="o">=</span> <span class="n">real_x</span> <span class="o">/</span> <span class="n">resized_x</span><span class="p">,</span> <span class="n">real_y</span> <span class="o">/</span> <span class="n">resized_y</span>
+    # Fetch the image shapes to calculate a ratio.
+    (real_y, real_x), (resized_y, resized_x) = bgr_image.shape[:2], resized_image.shape[:2]
+    ratio_x, ratio_y = real_x / resized_x, real_y / resized_y
 
-    <span class="c1"># Convert the base image from BGR to RGB format.</span>
-    <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">bgr_image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+    # Convert the base image from BGR to RGB format.
+    rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
 
-    <span class="c1"># Iterate through non-zero boxes.</span>
-    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-        <span class="c1"># Pick a confidence factor from the last place in an array.</span>
-        <span class="n">conf</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">conf</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
-            <span class="c1"># Convert float to int and multiply corner position of each box by x and y ratio.</span>
-            <span class="c1"># If the bounding box is found at the top of the image,</span>
-            <span class="c1"># position the upper box bar little lower to make it visible on the image.</span>
-            <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">corner_position</span> <span class="o">*</span> <span class="n">ratio_y</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="mi">2</span>
-                <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">corner_position</span> <span class="o">*</span> <span class="n">ratio_x</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">corner_position</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">box</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="p">]</span>
+    # Iterate through non-zero boxes.
+    for box in boxes:
+        # Pick a confidence factor from the last place in an array.
+        conf = box[-1]
+        if conf &gt; threshold:
+            # Convert float to int and multiply corner position of each box by x and y ratio.
+            # If the bounding box is found at the top of the image,
+            # position the upper box bar little lower to make it visible on the image.
+            (x_min, y_min, x_max, y_max) = [
+                int(max(corner_position * ratio_y, 10)) if idx % 2
+                else int(corner_position * ratio_x)
+                for idx, corner_position in enumerate(box[:-1])
+            ]
 
-            <span class="c1"># Draw a box based on the position, parameters in rectangle function are: image, start_point, end_point, color, thickness.</span>
-            <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">rgb_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">),</span> <span class="p">(</span><span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span><span class="p">),</span> <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;green&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+            # Draw a box based on the position, parameters in rectangle function are: image, start_point, end_point, color, thickness.
+            rgb_image = cv2.rectangle(rgb_image, (x_min, y_min), (x_max, y_max), colors[&quot;green&quot;], 3)
 
-            <span class="c1"># Add text to the image based on position and confidence.</span>
-            <span class="c1"># Parameters in text function are: image, text, bottom-left_corner_textfield, font, font_scale, color, thickness, line_type.</span>
-            <span class="k">if</span> <span class="n">conf_labels</span><span class="p">:</span>
-                <span class="n">rgb_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
-                    <span class="n">rgb_image</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">conf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
-                    <span class="mf">0.8</span><span class="p">,</span>
-                    <span class="n">colors</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">],</span>
-                    <span class="mi">1</span><span class="p">,</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span><span class="p">,</span>
-                <span class="p">)</span>
+            # Add text to the image based on position and confidence.
+            # Parameters in text function are: image, text, bottom-left_corner_textfield, font, font_scale, color, thickness, line_type.
+            if conf_labels:
+                rgb_image = cv2.putText(
+                    rgb_image,
+                    f&quot;{conf:.2f}&quot;,
+                    (x_min, y_min - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    colors[&quot;red&quot;],
+                    1,
+                    cv2.LINE_AA,
+                )
 
-    <span class="k">return</span> <span class="n">rgb_image</span>
+    return rgb_image
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">convert_result_to_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">resized_image</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">conf_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure(figsize=(10, 6))
+plt.axis(&quot;off&quot;)
+plt.imshow(convert_result_to_image(image, resized_image, boxes, conf_labels=False));
 </pre></div>
 </div>
 <img alt="../_images/004-hello-detection-with-output_11_0.png" src="../_images/004-hello-detection-with-output_11_0.png" />

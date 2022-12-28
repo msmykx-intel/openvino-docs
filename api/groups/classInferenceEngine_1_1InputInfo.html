@@ -324,6 +324,7 @@
     <a class="reference internal" href="enumInferenceEngine_1_1Layout.html#doxid-namespace-inference-engine-1a246d143abc5ca07da8d2cadeeb88fdb8"><span class="std std-ref">Layout</span></a><span></span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1a150439ea99908a822fca3c068e76b44a"><span class="std std-ref">getLayout</span></a><span></span><span class="p">();</span>
     <span class="kt">void</span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1ae201671bc62fced623fe4b800ff5bcb2"><span class="std std-ref">setLayout</span></a><span></span><span class="p">(</span><a class="reference internal" href="enumInferenceEngine_1_1Layout.html#doxid-namespace-inference-engine-1a246d143abc5ca07da8d2cadeeb88fdb8"><span class="std std-ref">Layout</span></a><span></span> <span class="n">l</span><span class="p">);</span>
     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1aae78485e93433ffb4169afaa6b68c707"><span class="std std-ref">name</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="kt">void</span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1aa31478ee78084db50f63c4d1f6e90563"><span class="std std-ref">setName</span></a><span></span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">newName</span><span class="p">);</span>
     <a class="reference internal" href="namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a91f97c826d2753815815c119ba383e63"><span class="std std-ref">DataPtr</span></a><span></span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1a66d2b4718f7d693535f4e723edf1d681"><span class="std std-ref">getInputData</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
     <span class="kt">void</span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1aa4e516d5ab5da581b6e2ff8f48b73023"><span class="std std-ref">setInputData</span></a><span></span><span class="p">(</span><a class="reference internal" href="namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a91f97c826d2753815815c119ba383e63"><span class="std std-ref">DataPtr</span></a><span></span> <span class="n">inputPtr</span><span class="p">);</span>
     <span class="k">const</span> <a class="reference internal" href="classInferenceEngine_1_1TensorDesc.html#doxid-class-inference-engine-1-1-tensor-desc"><span class="std std-ref">TensorDesc</span></a><span></span><span class="o">&amp;</span> <a class="reference internal" href="#doxid-class-inference-engine-1-1-input-info-1ad4eebc40e65b44c2b1edd353d93a512e"><span class="std std-ref">getTensorDesc</span></a><span></span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
@@ -379,6 +380,19 @@
 <span class="target" id="doxid-class-inference-engine-1-1-input-info-1aae78485e93433ffb4169afaa6b68c707"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span></pre></div></div><p>Gets the name of the input.</p>
 <p class="rubric">Returns:</p>
 <p>A string - the name of the input</p>
+<span class="target" id="doxid-class-inference-engine-1-1-input-info-1aa31478ee78084db50f63c4d1f6e90563"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">setName</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">newName</span><span class="p">)</span></pre></div></div><p>Changes the name of the input data provided by the user.</p>
+<p class="rubric">Parameters:</p>
+<table class="colwidths-given table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>newName</p></td>
+<td><p>A new name of the input data to set</p></td>
+</tr>
+</tbody>
+</table>
 <span class="target" id="doxid-class-inference-engine-1-1-input-info-1a66d2b4718f7d693535f4e723edf1d681"></span><div class="highlight doxyrest-title-code-block"><div class="highlight"><pre><a class="reference internal" href="namespaceInferenceEngine.html#doxid-namespace-inference-engine-1a91f97c826d2753815815c119ba383e63"><span class="std std-ref">DataPtr</span></a><span></span> <span class="n">getInputData</span><span class="p">()</span> <span class="k">const</span></pre></div></div><p>Gets the input data.</p>
 <p class="rubric">Returns:</p>
 <p>A smart pointer to the input data</p>

@@ -2228,6 +2228,17 @@ This file can be used as a parameter for <span class="xref myst">Model Downloade
 <li><p>yolof</p></li>
 </ul>
 </li>
+<li><p>architecture_type = yolov3-onnx</p>
+<ul>
+<li><p>yolo-v3-onnx</p></li>
+<li><p>yolo-v3-tiny-onnx</p></li>
+</ul>
+</li>
+<li><p>architecture_type = yolox</p>
+<ul>
+<li><p>yolox-tiny</p></li>
+</ul>
+</li>
 </ul>
 <blockquote>
 <div><p><strong>NOTE</strong>: Refer to the tables <a class="reference internal" href="../../../models/intel/device_support.html"><span class="doc std std-doc">Intel’s Pre-Trained Models Device Support</span></a> and <a class="reference internal" href="../../../models/public/device_support.html"><span class="doc std std-doc">Public Pre-Trained Models Device Support</span></a> for the details on models inference support at different devices.</p>
@@ -2241,7 +2252,7 @@ This file can be used as a parameter for <span class="xref myst">Model Downloade
 <span class="n">Options</span><span class="p">:</span>
 
     <span class="o">-</span><span class="n">h</span>                        <span class="n">Print</span> <span class="n">a</span> <span class="n">usage</span> <span class="n">message</span><span class="o">.</span>
-    <span class="o">-</span><span class="n">at</span> <span class="s2">&quot;&lt;type&gt;&quot;</span>              <span class="n">Required</span><span class="o">.</span> <span class="n">Architecture</span> <span class="nb">type</span><span class="p">:</span> <span class="n">centernet</span><span class="p">,</span> <span class="n">faceboxes</span><span class="p">,</span> <span class="n">retinaface</span><span class="p">,</span> <span class="n">retinaface</span><span class="o">-</span><span class="n">pytorch</span><span class="p">,</span> <span class="n">ssd</span> <span class="ow">or</span> <span class="n">yolo</span>
+    <span class="o">-</span><span class="n">at</span> <span class="s2">&quot;&lt;type&gt;&quot;</span>              <span class="n">Required</span><span class="o">.</span> <span class="n">Architecture</span> <span class="nb">type</span><span class="p">:</span> <span class="n">centernet</span><span class="p">,</span> <span class="n">faceboxes</span><span class="p">,</span> <span class="n">retinaface</span><span class="p">,</span> <span class="n">retinaface</span><span class="o">-</span><span class="n">pytorch</span><span class="p">,</span> <span class="n">ssd</span><span class="p">,</span> <span class="n">yolo</span><span class="p">,</span> <span class="n">yolov3</span><span class="o">-</span><span class="n">onnx</span> <span class="ow">or</span> <span class="n">yolox</span>
     <span class="o">-</span><span class="n">i</span>                        <span class="n">Required</span><span class="o">.</span> <span class="n">An</span> <span class="nb">input</span> <span class="n">to</span> <span class="n">process</span><span class="o">.</span> <span class="n">The</span> <span class="nb">input</span> <span class="n">must</span> <span class="n">be</span> <span class="n">a</span> <span class="n">single</span> <span class="n">image</span><span class="p">,</span> <span class="n">a</span> <span class="n">folder</span> <span class="n">of</span> <span class="n">images</span><span class="p">,</span> <span class="n">video</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">camera</span> <span class="nb">id</span><span class="o">.</span>
     <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;path&gt;&quot;</span>               <span class="n">Required</span><span class="o">.</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">an</span> <span class="o">.</span><span class="n">xml</span> <span class="n">file</span> <span class="k">with</span> <span class="n">a</span> <span class="n">trained</span> <span class="n">model</span><span class="o">.</span>
     <span class="o">-</span><span class="n">o</span> <span class="s2">&quot;&lt;path&gt;&quot;</span>               <span class="n">Optional</span><span class="o">.</span> <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">output</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">to</span> <span class="n">save</span><span class="o">.</span>

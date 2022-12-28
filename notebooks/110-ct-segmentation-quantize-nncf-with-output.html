@@ -704,89 +704,89 @@ use, please use a representative dataset for quantizing the model.</p>
 </section>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On Windows, try to find the directory that contains x64 cl.exe and add it to the PATH to enable PyTorch</span>
-<span class="c1"># to find the required C++ tools. This code assumes that Visual Studio is installed in the default</span>
-<span class="c1"># directory. If you have a different C++ compiler, please add the correct path to os.environ[&quot;PATH&quot;]</span>
-<span class="c1"># directly. Note that the C++ Redistributable is not enough to run this notebook.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On Windows, try to find the directory that contains x64 cl.exe and add it to the PATH to enable PyTorch
+# to find the required C++ tools. This code assumes that Visual Studio is installed in the default
+# directory. If you have a different C++ compiler, please add the correct path to os.environ[&quot;PATH&quot;]
+# directly. Note that the C++ Redistributable is not enough to run this notebook.
 
-<span class="c1"># Adding the path to os.environ[&quot;LIB&quot;] is not always required - it depends on the system&#39;s configuration</span>
+# Adding the path to os.environ[&quot;LIB&quot;] is not always required - it depends on the system&#39;s configuration
 
-<span class="kn">import</span> <span class="nn">sys</span>
+import sys
 
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">distutils.command.build_ext</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+if sys.platform == &quot;win32&quot;:
+    import distutils.command.build_ext
+    import os
+    from pathlib import Path
 
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">getwindowsversion</span><span class="p">()</span><span class="o">.</span><span class="n">build</span> <span class="o">&gt;=</span> <span class="mi">20000</span><span class="p">:</span>  <span class="c1"># Windows 11</span>
-        <span class="n">search_path</span> <span class="o">=</span> <span class="s2">&quot;**/Hostx64/x64/cl.exe&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">search_path</span> <span class="o">=</span> <span class="s2">&quot;**/Hostx86/x64/cl.exe&quot;</span>
+    if sys.getwindowsversion().build &gt;= 20000:  # Windows 11
+        search_path = &quot;**/Hostx64/x64/cl.exe&quot;
+    else:
+        search_path = &quot;**/Hostx86/x64/cl.exe&quot;
 
-    <span class="n">VS_INSTALL_DIR_2019</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:/Program Files (x86)/Microsoft Visual Studio&quot;</span>
-    <span class="n">VS_INSTALL_DIR_2022</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:/Program Files/Microsoft Visual Studio&quot;</span>
+    VS_INSTALL_DIR_2019 = r&quot;C:/Program Files (x86)/Microsoft Visual Studio&quot;
+    VS_INSTALL_DIR_2022 = r&quot;C:/Program Files/Microsoft Visual Studio&quot;
 
-    <span class="n">cl_paths_2019</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">VS_INSTALL_DIR_2019</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">search_path</span><span class="p">)))</span>
-    <span class="n">cl_paths_2022</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">VS_INSTALL_DIR_2022</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">search_path</span><span class="p">)))</span>
-    <span class="n">cl_paths</span> <span class="o">=</span> <span class="n">cl_paths_2019</span> <span class="o">+</span> <span class="n">cl_paths_2022</span>
+    cl_paths_2019 = sorted(list(Path(VS_INSTALL_DIR_2019).glob(search_path)))
+    cl_paths_2022 = sorted(list(Path(VS_INSTALL_DIR_2022).glob(search_path)))
+    cl_paths = cl_paths_2019 + cl_paths_2022
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cl_paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Cannot find Visual Studio. This notebook requires an x64 C++ compiler. If you installed &quot;</span>
-            <span class="s2">&quot;a C++ compiler, please add the directory that contains cl.exe to `os.environ[&#39;PATH&#39;]`.&quot;</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># If multiple versions of MSVC are installed, get the most recent version</span>
-        <span class="n">cl_path</span> <span class="o">=</span> <span class="n">cl_paths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">vs_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cl_path</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="si">}{</span><span class="n">vs_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="c1"># Code for finding the library dirs from</span>
-        <span class="c1"># https://stackoverflow.com/questions/47423246/get-pythons-lib-path</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Distribution</span><span class="p">()</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">build_ext</span><span class="o">.</span><span class="n">build_ext</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-        <span class="n">b</span><span class="o">.</span><span class="n">finalize_options</span><span class="p">()</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LIB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">library_dirs</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="n">vs_dir</span><span class="si">}</span><span class="s2"> to PATH&quot;</span><span class="p">)</span>
+    if len(cl_paths) == 0:
+        raise ValueError(
+            &quot;Cannot find Visual Studio. This notebook requires an x64 C++ compiler. If you installed &quot;
+            &quot;a C++ compiler, please add the directory that contains cl.exe to `os.environ[&#39;PATH&#39;]`.&quot;
+        )
+    else:
+        # If multiple versions of MSVC are installed, get the most recent version
+        cl_path = cl_paths[-1]
+        vs_dir = str(cl_path.parent)
+        os.environ[&quot;PATH&quot;] += f&quot;{os.pathsep}{vs_dir}&quot;
+        # Code for finding the library dirs from
+        # https://stackoverflow.com/questions/47423246/get-pythons-lib-path
+        d = distutils.core.Distribution()
+        b = distutils.command.build_ext.build_ext(d)
+        b.finalize_options()
+        os.environ[&quot;LIB&quot;] = os.pathsep.join(b.library_dirs)
+        print(f&quot;Added {vs_dir} to PATH&quot;)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import logging
+import os
+import random
+import sys
+import time
+import warnings
+import zipfile
+from pathlib import Path
 
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+warnings.filterwarnings(&quot;ignore&quot;, category=UserWarning)
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">monai</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">monai.transforms</span> <span class="kn">import</span> <span class="n">LoadImage</span>
-<span class="kn">from</span> <span class="nn">nncf.common.utils.logger</span> <span class="kn">import</span> <span class="n">set_log_level</span>
-<span class="kn">from</span> <span class="nn">openvino.inference_engine</span> <span class="kn">import</span> <span class="n">IECore</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">torch.jit</span> <span class="kn">import</span> <span class="n">TracerWarning</span>
-<span class="kn">from</span> <span class="nn">torchmetrics</span> <span class="kn">import</span> <span class="n">F1</span>
+import cv2
+import matplotlib.pyplot as plt
+import monai
+import numpy as np
+import torch
+from monai.transforms import LoadImage
+from nncf.common.utils.logger import set_log_level
+from openvino.inference_engine import IECore
+from openvino.runtime import Core
+from torch.jit import TracerWarning
+from torchmetrics import F1
 
-<span class="n">set_log_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>  <span class="c1"># Disables all NNCF info and warning messages</span>
+set_log_level(logging.ERROR)  # Disables all NNCF info and warning messages
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">models.custom_segmentation</span> <span class="kn">import</span> <span class="n">SegmentationModel</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">NotebookAlert</span><span class="p">,</span> <span class="n">benchmark_model</span><span class="p">,</span> <span class="n">download_file</span><span class="p">,</span> <span class="n">show_live_inference</span>
+sys.path.append(&quot;../utils&quot;)
+from models.custom_segmentation import SegmentationModel
+from notebook_utils import NotebookAlert, benchmark_model, download_file, show_live_inference
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">subprocess</span>
+try:
+    import subprocess
 
-    <span class="kn">from</span> <span class="nn">nncf</span> <span class="kn">import</span> <span class="n">NNCFConfig</span>
-    <span class="kn">from</span> <span class="nn">nncf.torch</span> <span class="kn">import</span> <span class="n">create_compressed_model</span><span class="p">,</span> <span class="n">register_default_init_args</span>
-<span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;WARNING: Running this notebook requires an x64 C++ compiler.&quot;</span>
-    <span class="n">NotebookAlert</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">alert_class</span><span class="o">=</span><span class="s2">&quot;warning&quot;</span><span class="p">)</span>
-    <span class="k">raise</span>
+    from nncf import NNCFConfig
+    from nncf.torch import create_compressed_model, register_default_init_args
+except subprocess.CalledProcessError:
+    message = &quot;WARNING: Running this notebook requires an x64 C++ compiler.&quot;
+    NotebookAlert(message=message, alert_class=&quot;warning&quot;)
+    raise
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">CUDA</span> <span class="n">runtime</span> <span class="ow">is</span> <span class="n">found</span><span class="p">,</span> <span class="n">using</span> <span class="n">CUDA_HOME</span><span class="o">=</span><span class="s1">&#39;/usr/local/cuda&#39;</span>
@@ -799,11 +799,11 @@ use, please use a representative dataset for quantizing the model.</p>
 dataset, and use that for quantization. To use the full dataset, set
 <code class="docutils literal notranslate"><span class="pre">BASEDIR</span></code> to the path of the dataset, as prepared according to the
 <a class="reference external" href="data-preparation-ct-scan.ipynb">Data Preparation</a> notebook.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BASEDIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;kits19_frames_1&quot;</span><span class="p">)</span>
-<span class="c1"># Uncomment the line below to use the full dataset, as prepared in the data preparation notebook</span>
-<span class="c1"># BASEDIR = Path(&quot;~/kits19/kits19_frames&quot;).expanduser()</span>
-<span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">MODEL_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>BASEDIR = Path(&quot;kits19_frames_1&quot;)
+# Uncomment the line below to use the full dataset, as prepared in the data preparation notebook
+# BASEDIR = Path(&quot;~/kits19/kits19_frames&quot;).expanduser()
+MODEL_DIR = Path(&quot;model&quot;)
+MODEL_DIR.mkdir(exist_ok=True)
 </pre></div>
 </div>
 </section>
@@ -816,18 +816,18 @@ notebook is a
 model from <a class="reference external" href="https://monai.io">MONAI</a>. We provide a pretrained
 checkpoint. To see how this model yourself, check out the <a class="reference external" href="pytorch-monai-training.ipynb">training
 notebook</a>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state_dict_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/helena-intel/openvino_notebooks/raw/110-nncf/notebooks/110-ct-segmentation-quantize/pretrained_model/unet_kits19_state_dict.pth&quot;</span>
-<span class="n">state_dict_file</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">state_dict_url</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s2">&quot;pretrained_model&quot;</span><span class="p">)</span>
-<span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">state_dict_file</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>state_dict_url = &quot;https://github.com/helena-intel/openvino_notebooks/raw/110-nncf/notebooks/110-ct-segmentation-quantize/pretrained_model/unet_kits19_state_dict.pth&quot;
+state_dict_file = download_file(state_dict_url, directory=&quot;pretrained_model&quot;)
+state_dict = torch.load(state_dict_file, map_location=torch.device(&quot;cpu&quot;))
 
-<span class="n">new_state_dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">new_key</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_model.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">new_state_dict</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-<span class="n">new_state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;loss_function.pos_weight&quot;</span><span class="p">)</span>
+new_state_dict = {}
+for k, v in state_dict.items():
+    new_key = k.replace(&quot;_model.&quot;, &quot;&quot;)
+    new_state_dict[new_key] = v
+new_state_dict.pop(&quot;loss_function.pos_weight&quot;)
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">monai</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">nets</span><span class="o">.</span><span class="n">BasicUNet</span><span class="p">(</span><span class="n">spatial_dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">new_state_dict</span><span class="p">)</span>
+model = monai.networks.nets.BasicUNet(spatial_dims=2, in_channels=1, out_channels=1).eval()
+model.load_state_dict(new_state_dict)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>pretrained_model/unet_kits19_state_dict.pth:   0%|          | 0.00/7.58M [00:00&lt;?, ?B/s]
@@ -842,10 +842,10 @@ notebook</a>.</p>
 <p>We export the PyTorch model to ONNX and convert it to OpenVINO IR, for
 comparing the performance of the FP32 and INT8 model later in this
 notebook</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
-<span class="n">fp32_onnx_path</span> <span class="o">=</span> <span class="n">MODEL_DIR</span> <span class="o">/</span> <span class="s2">&quot;unet_kits19_fp32.onnx&quot;</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dummy_input</span><span class="p">,</span> <span class="n">fp32_onnx_path</span><span class="p">)</span>
-<span class="o">!</span>mo --input_model <span class="s2">&quot;</span><span class="nv">$fp32_onnx_path</span><span class="s2">&quot;</span> --output_dir <span class="nv">$MODEL_DIR</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_input = torch.randn(1, 1, 512, 512)
+fp32_onnx_path = MODEL_DIR / &quot;unet_kits19_fp32.onnx&quot;
+torch.onnx.export(model, dummy_input, fp32_onnx_path)
+!mo --input_model &quot;$fp32_onnx_path&quot; --output_dir $MODEL_DIR
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">monai</span><span class="o">/</span><span class="n">networks</span><span class="o">/</span><span class="n">nets</span><span class="o">/</span><span class="n">basic_unet</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">179</span><span class="p">:</span> <span class="n">TracerWarning</span><span class="p">:</span> <span class="n">Converting</span> <span class="n">a</span> <span class="n">tensor</span> <span class="n">to</span> <span class="n">a</span> <span class="n">Python</span> <span class="n">boolean</span> <span class="n">might</span> <span class="n">cause</span> <span class="n">the</span> <span class="n">trace</span> <span class="n">to</span> <span class="n">be</span> <span class="n">incorrect</span><span class="o">.</span> <span class="n">We</span> <span class="n">can</span><span class="s1">&#39;t record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!</span>
@@ -893,20 +893,20 @@ notebook</p>
 </section>
 <section id="download-ct-scan-data">
 <h2>Download CT-scan Data<a class="headerlink" href="#download-ct-scan-data" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The CT scan case number. For example: 2 for data from the case_00002 directory</span>
-<span class="c1"># Currently only 117 is supported</span>
-<span class="n">CASE</span> <span class="o">=</span> <span class="mi">117</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">BASEDIR</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">BASEDIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;https://storage.openvinotoolkit.org/data/test_data/openvino_notebooks/kits19/case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">.zip&quot;</span>
-    <span class="p">)</span>
-    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
-        <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">BASEDIR</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>  <span class="c1"># remove zipfile</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloaded and extracted data for case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data for case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2"> exists&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The CT scan case number. For example: 2 for data from the case_00002 directory
+# Currently only 117 is supported
+CASE = 117
+if not (BASEDIR / f&quot;case_{CASE:05d}&quot;).exists():
+    BASEDIR.mkdir(exist_ok=True)
+    filename = download_file(
+        f&quot;https://storage.openvinotoolkit.org/data/test_data/openvino_notebooks/kits19/case_{CASE:05d}.zip&quot;
+    )
+    with zipfile.ZipFile(filename, &quot;r&quot;) as zip_ref:
+        zip_ref.extractall(path=BASEDIR)
+    os.remove(filename)  # remove zipfile
+    print(f&quot;Downloaded and extracted data for case_{CASE:05d}&quot;)
+else:
+    print(f&quot;Data for case_{CASE:05d} exists&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>case_00117.zip:   0%|          | 0.00/5.48M [00:00&lt;?, ?B/s]
@@ -929,55 +929,55 @@ notebook</a>.</p>
 to align with the image loading method in the training notebook. This
 method rotates and flips the images. We define a <code class="docutils literal notranslate"><span class="pre">rotate_and_flip</span></code>
 method to display the images in the expected orientation.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rotate_and_flip</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Rotate `image` by 90 degrees and flip horizontally&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">rotateCode</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">ROTATE_90_CLOCKWISE</span><span class="p">),</span> <span class="n">flipCode</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def rotate_and_flip(image):
+    &quot;&quot;&quot;Rotate `image` by 90 degrees and flip horizontally&quot;&quot;&quot;
+    return cv2.flip(cv2.rotate(image, rotateCode=cv2.ROTATE_90_CLOCKWISE), flipCode=1)
 
 
-<span class="k">class</span> <span class="nc">KitsDataset</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basedir</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Dataset class for prepared Kits19 data, for binary segmentation (background/kidney)</span>
-<span class="sd">        Source data should exist in basedir, in subdirectories case_00000 until case_00210,</span>
-<span class="sd">        with each subdirectory containing directories imaging_frames, with jpg images, and</span>
-<span class="sd">        segmentation_frames with segmentation masks as png files.</span>
-<span class="sd">        See https://github.com/openvinotoolkit/openvino_notebooks/blob/main/notebooks/110-ct-segmentation-quantize/data-preparation-ct-scan.ipynb</span>
+class KitsDataset:
+    def __init__(self, basedir: str):
+        &quot;&quot;&quot;
+        Dataset class for prepared Kits19 data, for binary segmentation (background/kidney)
+        Source data should exist in basedir, in subdirectories case_00000 until case_00210,
+        with each subdirectory containing directories imaging_frames, with jpg images, and
+        segmentation_frames with segmentation masks as png files.
+        See https://github.com/openvinotoolkit/openvino_notebooks/blob/main/notebooks/110-ct-segmentation-quantize/data-preparation-ct-scan.ipynb
 
-<span class="sd">        :param basedir: Directory that contains the prepared CT scans</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">masks</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">BASEDIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;case_*/segmentation_frames/*png&quot;</span><span class="p">))</span>
+        :param basedir: Directory that contains the prepared CT scans
+        &quot;&quot;&quot;
+        masks = sorted(BASEDIR.glob(&quot;case_*/segmentation_frames/*png&quot;))
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">basedir</span> <span class="o">=</span> <span class="n">basedir</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">masks</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Created dataset with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s2"> items. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Base directory for data: </span><span class="si">{</span><span class="n">basedir</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        self.basedir = basedir
+        self.dataset = masks
+        print(
+            f&quot;Created dataset with {len(self.dataset)} items. &quot;
+            f&quot;Base directory for data: {basedir}&quot;
+        )
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get an item from the dataset at the specified index.</span>
+    def __getitem__(self, index):
+        &quot;&quot;&quot;
+        Get an item from the dataset at the specified index.
 
-<span class="sd">        :return: (image, segmentation_mask)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mask_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">image_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">mask_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-            <span class="s2">&quot;segmentation_frames&quot;</span><span class="p">,</span> <span class="s2">&quot;imaging_frames&quot;</span>
-        <span class="p">)</span>
+        :return: (image, segmentation_mask)
+        &quot;&quot;&quot;
+        mask_path = self.dataset[index]
+        image_path = str(mask_path.with_suffix(&quot;.jpg&quot;)).replace(
+            &quot;segmentation_frames&quot;, &quot;imaging_frames&quot;
+        )
 
-        <span class="c1"># Load images with MONAI&#39;s LoadImage to match data loading in training notebook</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">LoadImage</span><span class="p">(</span><span class="n">image_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)(</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_path</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">LoadImage</span><span class="p">(</span><span class="n">image_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)(</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        # Load images with MONAI&#39;s LoadImage to match data loading in training notebook
+        mask = LoadImage(image_only=True, dtype=np.uint8)(str(mask_path)).numpy()
+        img = LoadImage(image_only=True, dtype=np.float32)(str(image_path)).numpy()
 
-        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">):</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span> <span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">))</span>
+        if img.shape[:2] != (512, 512):
+            img = cv2.resize(img.astype(np.uint8), (512, 512)).astype(np.float32)
+            mask = cv2.resize(mask, (512, 512))
 
-        <span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">input_image</span><span class="p">,</span> <span class="n">mask</span>
+        input_image = np.expand_dims(img, axis=0)
+        return input_image, mask
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    def __len__(self):
+        return len(self.dataset)
 </pre></div>
 </div>
 <p>To test that the data loader returns the expected output, we show an
@@ -986,19 +986,19 @@ dataloader, after resizing and preprocessing. Since this dataset
 contains a lot of slices without kidneys, we select a slice that
 contains at least 5000 kidney pixels to verify that the annotations look
 correct.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">KitsDataset</span><span class="p">(</span><span class="n">BASEDIR</span><span class="p">)</span>
-<span class="c1"># Find a slice that contains kidney annotations</span>
-<span class="c1"># item[0] is the annotation: (id, annotation_data)</span>
-<span class="n">image_data</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dataset</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5000</span><span class="p">)</span>
-<span class="c1"># Remove extra image dimension and rotate and flip the image for visualization</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">rotate_and_flip</span><span class="p">(</span><span class="n">image_data</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dataset = KitsDataset(BASEDIR)
+# Find a slice that contains kidney annotations
+# item[0] is the annotation: (id, annotation_data)
+image_data, mask = next(item for item in dataset if np.count_nonzero(item[1]) &gt; 5000)
+# Remove extra image dimension and rotate and flip the image for visualization
+image = rotate_and_flip(image_data.squeeze())
 
-<span class="c1"># The data loader returns annotations as (index, mask) and mask in shape (H,W)</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="n">rotate_and_flip</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+# The data loader returns annotations as (index, mask) and mask in shape (H,W)
+mask = rotate_and_flip(mask)
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">);</span>
+fig, ax = plt.subplots(1, 2, figsize=(12, 6))
+ax[0].imshow(image, cmap=&quot;gray&quot;)
+ax[1].imshow(mask, cmap=&quot;gray&quot;);
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Created</span> <span class="n">dataset</span> <span class="k">with</span> <span class="mi">69</span> <span class="n">items</span><span class="o">.</span> <span class="n">Base</span> <span class="n">directory</span> <span class="k">for</span> <span class="n">data</span><span class="p">:</span> <span class="n">kits19_frames_1</span>
@@ -1014,22 +1014,22 @@ score</a>, or Dice coefficient,
 from the
 <a class="reference external" href="https://torchmetrics.readthedocs.io/en/stable/">TorchMetrics</a>
 library.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_f1</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">KitsDataset</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute binary F1 score of `model` on `dataset`</span>
-<span class="sd">    F1 score metric is provided by the torchmetrics library</span>
-<span class="sd">    `model` is expected to be a binary segmentation model, images in the</span>
-<span class="sd">    dataset are expected in (N,C,H,W) format where N==C==1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">metric</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">image</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
-            <span class="n">input_image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
-            <span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
-            <span class="n">metric</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">prediction</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">metric</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def compute_f1(model: torch.nn.Module, dataset: KitsDataset):
+    &quot;&quot;&quot;
+    Compute binary F1 score of `model` on `dataset`
+    F1 score metric is provided by the torchmetrics library
+    `model` is expected to be a binary segmentation model, images in the
+    dataset are expected in (N,C,H,W) format where N==C==1
+    &quot;&quot;&quot;
+    metric = F1(ignore_index=0)
+    with torch.no_grad():
+        for image, target in dataset:
+            input_image = torch.as_tensor(image).unsqueeze(0)
+            output = model(input_image)
+            label = torch.as_tensor(target.squeeze()).long()
+            prediction = torch.sigmoid(output.squeeze()).round().long()
+            metric.update(label.flatten(), prediction.flatten())
+    return metric.compute()
 </pre></div>
 </div>
 </section>
@@ -1038,8 +1038,8 @@ library.</p>
 <h2>Quantization<a class="headerlink" href="#quantization" title="Permalink to this headline">¶</a></h2>
 <p>Before quantizing the model, we compute the F1 score on the FP32 model
 for comparison</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fp32_f1</span> <span class="o">=</span> <span class="n">compute_f1</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FP32 F1: </span><span class="si">{</span><span class="n">fp32_f1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fp32_f1 = compute_f1(model, dataset)
+print(f&quot;FP32 F1: {fp32_f1:.3f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FP32</span> <span class="n">F1</span><span class="p">:</span> <span class="mf">0.974</span>
@@ -1049,25 +1049,25 @@ for comparison</p>
 the <a class="reference external" href="https://github.com/openvinotoolkit/nncf/blob/develop/docs/compression_algorithms/Quantization.md">NNCF quantization
 documentation</a>
 for more information on the possible values.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NNCF uses the model loaded at the beginning of this notebook. If after quantizing the model, you</span>
-<span class="c1"># want to quantize with a different config, reload the model by uncommenting the next two lines</span>
-<span class="c1">#</span>
-<span class="c1"># model = monai.networks.nets.BasicUNet(spatial_dims=2, in_channels=1, out_channels=1).eval()</span>
-<span class="c1"># model.load_state_dict(new_state_dict)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># NNCF uses the model loaded at the beginning of this notebook. If after quantizing the model, you
+# want to quantize with a different config, reload the model by uncommenting the next two lines
+#
+# model = monai.networks.nets.BasicUNet(spatial_dims=2, in_channels=1, out_channels=1).eval()
+# model.load_state_dict(new_state_dict)
 
-<span class="n">nncf_config_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;input_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;sample_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">]},</span>
-    <span class="s2">&quot;target_device&quot;</span><span class="p">:</span> <span class="s2">&quot;CPU&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;compression&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;quantization&quot;</span><span class="p">,</span>
-        <span class="c1"># performance preset uses symmetric weights and activations</span>
-        <span class="s2">&quot;preset&quot;</span><span class="p">:</span> <span class="s2">&quot;performance&quot;</span><span class="p">,</span>
-        <span class="c1"># Do not quantize LeakyReLU activations to allow the INT8 model to run on Intel GPU</span>
-        <span class="s2">&quot;ignored_scopes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">{re}</span><span class="s2">.*LeakyReLU*&quot;</span><span class="p">],</span>
-    <span class="p">},</span>
-<span class="p">}</span>
+nncf_config_dict = {
+    &quot;input_info&quot;: {&quot;sample_size&quot;: [1, 1, 512, 512]},
+    &quot;target_device&quot;: &quot;CPU&quot;,
+    &quot;compression&quot;: {
+        &quot;algorithm&quot;: &quot;quantization&quot;,
+        # performance preset uses symmetric weights and activations
+        &quot;preset&quot;: &quot;performance&quot;,
+        # Do not quantize LeakyReLU activations to allow the INT8 model to run on Intel GPU
+        &quot;ignored_scopes&quot;: [&quot;{re}.*LeakyReLU*&quot;],
+    },
+}
 
-<span class="n">nncf_config</span> <span class="o">=</span> <span class="n">NNCFConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">nncf_config_dict</span><span class="p">)</span>
+nncf_config = NNCFConfig.from_dict(nncf_config_dict)
 </pre></div>
 </div>
 <p>Create a quantized model from a pre-trained FP32 model and configuration
@@ -1075,14 +1075,14 @@ object created with the dictionary defined in the previous cell and a
 DataLoader. See the <a class="reference external" href="https://github.com/openvinotoolkit/nncf/blob/develop/docs/Usage.md">NNCF
 documentation</a>
 for more information.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">nncf_config</span> <span class="o">=</span> <span class="n">register_default_init_args</span><span class="p">(</span><span class="n">nncf_config</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">)</span>
-<span class="n">compression_ctrl</span><span class="p">,</span> <span class="n">compressed_model</span> <span class="o">=</span> <span class="n">create_compressed_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nncf_config</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data_loader = torch.utils.data.DataLoader(dataset, batch_size=4)
+nncf_config = register_default_init_args(nncf_config, data_loader)
+compression_ctrl, compressed_model = create_compressed_model(model, nncf_config)
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">compressed_model</span></code> that was created in the previous cell is a
 PyTorch <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> that is wrapped by NNCF.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compressed_model</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>compressed_model
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NNCFNetwork</span><span class="p">(</span>
@@ -1498,13 +1498,13 @@ the model to ONNX, and convert the ONNX model to OpenVINO’s IR format.</p>
 than quantization. See the <a class="reference external" href="https://github.com/openvinotoolkit/nncf/">NNCF
 documentation</a> in the NNCF
 repository for more information.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">int8_onnx_path</span> <span class="o">=</span> <span class="n">MODEL_DIR</span> <span class="o">/</span> <span class="s2">&quot;unet_kits19_int8.onnx&quot;</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">TracerWarning</span><span class="p">)</span>  <span class="c1"># Ignore export warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
-<span class="n">compression_ctrl</span><span class="o">.</span><span class="n">export_model</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">int8_onnx_path</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INT8 ONNX model exported to </span><span class="si">{</span><span class="n">int8_onnx_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>int8_onnx_path = MODEL_DIR / &quot;unet_kits19_int8.onnx&quot;
+warnings.filterwarnings(&quot;ignore&quot;, category=TracerWarning)  # Ignore export warnings
+warnings.filterwarnings(&quot;ignore&quot;, category=UserWarning)
+compression_ctrl.export_model(str(int8_onnx_path))
+print(f&quot;INT8 ONNX model exported to {int8_onnx_path}.&quot;)
 
-<span class="o">!</span>mo --input_model <span class="s2">&quot;</span><span class="nv">$int8_onnx_path</span><span class="s2">&quot;</span> --input_shape <span class="s2">&quot;[1,1,512,512]&quot;</span> --output_dir <span class="s2">&quot;</span><span class="nv">$MODEL_DIR</span><span class="s2">&quot;</span>
+!mo --input_model &quot;$int8_onnx_path&quot; --input_shape &quot;[1,1,512,512]&quot; --output_dir &quot;$MODEL_DIR&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INT8</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">exported</span> <span class="n">to</span> <span class="n">model</span><span class="o">/</span><span class="n">unet_kits19_int8</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span>
@@ -1552,14 +1552,14 @@ repository for more information.</p>
 <h1>Compare FP32 and INT8 Model<a class="headerlink" href="#compare-fp32-and-int8-model" title="Permalink to this headline">¶</a></h1>
 <section id="compare-file-size">
 <h2>Compare File Size<a class="headerlink" href="#compare-file-size" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fp32_ir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fp32_onnx_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
-<span class="n">int8_ir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">int8_onnx_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fp32_ir_path = Path(fp32_onnx_path).with_suffix(&quot;.xml&quot;)
+int8_ir_path = Path(int8_onnx_path).with_suffix(&quot;.xml&quot;)
 
-<span class="n">original_model_size</span> <span class="o">=</span> <span class="n">fp32_ir_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">1024</span>
-<span class="n">quantized_model_size</span> <span class="o">=</span> <span class="n">int8_ir_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">1024</span>
+original_model_size = fp32_ir_path.with_suffix(&quot;.bin&quot;).stat().st_size / 1024
+quantized_model_size = int8_ir_path.with_suffix(&quot;.bin&quot;).stat().st_size / 1024
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FP32 model size: </span><span class="si">{</span><span class="n">original_model_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> KB&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INT8 model size: </span><span class="si">{</span><span class="n">quantized_model_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> KB&quot;</span><span class="p">)</span>
+print(f&quot;FP32 model size: {original_model_size:.2f} KB&quot;)
+print(f&quot;INT8 model size: {quantized_model_size:.2f} KB&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FP32</span> <span class="n">model</span> <span class="n">size</span><span class="p">:</span> <span class="mf">7728.27</span> <span class="n">KB</span>
@@ -1569,10 +1569,10 @@ repository for more information.</p>
 </section>
 <section id="compare-metrics">
 <h2>Compare Metrics<a class="headerlink" href="#compare-metrics" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">int8_f1</span> <span class="o">=</span> <span class="n">compute_f1</span><span class="p">(</span><span class="n">compressed_model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>int8_f1 = compute_f1(compressed_model, dataset)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FP32 F1: </span><span class="si">{</span><span class="n">fp32_f1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INT8 F1: </span><span class="si">{</span><span class="n">int8_f1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;FP32 F1: {fp32_f1:.3f}&quot;)
+print(f&quot;INT8 F1: {int8_f1:.3f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FP32</span> <span class="n">F1</span><span class="p">:</span> <span class="mf">0.974</span>
@@ -1598,15 +1598,15 @@ running <code class="docutils literal notranslate"><span class="pre">benchmark_a
 other applications. Run <code class="docutils literal notranslate"><span class="pre">benchmark_app</span> <span class="pre">--help</span></code> to see all command
 line options.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show the parameters and docstring for `benchmark_model`</span>
-benchmark_model<span class="o">?</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Show the parameters and docstring for `benchmark_model`
+benchmark_model?
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;CPU&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>device = &quot;CPU&quot;
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark FP32 model</span>
-<span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">fp32_ir_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark FP32 model
+benchmark_model(model_path=fp32_ir_path, device=device, seconds=15)
 </pre></div>
 </div>
 <p><strong>Benchmark unet_kits19_fp32.xml with CPU for 15 seconds with async
@@ -1625,8 +1625,8 @@ inference</strong></p>
 <span class="n">Device</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark INT8 model</span>
-<span class="n">benchmark_model</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">int8_ir_path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark INT8 model
+benchmark_model(model_path=int8_ir_path, device=device, seconds=15)
 </pre></div>
 </div>
 <p><strong>Benchmark unet_kits19_int8.xml with CPU for 15 seconds with async
@@ -1666,57 +1666,57 @@ seed is displayed to allow reproducing specific runs of this cell.</p>
 the Kits19 dataset all but one of the cases has input shape
 <code class="docutils literal notranslate"><span class="pre">(512,</span> <span class="pre">512)</span></code>.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The sigmoid function is used to transform the result of the network</span>
-<span class="c1"># to binary segmentation masks</span>
-<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">logaddexp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">x</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The sigmoid function is used to transform the result of the network
+# to binary segmentation masks
+def sigmoid(x):
+    return np.exp(-np.logaddexp(0, -x))
 
 
-<span class="n">num_images</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">colormap</span> <span class="o">=</span> <span class="s2">&quot;gray&quot;</span>
+num_images = 4
+colormap = &quot;gray&quot;
 
-<span class="c1"># Load FP32 and INT8 models</span>
-<span class="n">core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">fp_model</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">fp32_ir_path</span><span class="p">)</span>
-<span class="n">int8_model</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">int8_ir_path</span><span class="p">)</span>
-<span class="n">compiled_model_fp</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">fp_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">compiled_model_int8</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">int8_model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">output_layer_fp</span> <span class="o">=</span> <span class="n">compiled_model_fp</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">output_layer_int8</span> <span class="o">=</span> <span class="n">compiled_model_int8</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# Load FP32 and INT8 models
+core = Core()
+fp_model = core.read_model(fp32_ir_path)
+int8_model = core.read_model(int8_ir_path)
+compiled_model_fp = core.compile_model(fp_model, device_name=&quot;CPU&quot;)
+compiled_model_int8 = core.compile_model(int8_model, device_name=&quot;CPU&quot;)
+output_layer_fp = compiled_model_fp.output(0)
+output_layer_int8 = compiled_model_int8.output(0)
 
-<span class="c1"># Create subset of dataset</span>
-<span class="n">background_slices</span> <span class="o">=</span> <span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dataset</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">kidney_slices</span> <span class="o">=</span> <span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dataset</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span>
-<span class="n">data_subset</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">background_slices</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">kidney_slices</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+# Create subset of dataset
+background_slices = (item for item in dataset if np.count_nonzero(item[1]) == 0)
+kidney_slices = (item for item in dataset if np.count_nonzero(item[1]) &gt; 50)
+data_subset = random.sample(list(background_slices), 2) + random.sample(list(kidney_slices), 2)
 
-<span class="c1"># Set seed to current time. To reproduce specific results, copy the printed seed</span>
-<span class="c1"># and manually set `seed` to that value.</span>
-<span class="n">seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
-<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Visualizing results with seed </span><span class="si">{</span><span class="n">seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Set seed to current time. To reproduce specific results, copy the printed seed
+# and manually set `seed` to that value.
+seed = int(time.time())
+random.seed(seed)
+print(f&quot;Visualizing results with seed {seed}&quot;)
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">num_images</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">num_images</span> <span class="o">*</span> <span class="mi">4</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_subset</span><span class="p">):</span>
-    <span class="n">display_image</span> <span class="o">=</span> <span class="n">rotate_and_flip</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
-    <span class="n">target_mask</span> <span class="o">=</span> <span class="n">rotate_and_flip</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="c1"># Add batch dimension to image and do inference on FP and INT8 models</span>
-    <span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">res_fp</span> <span class="o">=</span> <span class="n">compiled_model_fp</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
-    <span class="n">res_int8</span> <span class="o">=</span> <span class="n">compiled_model_int8</span><span class="p">([</span><span class="n">input_image</span><span class="p">])</span>
+fig, ax = plt.subplots(nrows=num_images, ncols=4, figsize=(24, num_images * 4))
+for i, (image, mask) in enumerate(data_subset):
+    display_image = rotate_and_flip(image.squeeze())
+    target_mask = rotate_and_flip(mask).astype(np.uint8)
+    # Add batch dimension to image and do inference on FP and INT8 models
+    input_image = np.expand_dims(image, 0)
+    res_fp = compiled_model_fp([input_image])
+    res_int8 = compiled_model_int8([input_image])
 
-    <span class="c1"># Process inference outputs and convert to binary segementation masks</span>
-    <span class="n">result_mask_fp</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">res_fp</span><span class="p">[</span><span class="n">output_layer_fp</span><span class="p">])</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="n">result_mask_int8</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">res_int8</span><span class="p">[</span><span class="n">output_layer_int8</span><span class="p">])</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="n">result_mask_fp</span> <span class="o">=</span> <span class="n">rotate_and_flip</span><span class="p">(</span><span class="n">result_mask_fp</span><span class="p">)</span>
-    <span class="n">result_mask_int8</span> <span class="o">=</span> <span class="n">rotate_and_flip</span><span class="p">(</span><span class="n">result_mask_int8</span><span class="p">)</span>
+    # Process inference outputs and convert to binary segementation masks
+    result_mask_fp = sigmoid(res_fp[output_layer_fp]).squeeze().round().astype(np.uint8)
+    result_mask_int8 = sigmoid(res_int8[output_layer_int8]).squeeze().round().astype(np.uint8)
+    result_mask_fp = rotate_and_flip(result_mask_fp)
+    result_mask_int8 = rotate_and_flip(result_mask_int8)
 
-    <span class="c1"># Display images, annotations, FP32 result and INT8 result</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">display_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">target_mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result_mask_fp</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result_mask_int8</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Prediction on FP32 model&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Prediction on INT8 model&quot;</span><span class="p">)</span>
+    # Display images, annotations, FP32 result and INT8 result
+    ax[i, 0].imshow(display_image, cmap=colormap)
+    ax[i, 1].imshow(target_mask, cmap=colormap)
+    ax[i, 2].imshow(result_mask_fp, cmap=colormap)
+    ax[i, 3].imshow(result_mask_int8, cmap=colormap)
+    ax[i, 2].set_title(&quot;Prediction on FP32 model&quot;)
+    ax[i, 3].set_title(&quot;Prediction on INT8 model&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Visualizing</span> <span class="n">results</span> <span class="k">with</span> <span class="n">seed</span> <span class="mi">1663101109</span>
@@ -1749,17 +1749,17 @@ Zoo</a> Model API.
 This model implementation includes pre and post processing for the
 model. For <code class="docutils literal notranslate"><span class="pre">SegmentationModel</span></code> this includes the code to create an
 overlay of the segmentation mask on the original image/frame.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CASE</span> <span class="o">=</span> <span class="mi">117</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>CASE = 117
 
-<span class="c1"># The Live inference function uses the OpenVINO Runtime API which is compatible with</span>
-<span class="c1"># OpenVINO LTS release 2021.4</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">IECore</span><span class="p">()</span>
-<span class="n">segmentation_model</span> <span class="o">=</span> <span class="n">SegmentationModel</span><span class="p">(</span>
-    <span class="n">ie</span><span class="o">=</span><span class="n">ie</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">int8_ir_path</span><span class="p">),</span> <span class="n">sigmoid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotate_and_flip</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-<span class="n">case_path</span> <span class="o">=</span> <span class="n">BASEDIR</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;case_</span><span class="si">{</span><span class="n">CASE</span><span class="si">:</span><span class="s2">05d</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="n">image_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">case_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;imaging_frames/*jpg&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">case_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)</span><span class="si">}</span><span class="s2"> images&quot;</span><span class="p">)</span>
+# The Live inference function uses the OpenVINO Runtime API which is compatible with
+# OpenVINO LTS release 2021.4
+ie = IECore()
+segmentation_model = SegmentationModel(
+    ie=ie, model_path=Path(int8_ir_path), sigmoid=True, rotate_and_flip=True
+)
+case_path = BASEDIR / f&quot;case_{CASE:05d}&quot;
+image_paths = sorted(case_path.glob(&quot;imaging_frames/*jpg&quot;))
+print(f&quot;{case_path.name}, {len(image_paths)} images&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">case_00117</span><span class="p">,</span> <span class="mi">69</span> <span class="n">images</span>
@@ -1773,12 +1773,12 @@ loads the <code class="docutils literal notranslate"><span class="pre">segmentat
 caching for faster model loading on GPU devices), loads the images,
 performs inference, and displays the results on the frames loaded in
 <code class="docutils literal notranslate"><span class="pre">images</span></code> in real-time.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Possible options for device include &quot;CPU&quot;, &quot;GPU&quot;, &quot;AUTO&quot;, &quot;MULTI:CPU,GPU&quot;</span>
-<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;CPU&quot;</span>
-<span class="n">reader</span> <span class="o">=</span> <span class="n">LoadImage</span><span class="p">(</span><span class="n">image_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">show_live_inference</span><span class="p">(</span>
-    <span class="n">ie</span><span class="o">=</span><span class="n">ie</span><span class="p">,</span> <span class="n">image_paths</span><span class="o">=</span><span class="n">image_paths</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">segmentation_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Possible options for device include &quot;CPU&quot;, &quot;GPU&quot;, &quot;AUTO&quot;, &quot;MULTI:CPU,GPU&quot;
+device = &quot;CPU&quot;
+reader = LoadImage(image_only=True, dtype=np.uint8)
+show_live_inference(
+    ie=ie, image_paths=image_paths, model=segmentation_model, device=device, reader=reader
+)
 </pre></div>
 </div>
 <img alt="../_images/110-ct-segmentation-quantize-nncf-with-output_44_0.jpg" src="../_images/110-ct-segmentation-quantize-nncf-with-output_44_0.jpg" />

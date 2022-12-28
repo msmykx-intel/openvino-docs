@@ -621,24 +621,24 @@ from CVPR 2020.</p>
 <p>This notebook works best with small images (up to 800x600 resolution).</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import time
+import warnings
+from pathlib import Path
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">paddle</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">FileLink</span><span class="p">,</span> <span class="n">ProgressBar</span><span class="p">,</span> <span class="n">clear_output</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">DisplayImage</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span><span class="p">,</span> <span class="n">PartialShape</span>
-<span class="kn">from</span> <span class="nn">paddle.static</span> <span class="kn">import</span> <span class="n">InputSpec</span>
-<span class="kn">from</span> <span class="nn">ppgan.apps</span> <span class="kn">import</span> <span class="n">RealSRPredictor</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import paddle
+from IPython.display import HTML, FileLink, ProgressBar, clear_output, display
+from IPython.display import Image as DisplayImage
+from PIL import Image
+from openvino.runtime import Core, PartialShape
+from paddle.static import InputSpec
+from ppgan.apps import RealSRPredictor
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">NotebookAlert</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import NotebookAlert
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">vision</span><span class="o">/</span><span class="n">transforms</span><span class="o">/</span><span class="n">functional_pil</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">NEAREST</span> <span class="ow">is</span> <span class="n">deprecated</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">removed</span> <span class="ow">in</span> <span class="n">Pillow</span> <span class="mi">10</span> <span class="p">(</span><span class="mi">2023</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">01</span><span class="p">)</span><span class="o">.</span> <span class="n">Use</span> <span class="n">Resampling</span><span class="o">.</span><span class="n">NEAREST</span> <span class="ow">or</span> <span class="n">Dither</span><span class="o">.</span><span class="n">NONE</span> <span class="n">instead</span><span class="o">.</span>
@@ -658,15 +658,15 @@ from CVPR 2020.</p>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The filenames of the downloaded and converted models.</span>
-<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;paddlegan_sr&quot;</span>
-<span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">OUTPUT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
-<span class="n">OUTPUT_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The filenames of the downloaded and converted models.
+MODEL_NAME = &quot;paddlegan_sr&quot;
+MODEL_DIR = Path(&quot;model&quot;)
+OUTPUT_DIR = Path(&quot;output&quot;)
+OUTPUT_DIR.mkdir(exist_ok=True)
 
-<span class="n">model_path</span> <span class="o">=</span> <span class="n">MODEL_DIR</span> <span class="o">/</span> <span class="n">MODEL_NAME</span>
-<span class="n">ir_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
-<span class="n">onnx_path</span> <span class="o">=</span> <span class="n">model_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
+model_path = MODEL_DIR / MODEL_NAME
+ir_path = model_path.with_suffix(&quot;.xml&quot;)
+onnx_path = model_path.with_suffix(&quot;.onnx&quot;)
 </pre></div>
 </div>
 </section>
@@ -680,24 +680,24 @@ how to run the model with <code class="docutils literal notranslate"><span class
 function does, and check other relevant functions that are called from
 that function. Adding <code class="docutils literal notranslate"><span class="pre">??</span></code> to the methods shows the docstring and
 source code.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Running this cell will download the model weights if they have not been downloaded before.</span>
-<span class="c1"># This may take a while.</span>
-<span class="n">sr</span> <span class="o">=</span> <span class="n">RealSRPredictor</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Running this cell will download the model weights if they have not been downloaded before.
+# This may take a while.
+sr = RealSRPredictor()
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">09</span><span class="o">/</span><span class="mi">13</span> <span class="mi">22</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">49</span><span class="p">]</span> <span class="n">ppgan</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Found</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/.</span><span class="n">cache</span><span class="o">/</span><span class="n">ppgan</span><span class="o">/</span><span class="n">DF2K_JPEG</span><span class="o">.</span><span class="n">pdparams</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.run<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.run??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.run_image<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.run_image??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.norm<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.norm??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.denorm<span class="o">??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sr.denorm??
 </pre></div>
 </div>
 <p>The run checks whether the input is an image or a video. For an image,
@@ -713,7 +713,7 @@ the image to a standard <code class="docutils literal notranslate"><span class="
 of 0 to 255.</p>
 <p>To get more information about how the model looks like, use the
 <code class="docutils literal notranslate"><span class="pre">sr.model??</span></code> command.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sr.model??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># sr.model??
 </pre></div>
 </div>
 </section>
@@ -722,40 +722,40 @@ of 0 to 255.</p>
 <p>To show inference on the PaddlePaddle model, set <code class="docutils literal notranslate"><span class="pre">PADDLEGAN_INFERENCE</span></code>
 to <code class="docutils literal notranslate"><span class="pre">True</span></code> in the cell below. Keep in mind that performing inference
 may take some time.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set PADDLEGAN_INFERENCE to True to show inference on the PaddlePaddle model.</span>
-<span class="c1"># This may take a long time, especially for larger images.</span>
-<span class="c1">#</span>
-<span class="n">PADDLEGAN_INFERENCE</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="k">if</span> <span class="n">PADDLEGAN_INFERENCE</span><span class="p">:</span>
-    <span class="c1"># Load the input image and convert to a tensor with the input shape.</span>
-    <span class="n">IMAGE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/coco_tulips.jpg&quot;</span><span class="p">)</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">IMAGE_PATH</span><span class="p">)),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
-    <span class="n">input_image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">/</span> <span class="mi">255</span>
-    <span class="n">input_tensor</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">(</span><span class="n">input_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">400</span><span class="p">:</span>
-        <span class="n">NotebookAlert</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;This image has </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> shape. Doing inference will be slow &quot;</span>
-            <span class="s2">&quot;and the notebook may stop responding. Set PADDLEGAN_INFERENCE to False &quot;</span>
-            <span class="s2">&quot;to skip doing inference on the PaddlePaddle model.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set PADDLEGAN_INFERENCE to True to show inference on the PaddlePaddle model.
+# This may take a long time, especially for larger images.
+#
+PADDLEGAN_INFERENCE = False
+if PADDLEGAN_INFERENCE:
+    # Load the input image and convert to a tensor with the input shape.
+    IMAGE_PATH = Path(&quot;data/coco_tulips.jpg&quot;)
+    image = cv2.cvtColor(cv2.imread(str(IMAGE_PATH)), cv2.COLOR_BGR2RGB)
+    input_image = image.transpose(2, 0, 1)[None, :, :, :] / 255
+    input_tensor = paddle.to_tensor(input_image.astype(np.float32))
+    if max(image.shape) &gt; 400:
+        NotebookAlert(
+            f&quot;This image has {image.shape} shape. Doing inference will be slow &quot;
+            &quot;and the notebook may stop responding. Set PADDLEGAN_INFERENCE to False &quot;
+            &quot;to skip doing inference on the PaddlePaddle model.&quot;,
+            &quot;warning&quot;,
+        )
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">PADDLEGAN_INFERENCE</span><span class="p">:</span>
-    <span class="c1"># Do inference and measure how long it takes.</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start superresolution inference for </span><span class="si">{</span><span class="n">IMAGE_PATH</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> with shape </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">sr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">paddle</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">sr</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">)</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">duration</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
-    <span class="n">result_image</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Superresolution image shape: </span><span class="si">{</span><span class="n">result_image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inference duration: </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">result_image</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if PADDLEGAN_INFERENCE:
+    # Do inference and measure how long it takes.
+    print(f&quot;Start superresolution inference for {IMAGE_PATH.name} with shape {image.shape}...&quot;)
+    start_time = time.perf_counter()
+    sr.model.eval()
+    with paddle.no_grad():
+        result = sr.model(input_tensor)
+    end_time = time.perf_counter()
+    duration = end_time - start_time
+    result_image = (
+        (result.numpy().squeeze() * 255).clip(0, 255).astype(&quot;uint8&quot;).transpose((1, 2, 0))
+    )
+    print(f&quot;Superresolution image shape: {result_image.shape}&quot;)
+    print(f&quot;Inference duration: {duration:.2f} seconds&quot;)
+    plt.imshow(result_image);
 </pre></div>
 </div>
 </section>
@@ -767,13 +767,13 @@ model to ONNX, and then convert the ONNX model to the OpenVINO IR
 format.</p>
 <section id="convert-paddlepaddle-model-to-onnx">
 <h3>Convert PaddlePaddle Model to ONNX<a class="headerlink" href="#convert-paddlepaddle-model-to-onnx" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ignore PaddlePaddle warnings:</span>
-<span class="c1"># The behavior of expression A + B has been unified with elementwise_add(X, Y, axis=-1).</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-<span class="n">sr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-<span class="c1"># ONNX export requires an input shape in this format as a parameter.</span>
-<span class="n">x_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">],</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">paddle</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">),</span> <span class="n">input_spec</span><span class="o">=</span><span class="p">[</span><span class="n">x_spec</span><span class="p">],</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Ignore PaddlePaddle warnings:
+# The behavior of expression A + B has been unified with elementwise_add(X, Y, axis=-1).
+warnings.filterwarnings(&quot;ignore&quot;)
+sr.model.eval()
+# ONNX export requires an input shape in this format as a parameter.
+x_spec = InputSpec([None, 3, 299, 299], &quot;float32&quot;, &quot;x&quot;)
+paddle.onnx.export(sr.model, str(model_path), input_spec=[x_spec], opset_version=13)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2022</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">13</span> <span class="mi">22</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">54</span> <span class="p">[</span><span class="n">INFO</span><span class="p">]</span>  <span class="n">ONNX</span> <span class="n">model</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">model</span><span class="o">/</span><span class="n">paddlegan_sr</span><span class="o">.</span><span class="n">onnx</span>
@@ -782,13 +782,13 @@ format.</p>
 </section>
 <section id="convert-onnx-model-to-openvino-ir">
 <h3>Convert ONNX Model to OpenVINO IR<a class="headerlink" href="#convert-onnx-model-to-openvino-ir" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Uncomment the command below to show Model Optimizer help, which shows the possible arguments for Model Optimizer.</span>
-<span class="c1"># ! mo --help</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Uncomment the command below to show Model Optimizer help, which shows the possible arguments for Model Optimizer.
+# ! mo --help
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exporting ONNX model to OpenVINO IR... This may take a few minutes.&quot;</span><span class="p">)</span>
-    <span class="o">!</span> mo --input_model <span class="nv">$onnx_path</span> --input_shape <span class="s2">&quot;[1,3,299,299]&quot;</span> --model_name <span class="nv">$MODEL_NAME</span> --output_dir <span class="s2">&quot;</span><span class="nv">$MODEL_DIR</span><span class="s2">&quot;</span> --data_type <span class="s2">&quot;FP16&quot;</span> --log_level <span class="s2">&quot;CRITICAL&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if not ir_path.exists():
+    print(&quot;Exporting ONNX model to OpenVINO IR... This may take a few minutes.&quot;)
+    ! mo --input_model $onnx_path --input_shape &quot;[1,3,299,299]&quot; --model_name $MODEL_NAME --output_dir &quot;$MODEL_DIR&quot; --data_type &quot;FP16&quot; --log_level &quot;CRITICAL&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Exporting</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">to</span> <span class="n">OpenVINO</span> <span class="n">IR</span><span class="o">...</span> <span class="n">This</span> <span class="n">may</span> <span class="n">take</span> <span class="n">a</span> <span class="n">few</span> <span class="n">minutes</span><span class="o">.</span>
@@ -834,61 +834,61 @@ format.</p>
 </section>
 <section id="do-inference-on-openvino-ir-model">
 <h2>Do Inference on OpenVINO IR Model<a class="headerlink" href="#do-inference-on-openvino-ir-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the network and get input and output names.</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">ir_path</span><span class="p">)</span>
-<span class="n">input_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Read the network and get input and output names.
+ie = Core()
+model = ie.read_model(model=ir_path)
+input_layer = model.input(0)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load and show the image.</span>
-<span class="n">IMAGE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/coco_tulips.jpg&quot;</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">IMAGE_PATH</span><span class="p">)),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
-<span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">800</span><span class="p">:</span>
-    <span class="n">NotebookAlert</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;This image has shape </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">. The notebook works best with images with &quot;</span>
-        <span class="s2">&quot;a maximum side of 800x600. Larger images may work well, but inference may &quot;</span>
-        <span class="s2">&quot;be slow&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load and show the image.
+IMAGE_PATH = Path(&quot;data/coco_tulips.jpg&quot;)
+image = cv2.cvtColor(cv2.imread(str(IMAGE_PATH)), cv2.COLOR_BGR2RGB)
+if max(image.shape) &gt; 800:
+    NotebookAlert(
+        f&quot;This image has shape {image.shape}. The notebook works best with images with &quot;
+        &quot;a maximum side of 800x600. Larger images may work well, but inference may &quot;
+        &quot;be slow&quot;,
+        &quot;warning&quot;,
+    )
+plt.imshow(image)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7f1c2b10cbe0</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <img alt="../_images/207-vision-paddlegan-superresolution-with-output_23_1.png" src="../_images/207-vision-paddlegan-superresolution-with-output_23_1.png" />
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape the network to the image size.</span>
-<span class="n">model</span><span class="o">.</span><span class="n">reshape</span><span class="p">({</span><span class="n">input_layer</span><span class="o">.</span><span class="n">any_name</span><span class="p">:</span> <span class="n">PartialShape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]])})</span>
-<span class="c1"># Load the network to the CPU device (this may take a few seconds).</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Reshape the network to the image size.
+model.reshape({input_layer.any_name: PartialShape([1, 3, image.shape[0], image.shape[1]])})
+# Load the network to the CPU device (this may take a few seconds).
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
+output_layer = compiled_model.output(0)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the image to the network input shape and divide pixel values by 255.</span>
-<span class="c1"># See the &quot;Investigate PaddleGAN model&quot; section.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">/</span> <span class="mi">255</span>
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="c1"># Do inference.</span>
-<span class="n">ir_result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">]</span>
-<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">duration</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inference duration: </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the image to the network input shape and divide pixel values by 255.
+# See the &quot;Investigate PaddleGAN model&quot; section.
+input_image = image.transpose(2, 0, 1)[None, :, :, :] / 255
+start_time = time.perf_counter()
+# Do inference.
+ir_result = compiled_model([input_image])[output_layer]
+end_time = time.perf_counter()
+duration = end_time - start_time
+print(f&quot;Inference duration: {duration:.2f} seconds&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Inference</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">2.98</span> <span class="n">seconds</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the result array in CHW format.</span>
-<span class="n">result_array</span> <span class="o">=</span> <span class="n">ir_result</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-<span class="c1"># Convert the array to an image with the same method as PaddleGAN:</span>
-<span class="c1"># Multiply by 255, clip values between 0 and 255, convert to a HWC INT8 image.</span>
-<span class="c1"># See the &quot;Investigate PaddleGAN model&quot; section.</span>
-<span class="n">image_super</span> <span class="o">=</span> <span class="p">(</span><span class="n">result_array</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-<span class="c1"># Resize the image with bicubic upsampling for comparison.</span>
-<span class="n">image_bicubic</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">image_super</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the result array in CHW format.
+result_array = ir_result.squeeze()
+# Convert the array to an image with the same method as PaddleGAN:
+# Multiply by 255, clip values between 0 and 255, convert to a HWC INT8 image.
+# See the &quot;Investigate PaddleGAN model&quot; section.
+image_super = (result_array * 255).clip(0, 255).astype(&quot;uint8&quot;).transpose((1, 2, 0))
+# Resize the image with bicubic upsampling for comparison.
+image_bicubic = cv2.resize(image, tuple(image_super.shape[:2][::-1]), interpolation=cv2.INTER_CUBIC)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_super</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.imshow(image_super)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7f1c2b19c940</span><span class="o">&gt;</span>
@@ -900,22 +900,22 @@ format.</p>
 <p>To visualize the difference between the bicubic image and the
 superresolution image, create an animated GIF image that switches
 between both versions.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_pil</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image_super</span><span class="p">)</span>
-<span class="n">bicubic_pil</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image_bicubic</span><span class="p">)</span>
-<span class="n">gif_image_path</span> <span class="o">=</span> <span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">IMAGE_PATH</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s2">&quot;_comparison.gif&quot;</span><span class="p">)</span>
-<span class="n">final_image_path</span> <span class="o">=</span> <span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">IMAGE_PATH</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s2">&quot;_super.png&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result_pil = Image.fromarray(image_super)
+bicubic_pil = Image.fromarray(image_bicubic)
+gif_image_path = OUTPUT_DIR / Path(IMAGE_PATH.stem + &quot;_comparison.gif&quot;)
+final_image_path = OUTPUT_DIR / Path(IMAGE_PATH.stem + &quot;_super.png&quot;)
 
-<span class="n">result_pil</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">fp</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gif_image_path</span><span class="p">),</span>
-    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;GIF&quot;</span><span class="p">,</span>
-    <span class="n">append_images</span><span class="o">=</span><span class="p">[</span><span class="n">bicubic_pil</span><span class="p">],</span>
-    <span class="n">save_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">duration</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-    <span class="n">loop</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-<span class="p">)</span>
+result_pil.save(
+    fp=str(gif_image_path),
+    format=&quot;GIF&quot;,
+    append_images=[bicubic_pil],
+    save_all=True,
+    duration=1000,
+    loop=0,
+)
 
-<span class="n">result_pil</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fp</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">final_image_path</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
-<span class="n">DisplayImage</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">gif_image_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+result_pil.save(fp=str(final_image_path), format=&quot;png&quot;)
+DisplayImage(open(gif_image_path, &quot;rb&quot;).read(), width=1920 // 2)
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/207-vision-paddlegan-superresolution-with-output_29_0.png"><img alt="../_images/207-vision-paddlegan-superresolution-with-output_29_0.png" src="../_images/207-vision-paddlegan-superresolution-with-output_29_0.png" style="width: 960px;" /></a>
@@ -929,54 +929,54 @@ the original width and height, to improve processing speed. This gives
 an indication of the superresolution effect. The video is saved as an
 <code class="docutils literal notranslate"><span class="pre">.avi</span></code> video file. You can click on the link to download the video, or
 open it directly from the images directory, and play it locally.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FOURCC</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter_fourcc</span><span class="p">(</span><span class="o">*</span><span class="s2">&quot;MJPG&quot;</span><span class="p">)</span>
-<span class="n">IMAGE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">IMAGE_PATH</span><span class="p">)</span>
-<span class="n">result_video_path</span> <span class="o">=</span> <span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IMAGE_PATH</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">_comparison_paddlegan.avi&quot;</span><span class="p">)</span>
-<span class="n">video_target_height</span><span class="p">,</span> <span class="n">video_target_width</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">image_super</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="n">image_super</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>FOURCC = cv2.VideoWriter_fourcc(*&quot;MJPG&quot;)
+IMAGE_PATH = Path(IMAGE_PATH)
+result_video_path = OUTPUT_DIR / Path(f&quot;{IMAGE_PATH.stem}_comparison_paddlegan.avi&quot;)
+video_target_height, video_target_width = (
+    image_super.shape[0] // 2,
+    image_super.shape[1] // 2,
+)
 
-<span class="n">out_video</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter</span><span class="p">(</span>
-    <span class="nb">str</span><span class="p">(</span><span class="n">result_video_path</span><span class="p">),</span>
-    <span class="n">FOURCC</span><span class="p">,</span>
-    <span class="mi">90</span><span class="p">,</span>
-    <span class="p">(</span><span class="n">video_target_width</span><span class="p">,</span> <span class="n">video_target_height</span><span class="p">),</span>
-<span class="p">)</span>
+out_video = cv2.VideoWriter(
+    str(result_video_path),
+    FOURCC,
+    90,
+    (video_target_width, video_target_height),
+)
 
-<span class="n">resized_result_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image_super</span><span class="p">,</span> <span class="p">(</span><span class="n">video_target_width</span><span class="p">,</span> <span class="n">video_target_height</span><span class="p">))[</span>
-    <span class="p">:,</span> <span class="p">:,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="p">]</span>
-<span class="n">resized_bicubic_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image_bicubic</span><span class="p">,</span> <span class="p">(</span><span class="n">video_target_width</span><span class="p">,</span> <span class="n">video_target_height</span><span class="p">))[</span>
-    <span class="p">:,</span> <span class="p">:,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="p">]</span>
+resized_result_image = cv2.resize(image_super, (video_target_width, video_target_height))[
+    :, :, (2, 1, 0)
+]
+resized_bicubic_image = cv2.resize(image_bicubic, (video_target_width, video_target_height))[
+    :, :, (2, 1, 0)
+]
 
-<span class="n">progress_bar</span> <span class="o">=</span> <span class="n">ProgressBar</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">video_target_width</span><span class="p">)</span>
-<span class="n">progress_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+progress_bar = ProgressBar(total=video_target_width)
+progress_bar.display()
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">video_target_width</span><span class="p">):</span>
-    <span class="c1"># Create a frame where the left part (until i pixels width) contains the</span>
-    <span class="c1"># superresolution image, and the right part (from i pixels width) contains</span>
-    <span class="c1"># the bicubic image.</span>
-    <span class="n">comparison_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
-        <span class="p">(</span>
-            <span class="n">resized_result_image</span><span class="p">[:,</span> <span class="p">:</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span>
-            <span class="n">resized_bicubic_image</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:,</span> <span class="p">:],</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+for i in range(2, video_target_width):
+    # Create a frame where the left part (until i pixels width) contains the
+    # superresolution image, and the right part (from i pixels width) contains
+    # the bicubic image.
+    comparison_frame = np.hstack(
+        (
+            resized_result_image[:, :i, :],
+            resized_bicubic_image[:, i:, :],
+        )
+    )
 
-    <span class="c1"># Create a small black border line between the superresolution</span>
-    <span class="c1"># and bicubic part of the image.</span>
-    <span class="n">comparison_frame</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">out_video</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">comparison_frame</span><span class="p">)</span>
-    <span class="n">progress_bar</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">i</span>
-    <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-<span class="n">out_video</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-<span class="n">clear_output</span><span class="p">()</span>
+    # Create a small black border line between the superresolution
+    # and bicubic part of the image.
+    comparison_frame[:, i - 1 : i + 1, :] = 0
+    out_video.write(comparison_frame)
+    progress_bar.progress = i
+    progress_bar.update()
+out_video.release()
+clear_output()
 
-<span class="n">video_link</span> <span class="o">=</span> <span class="n">FileLink</span><span class="p">(</span><span class="n">result_video_path</span><span class="p">)</span>
-<span class="n">video_link</span><span class="o">.</span><span class="n">html_link_str</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&#39;</span><span class="si">%s</span><span class="s2">&#39; download&gt;</span><span class="si">%s</span><span class="s2">&lt;/a&gt;&quot;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The video has been saved to </span><span class="si">{</span><span class="n">video_link</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+video_link = FileLink(result_video_path)
+video_link.html_link_str = &quot;&lt;a href=&#39;%s&#39; download&gt;%s&lt;/a&gt;&quot;
+display(HTML(f&quot;The video has been saved to {video_link._repr_html_()}&quot;))
 </pre></div>
 </div>
 The video has been saved to output/coco_tulips_comparison_paddlegan.avi<br></section>

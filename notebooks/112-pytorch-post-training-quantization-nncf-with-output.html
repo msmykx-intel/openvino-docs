@@ -635,40 +635,40 @@ default binary search path of the OS you are running the notebook.</p>
 </div></blockquote>
 <section id="preparations">
 <h2>Preparations<a class="headerlink" href="#preparations" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On Windows, this script adds the directory that contains cl.exe to the PATH to enable PyTorch to find the</span>
-<span class="c1"># required C++ tools. This code assumes that Visual Studio 2019 is installed in the default</span>
-<span class="c1"># directory. If you have a different C++ compiler, add the correct path to os.environ[&quot;PATH&quot;]</span>
-<span class="c1"># directly.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On Windows, this script adds the directory that contains cl.exe to the PATH to enable PyTorch to find the
+# required C++ tools. This code assumes that Visual Studio 2019 is installed in the default
+# directory. If you have a different C++ compiler, add the correct path to os.environ[&quot;PATH&quot;]
+# directly.
 
-<span class="c1"># Adding the path to os.environ[&quot;LIB&quot;] is not always required - it depends on the system configuration.</span>
+# Adding the path to os.environ[&quot;LIB&quot;] is not always required - it depends on the system configuration.
 
-<span class="kn">import</span> <span class="nn">sys</span>
+import sys
 
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">distutils.command.build_ext</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+if sys.platform == &quot;win32&quot;:
+    import distutils.command.build_ext
+    import os
+    from pathlib import Path
 
-    <span class="n">VS_INSTALL_DIR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:/Program Files (x86)/Microsoft Visual Studio&quot;</span>
-    <span class="n">cl_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">VS_INSTALL_DIR</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;**/Hostx86/x64/cl.exe&quot;</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cl_paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Cannot find Visual Studio. This notebook requires C++. If you installed &quot;</span>
-            <span class="s2">&quot;a C++ compiler, please add the directory that contains cl.exe to &quot;</span>
-            <span class="s2">&quot;`os.environ[&#39;PATH&#39;]`&quot;</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># If multiple versions of MSVC are installed, get the most recent one.</span>
-        <span class="n">cl_path</span> <span class="o">=</span> <span class="n">cl_paths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">vs_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cl_path</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="si">}{</span><span class="n">vs_dir</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="c1"># The code for finding the library dirs is from</span>
-        <span class="c1"># https://stackoverflow.com/questions/47423246/get-pythons-lib-path</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Distribution</span><span class="p">()</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">build_ext</span><span class="o">.</span><span class="n">build_ext</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-        <span class="n">b</span><span class="o">.</span><span class="n">finalize_options</span><span class="p">()</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LIB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">library_dirs</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="n">vs_dir</span><span class="si">}</span><span class="s2"> to PATH&quot;</span><span class="p">)</span>
+    VS_INSTALL_DIR = r&quot;C:/Program Files (x86)/Microsoft Visual Studio&quot;
+    cl_paths = sorted(list(Path(VS_INSTALL_DIR).glob(&quot;**/Hostx86/x64/cl.exe&quot;)))
+    if len(cl_paths) == 0:
+        raise ValueError(
+            &quot;Cannot find Visual Studio. This notebook requires C++. If you installed &quot;
+            &quot;a C++ compiler, please add the directory that contains cl.exe to &quot;
+            &quot;`os.environ[&#39;PATH&#39;]`&quot;
+        )
+    else:
+        # If multiple versions of MSVC are installed, get the most recent one.
+        cl_path = cl_paths[-1]
+        vs_dir = str(cl_path.parent)
+        os.environ[&quot;PATH&quot;] += f&quot;{os.pathsep}{vs_dir}&quot;
+        # The code for finding the library dirs is from
+        # https://stackoverflow.com/questions/47423246/get-pythons-lib-path
+        d = distutils.core.Distribution()
+        b = distutils.command.build_ext.build_ext(d)
+        b.finalize_options()
+        os.environ[&quot;LIB&quot;] = os.pathsep.join(b.library_dirs)
+        print(f&quot;Added {vs_dir} to PATH&quot;)
 </pre></div>
 </div>
 <section id="preparing-model-files">
@@ -682,31 +682,31 @@ it is recommended to enable logging by removing
 </section>
 <section id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import logging
+import os
+import sys
+import time
+import warnings
+import zipfile
+from pathlib import Path
+from typing import List, Tuple
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.utils.data</span>
-<span class="kn">import</span> <span class="nn">torchvision.datasets</span> <span class="k">as</span> <span class="nn">datasets</span>
-<span class="kn">import</span> <span class="nn">torchvision.models</span> <span class="k">as</span> <span class="nn">models</span>
-<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
-<span class="kn">from</span> <span class="nn">nncf</span> <span class="kn">import</span> <span class="n">NNCFConfig</span>  <span class="c1"># Important - should be imported directly after torch</span>
-<span class="kn">from</span> <span class="nn">nncf.common.utils.logger</span> <span class="kn">import</span> <span class="n">set_log_level</span>
+import torch
+import torch.nn as nn
+import torch.utils.data
+import torchvision.datasets as datasets
+import torchvision.models as models
+import torchvision.transforms as transforms
+from nncf import NNCFConfig  # Important - should be imported directly after torch
+from nncf.common.utils.logger import set_log_level
 
-<span class="n">set_log_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>  <span class="c1"># Disables all NNCF info and warning messages</span>
-<span class="kn">from</span> <span class="nn">nncf.torch</span> <span class="kn">import</span> <span class="n">create_compressed_model</span><span class="p">,</span> <span class="n">register_default_init_args</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">torch.jit</span> <span class="kn">import</span> <span class="n">TracerWarning</span>
+set_log_level(logging.ERROR)  # Disables all NNCF info and warning messages
+from nncf.torch import create_compressed_model, register_default_init_args
+from openvino.runtime import Core
+from torch.jit import TracerWarning
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../utils&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">notebook_utils</span> <span class="kn">import</span> <span class="n">download_file</span>
+sys.path.append(&quot;../utils&quot;)
+from notebook_utils import download_file
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nncf</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">NNCF</span> <span class="n">provides</span> <span class="n">best</span> <span class="n">results</span> <span class="k">with</span> <span class="n">torch</span><span class="o">==</span><span class="mf">1.9.1</span><span class="p">,</span> <span class="k">while</span> <span class="n">current</span> <span class="n">torch</span> <span class="n">version</span> <span class="ow">is</span> <span class="mf">1.8.1</span><span class="o">+</span><span class="n">cpu</span> <span class="o">-</span> <span class="n">consider</span> <span class="n">switching</span> <span class="n">to</span> <span class="n">torch</span><span class="o">==</span><span class="mf">1.9.1</span>
@@ -723,27 +723,27 @@ it is recommended to enable logging by removing
 </section>
 <section id="settings">
 <h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2"> device&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+print(f&quot;Using {device} device&quot;)
 
-<span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">OUTPUT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
-<span class="n">BASE_MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;resnet50&quot;</span>
-<span class="n">IMAGE_SIZE</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span>
+MODEL_DIR = Path(&quot;model&quot;)
+OUTPUT_DIR = Path(&quot;output&quot;)
+BASE_MODEL_NAME = &quot;resnet50&quot;
+IMAGE_SIZE = [64, 64]
 
-<span class="n">OUTPUT_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">MODEL_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+OUTPUT_DIR.mkdir(exist_ok=True)
+MODEL_DIR.mkdir(exist_ok=True)
 
-<span class="c1"># Paths where PyTorch, ONNX and OpenVINO IR models will be stored.</span>
-<span class="n">fp32_checkpoint_filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_fp32&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.pth&quot;</span><span class="p">)</span>
-<span class="n">fp32_onnx_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_fp32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
-<span class="n">fp32_ir_path</span> <span class="o">=</span> <span class="n">fp32_onnx_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
-<span class="n">int8_onnx_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="p">(</span><span class="n">BASE_MODEL_NAME</span> <span class="o">+</span> <span class="s2">&quot;_int8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span>
-<span class="n">int8_ir_path</span> <span class="o">=</span> <span class="n">int8_onnx_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+# Paths where PyTorch, ONNX and OpenVINO IR models will be stored.
+fp32_checkpoint_filename = Path(BASE_MODEL_NAME + &quot;_fp32&quot;).with_suffix(&quot;.pth&quot;)
+fp32_onnx_path = Path(OUTPUT_DIR / (BASE_MODEL_NAME + &quot;_fp32&quot;)).with_suffix(&quot;.onnx&quot;)
+fp32_ir_path = fp32_onnx_path.with_suffix(&quot;.xml&quot;)
+int8_onnx_path = Path(OUTPUT_DIR / (BASE_MODEL_NAME + &quot;_int8&quot;)).with_suffix(&quot;.onnx&quot;)
+int8_ir_path = int8_onnx_path.with_suffix(&quot;.xml&quot;)
 
 
-<span class="n">fp32_pth_url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.openvinotoolkit.org/repositories/nncf/openvino_notebook_ckpts/304_resnet50_fp32.pth&quot;</span>
-<span class="n">download_file</span><span class="p">(</span><span class="n">fp32_pth_url</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="n">MODEL_DIR</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">fp32_checkpoint_filename</span><span class="p">)</span>
+fp32_pth_url = &quot;https://storage.openvinotoolkit.org/repositories/nncf/openvino_notebook_ckpts/304_resnet50_fp32.pth&quot;
+download_file(fp32_pth_url, directory=MODEL_DIR, filename=fp32_checkpoint_filename)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Using</span> <span class="n">cpu</span> <span class="n">device</span>
@@ -763,44 +763,44 @@ it is recommended to enable logging by removing
 <li><p>200 different classes: snake, spider, cat, truck, grasshopper, gull,
 etc.</p></li>
 </ul>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">download_tiny_imagenet_200</span><span class="p">(</span>
-    <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;http://cs231n.stanford.edu/tiny-imagenet-200.zip&quot;</span><span class="p">,</span>
-    <span class="n">tarname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tiny-imagenet-200.zip&quot;</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="n">archive_path</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="n">tarname</span>
-    <span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">tarname</span><span class="p">)</span>
-    <span class="n">zip_ref</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-    <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
-    <span class="n">zip_ref</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully downloaded and extracted dataset to: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def download_tiny_imagenet_200(
+    output_dir: Path,
+    url: str = &quot;http://cs231n.stanford.edu/tiny-imagenet-200.zip&quot;,
+    tarname: str = &quot;tiny-imagenet-200.zip&quot;,
+):
+    archive_path = output_dir / tarname
+    download_file(url, directory=output_dir, filename=tarname)
+    zip_ref = zipfile.ZipFile(archive_path, &quot;r&quot;)
+    zip_ref.extractall(path=output_dir)
+    zip_ref.close()
+    print(f&quot;Successfully downloaded and extracted dataset to: {output_dir}&quot;)
 
 
-<span class="k">def</span> <span class="nf">create_validation_dir</span><span class="p">(</span><span class="n">dataset_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
-    <span class="n">VALID_DIR</span> <span class="o">=</span> <span class="n">dataset_dir</span> <span class="o">/</span> <span class="s2">&quot;val&quot;</span>
-    <span class="n">val_img_dir</span> <span class="o">=</span> <span class="n">VALID_DIR</span> <span class="o">/</span> <span class="s2">&quot;images&quot;</span>
+def create_validation_dir(dataset_dir: Path):
+    VALID_DIR = dataset_dir / &quot;val&quot;
+    val_img_dir = VALID_DIR / &quot;images&quot;
 
-    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">VALID_DIR</span> <span class="o">/</span> <span class="s2">&quot;val_annotations.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    fp = open(VALID_DIR / &quot;val_annotations.txt&quot;, &quot;r&quot;)
+    data = fp.readlines()
 
-    <span class="n">val_img_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">val_img_dict</span><span class="p">[</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    val_img_dict = {}
+    for line in data:
+        words = line.split(&quot;\t&quot;)
+        val_img_dict[words[0]] = words[1]
+    fp.close()
 
-    <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">val_img_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">newpath</span> <span class="o">=</span> <span class="n">val_img_dir</span> <span class="o">/</span> <span class="n">folder</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">newpath</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">newpath</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">val_img_dir</span> <span class="o">/</span> <span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">val_img_dir</span> <span class="o">/</span> <span class="n">img</span><span class="p">,</span> <span class="n">newpath</span> <span class="o">/</span> <span class="n">img</span><span class="p">)</span>
+    for img, folder in val_img_dict.items():
+        newpath = val_img_dir / folder
+        if not newpath.exists():
+            os.makedirs(newpath)
+        if (val_img_dir / img).exists():
+            os.rename(val_img_dir / img, newpath / img)
 
 
-<span class="n">DATASET_DIR</span> <span class="o">=</span> <span class="n">OUTPUT_DIR</span> <span class="o">/</span> <span class="s2">&quot;tiny-imagenet-200&quot;</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">DATASET_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="n">download_tiny_imagenet_200</span><span class="p">(</span><span class="n">OUTPUT_DIR</span><span class="p">)</span>
-    <span class="n">create_validation_dir</span><span class="p">(</span><span class="n">DATASET_DIR</span><span class="p">)</span>
+DATASET_DIR = OUTPUT_DIR / &quot;tiny-imagenet-200&quot;
+if not DATASET_DIR.exists():
+    download_tiny_imagenet_200(OUTPUT_DIR)
+    create_validation_dir(DATASET_DIR)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>output/tiny-imagenet-200.zip:   0%|          | 0.00/237M [00:00&lt;?, ?B/s]
@@ -814,104 +814,104 @@ etc.</p></li>
 <h3>Helpers classes and functions<a class="headerlink" href="#helpers-classes-and-functions" title="Permalink to this headline">¶</a></h3>
 <p>The code below will help to count accuracy and visualize validation
 process.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AverageMeter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Computes and stores the average and current value&quot;&quot;&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class AverageMeter(object):
+    &quot;&quot;&quot;Computes and stores the average and current value&quot;&quot;&quot;
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;:f&quot;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">avg</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    def __init__(self, name: str, fmt: str = &quot;:f&quot;):
+        self.name = name
+        self.fmt = fmt
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sum</span> <span class="o">+=</span> <span class="n">val</span> <span class="o">*</span> <span class="n">n</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="n">n</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">avg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+    def update(self, val: float, n: int = 1):
+        self.val = val
+        self.sum += val * n
+        self.count += n
+        self.avg = self.sum / self.count
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">fmtstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{name}</span><span class="s2"> {val&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">+</span> <span class="s2">&quot;} ({avg&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">+</span> <span class="s2">&quot;})&quot;</span>
-        <span class="k">return</span> <span class="n">fmtstr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">ProgressMeter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Displays the progress of validation process&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_batches</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">meters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AverageMeter</span><span class="p">],</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">batch_fmtstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_batch_fmtstr</span><span class="p">(</span><span class="n">num_batches</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">meters</span> <span class="o">=</span> <span class="n">meters</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
-
-    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_fmtstr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">batch</span><span class="p">)]</span>
-        <span class="n">entries</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">meter</span><span class="p">)</span> <span class="k">for</span> <span class="n">meter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">meters</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">entries</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_get_batch_fmtstr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_batches</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="n">num_digits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num_batches</span> <span class="o">//</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_digits</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;d}&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">fmt</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_batches</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+    def __str__(self):
+        fmtstr = &quot;{name} {val&quot; + self.fmt + &quot;} ({avg&quot; + self.fmt + &quot;})&quot;
+        return fmtstr.format(**self.__dict__)
 
 
-<span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">topk</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)):</span>
-    <span class="sd">&quot;&quot;&quot;Computes the accuracy over the k top predictions for the specified values of k&quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">maxk</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">topk</span><span class="p">)</span>
-        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+class ProgressMeter(object):
+    &quot;&quot;&quot;Displays the progress of validation process&quot;&quot;&quot;
 
-        <span class="n">_</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">maxk</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
-        <span class="n">correct</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
+    def __init__(self, num_batches: int, meters: List[AverageMeter], prefix: str = &quot;&quot;):
+        self.batch_fmtstr = self._get_batch_fmtstr(num_batches)
+        self.meters = meters
+        self.prefix = prefix
 
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">topk</span><span class="p">:</span>
-            <span class="n">correct_k</span> <span class="o">=</span> <span class="n">correct</span><span class="p">[:</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correct_k</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="mf">100.0</span> <span class="o">/</span> <span class="n">batch_size</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">res</span>
+    def display(self, batch: int):
+        entries = [self.prefix + self.batch_fmtstr.format(batch)]
+        entries += [str(meter) for meter in self.meters]
+        print(&quot;\t&quot;.join(entries))
+
+    def _get_batch_fmtstr(self, num_batches: int):
+        num_digits = len(str(num_batches // 1))
+        fmt = &quot;{:&quot; + str(num_digits) + &quot;d}&quot;
+        return &quot;[&quot; + fmt + &quot;/&quot; + fmt.format(num_batches) + &quot;]&quot;
+
+
+def accuracy(output: torch.Tensor, target: torch.Tensor, topk: Tuple[int] = (1,)):
+    &quot;&quot;&quot;Computes the accuracy over the k top predictions for the specified values of k&quot;&quot;&quot;
+    with torch.no_grad():
+        maxk = max(topk)
+        batch_size = target.size(0)
+
+        _, pred = output.topk(maxk, 1, True, True)
+        pred = pred.t()
+        correct = pred.eq(target.view(1, -1).expand_as(pred))
+
+        res = []
+        for k in topk:
+            correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
+            res.append(correct_k.mul_(100.0 / batch_size))
+        return res
 </pre></div>
 </div>
 </section>
 <section id="validation-function">
 <h3>Validation function<a class="headerlink" href="#validation-function" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">val_loader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the metrics using data from val_loader for the model&quot;&quot;&quot;</span>
-    <span class="n">batch_time</span> <span class="o">=</span> <span class="n">AverageMeter</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;:3.3f&quot;</span><span class="p">)</span>
-    <span class="n">top1</span> <span class="o">=</span> <span class="n">AverageMeter</span><span class="p">(</span><span class="s2">&quot;Acc@1&quot;</span><span class="p">,</span> <span class="s2">&quot;:2.2f&quot;</span><span class="p">)</span>
-    <span class="n">top5</span> <span class="o">=</span> <span class="n">AverageMeter</span><span class="p">(</span><span class="s2">&quot;Acc@5&quot;</span><span class="p">,</span> <span class="s2">&quot;:2.2f&quot;</span><span class="p">)</span>
-    <span class="n">progress</span> <span class="o">=</span> <span class="n">ProgressMeter</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val_loader</span><span class="p">),</span> <span class="p">[</span><span class="n">batch_time</span><span class="p">,</span> <span class="n">top1</span><span class="p">,</span> <span class="n">top5</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Test: &quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def validate(val_loader: torch.utils.data.DataLoader, model: torch.nn.Module):
+    &quot;&quot;&quot;Compute the metrics using data from val_loader for the model&quot;&quot;&quot;
+    batch_time = AverageMeter(&quot;Time&quot;, &quot;:3.3f&quot;)
+    top1 = AverageMeter(&quot;Acc@1&quot;, &quot;:2.2f&quot;)
+    top5 = AverageMeter(&quot;Acc@5&quot;, &quot;:2.2f&quot;)
+    progress = ProgressMeter(len(val_loader), [batch_time, top1, top5], prefix=&quot;Test: &quot;)
 
-    <span class="c1"># Switch to evaluate mode.</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    # Switch to evaluate mode.
+    model.eval()
+    model.to(device)
 
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">val_loader</span><span class="p">):</span>
-            <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-            <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    with torch.no_grad():
+        end = time.time()
+        for i, (images, target) in enumerate(val_loader):
+            images = images.to(device)
+            target = target.to(device)
 
-            <span class="c1"># Compute the output.</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+            # Compute the output.
+            output = model(images)
 
-            <span class="c1"># Measure accuracy and record loss.</span>
-            <span class="n">acc1</span><span class="p">,</span> <span class="n">acc5</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">topk</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-            <span class="n">top1</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">acc1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-            <span class="n">top5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">acc5</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            # Measure accuracy and record loss.
+            acc1, acc5 = accuracy(output, target, topk=(1, 5))
+            top1.update(acc1[0], images.size(0))
+            top5.update(acc5[0], images.size(0))
 
-            <span class="c1"># Measure elapsed time.</span>
-            <span class="n">batch_time</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">end</span><span class="p">)</span>
-            <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            # Measure elapsed time.
+            batch_time.update(time.time() - end)
+            end = time.time()
 
-            <span class="n">print_frequency</span> <span class="o">=</span> <span class="mi">10</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">print_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            print_frequency = 10
+            if i % print_frequency == 0:
+                progress.display(i)
 
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot; * Acc@1 </span><span class="si">{top1.avg:.3f}</span><span class="s2"> Acc@5 </span><span class="si">{top5.avg:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">top1</span><span class="o">=</span><span class="n">top1</span><span class="p">,</span> <span class="n">top5</span><span class="o">=</span><span class="n">top5</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="n">top1</span><span class="o">.</span><span class="n">avg</span>
+        print(
+            &quot; * Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f}&quot;.format(top1=top1, top5=top5)
+        )
+    return top1.avg
 </pre></div>
 </div>
 </section>
@@ -922,71 +922,71 @@ repository</a> is pre-trained on
 ImageNet with more prediction classes than Tiny ImageNet, so the model
 is adjusted by swapping the last FC layer to one with fewer output
 values.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates the ResNet-50 model and loads the pretrained weights&quot;&quot;&quot;</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">resnet50</span><span class="p">()</span>
-    <span class="c1"># Update the last FC layer for Tiny ImageNet number of classes.</span>
-    <span class="n">NUM_CLASSES</span> <span class="o">=</span> <span class="mi">200</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="n">NUM_CLASSES</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">model_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">),</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s2">&quot;state_dict&quot;</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;There is no checkpoint to load&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def create_model(model_path: Path):
+    &quot;&quot;&quot;Creates the ResNet-50 model and loads the pretrained weights&quot;&quot;&quot;
+    model = models.resnet50()
+    # Update the last FC layer for Tiny ImageNet number of classes.
+    NUM_CLASSES = 200
+    model.fc = nn.Linear(in_features=2048, out_features=NUM_CLASSES, bias=True)
+    model.to(device)
+    if model_path.exists():
+        checkpoint = torch.load(str(model_path), map_location=&quot;cpu&quot;)
+        model.load_state_dict(checkpoint[&quot;state_dict&quot;], strict=True)
+    else:
+        raise RuntimeError(&quot;There is no checkpoint to load&quot;)
+    return model
 
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">MODEL_DIR</span> <span class="o">/</span> <span class="n">fp32_checkpoint_filename</span><span class="p">)</span>
+model = create_model(MODEL_DIR / fp32_checkpoint_filename)
 </pre></div>
 </div>
 </section>
 <section id="create-train-and-validation-dataloaders">
 <h3>Create train and validation dataloaders<a class="headerlink" href="#create-train-and-validation-dataloaders" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_dataloaders</span><span class="p">(</span><span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates train dataloader that is used for quantization initialization and validation dataloader for computing the model accruacy&quot;&quot;&quot;</span>
-    <span class="n">train_dir</span> <span class="o">=</span> <span class="n">DATASET_DIR</span> <span class="o">/</span> <span class="s2">&quot;train&quot;</span>
-    <span class="n">val_dir</span> <span class="o">=</span> <span class="n">DATASET_DIR</span> <span class="o">/</span> <span class="s2">&quot;val&quot;</span> <span class="o">/</span> <span class="s2">&quot;images&quot;</span>
-    <span class="n">normalize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span>
-        <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>
-    <span class="p">)</span>
-    <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span>
-        <span class="n">train_dir</span><span class="p">,</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="n">IMAGE_SIZE</span><span class="p">),</span>
-                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
-                <span class="n">normalize</span><span class="p">,</span>
-            <span class="p">]</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span>
-        <span class="n">val_dir</span><span class="p">,</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="n">IMAGE_SIZE</span><span class="p">),</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">normalize</span><span class="p">]</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def create_dataloaders(batch_size: int = 128):
+    &quot;&quot;&quot;Creates train dataloader that is used for quantization initialization and validation dataloader for computing the model accruacy&quot;&quot;&quot;
+    train_dir = DATASET_DIR / &quot;train&quot;
+    val_dir = DATASET_DIR / &quot;val&quot; / &quot;images&quot;
+    normalize = transforms.Normalize(
+        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+    )
+    train_dataset = datasets.ImageFolder(
+        train_dir,
+        transforms.Compose(
+            [
+                transforms.Resize(IMAGE_SIZE),
+                transforms.ToTensor(),
+                normalize,
+            ]
+        ),
+    )
+    val_dataset = datasets.ImageFolder(
+        val_dir,
+        transforms.Compose(
+            [transforms.Resize(IMAGE_SIZE), transforms.ToTensor(), normalize]
+        ),
+    )
 
-    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
-        <span class="n">train_dataset</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
-        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">sampler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span>
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=4,
+        pin_memory=True,
+        sampler=None,
+    )
 
-    <span class="n">val_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
-        <span class="n">val_dataset</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
-        <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span>
+    val_loader = torch.utils.data.DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=4,
+        pin_memory=True,
+    )
+    return train_loader, val_loader
 
 
-<span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span> <span class="o">=</span> <span class="n">create_dataloaders</span><span class="p">()</span>
+train_loader, val_loader = create_dataloaders()
 </pre></div>
 </div>
 <p>Now that the preparation of the training and validation pipelines, and
@@ -996,8 +996,8 @@ actual post-training quantization with NNCF.</p>
 </section>
 <section id="i-evaluate-the-loaded-model">
 <h2>I. Evaluate the loaded model<a class="headerlink" href="#i-evaluate-the-loaded-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acc1</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">val_loader</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy of FP32 model: </span><span class="si">{</span><span class="n">acc1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>acc1 = validate(val_loader, model)
+print(f&quot;Test accuracy of FP32 model: {acc1:.3f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span><span class="p">:</span> <span class="p">[</span> <span class="mi">0</span><span class="o">/</span><span class="mi">79</span><span class="p">]</span>   <span class="n">Time</span> <span class="mf">0.429</span> <span class="p">(</span><span class="mf">0.429</span><span class="p">)</span>  <span class="n">Acc</span><span class="o">@</span><span class="mi">1</span> <span class="mf">81.25</span> <span class="p">(</span><span class="mf">81.25</span><span class="p">)</span> <span class="n">Acc</span><span class="o">@</span><span class="mi">5</span> <span class="mf">92.19</span> <span class="p">(</span><span class="mf">92.19</span><span class="p">)</span>
@@ -1014,9 +1014,9 @@ actual post-training quantization with NNCF.</p>
 </div>
 <p>Export the <code class="docutils literal notranslate"><span class="pre">FP32</span></code> model to the ONNX, which is supported by OpenVINO
 Toolkit, to benchmark it in comparison with the <code class="docutils literal notranslate"><span class="pre">INT8</span></code> model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">IMAGE_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dummy_input</span><span class="p">,</span> <span class="n">fp32_onnx_path</span><span class="p">,</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FP32 ONNX model was exported to </span><span class="si">{</span><span class="n">fp32_onnx_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_input = torch.randn(1, 3, *IMAGE_SIZE).to(device)
+torch.onnx.export(model, dummy_input, fp32_onnx_path, opset_version=10)
+print(f&quot;FP32 ONNX model was exported to {fp32_onnx_path}.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FP32</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">was</span> <span class="n">exported</span> <span class="n">to</span> <span class="n">output</span><span class="o">/</span><span class="n">resnet50_fp32</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span>
@@ -1034,19 +1034,19 @@ requires only 3 modifications.</p>
 <ol class="arabic simple">
 <li><p>Configure the NNCF parameters to specify compression:</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nncf_config_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;input_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;sample_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">IMAGE_SIZE</span><span class="p">]},</span>
-    <span class="s2">&quot;log_dir&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">OUTPUT_DIR</span><span class="p">),</span>
-    <span class="s2">&quot;compression&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;quantization&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;initializer&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;num_init_samples&quot;</span><span class="p">:</span> <span class="mi">15000</span><span class="p">},</span>
-            <span class="s2">&quot;batchnorm_adaptation&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;num_bn_adaptation_samples&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">},</span>
-        <span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nncf_config_dict = {
+    &quot;input_info&quot;: {&quot;sample_size&quot;: [1, 3, *IMAGE_SIZE]},
+    &quot;log_dir&quot;: str(OUTPUT_DIR),
+    &quot;compression&quot;: {
+        &quot;algorithm&quot;: &quot;quantization&quot;,
+        &quot;initializer&quot;: {
+            &quot;range&quot;: {&quot;num_init_samples&quot;: 15000},
+            &quot;batchnorm_adaptation&quot;: {&quot;num_bn_adaptation_samples&quot;: 4000},
+        },
+    },
+}
 
-<span class="n">nncf_config</span> <span class="o">=</span> <span class="n">NNCFConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">nncf_config_dict</span><span class="p">)</span>
+nncf_config = NNCFConfig.from_dict(nncf_config_dict)
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -1054,14 +1054,14 @@ requires only 3 modifications.</p>
 and determine which activation should be signed or unsigned from the
 collected statistics, using a given number of samples.</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nncf_config</span> <span class="o">=</span> <span class="n">register_default_init_args</span><span class="p">(</span><span class="n">nncf_config</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nncf_config = register_default_init_args(nncf_config, train_loader)
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Create a quantized model from a pre-trained <code class="docutils literal notranslate"><span class="pre">FP32</span></code> model and a
 configuration object.</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compression_ctrl</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">create_compressed_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nncf_config</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>compression_ctrl, model = create_compressed_model(model, nncf_config)
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
@@ -1070,8 +1070,8 @@ quantization. The accuracy should be close to the accuracy of the
 floating-point <code class="docutils literal notranslate"><span class="pre">FP32</span></code> model for a simple case like the one being
 demonstrated now.</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acc1</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">val_loader</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy of initialized INT8 model: </span><span class="si">{</span><span class="n">acc1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>acc1 = validate(val_loader, model)
+print(f&quot;Accuracy of initialized INT8 model: {acc1:.3f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span><span class="p">:</span> <span class="p">[</span> <span class="mi">0</span><span class="o">/</span><span class="mi">79</span><span class="p">]</span>   <span class="n">Time</span> <span class="mf">0.847</span> <span class="p">(</span><span class="mf">0.847</span><span class="p">)</span>  <span class="n">Acc</span><span class="o">@</span><span class="mi">1</span> <span class="mf">82.03</span> <span class="p">(</span><span class="mf">82.03</span><span class="p">)</span> <span class="n">Acc</span><span class="o">@</span><span class="mi">5</span> <span class="mf">92.19</span> <span class="p">(</span><span class="mf">92.19</span><span class="p">)</span>
@@ -1089,10 +1089,10 @@ demonstrated now.</p></li>
 <ol class="arabic simple" start="5">
 <li><p>Export an <code class="docutils literal notranslate"><span class="pre">INT8</span></code> model to ONNX</p></li>
 </ol>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">TracerWarning</span><span class="p">)</span>  <span class="c1"># Ignore export warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
-<span class="n">compression_ctrl</span><span class="o">.</span><span class="n">export_model</span><span class="p">(</span><span class="n">int8_onnx_path</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INT8 ONNX model exported to </span><span class="si">{</span><span class="n">int8_onnx_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>warnings.filterwarnings(&quot;ignore&quot;, category=TracerWarning)  # Ignore export warnings
+warnings.filterwarnings(&quot;ignore&quot;, category=UserWarning)
+compression_ctrl.export_model(int8_onnx_path)
+print(f&quot;INT8 ONNX model exported to {int8_onnx_path}.&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INT8</span> <span class="n">ONNX</span> <span class="n">model</span> <span class="n">exported</span> <span class="n">to</span> <span class="n">output</span><span class="o">/</span><span class="n">resnet50_int8</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span>
@@ -1114,12 +1114,12 @@ Guide</a>.</p>
 errors or warnings in the output. When Model Optimizer converts the
 model to OpenVINO IR successfully, the last lines of the output will
 include: <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_shape</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">IMAGE_SIZE</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_shape = [1, 3, *IMAGE_SIZE]
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">fp32_ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="o">!</span>mo --input_model <span class="s2">&quot;</span><span class="nv">$fp32_onnx_path</span><span class="s2">&quot;</span> --input_shape <span class="s2">&quot;</span><span class="nv">$input_shape</span><span class="s2">&quot;</span> --mean_values <span class="s2">&quot;[123.675, 116.28 , 103.53]&quot;</span> --scale_values <span class="s2">&quot;[58.395, 57.12 , 57.375]&quot;</span> --data_type FP16 --output_dir <span class="s2">&quot;</span><span class="nv">$OUTPUT_DIR</span><span class="s2">&quot;</span>
-    <span class="k">assert</span> <span class="n">fp32_ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="s2">&quot;The OpenVINO IR of FP32 model wasn&#39;t created&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if not fp32_ir_path.exists():
+    !mo --input_model &quot;$fp32_onnx_path&quot; --input_shape &quot;$input_shape&quot; --mean_values &quot;[123.675, 116.28 , 103.53]&quot; --scale_values &quot;[58.395, 57.12 , 57.375]&quot; --data_type FP16 --output_dir &quot;$OUTPUT_DIR&quot;
+    assert fp32_ir_path.exists(), &quot;The OpenVINO IR of FP32 model wasn&#39;t created&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">Optimizer</span> <span class="n">arguments</span><span class="p">:</span>
@@ -1160,9 +1160,9 @@ include: <code class="docutils literal notranslate"><span class="pre">[</span> <
 <span class="n">Find</span> <span class="n">more</span> <span class="n">information</span> <span class="n">about</span> <span class="n">API</span> <span class="n">v2</span><span class="mf">.0</span> <span class="ow">and</span> <span class="n">IR</span> <span class="n">v11</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">openvino</span><span class="o">.</span><span class="n">ai</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">int8_ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-    <span class="o">!</span>mo --input_model <span class="s2">&quot;</span><span class="nv">$int8_onnx_path</span><span class="s2">&quot;</span> --input_shape <span class="s2">&quot;</span><span class="nv">$input_shape</span><span class="s2">&quot;</span> --mean_values <span class="s2">&quot;[123.675, 116.28 , 103.53]&quot;</span> --scale_values <span class="s2">&quot;[58.395, 57.12 , 57.375]&quot;</span> --data_type FP16 --output_dir <span class="s2">&quot;</span><span class="nv">$OUTPUT_DIR</span><span class="s2">&quot;</span>
-    <span class="k">assert</span> <span class="n">int8_ir_path</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="s2">&quot;The OpenVINO IR of INT8 model wasn&#39;t created&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if not int8_ir_path.exists():
+    !mo --input_model &quot;$int8_onnx_path&quot; --input_shape &quot;$input_shape&quot; --mean_values &quot;[123.675, 116.28 , 103.53]&quot; --scale_values &quot;[58.395, 57.12 , 57.375]&quot; --data_type FP16 --output_dir &quot;$OUTPUT_DIR&quot;
+    assert int8_ir_path.exists(), &quot;The OpenVINO IR of INT8 model wasn&#39;t created&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">Optimizer</span> <span class="n">arguments</span><span class="p">:</span>
@@ -1222,19 +1222,19 @@ to benchmark async inference on CPU for one minute. Change CPU to GPU
 to benchmark on GPU. Run <code class="docutils literal notranslate"><span class="pre">benchmark_app</span> <span class="pre">--help</span></code> to see an overview
 of all command-line options.</p>
 </div></blockquote>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">parse_benchmark_output</span><span class="p">(</span><span class="n">benchmark_output</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Prints the output from benchmark_app in human-readable format&quot;&quot;&quot;</span>
-    <span class="n">parsed_output</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">benchmark_output</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;  &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">parsed_output</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def parse_benchmark_output(benchmark_output: str):
+    &quot;&quot;&quot;Prints the output from benchmark_app in human-readable format&quot;&quot;&quot;
+    parsed_output = [line for line in benchmark_output if not (line.startswith(r&quot;[&quot;) or line.startswith(&quot;  &quot;) or line == &quot;&quot;)]
+    print(*parsed_output, sep=&#39;\n&#39;)
 
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Benchmark FP32 model (OpenVINO IR)&#39;</span><span class="p">)</span>
-<span class="n">benchmark_output</span> <span class="o">=</span> <span class="o">!</span> benchmark_app -m <span class="s2">&quot;</span><span class="nv">$fp32_ir_path</span><span class="s2">&quot;</span> -d CPU -api async -t <span class="m">15</span>
-<span class="n">parse_benchmark_output</span><span class="p">(</span><span class="n">benchmark_output</span><span class="p">)</span>
+print(&#39;Benchmark FP32 model (OpenVINO IR)&#39;)
+benchmark_output = ! benchmark_app -m &quot;$fp32_ir_path&quot; -d CPU -api async -t 15
+parse_benchmark_output(benchmark_output)
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Benchmark INT8 model (OpenVINO IR)&#39;</span><span class="p">)</span>
-<span class="n">benchmark_output</span> <span class="o">=</span> <span class="o">!</span> benchmark_app -m <span class="s2">&quot;</span><span class="nv">$int8_ir_path</span><span class="s2">&quot;</span> -d CPU -api async -t <span class="m">15</span>
-<span class="n">parse_benchmark_output</span><span class="p">(</span><span class="n">benchmark_output</span><span class="p">)</span>
+print(&#39;Benchmark INT8 model (OpenVINO IR)&#39;)
+benchmark_output = ! benchmark_app -m &quot;$int8_ir_path&quot; -d CPU -api async -t 15
+parse_benchmark_output(benchmark_output)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Benchmark</span> <span class="n">FP32</span> <span class="n">model</span> <span class="p">(</span><span class="n">OpenVINO</span> <span class="n">IR</span><span class="p">)</span>
@@ -1250,8 +1250,8 @@ of all command-line options.</p>
 </pre></div>
 </div>
 <p>Show CPU Information for reference:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">ie</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;CPU&quot;</span><span class="p">,</span> <span class="s2">&quot;FULL_DEVICE_NAME&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+ie.get_property(&quot;CPU&quot;, &quot;FULL_DEVICE_NAME&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;Intel(R) Core(TM) i9-10920X CPU @ 3.50GHz&#39;</span>

@@ -615,18 +615,18 @@ IR model.</p>
 <h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
 <section id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+import time
 
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">paddlehub</span> <span class="k">as</span> <span class="nn">hub</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
-<span class="kn">from</span> <span class="nn">paddle.static</span> <span class="kn">import</span> <span class="n">InputSpec</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">softmax</span>
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import paddlehub as hub
+from IPython.display import Markdown, display
+from PIL import Image
+from openvino.runtime import Core
+from paddle.static import InputSpec
+from scipy.special import softmax
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">k8sworker</span><span class="o">/</span><span class="n">cibuilds</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/</span><span class="n">OVNotebookOps</span><span class="o">-</span><span class="mi">231</span><span class="o">/.</span><span class="n">workspace</span><span class="o">/</span><span class="n">scm</span><span class="o">/</span><span class="n">ov</span><span class="o">-</span><span class="n">notebook</span><span class="o">/.</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">vision</span><span class="o">/</span><span class="n">transforms</span><span class="o">/</span><span class="n">functional_pil</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">NEAREST</span> <span class="ow">is</span> <span class="n">deprecated</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">removed</span> <span class="ow">in</span> <span class="n">Pillow</span> <span class="mi">10</span> <span class="p">(</span><span class="mi">2023</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">01</span><span class="p">)</span><span class="o">.</span> <span class="n">Use</span> <span class="n">Resampling</span><span class="o">.</span><span class="n">NEAREST</span> <span class="ow">or</span> <span class="n">Dither</span><span class="o">.</span><span class="n">NONE</span> <span class="n">instead</span><span class="o">.</span>
@@ -656,10 +656,10 @@ therefore require some modification to get the same results on the
 original and converted model.</p>
 <p><code class="docutils literal notranslate"><span class="pre">hub.config.server</span></code> is the URL to the PaddleHub server. You should not
 need to modify this setting.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;coco_close.png&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>IMAGE_FILENAME = &quot;coco_close.png&quot;
 
-<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;mobilenet_v3_large_imagenet_ssld&quot;</span>
-<span class="n">hub</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://paddlepaddle.org.cn/paddlehub&quot;</span>
+MODEL_NAME = &quot;mobilenet_v3_large_imagenet_ssld&quot;
+hub.config.server = &quot;https://paddlepaddle.org.cn/paddlehub&quot;
 </pre></div>
 </div>
 </section>
@@ -671,14 +671,14 @@ and display an image, do inference on that image, and show the top three
 prediction results.</p>
 <p>The first time you run this notebook, the PaddlePaddle model is
 downloaded from PaddleHub. This may take a while.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">Module</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>classifier = hub.Module(name=MODEL_NAME)
 
-<span class="c1"># Load image in BGR format, as specified in model documentation</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">IMAGE_FILENAME</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">classification</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">[</span><span class="n">image</span><span class="p">],</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">softmax_probability</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">softmax_probability</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Load image in BGR format, as specified in model documentation
+image = cv2.imread(filename=IMAGE_FILENAME)
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+result = classifier.classification(images=[image], top_k=3)
+for class_name, softmax_probability in result[0].items():
+    print(f&quot;{class_name}, {softmax_probability:.5f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[33m[2022-09-13 22:16:38,760] [ WARNING][0m - The _initialize method in HubModule will soon be deprecated, you can use the __init__() to handle the initialization of the object[0m
@@ -704,11 +704,11 @@ and <a class="reference external" href="https://en.wikipedia.org/wiki/Softmax_fu
 probabilities.</p>
 <p>To see PaddlePaddle’s implementation for the classification function and
 for loading and preprocessing data, uncomment the next two cells.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># classifier??</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># classifier??
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import mobilenet_v3_large_imagenet_ssld.data_feed</span>
-<span class="c1"># %load $mobilenet_v3_large_imagenet_ssld.data_feed.__file__</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># import mobilenet_v3_large_imagenet_ssld.data_feed
+# %load $mobilenet_v3_large_imagenet_ssld.data_feed.__file__
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">data_feed</span></code> module shows that images are normalized, resized and
@@ -716,18 +716,18 @@ cropped and that the BGR image is converted to RGB before propagating
 through the network. In the next cell, we import the <code class="docutils literal notranslate"><span class="pre">process_image</span></code>
 function that is defined in this file to do inference on the OpenVINO IR
 model with the same method.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mobilenet_v3_large_imagenet_ssld.data_feed</span> <span class="kn">import</span> <span class="n">process_image</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mobilenet_v3_large_imagenet_ssld.data_feed import process_image
 </pre></div>
 </div>
 <p>It is useful to show the output of the <code class="docutils literal notranslate"><span class="pre">process_image()</span></code> function, to
 see the effect of cropping and resizing. Because of the normalization,
 the colors will look strange, and matplotlib will warn about clipping
 values.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pil_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">IMAGE_FILENAME</span><span class="p">)</span>
-<span class="n">processed_image</span> <span class="o">=</span> <span class="n">process_image</span><span class="p">(</span><span class="n">pil_image</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processed image shape: </span><span class="si">{</span><span class="n">processed_image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="c1"># Processed image is in (C,H,W) format, convert to (H,W,C) to show the image</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">processed_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pil_image = Image.open(IMAGE_FILENAME)
+processed_image = process_image(pil_image)
+print(f&quot;Processed image shape: {processed_image.shape}&quot;)
+# Processed image is in (C,H,W) format, convert to (H,W,C) to show the image
+plt.imshow(np.transpose(processed_image, (1, 2, 0)))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Clipping</span> <span class="nb">input</span> <span class="n">data</span> <span class="n">to</span> <span class="n">the</span> <span class="n">valid</span> <span class="nb">range</span> <span class="k">for</span> <span class="n">imshow</span> <span class="k">with</span> <span class="n">RGB</span> <span class="n">data</span> <span class="p">([</span><span class="mf">0..1</span><span class="p">]</span> <span class="k">for</span> <span class="n">floats</span> <span class="ow">or</span> <span class="p">[</span><span class="mf">0..255</span><span class="p">]</span> <span class="k">for</span> <span class="n">integers</span><span class="p">)</span><span class="o">.</span>
@@ -750,10 +750,10 @@ ONNX, and then convert the ONNX model to IR.</p>
 <p>PaddlePaddle’s MobileNet model contains information about the input
 shape, mean and scale values that we can use to convert the model. The
 next cell shows how to get these values.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">cpu_predictor</span><span class="o">.</span><span class="n">get_input_tensor_shape</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input shape:&quot;</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mean:&quot;</span><span class="p">,</span> <span class="n">classifier</span><span class="o">.</span><span class="n">get_pretrained_images_mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;std:&quot;</span><span class="p">,</span> <span class="n">classifier</span><span class="o">.</span><span class="n">get_pretrained_images_std</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_shape = list(classifier.cpu_predictor.get_input_tensor_shape().values())
+print(&quot;input shape:&quot;, input_shape)
+print(&quot;mean:&quot;, classifier.get_pretrained_images_mean())
+print(&quot;std:&quot;, classifier.get_pretrained_images_std())
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="n">shape</span><span class="p">:</span> <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">]]</span>
@@ -768,13 +768,13 @@ next cell shows how to get these values.</p>
 <code class="docutils literal notranslate"><span class="pre">.export_onnx_model()</span></code> method. This uses
 <a class="reference external" href="https://github.com/PaddlePaddle/paddle2onnx">Paddle2ONNX</a>. We
 convert the model with the input shape found in the previous cell.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_height</span><span class="p">,</span> <span class="n">target_width</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">input_shape</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span>
-<span class="n">x_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">target_height</span><span class="p">,</span> <span class="n">target_width</span><span class="p">],</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;Exporting PaddlePaddle model to ONNX with target_height &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_height</span><span class="si">}</span><span class="s2"> and target_width </span><span class="si">{</span><span class="n">target_width</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="n">classifier</span><span class="o">.</span><span class="n">export_onnx_model</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">input_spec</span><span class="o">=</span><span class="p">[</span><span class="n">x_spec</span><span class="p">],</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>target_height, target_width = next(iter(input_shape))[2:]
+x_spec = InputSpec([1, 3, target_height, target_width], &quot;float32&quot;, &quot;x&quot;)
+print(
+    &quot;Exporting PaddlePaddle model to ONNX with target_height &quot;
+    f&quot;{target_height} and target_width {target_width}&quot;
+)
+classifier.export_onnx_model(&quot;.&quot;, input_spec=[x_spec], opset_version=11)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Exporting</span> <span class="n">PaddlePaddle</span> <span class="n">model</span> <span class="n">to</span> <span class="n">ONNX</span> <span class="k">with</span> <span class="n">target_height</span> <span class="mi">224</span> <span class="ow">and</span> <span class="n">target_width</span> <span class="mi">224</span>
@@ -808,14 +808,14 @@ for more information about Model Optimizer.</p>
 and then execute this command in the notebook by prepending the command
 with a <code class="docutils literal notranslate"><span class="pre">!</span></code>. When Model Optimization is successful, the last lines of
 the output include <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">SUCCESS</span> <span class="pre">]</span> <span class="pre">Generated</span> <span class="pre">IR</span> <span class="pre">version</span> <span class="pre">11</span> <span class="pre">model</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_xml</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s2">.xml&quot;</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_xml</span><span class="p">):</span>
-    <span class="n">mo_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;mo --input_model </span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s1">.onnx --input_shape &quot;[1,3,</span><span class="si">{</span><span class="n">target_height</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">target_width</span><span class="si">}</span><span class="s1">]&quot;&#39;</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model Optimizer command to convert the ONNX model to IR: `</span><span class="si">{</span><span class="n">mo_command</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">))</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;_Converting model to IR. This may take a few minutes..._&quot;</span><span class="p">))</span>
-    <span class="o">!</span> <span class="nv">$mo_command</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_xml</span><span class="si">}</span><span class="s2"> already exists.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_xml = f&quot;{MODEL_NAME}.xml&quot;
+if not os.path.exists(model_xml):
+    mo_command = f&#39;mo --input_model {MODEL_NAME}.onnx --input_shape &quot;[1,3,{target_height},{target_width}]&quot;&#39;
+    display(Markdown(f&quot;Model Optimizer command to convert the ONNX model to IR: `{mo_command}`&quot;))
+    display(Markdown(&quot;_Converting model to IR. This may take a few minutes..._&quot;))
+    ! $mo_command
+else:
+    print(f&quot;{model_xml} already exists.&quot;)
 </pre></div>
 </div>
 <p>Model Optimizer command to convert the ONNX model to IR:
@@ -868,31 +868,31 @@ convert the inference to a meaningful result, and show the output. See
 the <a class="reference external" href="002-openvino-api-with-output.html">OpenVINO Runtime API
 Notebook</a> for more
 information.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load OpenVINO Runtime and OpenVINO IR model</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s2">.bin&quot;</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load OpenVINO Runtime and OpenVINO IR model
+ie = Core()
+model = ie.read_model(model=f&quot;{MODEL_NAME}.xml&quot;, weights=f&quot;{MODEL_NAME}.bin&quot;)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="c1"># Get model output</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+# Get model output
+output_layer = compiled_model.output(0)
 
-<span class="c1"># Read, show, and preprocess input image</span>
-<span class="c1"># See the &quot;Show Inference on PaddlePaddle Model&quot; section for source of process_image</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">IMAGE_FILENAME</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">process_image</span><span class="p">(</span><span class="n">image</span><span class="p">)[</span><span class="kc">None</span><span class="p">,]</span>
+# Read, show, and preprocess input image
+# See the &quot;Show Inference on PaddlePaddle Model&quot; section for source of process_image
+image = Image.open(IMAGE_FILENAME)
+plt.imshow(image)
+input_image = process_image(image)[None,]
 
-<span class="c1"># Do inference</span>
-<span class="n">ie_result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+# Do inference
+ie_result = compiled_model([input_image])[output_layer][0]
 
-<span class="c1"># Compute softmax probabilities for the inference result and find the top three values</span>
-<span class="n">softmax_result</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">ie_result</span><span class="p">)</span>
-<span class="n">top_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">softmax_result</span><span class="p">)[</span><span class="o">-</span><span class="mi">3</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">top_softmax</span> <span class="o">=</span> <span class="n">softmax_result</span><span class="p">[</span><span class="n">top_indices</span><span class="p">]</span>
+# Compute softmax probabilities for the inference result and find the top three values
+softmax_result = softmax(ie_result)
+top_indices = np.argsort(softmax_result)[-3:][::-1]
+top_softmax = softmax_result[top_indices]
 
-<span class="c1"># Convert the inference results to class names, using the same labels as the PaddlePaddle classifier</span>
-<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">softmax_probability</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">top_indices</span><span class="p">,</span> <span class="n">top_softmax</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">classifier</span><span class="o">.</span><span class="n">label_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">softmax_probability</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Convert the inference results to class names, using the same labels as the PaddlePaddle classifier
+for index, softmax_probability in zip(top_indices, top_softmax):
+    print(f&quot;{classifier.label_list[index]}, {softmax_probability:.5f}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Labrador</span> <span class="n">retriever</span><span class="p">,</span> <span class="mf">0.58936</span>
@@ -910,37 +910,37 @@ For a fair comparison, we include the time it takes to process the
 image. For more accurate benchmarking, use the <a class="reference external" href="https://docs.openvino.ai/latest/openvino_inference_engine_tools_benchmark_tool_README.html">OpenVINO benchmark
 tool</a>.
 Note that many optimizations are possible to improve the performance.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_images</span> <span class="o">=</span> <span class="mi">50</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>num_images = 50
 
-<span class="c1"># PaddlePaddle&#39;s classification method expects a BGR numpy array</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">IMAGE_FILENAME</span><span class="p">)</span>
+# PaddlePaddle&#39;s classification method expects a BGR numpy array
+image = cv2.imread(filename=IMAGE_FILENAME)
 
-<span class="c1"># The process_image function expects a PIL image</span>
-<span class="n">pil_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fp</span><span class="o">=</span><span class="n">IMAGE_FILENAME</span><span class="p">)</span>
+# The process_image function expects a PIL image
+pil_image = Image.open(fp=IMAGE_FILENAME)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show CPU information</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CPU: </span><span class="si">{</span><span class="n">ie</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s1">&#39;CPU&#39;</span><span class="p">,</span> <span class="s1">&#39;FULL_DEVICE_NAME&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Show CPU information
+ie = Core()
+print(f&quot;CPU: {ie.get_property(&#39;CPU&#39;, &#39;FULL_DEVICE_NAME&#39;)}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPU</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i9</span><span class="o">-</span><span class="mi">10920</span><span class="n">X</span> <span class="n">CPU</span> <span class="o">@</span> <span class="mf">3.50</span><span class="n">GHz</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show inference speed on PaddlePaddle model</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">classification</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">[</span><span class="n">image</span><span class="p">],</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">time_ir</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;PaddlePaddle model on CPU: </span><span class="si">{</span><span class="n">time_ir</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_ir</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PaddlePaddle result:&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">softmax_probability</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">softmax_probability</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Show inference speed on PaddlePaddle model
+start = time.perf_counter()
+for _ in range(num_images):
+    result = classifier.classification(images=[image], top_k=3)
+end = time.perf_counter()
+time_ir = end - start
+print(
+    f&quot;PaddlePaddle model on CPU: {time_ir/num_images:.4f} &quot;
+    f&quot;seconds per image, FPS: {num_images/time_ir:.2f}\n&quot;
+)
+print(&quot;PaddlePaddle result:&quot;)
+for class_name, softmax_probability in result[0].items():
+    print(f&quot;{class_name}, {softmax_probability:.5f}&quot;)
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PaddlePaddle</span> <span class="n">model</span> <span class="n">on</span> <span class="n">CPU</span><span class="p">:</span> <span class="mf">0.0346</span> <span class="n">seconds</span> <span class="n">per</span> <span class="n">image</span><span class="p">,</span> <span class="n">FPS</span><span class="p">:</span> <span class="mf">28.89</span>
@@ -952,33 +952,33 @@ Note that many optimizations are possible to improve the performance.</p>
 </pre></div>
 </div>
 <img alt="../_images/103-paddle-onnx-to-openvino-classification-with-output_26_1.png" src="../_images/103-paddle-onnx-to-openvino-classification-with-output_26_1.png" />
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show inference speed on OpenVINO IR model</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Show inference speed on OpenVINO IR model
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
+output_layer = compiled_model.output(0)
 
 
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">process_image</span><span class="p">(</span><span class="n">pil_image</span><span class="p">)[</span><span class="kc">None</span><span class="p">,]</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">):</span>
-    <span class="n">ie_result</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">result_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ie_result</span><span class="p">)</span>
-    <span class="n">class_name</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">label_list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ie_result</span><span class="p">)]</span>
-    <span class="n">softmax_result</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">ie_result</span><span class="p">)</span>
-    <span class="n">top_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">softmax_result</span><span class="p">)[</span><span class="o">-</span><span class="mi">3</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">top_softmax</span> <span class="o">=</span> <span class="n">softmax_result</span><span class="p">[</span><span class="n">top_indices</span><span class="p">]</span>
+start = time.perf_counter()
+input_image = process_image(pil_image)[None,]
+for _ in range(num_images):
+    ie_result = compiled_model([input_image])[output_layer][0]
+    result_index = np.argmax(ie_result)
+    class_name = classifier.label_list[np.argmax(ie_result)]
+    softmax_result = softmax(ie_result)
+    top_indices = np.argsort(softmax_result)[-3:][::-1]
+    top_softmax = softmax_result[top_indices]
 
-<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">time_ir</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+end = time.perf_counter()
+time_ir = end - start
 
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;OpenVINO IR model in OpenVINO Runtime (CPU): </span><span class="si">{</span><span class="n">time_ir</span><span class="o">/</span><span class="n">num_images</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;seconds per image, FPS: </span><span class="si">{</span><span class="n">num_images</span><span class="o">/</span><span class="n">time_ir</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OpenVINO result:&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">softmax_probability</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">top_indices</span><span class="p">,</span> <span class="n">top_softmax</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">classifier</span><span class="o">.</span><span class="n">label_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">softmax_probability</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">));</span>
+print(
+    f&quot;OpenVINO IR model in OpenVINO Runtime (CPU): {time_ir/num_images:.4f} &quot;
+    f&quot;seconds per image, FPS: {num_images/time_ir:.2f}&quot;
+)
+print()
+print(&quot;OpenVINO result:&quot;)
+for index, softmax_probability in zip(top_indices, top_softmax):
+    print(f&quot;{classifier.label_list[index]}, {softmax_probability:.5f}&quot;)
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB));
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OpenVINO</span> <span class="n">IR</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">OpenVINO</span> <span class="n">Runtime</span> <span class="p">(</span><span class="n">CPU</span><span class="p">):</span> <span class="mf">0.0028</span> <span class="n">seconds</span> <span class="n">per</span> <span class="n">image</span><span class="p">,</span> <span class="n">FPS</span><span class="p">:</span> <span class="mf">363.50</span>

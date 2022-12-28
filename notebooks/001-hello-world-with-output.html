@@ -578,52 +578,52 @@ OpenVINO</a>
 tutorial.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">openvino.runtime</span> <span class="kn">import</span> <span class="n">Core</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from openvino.runtime import Core
 </pre></div>
 </div>
 </section>
 <section id="load-the-model">
 <h2>Load the Model<a class="headerlink" href="#load-the-model" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ie</span> <span class="o">=</span> <span class="n">Core</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;model/v3-small_224_1.0_float.xml&quot;</span><span class="p">)</span>
-<span class="n">compiled_model</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">compile_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;CPU&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ie = Core()
+model = ie.read_model(model=&quot;model/v3-small_224_1.0_float.xml&quot;)
+compiled_model = ie.compile_model(model=model, device_name=&quot;CPU&quot;)
 
-<span class="n">output_layer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+output_layer = compiled_model.output(0)
 </pre></div>
 </div>
 </section>
 <section id="load-an-image">
 <h2>Load an Image<a class="headerlink" href="#load-an-image" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The MobileNet model expects images in RGB format.</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;data/coco.jpg&quot;</span><span class="p">),</span> <span class="n">code</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The MobileNet model expects images in RGB format.
+image = cv2.cvtColor(cv2.imread(filename=&quot;data/coco.jpg&quot;), code=cv2.COLOR_BGR2RGB)
 
-<span class="c1"># Resize to MobileNet image shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+# Resize to MobileNet image shape.
+input_image = cv2.resize(src=image, dsize=(224, 224))
 
-<span class="c1"># Reshape to model input shape.</span>
-<span class="n">input_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">input_image</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+# Reshape to model input shape.
+input_image = np.expand_dims(input_image, 0)
+plt.imshow(image);
 </pre></div>
 </div>
 <img alt="../_images/001-hello-world-with-output_6_0.png" src="../_images/001-hello-world-with-output_6_0.png" />
 </section>
 <section id="do-inference">
 <h2>Do Inference<a class="headerlink" href="#do-inference" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_infer</span> <span class="o">=</span> <span class="n">compiled_model</span><span class="p">([</span><span class="n">input_image</span><span class="p">])[</span><span class="n">output_layer</span><span class="p">]</span>
-<span class="n">result_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">result_infer</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result_infer = compiled_model([input_image])[output_layer]
+result_index = np.argmax(result_infer)
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the inference result to a class name.</span>
-<span class="n">imagenet_classes</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;utils/imagenet_2012.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the inference result to a class name.
+imagenet_classes = open(&quot;utils/imagenet_2012.txt&quot;).read().splitlines()
 
-<span class="c1"># The model description states that for this model, class 0 is a background.</span>
-<span class="c1"># Therefore, a background must be added at the beginning of imagenet_classes.</span>
-<span class="n">imagenet_classes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">imagenet_classes</span>
+# The model description states that for this model, class 0 is a background.
+# Therefore, a background must be added at the beginning of imagenet_classes.
+imagenet_classes = [&#39;background&#39;] + imagenet_classes
 
-<span class="n">imagenet_classes</span><span class="p">[</span><span class="n">result_index</span><span class="p">]</span>
+imagenet_classes[result_index]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;n02099267 flat-coated retriever&#39;</span>
